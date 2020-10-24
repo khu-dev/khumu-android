@@ -20,12 +20,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     private ArrayList<ArticleData> articleDataList;
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
         protected TextView tv_article_title;
-        protected TextView tv_article_subtitle;
+        protected TextView tv_article_content;
 
         public ArticleViewHolder(View view) {
             super(view);
             this.tv_article_title = view.findViewById(R.id.tv_article_title);
-            this.tv_article_subtitle = view.findViewById(R.id.tv_article_subtitle);
+            this.tv_article_content = view.findViewById(R.id.tv_article_content);
 
         }
 
@@ -48,9 +48,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
-        System.out.println("Bind a ViewHolder " + articleDataList.get(position).getTitle() + System.currentTimeMillis());
         holder.tv_article_title.setText(articleDataList.get(position).getTitle());
-        holder.tv_article_subtitle.setText(articleDataList.get(position).getSubtitle());
+        holder.tv_article_content.setText(articleDataList.get(position).getContent());
 
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

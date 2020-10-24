@@ -4,8 +4,8 @@
     android:id="@+id/wrapper_article_item"
     android:orientation="vertical"
     android:background="@drawable/bordered_white_background"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -14,13 +14,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_article_title"
             android:textColor="#333333"
-            android:text="ARTICLE TITLE">
+            android:text="ARTICLE TITLE"
+            android:textSize="@dimen/title_font_size">
         </TextView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_article_subtitle"
+            android:id="@+id/tv_article_content"
             android:textColor="#AAAAAA"
-            android:text="ARTICLE SUBTITLE">
+            android:text="ARTICLE SUBTITLE"
+            android:textSize="@dimen/default_font_size">
         </TextView>
     </LinearLayout>

@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.khumu.android.Helper;
 import com.khumu.android.R;
 import com.khumu.android.ui.home.HomeViewModel;
 
@@ -34,6 +37,8 @@ public class BoardFragment extends Fragment {
     private ArticleAdapter articleAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private EditText writeArticleTitleET;
+    private EditText writeArticleContentET;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,38 +61,31 @@ public class BoardFragment extends Fragment {
         // xml 상에 recyclerview는 실질적으로 아이템이 어떻게 구현되어있는지 정의되어있지 않다.
         // linearlayout의 형태를 이용하겠다면 linearlayoutmanager을 이용한다.
         linearLayoutManager = new LinearLayoutManager(root.getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         recyclerView = root.findViewById(R.id.recycler_view_article_list);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-//        for (int i=0; i<10; i++){
-//            articleDataArrayList.add(new ArticleData(Integer.toString(i), Integer.toString(i)));
-//        }
         articleDataArrayList = _mockup_data();
         articleAdapter = new ArticleAdapter(articleDataArrayList);
         recyclerView.setAdapter(articleAdapter);
+        writeArticleTitleET = root.findViewById(R.id.article_simple_write_title);
+        writeArticleContentET = root.findViewById(R.id.article_write_content);
 
-        Button btn = root.findViewById(R.id.article_simple_write_btn);
-        btn.setOnClickListener(v -> {
-            AsyncTask<String, Void, Response> as = new AsyncTask<String, Void, Response>(){
-                @Override
-                protected Response doInBackground(String... strings) {
-                    try{
-                        boardViewModel.FetchArticles();
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-            };
-            as.execute();
+        Button articleWriteBtn = root.findViewById(R.id.article_simple_write_btn);
+        articleWriteBtn.setOnClickListener(v -> {
+            new FetchArticlesAsyncTask().execute();
         });
         boardViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArticleData>>() {
             @Override
             public void onChanged(ArrayList<ArticleData> changedSet) {
-                    for(int i=articleDataArrayList.size(); i<changedSet.size(); i++){
-                        articleDataArrayList.add(changedSet.get(i));
-                    }
-                    articleAdapter.notifyItemRangeInserted(articleDataArrayList.size(), changedSet.size());
+                int originalLength = articleDataArrayList.size();
+                int newLength = changedSet.size();
+                for(int i=originalLength; i<newLength; i++){
+                    articleDataArrayList.add(changedSet.get(i));
+                }
+                articleAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
+                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
         return root;
@@ -107,5 +105,32 @@ public class BoardFragment extends Fragment {
 //        l.add(new ArticleData("가 없습니", "낌표(!)-->)에는 느낌표"));
 //        l.add(new ArticleData("가 있지만 종료 태그(", "존재하기 때문에 오류가 발생합니"));
         return l;
+    }
+
+    public class FetchArticlesAsyncTask extends AsyncTask{
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            try {
+                boardViewModel.CreateArticle(new ArticleData(
+                        null, Helper.DEFAULT_USERNAME,
+                        writeArticleTitleET.getText().toString(),
+                        writeArticleContentET.getText().toString()
+                ));
+                writeArticleTitleET.setText("");
+                writeArticleContentET.setText("");
+                boardViewModel.FetchArticles();
+            } catch (Exception e) {
+                e.printStackTrace();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        e.printStackTrace();
+                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            return null;
+        }
     }
 }

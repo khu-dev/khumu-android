@@ -1,12 +1,36 @@
 package com.khumu.android.ui.board;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 public class ArticleData {
+    private String pk;
+    private String authorUsername;
     private String title;
-    private String subtitle;
-    public ArticleData(String title, String subtitle) {
+    private String content;
+    public ArticleData(String pk, String authorUsername, String title, String content) {
+        this.pk = pk;
+        this.authorUsername = authorUsername;
         this.title = title;
-        this.subtitle = subtitle;
+        this.content = content;
     }
+
+    public String getPk() {
+        return pk;
+    }
+    public void setPk(String pk) {
+        this.pk = pk;
+    }
+    @JsonGetter("author")
+    @JsonRawValue()
+    public String getAuthorUsername(){
+//        return String.format("{\"pk\": \"%s\", \"username\": \"%s\"}", authorUsername,authorUsername);
+        return "\"" + authorUsername + "\"";
+    }
+
+    @JsonSetter("author")
+    public void setAuthorUsername(String authorUsername){this.authorUsername = authorUsername;}
 
     public String getTitle() {
         return title;
@@ -17,12 +41,12 @@ public class ArticleData {
     }
 
 
-    public String getSubtitle() {
-        return subtitle;
+    public String getContent() {
+        return content;
     }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+    public void setContent(String content) {
+        this.content = content;
     }
 
 

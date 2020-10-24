@@ -22,7 +22,7 @@
             android:textAllCaps="true"
             ></TextView>
         <TextView
-            android:id="@+id/toolbar_subtitle"
+            android:id="@+id/toolbar_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"

@@ -8,7 +8,6 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<Integer> counter;
 
     public HomeViewModel() {
-        System.out.println("ViewModel");
         counter = new MutableLiveData<>();
         counter.setValue(0);
 //        mText = new MutableLiveData<>();
