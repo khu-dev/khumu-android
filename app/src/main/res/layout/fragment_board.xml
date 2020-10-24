@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="20dp"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+        <include layout="@layout/wrapper_article_simple_write"
+            android:id="@+id/wrapper_article_simple_write"
+            ></include>
+        <include layout="@layout/recycler_view_article_list"
+            android:id="@+id/recycler_view_article_list">
+        </include>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
