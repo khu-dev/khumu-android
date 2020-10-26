@@ -96,7 +96,8 @@ public class BoardViewModel extends ViewModel {
                     articleObj.getString("pk"),
                     authorString,
                     articleObj.getString("title"),
-                    articleObj.getString("content")
+                    articleObj.getString("content"),
+                    articleObj.getString("comment_count")
                 );
                 originalArticles.add(articleData);
             }

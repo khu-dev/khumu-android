@@ -17,11 +17,9 @@
         android:background="@color/white"
         android:orientation="vertical"
         >
+
         <include layout="@layout/wrapper_article_write"
             android:id="@+id/wrapper_article_write"
             ></include>
-        <include layout="@layout/recycler_view_article_list"
-            android:id="@+id/recycler_view_article_list">
-        </include>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

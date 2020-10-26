@@ -19,14 +19,18 @@ import static android.widget.Toast.LENGTH_LONG;
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
     private ArrayList<ArticleData> articleDataList;
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
-        protected TextView tv_article_title;
-        protected TextView tv_article_content;
-
+        public TextView articleTitleTV;
+        public TextView articleContentTV;
+        public TextView articleAuthorUsernameTV;
+        public TextView articleCommentCountTV;
+        // 이 view는 아마도 recycler view?
         public ArticleViewHolder(View view) {
             super(view);
-            this.tv_article_title = view.findViewById(R.id.tv_article_title);
-            this.tv_article_content = view.findViewById(R.id.tv_article_content);
-
+            System.out.println(view);
+            this.articleTitleTV = view.findViewById(R.id.article_title_tv);
+            this.articleContentTV = view.findViewById(R.id.article_content_tv);
+            this.articleAuthorUsernameTV = view.findViewById(R.id.article_author_username_tv);
+            this.articleCommentCountTV = view.findViewById(R.id.article_comment_count_tv);
         }
 
 
@@ -48,15 +52,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
-        holder.tv_article_title.setText(articleDataList.get(position).getTitle());
-        holder.tv_article_content.setText(articleDataList.get(position).getContent());
+        holder.articleTitleTV.setText(articleDataList.get(position).getTitle());
+        holder.articleContentTV.setText(articleDataList.get(position).getContent());
+        holder.articleAuthorUsernameTV.setText(articleDataList.get(position).getAuthorUsername());
+        holder.articleCommentCountTV.setText("댓글 " + articleDataList.get(position).getCommentCount());
 
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String curName = holder.tv_article_title.getText().toString();
-                Toast.makeText(v.getContext(), curName, LENGTH_LONG);
+                String currentTitle = holder.articleTitleTV.getText().toString();
+                Toast.makeText(v.getContext(), currentTitle, LENGTH_LONG).show();
             }
         });
 

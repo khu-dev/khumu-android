@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -39,7 +42,10 @@ public class BoardFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private EditText writeArticleTitleET;
     private EditText writeArticleContentET;
-
+    private ConstraintLayout writeArticleHeaderCL;
+    private LinearLayout writeArticleExpandableLL;
+    private ImageButton writeArticleExpandBTN;
+    private WriteArticleToggler writeArticleToggler;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -51,31 +57,43 @@ public class BoardFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         // 아직 ViewModel은 안 다룸.
         // homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
         View root = inflater.inflate(R.layout.fragment_board, container, false);
 
-//        root.findViewById(R.id.action_navigation_board_to_navigation_home).setOnClickListener(Navigation);
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //view는 root 즉 fragment
+
+        // root.findViewById(R.id.action_navigation_board_to_navigation_home).setOnClickListener(Navigation);
         // xml 상에 recyclerview는 실질적으로 아이템이 어떻게 구현되어있는지 정의되어있지 않다.
         // linearlayout의 형태를 이용하겠다면 linearlayoutmanager을 이용한다.
-        linearLayoutManager = new LinearLayoutManager(root.getContext());
+        linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
-        recyclerView = root.findViewById(R.id.recycler_view_article_list);
+        recyclerView = view.findViewById(R.id.recycler_view_article_list);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         articleDataArrayList = _mockup_data();
         articleAdapter = new ArticleAdapter(articleDataArrayList);
         recyclerView.setAdapter(articleAdapter);
-        writeArticleTitleET = root.findViewById(R.id.article_simple_write_title);
-        writeArticleContentET = root.findViewById(R.id.article_write_content);
+        writeArticleTitleET = view.findViewById(R.id.article_write_title);
+        writeArticleContentET = view.findViewById(R.id.article_write_content);
 
-        Button articleWriteBtn = root.findViewById(R.id.article_simple_write_btn);
+        Button articleWriteBtn = view.findViewById(R.id.article_write_btn);
         articleWriteBtn.setOnClickListener(v -> {
             new FetchArticlesAsyncTask().execute();
+            writeArticleToggler.collapse();
         });
+
+        writeArticleToggler = new WriteArticleToggler();
         boardViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArticleData>>() {
             @Override
             public void onChanged(ArrayList<ArticleData> changedSet) {
@@ -88,8 +106,16 @@ public class BoardFragment extends Fragment {
                 if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
-        return root;
+
+        writeArticleHeaderCL = view.findViewById(R.id.wrapper_article_write_header);
+        writeArticleExpandableLL = view.findViewById(R.id.wrapper_article_write_expandable);
+        writeArticleExpandBTN = view.findViewById(R.id.wrapper_article_write_expand_btn);
+            //set visibility to GONE
+        writeArticleExpandableLL.setVisibility(View.GONE);
+
+        writeArticleExpandBTN.setOnClickListener(writeArticleToggler);
     }
+
     private ArrayList<ArticleData> _mockup_data(){
         ArrayList<ArticleData> l=new ArrayList<>();
 //        l.add(new ArticleData("다음 예제는 주석의 내용", "안에 두 개의 연속된 하이픈이 존재하기 때문에 오류가 발생합니"));
@@ -115,7 +141,8 @@ public class BoardFragment extends Fragment {
                 boardViewModel.CreateArticle(new ArticleData(
                         null, Helper.DEFAULT_USERNAME,
                         writeArticleTitleET.getText().toString(),
-                        writeArticleContentET.getText().toString()
+                        writeArticleContentET.getText().toString(),
+                        null
                 ));
                 writeArticleTitleET.setText("");
                 writeArticleContentET.setText("");
@@ -131,6 +158,25 @@ public class BoardFragment extends Fragment {
                 });
             }
             return null;
+        }
+    }
+
+    public class WriteArticleToggler implements View.OnClickListener{
+        public void expand(){
+            Helper.expandView(writeArticleExpandableLL);
+            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+        }
+        public void collapse(){
+            Helper.collapseView(writeArticleExpandableLL);
+            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+        }
+        public void toggle(){
+            if (writeArticleExpandableLL.getVisibility()==View.GONE) expand();
+            else collapse();
+        }
+        @Override
+        public void onClick(View v) {
+            toggle();
         }
     }
 }

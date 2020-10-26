@@ -9,11 +9,14 @@ public class ArticleData {
     private String authorUsername;
     private String title;
     private String content;
-    public ArticleData(String pk, String authorUsername, String title, String content) {
+    private String commentCount;
+
+    public ArticleData(String pk, String authorUsername, String title, String content, String commentCount) {
         this.pk = pk;
         this.authorUsername = authorUsername;
         this.title = title;
         this.content = content;
+        this.commentCount = commentCount;
     }
 
     public String getPk() {
@@ -23,10 +26,9 @@ public class ArticleData {
         this.pk = pk;
     }
     @JsonGetter("author")
-    @JsonRawValue()
     public String getAuthorUsername(){
 //        return String.format("{\"pk\": \"%s\", \"username\": \"%s\"}", authorUsername,authorUsername);
-        return "\"" + authorUsername + "\"";
+        return authorUsername;
     }
 
     @JsonSetter("author")
@@ -49,5 +51,11 @@ public class ArticleData {
         this.content = content;
     }
 
+    public String getCommentCount() {
+        return commentCount;
+    }
 
+    public void setCommentCount(String commentCount) {
+        this.commentCount = commentCount;
+    }
 }
