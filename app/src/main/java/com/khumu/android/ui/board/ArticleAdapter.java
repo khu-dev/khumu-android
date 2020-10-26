@@ -1,5 +1,6 @@
 package com.khumu.android.ui.board;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.khumu.android.R;
+import com.khumu.android.ui.article.detail.ArticleDetailActivity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,8 +63,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String currentTitle = holder.articleTitleTV.getText().toString();
-                Toast.makeText(v.getContext(), currentTitle, LENGTH_LONG).show();
+                Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
 

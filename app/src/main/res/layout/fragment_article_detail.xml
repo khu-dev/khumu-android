@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+        <include layout="@layout/wrapper_article_detail"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+        <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/white"-->
+<!--        android:orientation="vertical">-->
+<!--        <include layout="@layout/wrapper_article_write"-->
+<!--            android:id="@+id/wrapper_article_write"-->
+<!--            ></include>-->
+<!--        <include layout="@layout/recycler_view_article_list"-->
+<!--            android:id="@+id/recycler_view_article_list">-->
+<!--        </include>-->
+<!--    </LinearLayout>-->
+    </LinearLayout>

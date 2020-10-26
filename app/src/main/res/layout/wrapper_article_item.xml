@@ -72,5 +72,4 @@
             android:textSize="@dimen/meta_font_size"
             android:text="작성자"/>
     </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

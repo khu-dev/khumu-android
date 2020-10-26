@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/wrapper_article_item"
+    android:orientation="vertical"
+    android:background="@drawable/bordered_white_background"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:id="@+id/wrapper_comment_item_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/wrapper_comment_item_meta"
+        android:paddingRight="6dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_item_author_username_tv"
+            android:textColor="#333333"
+            android:text="이것은 코멘트 작성자"
+            android:textSize="@dimen/default_font_size">
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_item_content_tv"
+            android:textColor="#AAAAAA"
+            android:text="이것ㄴ은 코멘트 내용"
+            android:textSize="@dimen/default_font_size">
+        </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/wrapper_comment_item_meta"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/comment_item_created_at_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/meta_font_size"
+            android:text="방금"/>
+        <TextView
+            android:id="@+id/comment_item_like_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/meta_font_size"
+            android:text="좋아요 12"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
