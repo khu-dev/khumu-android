@@ -64,6 +64,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
+                intent.putExtra("articleTitle", articleDataList.get(position).getTitle());
+                intent.putExtra("articleContent", articleDataList.get(position).getContent());
+                intent.putExtra("articleCommentCount", articleDataList.get(position).getCommentCount());
+                intent.putExtra("articleAuthorUsername", articleDataList.get(position).getAuthorUsername());
+
                 v.getContext().startActivity(intent);
             }
         });

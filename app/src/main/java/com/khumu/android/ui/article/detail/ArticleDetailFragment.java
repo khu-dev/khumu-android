@@ -1,5 +1,6 @@
 package com.khumu.android.ui.article.detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,11 @@ import com.khumu.android.R;
 import com.khumu.android.ui.home.HomeViewModel;
 
 public class ArticleDetailFragment extends Fragment {
+
+    private TextView articleDetailTitleTV;
+    private TextView articleDetailContentTV;
+    private TextView articleCommentCountTV;
+    private TextView articleAuthorUsernameTV;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -30,10 +36,32 @@ public class ArticleDetailFragment extends Fragment {
         // inflate란 xml => java 객체
         View root = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
-//        // 데이터는 viewModel에서 가져와라.
-//        TextView t = root.findViewById(R.id.counter);
-//        homeViewModel.increase();
-//        t.setText(homeViewModel.getText()+"");
+        articleDetailTitleTV = root.findViewById(R.id.article_detail_title_tv);
+        articleDetailContentTV = root.findViewById(R.id.article_detail_content_tv);
+        articleCommentCountTV = root.findViewById(R.id.article_comment_count_tv);
+        articleAuthorUsernameTV = root.findViewById(R.id.article_author_username_tv);
+
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        initWithIntentExtra();
+    }
+
+    private void initWithIntentExtra(){
+        Intent intent = getActivity().getIntent();
+        String titleString = intent.getStringExtra("articleTitle");
+        String contentString = intent.getStringExtra("articleContent");
+        String commentCountString = intent.getStringExtra("articleCommentCount");
+        String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
+
+        articleDetailTitleTV.setText(titleString);
+        articleDetailContentTV.setText(contentString);
+        articleCommentCountTV.setText("댓글 " + commentCountString);
+        articleAuthorUsernameTV.setText(authorUsernameString);
     }
 }
