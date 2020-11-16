@@ -63,7 +63,7 @@ public class BoardViewModel extends ViewModel {
         );
         Request authReq = new Request.Builder()
                 .post(authBody)
-                .url(Helper.APIRootEndpoint + "token/")
+                .url(Helper.APIRootEndpoint + "token")
                 .build();
         Response authResp = client.newCall(authReq).execute();
         String authRespStr = authResp.body().string();
@@ -72,14 +72,14 @@ public class BoardViewModel extends ViewModel {
 
         Request req = new Request.Builder()
             .header("Authorization", "Bearer "+token)
-            .url(Helper.APIRootEndpoint + "articles/")
+            .url(Helper.APIRootEndpoint + "articles")
             .build();
         Response fetchResp = client.newCall(req).execute();
 //        if (resp.isSuccessful()) System.out.println(resp.header("status"));
         String respString = fetchResp.body().string();
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
-        String data = new JSONObject(respString).getString("data");
         System.out.println(respString);
+        String data = new JSONObject(respString).getString("data");
         JSONArray respArray = new JSONArray(data);
         ArrayList<ArticleData> originalArticles = articlesData.getValue();
         for (int i=0; i<respArray.length(); i++){

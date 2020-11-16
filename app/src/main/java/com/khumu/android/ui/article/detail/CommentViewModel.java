@@ -69,7 +69,7 @@ public class CommentViewModel extends ViewModel {
         );
         Request authReq = new Request.Builder()
                 .post(authBody)
-                .url(Helper.APIRootEndpoint + "token/")
+                .url(Helper.APIRootEndpoint + "token")
                 .build();
         Response authResp = client.newCall(authReq).execute();
         String authRespStr = authResp.body().string();
@@ -78,10 +78,11 @@ public class CommentViewModel extends ViewModel {
         //TODO Article id를 받아와야하는데 아직 해결못함
         Request req = new Request.Builder()
                 .header("Authorization", "Bearer "+token)
-                .url(Helper.APIRootEndpoint + "comments/?article=1")
+                .url(Helper.APIRootEndpoint + "comments?article=1")
                 .build();
         Response fetchResp = client.newCall(req).execute();
 //        if (resp.isSuccessful()) System.out.println(resp.header("status"));
+        System.out.println(Helper.APIRootEndpoint + "comments?article=1");
         String respString = fetchResp.body().string();
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
         String data = new JSONObject(respString).getString("data");
@@ -124,7 +125,7 @@ public class CommentViewModel extends ViewModel {
         );
         Request authReq = new Request.Builder()
                 .post(authBody)
-                .url(Helper.APIRootEndpoint + "token/")
+                .url(Helper.APIRootEndpoint + "token")
                 .build();
         Response authResp = client.newCall(authReq).execute();
         String authRespStr = authResp.body().string();
@@ -134,7 +135,7 @@ public class CommentViewModel extends ViewModel {
                 .header("Authorization", "Bearer "+token)
                 .post(RequestBody.create(MediaType.parse("application/json"), commentString))
                 // 임시
-                .url(Helper.APIRootEndpoint + "comments/" + "?articles=1")
+                .url(Helper.APIRootEndpoint + "comments" + "?articles=1")
                 .build();
         Response createResp = client.newCall(createReq).execute();
         String createRespStr = createResp.body().string();
