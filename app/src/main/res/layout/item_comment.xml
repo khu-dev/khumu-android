@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/comment_item_content_tv"
             android:textColor="#AAAAAA"
-            android:text="이것ㄴ은 코멘트 내용"
+            android:text="이것은 코멘트 내용"
             android:textSize="@dimen/default_font_size">
         </TextView>
     </LinearLayout>

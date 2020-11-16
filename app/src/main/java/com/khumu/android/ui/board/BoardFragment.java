@@ -1,5 +1,6 @@
 package com.khumu.android.ui.board;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;

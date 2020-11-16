@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 public class Helper {
     static String APIProtocol = "http";
-    static String APIHost = "192.168.219.254";
-    static String APIPort = "8000";
+    static String APIHost = "api.khumu.jinsu.me";
+    // static String APIPort = "8000";
     static String APISubPathForRoot = "/api";
     public static String APIRootEndpoint;
     public static String DEFAULT_USERNAME = "admin";
@@ -19,7 +19,7 @@ public class Helper {
 
 
     public static void init(){
-        APIRootEndpoint = APIProtocol + "://" + APIHost + ":" + APIPort + APISubPathForRoot + "/";
+        APIRootEndpoint = APIProtocol + "://" +  APIHost +  /*":" + APIPort +*/ APISubPathForRoot + "/";
         System.out.println(APIRootEndpoint);
     }
 

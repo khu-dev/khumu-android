@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_gravity="bottom">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/comment_write_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:hint="댓글"
+        android:inputType="text"
+        android:textFontWeight="10"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/comment_write_btn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        app:layout_constraintTop_toTopOf="@+id/comment_write_content"
+        app:layout_constraintBottom_toBottomOf="@+id/comment_write_content"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/comment_write_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:minWidth="0dp"
+        android:textSize="14dp"
+        android:text="작성"/>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

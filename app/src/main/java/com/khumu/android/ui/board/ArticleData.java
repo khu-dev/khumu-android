@@ -5,29 +5,29 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class ArticleData {
-    private String pk;
+    private String id;
     private String authorUsername;
     private String title;
     private String content;
     private String commentCount;
 
-    public ArticleData(String pk, String authorUsername, String title, String content, String commentCount) {
-        this.pk = pk;
+    public ArticleData(String id, String authorUsername, String title, String content, String commentCount) {
+        this.id = id;
         this.authorUsername = authorUsername;
         this.title = title;
         this.content = content;
         this.commentCount = commentCount;
     }
 
-    public String getPk() {
-        return pk;
+    public String getID() {
+        return id;
     }
-    public void setPk(String pk) {
-        this.pk = pk;
+    public void setID(String id) {
+        this.id = id;
     }
     @JsonGetter("author")
     public String getAuthorUsername(){
-//        return String.format("{\"pk\": \"%s\", \"username\": \"%s\"}", authorUsername,authorUsername);
+//        return String.format("{\"id\": \"%s\", \"username\": \"%s\"}", authorUsername,authorUsername);
         return authorUsername;
     }
 

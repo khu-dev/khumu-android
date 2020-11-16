@@ -35,7 +35,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             this.articleCommentCountTV = view.findViewById(R.id.article_comment_count_tv);
         }
 
-
     }
 
     public ArticleAdapter(ArrayList<ArticleData> articleDataList) {
@@ -64,6 +63,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
+                // intent에서 해당 article에 대한 정보들을 저장
+                intent.putExtra("articleID", articleDataList.get(position).getID());
                 intent.putExtra("articleTitle", articleDataList.get(position).getTitle());
                 intent.putExtra("articleContent", articleDataList.get(position).getContent());
                 intent.putExtra("articleCommentCount", articleDataList.get(position).getCommentCount());
