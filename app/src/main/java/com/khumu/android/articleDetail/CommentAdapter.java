@@ -1,6 +1,5 @@
-package com.khumu.android.ui.article.detail;
+package com.khumu.android.articleDetail;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
+import com.khumu.android.data.Comment;
 
 import java.util.ArrayList;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
-    private ArrayList<CommentData> commentDataList;
+    private ArrayList<Comment> commentList;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorUsernameTV;
         public TextView commentContentTV;
@@ -27,8 +27,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    public CommentAdapter(ArrayList<CommentData> commentDataList) {
-        this.commentDataList = commentDataList;
+    public CommentAdapter(ArrayList<Comment> commentList) {
+        this.commentList = commentList;
     }
 
 
@@ -44,8 +44,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        holder.commentAuthorUsernameTV.setText(commentDataList.get(position).getAuthorUsername());
-        holder.commentContentTV.setText(commentDataList.get(position).getContent());
+        holder.commentAuthorUsernameTV.setText(commentList.get(position).getAuthorUsername());
+        holder.commentContentTV.setText(commentList.get(position).getContent());
 
         holder.itemView.setTag(position);
 
@@ -60,12 +60,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public int getItemCount() {
-        return commentDataList == null ? 0 : commentDataList.size();
+        return commentList == null ? 0 : commentList.size();
     }
 
     public void remove(int position) {
         try {
-            commentDataList.remove(position);
+            commentList.remove(position);
             // 새로고침
             notifyItemRemoved(position);
         } catch(IndexOutOfBoundsException ex) {

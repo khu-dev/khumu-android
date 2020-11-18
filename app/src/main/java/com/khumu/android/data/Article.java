@@ -1,19 +1,26 @@
-package com.khumu.android.ui.board;
+package com.khumu.android.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-public class ArticleData {
+public class Article {
     private String id;
-    private String authorUsername;
+    private SimpleUser author;
     private String title;
     private String content;
     private String commentCount;
 
-    public ArticleData(String id, String authorUsername, String title, String content, String commentCount) {
+    @JsonCreator
+    public Article(
+        @JsonProperty("id") String id,
+        @JsonProperty("author") SimpleUser author,
+        @JsonProperty("title") String title,
+        @JsonProperty("content") String content,
+        @JsonProperty("comment_count") String commentCount) {
         this.id = id;
-        this.authorUsername = authorUsername;
+        this.author = author;
         this.title = title;
         this.content = content;
         this.commentCount = commentCount;
@@ -26,13 +33,13 @@ public class ArticleData {
         this.id = id;
     }
     @JsonGetter("author")
-    public String getAuthorUsername(){
+    public SimpleUser getAuthor(){
 //        return String.format("{\"id\": \"%s\", \"username\": \"%s\"}", authorUsername,authorUsername);
-        return authorUsername;
+        return author;
     }
 
     @JsonSetter("author")
-    public void setAuthorUsername(String authorUsername){this.authorUsername = authorUsername;}
+    public void setAuthorUsername(SimpleUser author){this.author = author;}
 
     public String getTitle() {
         return title;
@@ -41,7 +48,6 @@ public class ArticleData {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
     public String getContent() {
         return content;

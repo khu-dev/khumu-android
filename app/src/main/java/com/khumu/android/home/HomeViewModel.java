@@ -1,6 +1,5 @@
-package com.khumu.android.ui.home;
+package com.khumu.android.home;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 

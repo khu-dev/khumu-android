@@ -18,7 +18,7 @@
         android:background="@color/white"
         android:orientation="vertical"
         >
-        <include layout="@layout/wrapper_article_write"
+        <include layout="@layout/layout_article_write"
             android:id="@+id/wrapper_article_write"
             ></include>
         <androidx.recyclerview.widget.RecyclerView

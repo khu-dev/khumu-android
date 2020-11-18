@@ -1,6 +1,5 @@
-package com.khumu.android.ui.board;
+package com.khumu.android.feed;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,23 +20,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.khumu.android.Helper;
+import com.khumu.android.data.SimpleUser;
+import com.khumu.android.repository.ArticleRepository;
+import com.khumu.android.util.Util;
 import com.khumu.android.R;
-import com.khumu.android.ui.home.HomeViewModel;
+import com.khumu.android.data.Article;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import okhttp3.Response;
-
-public class BoardFragment extends Fragment {
+public class FeedFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
-    private BoardViewModel boardViewModel;
-    private ArrayList<ArticleData> articleDataArrayList;
+    private FeedViewModel feedViewModel;
+    private ArrayList<Article> articleArrayList;
     private ArticleAdapter articleAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -52,7 +47,7 @@ public class BoardFragment extends Fragment {
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        boardViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
+        feedViewModel = new ViewModelProvider(this, new FeedViewModelFactory(new ArticleRepository())).get(FeedViewModel.class);
     }
 
     @Override
@@ -63,7 +58,7 @@ public class BoardFragment extends Fragment {
         // homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
-        View root = inflater.inflate(R.layout.fragment_board, container, false);
+        View root = inflater.inflate(R.layout.fragment_feed, container, false);
 
         return root;
     }
@@ -81,27 +76,26 @@ public class BoardFragment extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_article_list);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        articleDataArrayList = _mockup_data();
-        articleAdapter = new ArticleAdapter(articleDataArrayList);
+        articleArrayList = new ArrayList<>();
+        articleAdapter = new ArticleAdapter(articleArrayList);
         recyclerView.setAdapter(articleAdapter);
         writeArticleTitleET = view.findViewById(R.id.article_write_title);
         writeArticleContentET = view.findViewById(R.id.article_write_content);
 
         Button articleWriteBtn = view.findViewById(R.id.article_write_btn);
         articleWriteBtn.setOnClickListener(v -> {
-            new FetchArticlesAsyncTask().execute();
+            CreateArticle();
             writeArticleToggler.collapse();
         });
 
         writeArticleToggler = new WriteArticleToggler();
-        boardViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArticleData>>() {
+        feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<Article>>() {
             @Override
-            public void onChanged(ArrayList<ArticleData> changedSet) {
-                int originalLength = articleDataArrayList.size();
+            public void onChanged(ArrayList<Article> changedSet) {
+                int originalLength = articleArrayList.size();
                 int newLength = changedSet.size();
                 for(int i=originalLength; i<newLength; i++){
-                    articleDataArrayList.add(changedSet.get(i));
+                    articleArrayList.add(changedSet.get(i));
                 }
                 articleAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
                 if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
@@ -117,37 +111,41 @@ public class BoardFragment extends Fragment {
         writeArticleExpandBTN.setOnClickListener(writeArticleToggler);
     }
 
-    private ArrayList<ArticleData> _mockup_data(){
-        ArrayList<ArticleData> l=new ArrayList<>();
-//        l.add(new ArticleData("다음 예제는 주석의 내용", "안에 두 개의 연속된 하이픈이 존재하기 때문에 오류가 발생합니"));
-//        l.add(new ArticleData("존재하기 때문에 오류가 발생합니", "지막의 하이픈(-)의 개"));
-//        l.add(new ArticleData("하이픈은 허용하지 않습니다.", "가 있지만 종료 태그("));
-//        l.add(new ArticleData("지막의 하이픈(-)의 개수는 중요하지 않습니", "주석의 내용 안에 두 개 이상의 연속된 "));
-//        l.add(new ArticleData("가 없습니", "낌표(!)-->)에는 느낌표"));
-//        l.add(new ArticleData("가 있지만 종료 태그(", "존재하기 때문에 오류가 발생합니"));
-//        l.add(new ArticleData("다음 예제는 주석의 내용", "안에 두 개의 연속된 하이픈이 존재하기 때문에 오류가 발생합니"));
-//        l.add(new ArticleData("존재하기 때문에 오류가 발생합니", "지막의 하이픈(-)의 개"));
-//        l.add(new ArticleData("하이픈은 허용하지 않습니다.", "가 있지만 종료 태그("));
-//        l.add(new ArticleData("지막의 하이픈(-)의 개수는 중요하지 않습니", "주석의 내용 안에 두 개 이상의 연속된 "));
-//        l.add(new ArticleData("가 없습니", "낌표(!)-->)에는 느낌표"));
-//        l.add(new ArticleData("가 있지만 종료 태그(", "존재하기 때문에 오류가 발생합니"));
-        return l;
+    public void CreateArticle(){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    feedViewModel.CreateArticle(new Article(
+                            null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
+                            writeArticleTitleET.getText().toString(),
+                            writeArticleContentET.getText().toString(),
+                            null
+                    ));
+                    writeArticleTitleET.setText("");
+                    writeArticleContentET.setText("");
+                    feedViewModel.ListArticle();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
-    public class FetchArticlesAsyncTask extends AsyncTask{
+    public class FetchAfterCreateArticleAsyncTask extends AsyncTask{
 
         @Override
         protected Object doInBackground(Object[] objects) {
             try {
-                boardViewModel.CreateArticle(new ArticleData(
-                        null, Helper.DEFAULT_USERNAME,
+                feedViewModel.CreateArticle(new Article(
+                        null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
                         writeArticleTitleET.getText().toString(),
                         writeArticleContentET.getText().toString(),
                         null
                 ));
                 writeArticleTitleET.setText("");
                 writeArticleContentET.setText("");
-                boardViewModel.FetchArticles();
+                feedViewModel.ListArticle();
             } catch (Exception e) {
                 e.printStackTrace();
                 getActivity().runOnUiThread(new Runnable() {
@@ -164,11 +162,11 @@ public class BoardFragment extends Fragment {
 
     public class WriteArticleToggler implements View.OnClickListener{
         public void expand(){
-            Helper.expandView(writeArticleExpandableLL);
+            Util.expandView(writeArticleExpandableLL);
             writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
         }
         public void collapse(){
-            Helper.collapseView(writeArticleExpandableLL);
+            Util.collapseView(writeArticleExpandableLL);
             writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
         }
         public void toggle(){
