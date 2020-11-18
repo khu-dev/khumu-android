@@ -26,7 +26,7 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.article.detail.ArticleDetailActivity"
+            android:name=".articleDetail.ArticleDetailActivity"
             android:label="@string/app_name">
         </activity>
     </application>

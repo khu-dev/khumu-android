@@ -41,14 +41,14 @@
 
     <fragment
         android:id="@+id/fragment_article_detail"
-        android:name="com.khumu.android.ui.article.detail.ArticleDetailFragment"
+        android:name="com.khumu.android.articleDetail.ArticleDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/wrapper_comment_write"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:layout_editor_absoluteX="-16dp" />
 
-    <include layout="@layout/wrapper_comment_write"
+    <include layout="@layout/layout_comment_write"
         android:id="@+id/wrapper_comment_write"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

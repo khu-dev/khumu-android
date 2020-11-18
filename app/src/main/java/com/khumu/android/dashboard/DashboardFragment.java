@@ -1,4 +1,4 @@
-package com.khumu.android.ui.dashboard;
+package com.khumu.android.dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

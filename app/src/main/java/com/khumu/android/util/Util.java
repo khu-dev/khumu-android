@@ -1,5 +1,5 @@
-package com.khumu.android;
-//import com.khumu.android.Helper;
+package com.khumu.android.util;
+//import com.khumu.android.util.Helper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -8,7 +8,7 @@ import android.view.animation.Transformation;
 import java.text.MessageFormat;
 import java.util.Scanner;
 
-public class Helper {
+public class Util {
     static String APIProtocol = "http";
     static String APIHost = "api.khumu.jinsu.me";
     // static String APIPort = "8000";

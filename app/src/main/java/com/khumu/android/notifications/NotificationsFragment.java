@@ -1,4 +1,4 @@
-package com.khumu.android.ui.notifications;
+package com.khumu.android.notifications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -6,7 +6,7 @@
     app:startDestination="@+id/navigation_board">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.khumu.android.ui.home.HomeFragment"
+        android:name="com.khumu.android.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -18,9 +18,9 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_board"
-        android:name="com.khumu.android.ui.board.BoardFragment"
+        android:name="com.khumu.android.feed.FeedFragment"
         android:label="Board"
-        tools:layout="@layout/fragment_board" >
+        tools:layout="@layout/fragment_feed" >
         <action
             android:id="@+id/action_navigation_board_to_navigation_home"
             app:destination="@id/navigation_home" />
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.khumu.android.ui.notifications.NotificationsFragment"
+        android:name="com.khumu.android.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" >
         <action

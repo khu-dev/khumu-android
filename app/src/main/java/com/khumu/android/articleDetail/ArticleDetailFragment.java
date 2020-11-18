@@ -1,4 +1,4 @@
-package com.khumu.android.ui.article.detail;
+package com.khumu.android.articleDetail;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,9 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.khumu.android.Helper;
 import com.khumu.android.R;
-import com.khumu.android.ui.home.HomeViewModel;
+import com.khumu.android.data.Comment;
 
 import java.util.ArrayList;
 
@@ -29,7 +28,7 @@ public class ArticleDetailFragment extends Fragment {
 
 
     private CommentViewModel commentViewModel;
-    private ArrayList<CommentData> commentDataArrayList;
+    private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -72,8 +71,8 @@ public class ArticleDetailFragment extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
         recyclerView.setLayoutManager(linearLayoutManager);
-        commentDataArrayList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(commentDataArrayList);
+        commentArrayList = new ArrayList<>();
+        commentAdapter = new CommentAdapter(commentArrayList);
         recyclerView.setAdapter(commentAdapter);
 
 
@@ -85,13 +84,13 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
 
-        commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<CommentData>>() {
+        commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
-            public void onChanged(ArrayList<CommentData> changedSet) {
-                int originalLength = commentDataArrayList.size();
+            public void onChanged(ArrayList<Comment> changedSet) {
+                int originalLength = commentArrayList.size();
                 int newLength = changedSet.size();
                 for (int i = originalLength; i<newLength; i++) {
-                    commentDataArrayList.add(changedSet.get(i));
+                    commentArrayList.add(changedSet.get(i));
                 }
                 commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
                 if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
@@ -108,7 +107,7 @@ public class ArticleDetailFragment extends Fragment {
         @Override
         protected Object doInBackground(Object[] objects) {
             try {
-                commentViewModel.CreateComment(new CommentData(
+                commentViewModel.CreateComment(new Comment(
                         null,
                         null,
                         null,

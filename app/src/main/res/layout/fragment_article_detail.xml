@@ -10,7 +10,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/white">
-        <include layout="@layout/wrapper_article_detail"
+        <include layout="@layout/layout_article_content"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"/>
         <androidx.recyclerview.widget.RecyclerView

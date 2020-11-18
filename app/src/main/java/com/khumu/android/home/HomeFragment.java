@@ -1,4 +1,4 @@
-package com.khumu.android.ui.home;
+package com.khumu.android.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
-import com.khumu.android.ui.board.ArticleAdapter;
-import com.khumu.android.ui.board.ArticleData;
+import com.khumu.android.feed.ArticleAdapter;
+import com.khumu.android.data.Article;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
-    private ArrayList<ArticleData> articleDataArrayList;
+    private ArrayList<Article> articleArrayList;
     private ArticleAdapter articleAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;

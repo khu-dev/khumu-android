@@ -1,17 +1,15 @@
-package com.khumu.android.ui.article.detail;
+package com.khumu.android.data;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import org.w3c.dom.Comment;
-
-public class CommentData {
+public class Comment {
     private String id;
     private String articleID;
     private String authorUsername;
     private String content;
     // private int isParent;
 
-    public CommentData(String authorString, String content, String id, String articleID) {
+    public Comment(String authorString, String content, String id, String articleID) {
         this.id = id;
         this.articleID = articleID;
         this.authorUsername = authorString;
