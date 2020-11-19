@@ -38,7 +38,7 @@ public class CommentRepository {
                 .url(Util.APIRootEndpoint + "comment?article=1")
                 .build();
         Response fetchResp = client.newCall(req).execute();
-        System.out.println(fetchResp);
+//        System.out.println(fetchResp);
         String respString = fetchResp.body().string();
         String data = new JSONObject(respString).getString("data");
         JSONArray commentJSONArray = new JSONArray(data);

@@ -38,7 +38,7 @@ public class ArticleRepository {
         Response fetchResp = client.newCall(req).execute();
         String respString = fetchResp.body().string();
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
-        System.out.println(respString);
+//        System.out.println(respString);
         String data = new JSONObject(respString).getString("data");
         JSONArray articleJSONArray = new JSONArray(data);
         ArrayList<Article> articles = new ArrayList<>();

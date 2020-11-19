@@ -19,14 +19,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
 
 import java.util.ArrayList;
 
 public class ArticleDetailFragment extends Fragment {
-
-
     private CommentViewModel commentViewModel;
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
@@ -42,12 +41,14 @@ public class ArticleDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Intent intent = getActivity().getIntent();
-        String articleID = intent.getStringExtra("articleID");
+        int articleID = intent.getIntExtra("articleID", 0);
         System.out.println(articleID);
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        commentViewModel = new ViewModelProvider(this).get(CommentViewModel.class);
+        commentViewModel = new ViewModelProvider(this,
+                new CommentViewFactory(KhumuApplication.getInstance().commentRepository)
+        ).get(CommentViewModel.class);
 //        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
     }
 
@@ -128,7 +129,7 @@ public class ArticleDetailFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         String titleString = intent.getStringExtra("articleTitle");
         String contentString = intent.getStringExtra("articleContent");
-        String commentCountString = intent.getStringExtra("articleCommentCount");
+        int commentCountString = intent.getIntExtra("articleCommentCount", -1);
         String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
 
         articleDetailTitleTV.setText(titleString);
