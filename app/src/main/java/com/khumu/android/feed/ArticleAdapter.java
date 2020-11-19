@@ -31,7 +31,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             this.articleAuthorUsernameTV = view.findViewById(R.id.article_author_username_tv);
             this.articleCommentCountTV = view.findViewById(R.id.article_comment_count_tv);
         }
-
     }
 
     public ArticleAdapter(ArrayList<Article> articleList) {

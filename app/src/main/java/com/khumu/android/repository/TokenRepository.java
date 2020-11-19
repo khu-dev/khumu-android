@@ -14,7 +14,7 @@ public class TokenRepository {
     public String GetToken(String username, String password) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
         RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),
-            String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
+                String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
         );
         Request authReq = new Request.Builder()
                 .post(authBody)

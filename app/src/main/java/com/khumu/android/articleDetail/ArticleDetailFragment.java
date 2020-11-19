@@ -102,8 +102,6 @@ public class ArticleDetailFragment extends Fragment {
 
     public class FetchCommentsAsyncTask extends AsyncTask {
 
-
-
         @Override
         protected Object doInBackground(Object[] objects) {
             try {

@@ -16,6 +16,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khumu.android.repository.ArticleRepository;
+import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.util.Util;
 import com.khumu.android.data.Comment;
 
@@ -24,88 +26,49 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CommentViewModel extends ViewModel {
-
-    OkHttpClient client = new OkHttpClient();
-    private MutableLiveData<ArrayList<Comment>> commentsData;
+    private CommentRepository commentRepository;
+    private MutableLiveData<ArrayList<Comment>> comments;
     private MutableLiveData<String> articlesID;
-    public CommentViewModel() {
-        commentsData = new MutableLiveData<>();
-        commentsData.setValue(new ArrayList<Comment>());
-        try{
-            AsyncTask<String, Void, Response> as = new AsyncTask<String, Void, Response>(){
-                @Override
-                protected Response doInBackground(String... strings) {
-                    try{
-                        FetchComments();
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-            };
-            as.execute();
-        } catch (Exception e){
-            System.out.println(e);
-        }
+
+    public CommentViewModel(CommentRepository commentRepository) {
+        comments = new MutableLiveData<>();
+        comments.setValue(new ArrayList<Comment>());
+        this.commentRepository = commentRepository;
+
     }
 
     public MutableLiveData<ArrayList<Comment>> getLiveDataComments(){
-        return commentsData;
+        return comments;
     }
 
-    public String FetchComments() throws IOException, JSONException {
-        RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),
-                String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
-        );
-        Request authReq = new Request.Builder()
-                .post(authBody)
-                .url(Util.APIRootEndpoint + "token")
-                .build();
-        Response authResp = client.newCall(authReq).execute();
-        String authRespStr = authResp.body().string();
-        String token = new JSONObject(authRespStr).getString("access");
-        System.out.println(token);
-        //TODO Article id를 받아와야하는데 아직 해결못함
-        Request req = new Request.Builder()
-                .header("Authorization", "Bearer "+token)
-                .url(Util.APIRootEndpoint + "comments?article=1")
-                .build();
-        Response fetchResp = client.newCall(req).execute();
-//        if (resp.isSuccessful()) System.out.println(resp.header("status"));
-        System.out.println(Util.APIRootEndpoint + "comments?article=1");
-        String respString = fetchResp.body().string();
-        // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
-        String data = new JSONObject(respString).getString("data");
-        JSONArray respArray = new JSONArray(data);
-        ArrayList<Comment> originalComments = commentsData.getValue();
-        for (int i=0; i<respArray.length(); i++){
-            JSONObject commentObj = respArray.getJSONObject(i);
-            System.out.println(commentObj);
-            List<Comment> duplicatedComments = originalComments.stream().filter(item->{
+    public void ListComment() {
+        new Thread() {
+            @Override
+            public void run() {
                 try {
-                    return (commentObj.getString("id").equals(item.getID()));
-                } catch (JSONException e) {
+                    ArrayList<Comment> originalComments = comments.getValue();
+                    for (Comment newComment : commentRepository.ListComment()) {
+                        // 기존에 없던 새로운 comment인지 확인
+                        List<Comment> duplicatedComments = originalComments.stream().filter(item->{
+                            return (newComment.getID().equals(item.getID()));
+                        }).collect(Collectors.toList());
+                        if(duplicatedComments.size() == 0) {
+                            originalComments.add(newComment);
+                        }
+                        else{
+
+                        }
+                    }
+                    comments.postValue(originalComments);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return false;
-            }).collect(Collectors.toList());
-            if(duplicatedComments.size() == 0){
-//                String authorString = articleObj.isNull("author")?"":articleObj.getString("author");
-                String authorString = commentObj.isNull("author")?"":commentObj.getJSONObject("author").getString("username");
-                Comment comment = new Comment(
-                        commentObj.getString("id"),
-                        authorString,
-                        commentObj.getString("article"),
-                        commentObj.getString("content")
-                );
-                originalComments.add(comment);
             }
-        }
-        commentsData.postValue(originalComments);
-        return respString;
+        }.start();
     }
 
     public void CreateComment(Comment comment) throws Exception{
+        OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
         String commentString = mapper.writeValueAsString(comment);
         JSONObject commentJSON = new JSONObject(commentString);
