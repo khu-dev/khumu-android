@@ -6,30 +6,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class Article {
-    private String id;
+    private int id;
     private SimpleUser author;
     private String title;
     private String content;
-    private String commentCount;
+    private int commentCount;
+    private int likeArticleCount;
+    private boolean liked;
 
     @JsonCreator
     public Article(
-        @JsonProperty("id") String id,
+        @JsonProperty("id") int id,
         @JsonProperty("author") SimpleUser author,
         @JsonProperty("title") String title,
         @JsonProperty("content") String content,
-        @JsonProperty("comment_count") String commentCount) {
+        @JsonProperty("liked") boolean liked,
+        @JsonProperty("comment_count") int commentCount,
+        @JsonProperty("like_article_count") int likeArticleCount) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.content = content;
+        this.liked = liked;
         this.commentCount = commentCount;
+        this.likeArticleCount = likeArticleCount;
     }
 
-    public String getID() {
+    public int getID() {
         return id;
     }
-    public void setID(String id) {
+    public void setID(int id) {
         this.id = id;
     }
     @JsonGetter("author")
@@ -57,11 +63,27 @@ public class Article {
         this.content = content;
     }
 
-    public String getCommentCount() {
+    public int getCommentCount() {
         return commentCount;
     }
 
-    public void setCommentCount(String commentCount) {
+    public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public int getLikeArticleCount() {
+        return likeArticleCount;
+    }
+
+    public void setLikeArticleCount(int likeArticleCount) {
+        this.likeArticleCount = likeArticleCount;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 }

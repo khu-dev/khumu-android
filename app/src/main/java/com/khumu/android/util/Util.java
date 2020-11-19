@@ -9,9 +9,12 @@ import java.text.MessageFormat;
 import java.util.Scanner;
 
 public class Util {
-    static String APIProtocol = "http";
+    static String APIProtocol = "https";
     static String APIHost = "api.khumu.jinsu.me";
-    // static String APIPort = "8000";
+    static String APIPort = "443";
+//    static String APIProtocol = "http";
+//    static String APIHost = "192.168.219.254";
+//    static String APIPort = "8000";
     static String APISubPathForRoot = "/api";
     public static String APIRootEndpoint;
     public static String DEFAULT_USERNAME = "admin";
@@ -19,7 +22,7 @@ public class Util {
 
 
     public static void init(){
-        APIRootEndpoint = APIProtocol + "://" +  APIHost +  /*":" + APIPort +*/ APISubPathForRoot + "/";
+        APIRootEndpoint = APIProtocol + "://" +  APIHost +  ":" + APIPort + APISubPathForRoot + "/";
         System.out.println(APIRootEndpoint);
     }
 

@@ -6,10 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/bottom_bordered_white_background"
-    android:padding="8dp"
+    android:paddingTop="@dimen/layout_default_space"
+    android:paddingBottom="12dp"
+    android:paddingLeft="@dimen/layout_default_space"
+    android:paddingRight="@dimen/layout_default_space"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/article_top_info_layout"
+        android:id="@+id/article_body_layout"
         android:paddingRight="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,10 +23,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/article_item_created_at_tv"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-
+            android:paddingRight="@dimen/layout_default_space"
             android:textColor="@color/black"
             android:text="ARTICLE TITLE"
             android:textSize="@dimen/title_font_size">
@@ -39,22 +41,18 @@
             android:text="방금 전"
             android:textSize="@dimen/meta_font_size">
         </TextView>
+
+        <TextView
+            android:id="@+id/article_item_content_tv"
+            app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/layout_default_space"
+            android:paddingBottom="12dp"
+            android:textSize="@dimen/default_font_size"
+            android:text="Article content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <TextView
-        android:id="@+id/article_item_author_username_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textSize="@dimen/meta_font_size"
-        android:text="작성자"/>
-    <TextView
-        android:id="@+id/article_item_content_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:textSize="@dimen/default_font_size"
-        android:text="Article content"/>
+
     <LinearLayout
         android:id="@+id/article_item_additional_info_layout"
         android:layout_width="match_parent"
@@ -64,44 +62,51 @@
             android:id="@+id/article_item_like_icon"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@drawable/ic_filled_heart"
-            android:layout_marginRight="4dp"
+            android:src="@drawable/ic_empty_heart"
+            android:layout_marginRight="3dp"
             ></ImageView>
         <TextView
-            android:id="@+id/article_comment_count_tv"
+            android:id="@+id/article_item_like_article_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="6dp"
             android:textSize="@dimen/meta_font_size"
             android:text="100"/>
         <ImageView
             android:id="@+id/article_item_comment_icon"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="3dp"
             android:src="@drawable/ic_message"
             ></ImageView>
         <TextView
             android:id="@+id/article_item_comment_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="6dp"
             android:textSize="@dimen/meta_font_size"
             android:text="100"/>
         <ImageView
             android:id="@+id/article_item_bookmark_icon"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="3dp"
             android:src="@drawable/ic_empty_bookmark"
             ></ImageView>
         <TextView
             android:id="@+id/article_item_bookmark_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="6dp"
             android:textSize="@dimen/meta_font_size"
             android:text="100"/>
+        <TextView
+            android:id="@+id/article_item_author_username_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/meta_font_size"
+            android:textColor="@color/colorMuted"
+            android:text="작성자"/>
     </LinearLayout>
 
 </LinearLayout>

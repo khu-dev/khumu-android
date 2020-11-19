@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/expand_board_list_btn"
             android:textSize="@dimen/default_font_size"
-            android:textColor="@color/colorMuted"
+            android:textColor="@color/colorDefault"
             android:text="최근 게시물">
         </TextView>
         <ImageView

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
+import com.khumu.android.repository.LikeArticleRepository;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorUsernameTV;
         public TextView commentContentTV;
+
         public CommentViewHolder(@NonNull View view) {
             super(view);
             System.out.println(view);

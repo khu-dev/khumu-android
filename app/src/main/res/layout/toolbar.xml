@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
+        android:paddingTop="3dp"
         android:paddingBottom="10dp"
         >
         <TextView
@@ -19,7 +19,6 @@
             android:textColor="@color/colorPrimary"
             android:textSize="24dp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="16dp"
             android:textAllCaps="true"
             ></TextView>
         <TextView
@@ -31,7 +30,6 @@
             android:textColor="@color/colorSecondary"
             android:textSize="16dp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="16dp"
             android:layout_marginLeft="6dp"
             ></TextView>
     </LinearLayout>

@@ -48,7 +48,7 @@ public class FeedViewModel extends ViewModel {
                     for (Article newArticle: articleRepository.ListArticle()){
                         // 기존에 없던 새로운 article인지 확인
                         List<Article> duplicatedArticles = originalArticles.stream().filter(item->{
-                            return (newArticle.getID().equals(item.getID()));
+                            return (newArticle.getID()==(item.getID()));
                         }).collect(Collectors.toList());
                         if(duplicatedArticles.size() == 0){
                             originalArticles.add(newArticle);

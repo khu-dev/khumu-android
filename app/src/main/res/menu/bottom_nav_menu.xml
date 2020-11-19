@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-
-    >
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"    >
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
-
     <item
-        android:id="@+id/navigation_board"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="Board" />
-
+        android:id="@+id/navigation_boards"
+        android:icon="@drawable/ic_boards"
+        android:title="@string/title_boards" />
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:id="@+id/navigation_feed"
+        android:icon="@drawable/ic_baseline_rss_feed_24"
+        android:title="@string/title_feed" />
+    <item
+        android:id="@+id/navigation_my_page"
+        android:icon="@drawable/ic_my_page"
+        android:title="@string/title_my_page" />
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_board"-->
+<!--        android:icon="@drawable/ic_dashboard_black_24dp"-->
+<!--        android:title="Board" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_notifications"-->
+<!--        android:icon="@drawable/ic_notifications_black_24dp"-->
+<!--        android:title="@string/title_notifications" />-->
 
 </menu>

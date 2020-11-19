@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.data.SimpleUser;
 import com.khumu.android.repository.ArticleRepository;
+import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.util.Util;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
@@ -33,6 +34,7 @@ public class FeedFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
     private FeedViewModel feedViewModel;
+    private LikeArticleRepository likeArticleRepository;
     private ArrayList<Article> articleArrayList;
     private ArticleAdapter articleAdapter;
     private RecyclerView recyclerView;
@@ -52,6 +54,9 @@ public class FeedFragment extends Fragment {
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
         feedViewModel = new ViewModelProvider(this, new FeedViewModelFactory(new ArticleRepository())).get(FeedViewModel.class);
+
+        // 원랜 여기를 Singleton 형태로 의존성 관리가 되어야하는데 어떻게 하지??
+        this.likeArticleRepository = new LikeArticleRepository();
     }
 
     @Override
@@ -82,7 +87,7 @@ public class FeedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.feed_articles_list);
         recyclerView.setLayoutManager(linearLayoutManager);
         articleArrayList = new ArrayList<>();
-        articleAdapter = new ArticleAdapter(articleArrayList);
+        articleAdapter = new ArticleAdapter(articleArrayList, likeArticleRepository);
         recyclerView.setAdapter(articleAdapter);
 
         feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<Article>>() {

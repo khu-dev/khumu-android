@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">khumu</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Board</string>
+    <string name="title_dashboard">DashBoards</string>
+    <string name="title_boards">Boards</string>
+    <string name="title_feed">Feed</string>
+    <string name="title_my_page">My</string>
     <string name="title_notifications">Notifications</string>
     <string name="API_ROOT_ENDPOINT">http://192.168.219.254:8000/api/</string>
 </resources>

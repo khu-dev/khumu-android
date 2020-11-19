@@ -6,7 +6,7 @@
     <dimen name="small_font_size">12dp</dimen>
     <dimen name="meta_font_size">12dp</dimen>
     <dimen name="title_font_size">20dp</dimen>
-    <dimen name="layout_default_space">6dp</dimen>
+    <dimen name="layout_default_space">8dp</dimen>
 
 
 </resources>
