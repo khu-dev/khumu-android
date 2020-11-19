@@ -26,10 +26,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public ArticleViewHolder(View view) {
             super(view);
             System.out.println(view);
-            this.articleTitleTV = view.findViewById(R.id.article_title_tv);
-            this.articleContentTV = view.findViewById(R.id.article_content_tv);
-            this.articleAuthorUsernameTV = view.findViewById(R.id.article_author_username_tv);
-            this.articleCommentCountTV = view.findViewById(R.id.article_comment_count_tv);
+            this.articleTitleTV = view.findViewById(R.id.article_item_title_tv);
+            this.articleContentTV = view.findViewById(R.id.article_item_content_tv);
+            this.articleAuthorUsernameTV = view.findViewById(R.id.article_item_author_username_tv);
+            this.articleCommentCountTV = view.findViewById(R.id.article_item_comment_count_tv);
         }
     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -36,6 +37,9 @@ public class FeedFragment extends Fragment {
     private ArticleAdapter articleAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private ImageView likeIcon;
+    private ImageView commentIcon;
+    private ImageView bookmarkIcon;
 //    private EditText writeArticleTitleET;
 //    private EditText writeArticleContentET;
 //    private ConstraintLayout writeArticleHeaderCL;
@@ -71,6 +75,7 @@ public class FeedFragment extends Fragment {
         // root.findViewById(R.id.action_navigation_board_to_navigation_home).setOnClickListener(Navigation);
         // xml 상에 recyclerview는 실질적으로 아이템이 어떻게 구현되어있는지 정의되어있지 않다.
         // linearlayout의 형태를 이용하겠다면 linearlayoutmanager을 이용한다.
+        likeIcon = (ImageView) view.findViewById(R.id.article_item_like_icon);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);

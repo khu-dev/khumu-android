@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    app:cardElevation="4dp"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="20dp"
-    app:cardCornerRadius="20dp"
-
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <LinearLayout
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        >
-        <include layout="@layout/layout_article_write"
-            android:id="@+id/wrapper_article_write"
-            ></include>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_article_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:padding="@dimen/layout_default_space">
+        <ImageView
+            android:id="@+id/expand_board_list_btn"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+        />
+        <TextView
+            android:id="@+id/feed_current_board_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/expand_board_list_btn"
+            android:textSize="@dimen/default_font_size"
+            android:textColor="@color/colorMuted"
+            android:text="최근 게시물">
+        </TextView>
+        <ImageView
+            android:id="@+id/article_write_btn"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/ic_write_article"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/feed_articles_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>

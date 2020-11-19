@@ -1,75 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/wrapper_article_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bordered_white_background"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-        <LinearLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/wrapper_article_item_meta"
-            android:id="@+id/article_item_summary"
-            android:paddingRight="6dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/article_title_tv"
-                android:textColor="#333333"
-                android:text="ARTICLE TITLE"
-                android:textSize="@dimen/title_font_size">
-            </TextView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/article_content_tv"
-                android:textColor="#AAAAAA"
-                android:text="ARTICLE CONTENT"
-                android:textSize="@dimen/default_font_size">
-            </TextView>
-        </LinearLayout>
-    <LinearLayout
-        android:id="@+id/wrapper_article_item_meta"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
+    android:background="@drawable/bottom_bordered_white_background"
+    android:padding="8dp"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/article_top_info_layout"
+        android:paddingRight="6dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         >
         <TextView
-            android:id="@+id/article_created_at_tv_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/article_item_title_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/article_item_created_at_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/meta_font_size"
-            android:text="방금"/>
+            android:layout_width="0dp"
+
+            android:textColor="@color/black"
+            android:text="ARTICLE TITLE"
+            android:textSize="@dimen/title_font_size">
+        </TextView>
         <TextView
-            android:id="@+id/article_like_count_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/article_item_created_at_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/meta_font_size"
-            android:text="좋아요 12"/>
+            android:layout_width="wrap_content"
+
+            android:textColor="@color/colorMuted"
+            android:text="방금 전"
+            android:textSize="@dimen/meta_font_size">
+        </TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/article_item_author_username_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="@dimen/meta_font_size"
+        android:text="작성자"/>
+    <TextView
+        android:id="@+id/article_item_content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:textSize="@dimen/default_font_size"
+        android:text="Article content"/>
+    <LinearLayout
+        android:id="@+id/article_item_additional_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/article_item_like_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_filled_heart"
+            android:layout_marginRight="4dp"
+            ></ImageView>
         <TextView
             android:id="@+id/article_comment_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
             android:textSize="@dimen/meta_font_size"
-            android:text="댓글 1"/>
+            android:text="100"/>
+        <ImageView
+            android:id="@+id/article_item_comment_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/ic_message"
+            ></ImageView>
         <TextView
-            android:id="@+id/article_author_username_tv"
+            android:id="@+id/article_item_comment_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
             android:textSize="@dimen/meta_font_size"
-            android:text="작성자"/>
+            android:text="100"/>
+        <ImageView
+            android:id="@+id/article_item_bookmark_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/ic_empty_bookmark"
+            ></ImageView>
+        <TextView
+            android:id="@+id/article_item_bookmark_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:textSize="@dimen/meta_font_size"
+            android:text="100"/>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

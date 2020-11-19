@@ -11,8 +11,8 @@
     <color name="colorSecondary">#ffb8b8</color>
     <color name="colorNegative">#5e8cab</color>
     <color name="colorAccent">#bf3519</color>
-    <color name="colorNormal">#7a7a7a</color>
-    <color name="colorMuted">#ffb8b8</color>
+    <color name="colorDefault">#4a4a4a</color>
+    <color name="colorMuted">#aaaaaa</color>
 
 
 </resources>
