@@ -36,12 +36,12 @@ public class FeedFragment extends Fragment {
     private ArticleAdapter articleAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private EditText writeArticleTitleET;
-    private EditText writeArticleContentET;
-    private ConstraintLayout writeArticleHeaderCL;
-    private LinearLayout writeArticleExpandableLL;
-    private ImageButton writeArticleExpandBTN;
-    private WriteArticleToggler writeArticleToggler;
+//    private EditText writeArticleTitleET;
+//    private EditText writeArticleContentET;
+//    private ConstraintLayout writeArticleHeaderCL;
+//    private LinearLayout writeArticleExpandableLL;
+//    private ImageButton writeArticleExpandBTN;
+//    private WriteArticleToggler writeArticleToggler;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -74,21 +74,12 @@ public class FeedFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
-        recyclerView = view.findViewById(R.id.recycler_view_article_list);
+        recyclerView = view.findViewById(R.id.feed_articles_list);
         recyclerView.setLayoutManager(linearLayoutManager);
         articleArrayList = new ArrayList<>();
         articleAdapter = new ArticleAdapter(articleArrayList);
         recyclerView.setAdapter(articleAdapter);
-        writeArticleTitleET = view.findViewById(R.id.article_write_title);
-        writeArticleContentET = view.findViewById(R.id.article_write_content);
 
-        Button articleWriteBtn = view.findViewById(R.id.article_write_btn);
-        articleWriteBtn.setOnClickListener(v -> {
-            CreateArticle();
-            writeArticleToggler.collapse();
-        });
-
-        writeArticleToggler = new WriteArticleToggler();
         feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<Article>>() {
             @Override
             public void onChanged(ArrayList<Article> changedSet) {
@@ -101,81 +92,89 @@ public class FeedFragment extends Fragment {
                 if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
+//        writeArticleTitleET = view.findViewById(R.id.article_write_title);
+//        writeArticleContentET = view.findViewById(R.id.article_write_content);
 
-        writeArticleHeaderCL = view.findViewById(R.id.wrapper_article_write_header);
-        writeArticleExpandableLL = view.findViewById(R.id.wrapper_article_write_expandable);
-        writeArticleExpandBTN = view.findViewById(R.id.wrapper_article_write_expand_btn);
-            //set visibility to GONE
-        writeArticleExpandableLL.setVisibility(View.GONE);
-
-        writeArticleExpandBTN.setOnClickListener(writeArticleToggler);
+//        Button articleWriteBtn = view.findViewById(R.id.article_write_btn);
+//        articleWriteBtn.setOnClickListener(v -> {
+//            CreateArticle();
+//            writeArticleToggler.collapse();
+//        });
+//        writeArticleToggler = new WriteArticleToggler();
+//        writeArticleHeaderCL = view.findViewById(R.id.wrapper_article_write_header);
+//        writeArticleExpandableLL = view.findViewById(R.id.wrapper_article_write_expandable);
+//        writeArticleExpandBTN = view.findViewById(R.id.wrapper_article_write_expand_btn);
+//            //set visibility to GONE
+//        writeArticleExpandableLL.setVisibility(View.GONE);
+//
+//        writeArticleExpandBTN.setOnClickListener(writeArticleToggler);
     }
 
-    public void CreateArticle(){
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    feedViewModel.CreateArticle(new Article(
-                            null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
-                            writeArticleTitleET.getText().toString(),
-                            writeArticleContentET.getText().toString(),
-                            null
-                    ));
-                    writeArticleTitleET.setText("");
-                    writeArticleContentET.setText("");
-                    feedViewModel.ListArticle();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    public class FetchAfterCreateArticleAsyncTask extends AsyncTask{
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            try {
-                feedViewModel.CreateArticle(new Article(
-                        null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
-                        writeArticleTitleET.getText().toString(),
-                        writeArticleContentET.getText().toString(),
-                        null
-                ));
-                writeArticleTitleET.setText("");
-                writeArticleContentET.setText("");
-                feedViewModel.ListArticle();
-            } catch (Exception e) {
-                e.printStackTrace();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        e.printStackTrace();
-                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-            return null;
-        }
-    }
-
-    public class WriteArticleToggler implements View.OnClickListener{
-        public void expand(){
-            Util.expandView(writeArticleExpandableLL);
-            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-        }
-        public void collapse(){
-            Util.collapseView(writeArticleExpandableLL);
-            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-        }
-        public void toggle(){
-            if (writeArticleExpandableLL.getVisibility()==View.GONE) expand();
-            else collapse();
-        }
-        @Override
-        public void onClick(View v) {
-            toggle();
-        }
-    }
+//    public void CreateArticle(){
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                try {
+//                    feedViewModel.CreateArticle(new Article(
+//                            null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
+//                            writeArticleTitleET.getText().toString(),
+//                            writeArticleContentET.getText().toString(),
+//                            null
+//                    ));
+//                    writeArticleTitleET.setText("");
+//                    writeArticleContentET.setText("");
+//                    feedViewModel.ListArticle();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+//    }
+//
+//    public class FetchAfterCreateArticleAsyncTask extends AsyncTask{
+//
+//        @Override
+//        protected Object doInBackground(Object[] objects) {
+//            try {
+//                feedViewModel.CreateArticle(new Article(
+//                        null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
+//                        writeArticleTitleET.getText().toString(),
+//                        writeArticleContentET.getText().toString(),
+//                        null
+//                ));
+//                writeArticleTitleET.setText("");
+//                writeArticleContentET.setText("");
+//                feedViewModel.ListArticle();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        e.printStackTrace();
+//                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//            }
+//            return null;
+//        }
+//    }
+//
+//    public class WriteArticleToggler implements View.OnClickListener{
+//        public void expand(){
+//            Util.expandView(writeArticleExpandableLL);
+//            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+//        }
+//        public void collapse(){
+//            Util.collapseView(writeArticleExpandableLL);
+//            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+//        }
+//        public void toggle(){
+//            if (writeArticleExpandableLL.getVisibility()==View.GONE) expand();
+//            else collapse();
+//        }
+//        @Override
+//        public void onClick(View v) {
+//            toggle();
+//        }
+//    }
 }
