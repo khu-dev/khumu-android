@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="20dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white">
         <include layout="@layout/layout_article_content"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
+            android:id="@+id/layout_article_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_view_comment_list"
+            />
         <androidx.recyclerview.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/recycler_view_comment_list"
+            app:layout_constraintTop_toBottomOf="@+id/layout_article_content"
+            app:layout_constraintBottom_toTopOf="@+id/wrapper_comment_write"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/colorLightBackground"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp">
         </androidx.recyclerview.widget.RecyclerView>
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/white"-->
-<!--        android:orientation="vertical">-->
-<!--        <include layout="@layout/wrapper_article_write"-->
-<!--            android:id="@+id/wrapper_article_write"-->
-<!--            ></include>-->
-<!--        <include layout="@layout/recycler_view_article_list"-->
-<!--            android:id="@+id/recycler_view_article_list">-->
-<!--        </include>-->
-<!--    </LinearLayout>-->
-    </LinearLayout>
+    <include layout="@layout/layout_comment_write"
+        android:id="@+id/wrapper_comment_write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

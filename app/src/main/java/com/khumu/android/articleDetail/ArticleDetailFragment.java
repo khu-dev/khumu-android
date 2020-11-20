@@ -84,8 +84,8 @@ public class ArticleDetailFragment extends Fragment {
 
         articleDetailTitleTV = view.findViewById(R.id.article_detail_title_tv);
         articleDetailContentTV = view.findViewById(R.id.article_detail_content_tv);
-        articleCommentCountTV = view.findViewById(R.id.article_comment_count_tv);
-        articleAuthorUsernameTV = view.findViewById(R.id.article_author_username_tv);
+        articleCommentCountTV = view.findViewById(R.id.article_detail_comment_count_tv);
+        articleAuthorUsernameTV = view.findViewById(R.id.article_detail_author_username_tv);
 
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
