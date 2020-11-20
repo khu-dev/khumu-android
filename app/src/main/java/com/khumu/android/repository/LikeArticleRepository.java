@@ -14,13 +14,17 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.Module;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
+@Module
 public class LikeArticleRepository {
+    @Inject
     public LikeArticleRepository(){}
     public void toggleLikeArticle(LikeArticle likeArticle) throws IOException, JSONException {
         TokenRepository tokenRepo = new TokenRepository();

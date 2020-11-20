@@ -1,5 +1,7 @@
 package com.khumu.android.repository;
 
+import android.util.Log;
+
 import com.khumu.android.util.Util;
 
 import org.json.JSONException;
@@ -7,10 +9,17 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import okhttp3.*;
+import javax.inject.Inject;
 
+import dagger.Module;
+import okhttp3.*;
+@Module
 public class TokenRepository {
-    public TokenRepository(){}
+    public final static String TAG = "TokenRepository";
+    @Inject
+    public TokenRepository(){
+        Log.d(TAG, "Create");
+    }
     public String GetToken(String username, String password) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
         RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),

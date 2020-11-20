@@ -22,10 +22,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
+import com.khumu.android.repository.CommentRepository;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 public class ArticleDetailFragment extends Fragment {
+    @Inject
+    public CommentRepository commentRepository;
     private CommentViewModel commentViewModel;
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
@@ -47,7 +52,7 @@ public class ArticleDetailFragment extends Fragment {
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
         commentViewModel = new ViewModelProvider(this,
-                new CommentViewFactory(KhumuApplication.getInstance().commentRepository)
+                new CommentViewFactory(commentRepository)
         ).get(CommentViewModel.class);
 //        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
     }

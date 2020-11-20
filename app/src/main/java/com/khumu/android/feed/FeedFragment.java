@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.SimpleUser;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
@@ -30,9 +31,11 @@ import com.khumu.android.data.Article;
 
 import java.util.ArrayList;
 
-public class FeedFragment extends Fragment {
+import javax.inject.Inject;
 
-//    private HomeViewModel homeViewModel;
+public class FeedFragment extends Fragment {
+    @Inject
+    public ArticleRepository articleRepository;
     private FeedViewModel feedViewModel;
     private ArrayList<Article> articleArrayList;
     private ArticleAdapter articleAdapter;
@@ -47,12 +50,14 @@ public class FeedFragment extends Fragment {
 //    private LinearLayout writeArticleExpandableLL;
 //    private ImageButton writeArticleExpandBTN;
 //    private WriteArticleToggler writeArticleToggler;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        feedViewModel = new ViewModelProvider(this, new FeedViewModelFactory(new ArticleRepository())).get(FeedViewModel.class);
+        KhumuApplication.container.inject(this);
+        feedViewModel = new ViewModelProvider(this, new FeedViewModelFactory(articleRepository)).get(FeedViewModel.class);
     }
 
     @Override

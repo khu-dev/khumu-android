@@ -9,19 +9,20 @@ import com.khumu.android.util.Util;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 public class KhumuApplication extends Application {
-    private static KhumuApplication khumu;
     public String username;
+    public static Container container;
+    @Inject
     public ArticleRepository articleRepository = new ArticleRepository();
-    public LikeArticleRepository likeArticleRepository = new LikeArticleRepository();
-    public CommentRepository commentRepository = new CommentRepository();
+    @Inject public LikeArticleRepository likeArticleRepository = new LikeArticleRepository();
+    @Inject public CommentRepository commentRepository = new CommentRepository();
 
     @Override
     public void onCreate() {
         super.onCreate();
         this.username = Util.DEFAULT_USERNAME;
-        khumu = this;
+        container = DaggerContainer.create();
     }
-
-    public static KhumuApplication getInstance() { return khumu; }
 }

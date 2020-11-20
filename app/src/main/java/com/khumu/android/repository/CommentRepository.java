@@ -15,13 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
+import dagger.Module;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
+@Module
 public class CommentRepository {
+    @Inject
     public CommentRepository(){}
     public ArrayList<Comment> ListComment() throws IOException, JSONException {
         TokenRepository tokenRepo = new TokenRepository();
