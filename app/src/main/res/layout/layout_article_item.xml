@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bottom_bordered_white_background"
-    android:paddingTop="@dimen/layout_default_space"
-    android:paddingBottom="12dp"
-    android:paddingLeft="@dimen/layout_default_space"
-    android:paddingRight="@dimen/layout_default_space"
+    android:background="@drawable/bordered_white_background"
+    android:paddingTop="@dimen/layout_large_space"
+    android:paddingBottom="@dimen/layout_large_space"
+    android:paddingLeft="@dimen/layout_large_space"
+    android:paddingRight="@dimen/layout_large_space"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="16dp"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/article_body_layout"

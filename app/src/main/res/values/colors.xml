@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#ff4f38</color>
     <color name="colorSecondary">#ffb8b8</color>
+    <color name="colorLightBackground">#fff8f8</color>
     <color name="colorNegative">#5e8cab</color>
     <color name="colorAccent">#bf3519</color>
     <color name="colorDefault">#4a4a4a</color>

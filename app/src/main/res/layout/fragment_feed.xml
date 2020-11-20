@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/colorLightBackground"
     android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/layout_default_space">
+        android:padding="@dimen/layout_default_space"
+        android:background="@color/white">
         <ImageView
             android:id="@+id/expand_board_list_btn"
             android:layout_width="16dp"
