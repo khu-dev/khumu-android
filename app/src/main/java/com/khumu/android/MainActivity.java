@@ -33,17 +33,21 @@
 package com.khumu.android;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.util.Util;
 
 public class MainActivity extends AppCompatActivity {
-
+    MaterialToolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Util.init();
@@ -58,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        toolbar = findViewById(R.id.toolbar);
+        setToolbarInfo();
+//        toolbar.findViewById()
+    }
+
+    private void setToolbarInfo(){
+        ViewGroup toolbarInfo = (ViewGroup) toolbar.findViewById(R.id.layout_toolbar_info);
+        TextView usernameTV = toolbarInfo.findViewById(R.id.layout_toolbar_username_tv);
+        usernameTV.setText(KhumuApplication.username);
     }
 
 }
