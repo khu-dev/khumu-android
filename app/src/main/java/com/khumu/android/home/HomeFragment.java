@@ -43,10 +43,6 @@ public class HomeFragment extends Fragment {
         // inflate란 xml => java 객체
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // 데이터는 viewModel에서 가져와라.
-        TextView t = root.findViewById(R.id.counter);
-        homeViewModel.increase();
-        t.setText(homeViewModel.getText()+"");
         return root;
     }
 
