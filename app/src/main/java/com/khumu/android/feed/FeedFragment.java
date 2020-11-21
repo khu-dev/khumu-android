@@ -91,6 +91,7 @@ public class FeedFragment extends Fragment {
         articleAdapter = new ArticleAdapter(articleArrayList);
         recyclerView.setAdapter(articleAdapter);
 
+        // 이거 다시 짜야겠는데,,,
         feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<Article>>() {
             @Override
             public void onChanged(ArrayList<Article> changedSet) {

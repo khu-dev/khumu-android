@@ -9,6 +9,7 @@ public class Article {
     private int id;
     private SimpleUser author;
     private String title;
+    private String board;
     private String content;
     private int commentCount;
     private int likeArticleCount;
@@ -19,6 +20,7 @@ public class Article {
         @JsonProperty("id") int id,
         @JsonProperty("author") SimpleUser author,
         @JsonProperty("title") String title,
+        @JsonProperty("board") String board,
         @JsonProperty("content") String content,
         @JsonProperty("liked") boolean liked,
         @JsonProperty("comment_count") int commentCount,
@@ -26,6 +28,7 @@ public class Article {
         this.id = id;
         this.author = author;
         this.title = title;
+        this.board = board;
         this.content = content;
         this.liked = liked;
         this.commentCount = commentCount;
@@ -53,6 +56,14 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getBoard() {
+        return board;
+    }
+
+    public void setBoard(String board) {
+        this.board = board;
     }
 
     public String getContent() {
