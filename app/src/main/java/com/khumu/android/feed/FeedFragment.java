@@ -2,6 +2,7 @@ package com.khumu.android.feed;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,28 +24,41 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.data.Board;
 import com.khumu.android.data.SimpleUser;
+import com.khumu.android.home.RecentArticleAdapter;
 import com.khumu.android.repository.ArticleRepository;
+import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.util.Util;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class FeedFragment extends Fragment {
-    @Inject
-    public ArticleRepository articleRepository;
+    private final static String TAG = "FeedFragment";
+    @Inject public BoardRepository boardRepository;
+    @Inject public ArticleRepository articleRepository;
     private FeedViewModel feedViewModel;
-    private ArrayList<Article> articleArrayList;
+
+    private BoardAdapter boardAdapter;
     private ArticleAdapter articleAdapter;
-    private RecyclerView recyclerView;
+
+    private RecyclerView articlesView;
+    private ListView boardsView;
+
     private LinearLayoutManager linearLayoutManager;
     private ImageView likeIcon;
     private ImageView commentIcon;
     private ImageView bookmarkIcon;
+
+    private String currentBoard;
+    private BoardsToggler boardsToggler;
+    private ImageView toggleBoardsBTN;
 //    private EditText writeArticleTitleET;
 //    private EditText writeArticleContentET;
 //    private ConstraintLayout writeArticleHeaderCL;
@@ -57,7 +72,15 @@ public class FeedFragment extends Fragment {
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
-        feedViewModel = new ViewModelProvider(this, new FeedViewModelFactory(articleRepository)).get(FeedViewModel.class);
+        feedViewModel = new ViewModelProvider(this, new FeedViewModelFactory(boardRepository, articleRepository)).get(FeedViewModel.class);
+
+        boardAdapter = new BoardAdapter(
+                getContext(),
+                R.layout.layout_feed_board_item,
+                new ArrayList<Board>()
+        );
+        articleAdapter = new ArticleAdapter(new ArrayList<>());
+
     }
 
     @Override
@@ -85,42 +108,59 @@ public class FeedFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
-        recyclerView = view.findViewById(R.id.feed_articles_list);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        articleArrayList = new ArrayList<>();
-        articleAdapter = new ArticleAdapter(articleArrayList);
-        recyclerView.setAdapter(articleAdapter);
+        articlesView = view.findViewById(R.id.feed_articles_list);
+        articlesView.setLayoutManager(linearLayoutManager);
+        articlesView.setAdapter(articleAdapter);
 
-        // 이거 다시 짜야겠는데,,,
-        feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<ArrayList<Article>>() {
+        boardsView = view.findViewById(R.id.feed_boards_list);
+        boardsView.setAdapter(boardAdapter);
+
+        feedViewModel.getLiveDataBoards().observe(getViewLifecycleOwner(), new Observer<List<Board>>() {
             @Override
-            public void onChanged(ArrayList<Article> changedSet) {
-                int originalLength = articleArrayList.size();
-                int newLength = changedSet.size();
-                for(int i=originalLength; i<newLength; i++){
-                    articleArrayList.add(changedSet.get(i));
-                }
-                articleAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
-                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
+            public void onChanged(List<Board> changedSet) {
+                boardAdapter.boards.addAll(changedSet);
+                boardAdapter.notifyDataSetChanged();
             }
         });
-        
+
+
+        feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+            @Override
+            public void onChanged(List<Article> changedSet) {
+                List<Article> original = feedViewModel.getLiveDataArticles().getValue();
+                // 일단은 무조건 받은 거 추가하는 간단한 로직.
+                // 아래 생략
+//                int originalLength = articleArrayList.size();
+//                int newLength = changedSet.size();
+//                for(int i=originalLength; i<newLength; i++){
+//                    articleArrayList.add(changedSet.get(i));
+//                }
+//                articleAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
+                articleAdapter.articleList.addAll(changedSet);
+                articleAdapter.notifyDataSetChanged();
+                // scroll to top
+                articlesView.smoothScrollToPosition(0);
+            }
+        });
+
+
+
 //        writeArticleTitleET = view.findViewById(R.id.article_write_title);
 //        writeArticleContentET = view.findViewById(R.id.article_write_content);
 
-//        Button articleWriteBtn = view.findViewById(R.id.article_write_btn);
-//        articleWriteBtn.setOnClickListener(v -> {
-//            CreateArticle();
-//            writeArticleToggler.collapse();
-//        });
-//        writeArticleToggler = new WriteArticleToggler();
+        toggleBoardsBTN = view.findViewById(R.id.toggle_boards_btn);
+        boardsToggler = new BoardsToggler();
+        toggleBoardsBTN.setOnClickListener(v -> {
+            boardsToggler.collapse();
+        });
+
 //        writeArticleHeaderCL = view.findViewById(R.id.wrapper_article_write_header);
 //        writeArticleExpandableLL = view.findViewById(R.id.wrapper_article_write_expandable);
 //        writeArticleExpandBTN = view.findViewById(R.id.wrapper_article_write_expand_btn);
-//            //set visibility to GONE
-//        writeArticleExpandableLL.setVisibility(View.GONE);
-//
-//        writeArticleExpandBTN.setOnClickListener(writeArticleToggler);
+            //set visibility to GONE
+        boardsView.setVisibility(View.GONE);
+
+        toggleBoardsBTN.setOnClickListener(boardsToggler);
     }
 
 //    public void CreateArticle(){
@@ -172,22 +212,22 @@ public class FeedFragment extends Fragment {
 //        }
 //    }
 //
-//    public class WriteArticleToggler implements View.OnClickListener{
-//        public void expand(){
-//            Util.expandView(writeArticleExpandableLL);
-//            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-//        }
-//        public void collapse(){
-//            Util.collapseView(writeArticleExpandableLL);
-//            writeArticleExpandBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-//        }
-//        public void toggle(){
-//            if (writeArticleExpandableLL.getVisibility()==View.GONE) expand();
-//            else collapse();
-//        }
-//        @Override
-//        public void onClick(View v) {
-//            toggle();
-//        }
-//    }
+    public class BoardsToggler implements View.OnClickListener{
+        public void expand(){
+            Util.expandView(boardsView);
+            toggleBoardsBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+        }
+        public void collapse(){
+            Util.collapseView(boardsView);
+            toggleBoardsBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+        }
+        public void toggle(){
+            if (boardsView.getVisibility()==View.GONE) expand();
+            else collapse();
+        }
+        @Override
+        public void onClick(View v) {
+            toggle();
+        }
+    }
 }

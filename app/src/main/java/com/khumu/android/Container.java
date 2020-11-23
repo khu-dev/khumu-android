@@ -2,6 +2,7 @@ package com.khumu.android;
 
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.feed.ArticleAdapter;
+import com.khumu.android.feed.BoardAdapter;
 import com.khumu.android.feed.FeedFragment;
 import com.khumu.android.home.HomeFragment;
 import com.khumu.android.repository.ArticleRepository;
@@ -29,6 +30,7 @@ public interface Container {
     void inject(TokenRepository tokenRepository);
 
     void inject(ArticleAdapter articleAdapter);
+    void inject(BoardAdapter boardAdapter);
 
     void inject(HomeFragment articleAdapter);
     void inject(FeedFragment feedFragment);

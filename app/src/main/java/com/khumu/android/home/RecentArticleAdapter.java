@@ -29,8 +29,6 @@ import javax.inject.Inject;
 public class RecentArticleAdapter extends ArrayAdapter<Article> {
     private final static String TAG = "RecentArticleAdapter";
     private List<Article> articles;
-    @Inject
-    public LikeArticleRepository likeArticleRepository;
 
     public RecentArticleAdapter(@NonNull Context context, int resource, List<Article> articles) {
         // 세 번째 인자가 이 adpater의 collection을 의미
@@ -55,17 +53,16 @@ public class RecentArticleAdapter extends ArrayAdapter<Article> {
         ((TextView)view.findViewById(R.id.home_recent_article_title_tv)).setText(article.getTitle());
         return view;
     }
-
-    public class RecentArticleViewHolder {
-        public TextView boardNameTV;
-        public TextView articleTitleTV;
-        public TextView articleCreatedAtTV;
-        // 이 view는 아마도 recycler view?
-        public RecentArticleViewHolder(View convertView) {
-            this.boardNameTV = boardNameTV;
-            this.articleTitleTV = articleTitleTV;
-            this.articleCreatedAtTV = articleCreatedAtTV;
-        }
-    }
-
+// 없어도 될 듯
+//    public class RecentArticleViewHolder {
+//        public TextView boardNameTV;
+//        public TextView articleTitleTV;
+//        public TextView articleCreatedAtTV;
+//        // 이 view는 아마도 recycler view?
+//        public RecentArticleViewHolder(View convertView) {
+//            this.boardNameTV = boardNameTV;
+//            this.articleTitleTV = articleTitleTV;
+//            this.articleCreatedAtTV = articleCreatedAtTV;
+//        }
+//    }
 }

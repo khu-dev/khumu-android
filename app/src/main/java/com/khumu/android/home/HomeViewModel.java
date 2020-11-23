@@ -41,7 +41,6 @@ public class HomeViewModel extends ViewModel {
                         if (board.getRecentArticles().size() != 0){
                             articles.addAll(board.getRecentArticles());
                         }
-
                     }
                     recentArticles.postValue(articles);
                 } catch (IOException e) {

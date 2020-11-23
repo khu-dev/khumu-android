@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/layout_default_space"
-        android:background="@color/white">
+        android:background="@drawable/bordered_white_background">
         <ImageView
-            android:id="@+id/expand_board_list_btn"
+            android:id="@+id/toggle_boards_btn"
             android:layout_width="16dp"
             android:layout_height="16dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/expand_board_list_btn"
+            app:layout_constraintLeft_toRightOf="@+id/toggle_boards_btn"
             android:textSize="@dimen/default_font_size"
             android:textColor="@color/colorDefault"
             android:text="최근 게시물">
@@ -39,6 +39,17 @@
             android:src="@drawable/ic_write_article"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <ListView
+        android:id="@+id/feed_boards_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bordered_white_background"
+        android:divider="#ffffff"
+        android:dividerHeight="1dp"
+        android:paddingTop="@dimen/layout_default_space"
+        android:paddingBottom="@dimen/default_font_size"
+        android:paddingLeft="@dimen/layout_large_space"
+        android:paddingRight="@dimen/layout_large_space" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feed_articles_list"
         android:layout_width="match_parent"

@@ -16,7 +16,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
+import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.util.Util;
 import com.khumu.android.data.Article;
 
@@ -25,26 +27,53 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FeedViewModel extends ViewModel {
-    private ArticleRepository articleRepository;
-    private MutableLiveData<ArrayList<Article>> articles;
 
-    public FeedViewModel(ArticleRepository articleRepository) {
-        articles = new MutableLiveData<>();
-        articles.setValue(new ArrayList<Article>());
+    private BoardRepository boardRepository;
+    private ArticleRepository articleRepository;
+
+    private MutableLiveData<List<Board>> boards;
+    private MutableLiveData<List<Article>> articles;
+
+    public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
+        articles = new MutableLiveData<>(new ArrayList<Article>());
+        boards = new MutableLiveData<>(new ArrayList<Board>());
+
+        this.boardRepository = boardRepository;
         this.articleRepository = articleRepository;
-        ListArticle();
+        ListBoards();
+        ListArticles();
     }
 
-    public MutableLiveData<ArrayList<Article>> getLiveDataArticles(){
+    public MutableLiveData<List<Article>> getLiveDataArticles(){
         return articles;
     }
 
-    public void ListArticle(){
+    public MutableLiveData<List<Board>> getLiveDataBoards(){
+        return boards;
+    }
+
+    public void ListBoards() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    boards.postValue(boardRepository.ListBoards());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public void ListArticles(){
         new Thread(){
             @Override
             public void run() {
                 try {
-                    ArrayList<Article> originalArticles = articles.getValue();
+                    List<Article> originalArticles = articles.getValue();
                     for (Article newArticle: articleRepository.ListArticle()){
                         // 기존에 없던 새로운 article인지 확인
                         List<Article> duplicatedArticles = originalArticles.stream().filter(item->{
