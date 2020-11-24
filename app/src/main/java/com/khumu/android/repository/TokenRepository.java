@@ -18,20 +18,30 @@ public class TokenRepository {
     public final static String TAG = "TokenRepository";
     @Inject
     public TokenRepository(){}
-    public String GetToken(String username, String password) throws IOException, JSONException {
+
+    public static class WrongCredentialException extends Exception{}
+
+    public String GetToken(String username, String password) throws IOException, JSONException, WrongCredentialException {
         OkHttpClient client = new OkHttpClient();
-        RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),
-                String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
-        );
+        FormBody.Builder formBuilder = new FormBody.Builder()
+                .add("username",username)
+                .add("password", password);
+
+        RequestBody formBody = formBuilder.build();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
             .addPathSegment("token");
 
         Request authReq = new Request.Builder()
-            .post(authBody)
+            .post(formBody)
             .url(urlBuilder.build())
             .build();
         Response authResp = client.newCall(authReq).execute();
+
+        if(authResp.code() == 401){
+            throw new WrongCredentialException();
+        }
+
         String authRespStr = authResp.body().string();
         String token = new JSONObject(authRespStr).getString("access");
         return token;

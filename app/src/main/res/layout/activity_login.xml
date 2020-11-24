@@ -46,7 +46,7 @@
             android:background="@drawable/primary_round_bordered_white_background"
             android:hint="Password"
             android:layout_margin="@dimen/layout_default_space"
-
+            android:inputType="textPassword"
             android:padding="@dimen/layout_default_space"
             android:text=""
             android:textSize="@dimen/default_font_size"

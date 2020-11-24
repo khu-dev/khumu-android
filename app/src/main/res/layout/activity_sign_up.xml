@@ -56,6 +56,7 @@
                 android:layout_marginTop="@dimen/layout_default_space"
                 android:padding="@dimen/layout_default_space"
                 android:background="@drawable/primary_round_bordered_white_background"
+                android:inputType="textPassword"
                 android:hint="Password"
                 android:text=""
                 android:textSize="@dimen/default_font_size" />
@@ -67,6 +68,7 @@
                 android:layout_marginTop="@dimen/layout_default_space"
                 android:padding="@dimen/layout_default_space"
                 android:background="@drawable/primary_round_bordered_white_background"
+                android:inputType="textPassword"
                 android:hint="Password confirm"
                 android:text=""
                 android:textSize="@dimen/default_font_size" />

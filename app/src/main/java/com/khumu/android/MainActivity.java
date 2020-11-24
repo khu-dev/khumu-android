@@ -33,11 +33,13 @@
 package com.khumu.android;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,18 +74,50 @@ public class MainActivity extends AppCompatActivity {
 //        toolbar.findViewById()
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        // login 후 돌아온 걸 수도 있음.
+        setToolbarInfo();
+    }
+
     private void setToolbarInfo(){
         ViewGroup toolbarInfo = (ViewGroup) toolbar.findViewById(R.id.layout_toolbar_info);
         ImageView userIcon = toolbar.findViewById(R.id.layout_toolbar_user_icon);
-        userIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-                MainActivity.this.startActivity(loginIntent);
-            }
-        });
         TextView usernameTV = toolbarInfo.findViewById(R.id.layout_toolbar_username_tv);
-        usernameTV.setText(KhumuApplication.username);
+
+        // unauthenticated
+        if(KhumuApplication.username == null){
+            userIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    MainActivity.this.startActivity(loginIntent);
+                }
+            });
+            usernameTV.setText("로그인해주시기 바랍니다.");
+        } else{
+            // authenticated => logout
+            usernameTV.setText(KhumuApplication.username);
+
+            userIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), KhumuApplication.username + " logout", Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences.Editor editor = KhumuApplication.sharedPref.edit();
+                    editor.remove("username");
+                    editor.remove("nickname");
+                    editor.remove("token");
+                    editor.commit();
+                    KhumuApplication.loadKhumuConfig();
+                    //재귀적으로 툴바를 그린다.
+                    setToolbarInfo();
+                }
+            });
+
+        }
+
     }
 
 }
