@@ -30,15 +30,12 @@
 //
 //}
 
-package com.khumu.android;
+package com.khumu.android.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toolbar;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -47,43 +44,26 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.khumu.android.login.LoginActivity;
+import com.khumu.android.R;
 import com.khumu.android.signUp.SignUpActivity;
 import com.khumu.android.util.Util;
 
-public class MainActivity extends AppCompatActivity {
-    MaterialToolbar toolbar;
+public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Util.init();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-//        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
-////        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-////                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-////                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
-        toolbar = findViewById(R.id.toolbar);
-        setToolbarInfo();
-//        toolbar.findViewById()
-    }
+        setContentView(R.layout.activity_login);
 
-    private void setToolbarInfo(){
-        ViewGroup toolbarInfo = (ViewGroup) toolbar.findViewById(R.id.layout_toolbar_info);
-        ImageView userIcon = toolbar.findViewById(R.id.layout_toolbar_user_icon);
-        userIcon.setOnClickListener(new View.OnClickListener() {
+        Button signUpBTN = findViewById(R.id.sign_up_btn);
+        signUpBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-                MainActivity.this.startActivity(loginIntent);
+                Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
+                LoginActivity.this.startActivity(signUpIntent);
             }
         });
-        TextView usernameTV = toolbarInfo.findViewById(R.id.layout_toolbar_username_tv);
-        usernameTV.setText(KhumuApplication.username);
+
     }
+
 
 }

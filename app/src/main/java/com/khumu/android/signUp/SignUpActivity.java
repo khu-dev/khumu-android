@@ -30,19 +30,23 @@
 //
 //}
 
-package com.khumu.android.articleDetail;
+package com.khumu.android.signUp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.khumu.android.R;
 
-public class ArticleDetailActivity extends AppCompatActivity {
-
+public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article_detail);
+        setContentView(R.layout.activity_sign_up);
     }
+
+
 }
