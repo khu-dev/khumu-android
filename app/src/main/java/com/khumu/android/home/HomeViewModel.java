@@ -3,23 +3,52 @@ package com.khumu.android.home;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.khumu.android.data.Article;
+import com.khumu.android.data.Board;
+import com.khumu.android.repository.BoardRepository;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeViewModel extends ViewModel {
-    private MutableLiveData<Integer> counter;
+    private BoardRepository br;
+    private MutableLiveData<List<Article>> recentArticles;
 
-    public HomeViewModel() {
-        counter = new MutableLiveData<>();
-        counter.setValue(0);
-//        mText = new MutableLiveData<>();
-//        mText.setValue("This is home fragment");
+    public HomeViewModel(BoardRepository br){
+        this.br = br;
+        recentArticles = new MutableLiveData<>();
+        this.ListRecentBoards();
     }
+    public MutableLiveData<List<Article>> getLiveDataRecentArticles(){
+        return recentArticles;
+    }
+    public void ListRecentBoards() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    List<Board> boards = br.ListBoards();
 
-    public void increase(){
-        counter.setValue(counter.getValue() + 1);
-    }
-    public void decrease(){
-        counter.setValue(counter.getValue() - 1);
-    }
-    public Integer getText() {
-        return counter.getValue();
+//                    for(int i=0; i<boards.size(); i++){
+//                        Board board = boards.get(i);
+                    List<Article> articles = new ArrayList<>();
+                    for(Board board: boards){
+                        System.out.println("Board: "+board.getName());
+                        if (board.getRecentArticles().size() != 0){
+                            articles.addAll(board.getRecentArticles());
+                        }
+                    }
+                    recentArticles.postValue(articles);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 }

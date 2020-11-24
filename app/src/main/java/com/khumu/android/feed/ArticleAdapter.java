@@ -20,11 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
-    private ArrayList<Article> articleList;
+    public List<Article> articleList;
     @Inject
     public LikeArticleRepository likeArticleRepository;
 
@@ -51,7 +52,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         }
     }
 
-    public ArticleAdapter(ArrayList<Article> articleList) {
+    public ArticleAdapter(List<Article> articleList) {
         this.articleList = articleList;
         KhumuApplication.container.inject(this);
     }

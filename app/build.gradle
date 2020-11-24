@@ -8,6 +8,9 @@ android {
     }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
+    dataBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "com.khumu.android"
@@ -44,8 +47,10 @@ dependencies {
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.squareup.okhttp3:okhttp:3.+'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
-
+    //Dagger 2
     implementation 'com.google.dagger:dagger:2.29'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.29'
-
+//
+//    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+//    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 }

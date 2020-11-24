@@ -75,7 +75,7 @@
         android:id="@+id/khu_notifications_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="6dp"
+        app:cardElevation="4dp"
         app:cardCornerRadius="10dp"
         android:layout_margin="@dimen/layout_default_space"
         android:background="@color/white">
@@ -107,7 +107,7 @@
         android:id="@+id/recent_posts_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="6dp"
+        app:cardElevation="4dp"
         app:cardCornerRadius="10dp"
         android:layout_margin="@dimen/layout_default_space"
         android:background="@color/white">
