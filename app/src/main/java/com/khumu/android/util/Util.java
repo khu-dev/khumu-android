@@ -8,22 +8,30 @@ import android.view.animation.Transformation;
 import java.text.MessageFormat;
 import java.util.Scanner;
 
+import okhttp3.HttpUrl;
+
 public class Util {
-    static String APIProtocol = "https";
-    static String APIHost = "api.khumu.jinsu.me";
-    static String APIPort = "443";
+    public static String APIScheme = "https";
+    public static String APIHost = "api.khumu.jinsu.me";
+    public static int APIPort = 443;
 //    static String APIProtocol = "http";
 //    static String APIHost = "192.168.219.254";
 //    static String APIPort = "8000";
-    static String APISubPathForRoot = "/api";
+    public static String APISubPathForRoot = "api";
     public static String APIRootEndpoint;
     public static String DEFAULT_USERNAME = "admin";
     public static String DEFAULT_PASSWORD = "123123";
 
-
     public static void init(){
-        APIRootEndpoint = APIProtocol + "://" +  APIHost +  ":" + APIPort + APISubPathForRoot + "/";
-        System.out.println(APIRootEndpoint);
+        APIRootEndpoint = APIScheme + "://" +  APIHost +  ":" + APIPort + APISubPathForRoot + "/";;
+    }
+
+    public static HttpUrl.Builder newBuilder(){
+        return new HttpUrl.Builder()
+            .scheme(APIScheme)
+            .host(APIHost)
+            .port(APIPort)
+            .addPathSegment(APISubPathForRoot);
     }
 
     public static void expandView(final View v) {

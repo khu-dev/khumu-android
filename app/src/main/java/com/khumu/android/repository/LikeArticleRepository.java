@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.Module;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,11 +41,15 @@ public class LikeArticleRepository {
         String likeArticleString = mapper.writeValueAsString(likeArticle);
 //        JSONObject articleJSON = new JSONObject(articleString);
         //System.out.println(articleString);
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+            .addPathSegment("like-articles");
+
         Request createReq = new Request.Builder()
-                .header("Authorization", "Bearer "+token)
-                .put(RequestBody.create(MediaType.parse("application/json"), likeArticleString))
-                .url(Util.APIRootEndpoint + "like-articles")
-                .build();
+            .header("Authorization", "Bearer "+token)
+            .put(RequestBody.create(MediaType.parse("application/json"), likeArticleString))
+            .url(urlBuilder.build())
+            .build();
         Response createResp = client.newCall(createReq).execute();
     }
 }

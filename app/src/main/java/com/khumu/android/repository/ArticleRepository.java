@@ -1,5 +1,7 @@
 package com.khumu.android.repository;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +19,7 @@ import javax.inject.Inject;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,9 +27,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 @Module
 public class ArticleRepository {
+    private final static String TAG="ArticleRepository";
     @Inject
     public ArticleRepository(){}
     public ArrayList<Article> ListArticle() throws IOException, JSONException {
+        return ListArticle(1, null);
+    }
+    public ArrayList<Article> ListArticle(int page, String board) throws IOException, JSONException {
         TokenRepository tokenRepo = new TokenRepository();
         String token = "";
         try{
@@ -36,16 +43,22 @@ public class ArticleRepository {
         }
 
         OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+            .addPathSegment("articles");
+        urlBuilder = urlBuilder.addQueryParameter("page", String.valueOf(page));
+        if (board != null){
+            urlBuilder = urlBuilder.addQueryParameter("board", board);
+        }
         Request req = new Request.Builder()
-                .header("Authorization", "Bearer "+ token)
-                .url(Util.APIRootEndpoint + "articles")
-                .build();
+            .header("Authorization", "Bearer "+ token)
+            .url(urlBuilder.build())
+            .build();
+
         Response fetchResp = client.newCall(req).execute();
         String respString = fetchResp.body().string();
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
-//        System.out.println(respString);
         String data = new JSONObject(respString).getString("data");
-        System.out.println(data);
+//        Log.d(TAG, "ListArticle: "+data);
         JSONArray articleJSONArray = new JSONArray(data);
         ArrayList<Article> articles = new ArrayList<>();
 

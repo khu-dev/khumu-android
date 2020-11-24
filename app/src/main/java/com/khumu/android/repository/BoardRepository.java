@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,10 +39,14 @@ public class BoardRepository {
         }
 
         OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+            .addPathSegment("boards");
+
         Request req = new Request.Builder()
-                .header("Authorization", "Bearer "+ token)
-                .url(Util.APIRootEndpoint + "boards")
-                .build();
+            .header("Authorization", "Bearer "+ token)
+            .url(urlBuilder.build())
+            .build();
         Response fetchResp = client.newCall(req).execute();
         String respString = fetchResp.body().string();
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다

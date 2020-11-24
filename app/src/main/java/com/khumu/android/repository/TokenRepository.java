@@ -25,10 +25,14 @@ public class TokenRepository {
         RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),
                 String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
         );
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+            .addPathSegment("token");
+
         Request authReq = new Request.Builder()
-                .post(authBody)
-                .url(Util.APIRootEndpoint + "token")
-                .build();
+            .post(authBody)
+            .url(urlBuilder.build())
+            .build();
         Response authResp = client.newCall(authReq).execute();
         String authRespStr = authResp.body().string();
         String token = new JSONObject(authRespStr).getString("access");

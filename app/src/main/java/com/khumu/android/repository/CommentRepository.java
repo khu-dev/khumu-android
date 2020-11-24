@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import dagger.Module;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,9 +40,14 @@ public class CommentRepository {
             //
         }
         OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+            .addPathSegment("token")
+            .addQueryParameter("article", articleID);
+
         Request req = new Request.Builder()
                 .header("Authorization", "Bearer "+ token)
-                .url(Util.APIRootEndpoint + "comments?article=" + articleID)
+                .url(urlBuilder.build())
                 .build();
         Response fetchResp = client.newCall(req).execute();
         String respString = fetchResp.body().string();

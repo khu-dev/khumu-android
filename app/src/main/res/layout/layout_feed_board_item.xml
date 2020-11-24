@@ -9,7 +9,7 @@
     app:layout_constraintLeft_toLeftOf="parent"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/feed_board_item_long_name"
+        android:id="@+id/feed_board_item_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorMuted"
