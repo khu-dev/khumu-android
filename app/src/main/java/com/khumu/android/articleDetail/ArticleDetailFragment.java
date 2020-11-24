@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,10 @@ public class ArticleDetailFragment extends Fragment {
     private TextView articleDetailContentTV;
     private TextView articleCommentCountTV;
     private TextView articleAuthorUsernameTV;
+    private TextView articleLikeCountTV;
+    private ImageView articleLikeIcon;
     private TextView articleDetailCreatedAtTV;
+
     private EditText writeCommentContentET;
     private Button  writeCommentContentBTN;
 
@@ -90,6 +94,8 @@ public class ArticleDetailFragment extends Fragment {
         articleCommentCountTV = view.findViewById(R.id.article_detail_comment_count_tv);
         articleAuthorUsernameTV = view.findViewById(R.id.article_detail_author_username_tv);
         articleDetailCreatedAtTV= view.findViewById(R.id.article_detail_created_at_tv);
+        articleLikeCountTV = view.findViewById(R.id.article_detail_like_article_count_tv);
+        articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
 
@@ -141,11 +147,15 @@ public class ArticleDetailFragment extends Fragment {
         int commentCountString = intent.getIntExtra("articleCommentCount", -1);
         String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
         String articleCreatedAtString = intent.getStringExtra("articleCreatedAt");
+        String articleLikeCountString = intent.getStringExtra("articleLikeCount");
+        Boolean isLikedBooloean = intent.getBooleanExtra("articleIsLiked", false);
 
         articleDetailTitleTV.setText(titleString);
         articleDetailContentTV.setText(contentString);
         articleCommentCountTV.setText("댓글 " + commentCountString);
         articleAuthorUsernameTV.setText(authorUsernameString);
         articleDetailCreatedAtTV.setText(articleCreatedAtString);
+        articleLikeCountTV.setText(articleLikeCountString);
+        //articleLikeIcon.setImageResource();
     }
 }
