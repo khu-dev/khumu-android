@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,9 +58,8 @@ public class FeedFragment extends Fragment {
     private ImageView commentIcon;
     private ImageView bookmarkIcon;
 
-    private String currentBoard;
-    private BoardsToggler boardsToggler;
     private ImageView toggleBoardsBTN;
+    private BoardsToggler boardsToggler;
 //    private EditText writeArticleTitleET;
 //    private EditText writeArticleContentET;
 //    private ConstraintLayout writeArticleHeaderCL;
@@ -73,14 +74,6 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
         feedViewModel = new ViewModelProvider(this, new FeedViewModelFactory(boardRepository, articleRepository)).get(FeedViewModel.class);
-
-        boardAdapter = new BoardAdapter(
-                getContext(),
-                R.layout.layout_feed_board_item,
-                new ArrayList<Board>()
-        );
-        articleAdapter = new ArticleAdapter(new ArrayList<>());
-
     }
 
     @Override
@@ -109,10 +102,25 @@ public class FeedFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         articlesView = view.findViewById(R.id.feed_articles_list);
-        articlesView.setLayoutManager(linearLayoutManager);
-        articlesView.setAdapter(articleAdapter);
 
         boardsView = view.findViewById(R.id.feed_boards_list);
+        toggleBoardsBTN = view.findViewById(R.id.toggle_boards_btn);
+        boardsToggler = new BoardsToggler(boardsView, toggleBoardsBTN);
+
+        boardsView.setVisibility(View.GONE);
+        toggleBoardsBTN.setOnClickListener(boardsToggler);
+
+        boardAdapter = new BoardAdapter(
+            getContext(),
+            R.layout.layout_feed_board_item,
+            new ArrayList<Board>(),
+            feedViewModel,
+            boardsToggler
+        );
+        articleAdapter = new ArticleAdapter(new ArrayList<>());
+
+        articlesView.setLayoutManager(linearLayoutManager);
+        articlesView.setAdapter(articleAdapter);
         boardsView.setAdapter(boardAdapter);
 
         feedViewModel.getLiveDataBoards().observe(getViewLifecycleOwner(), new Observer<List<Board>>() {
@@ -123,20 +131,22 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        feedViewModel.getLiveDataCurrentBoard().observe(getViewLifecycleOwner(), new Observer<Board>() {
+            @Override
+            public void onChanged(Board board) {
+                Log.d(TAG, "onChanged: "+board.getDisplayName());
+                ((TextView)view.findViewById(R.id.feed_current_board_display_name)).setText(board.getDisplayName());
+                // current Board가 변경되었으니 board item들을 색 변경하기위해  다시 그려야함.
+                boardAdapter.notifyDataSetChanged();
+            }
+        });
 
         feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+            // 추가인지 삭제인지를 모르네
             @Override
-            public void onChanged(List<Article> changedSet) {
-                List<Article> original = feedViewModel.getLiveDataArticles().getValue();
-                // 일단은 무조건 받은 거 추가하는 간단한 로직.
-                // 아래 생략
-//                int originalLength = articleArrayList.size();
-//                int newLength = changedSet.size();
-//                for(int i=originalLength; i<newLength; i++){
-//                    articleArrayList.add(changedSet.get(i));
-//                }
-//                articleAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
-                articleAdapter.articleList.addAll(changedSet);
+            public void onChanged(List<Article> added) {
+                articleAdapter.articleList.clear();
+                articleAdapter.articleList.addAll(added);
                 articleAdapter.notifyDataSetChanged();
                 // scroll to top
                 articlesView.smoothScrollToPosition(0);
@@ -148,19 +158,12 @@ public class FeedFragment extends Fragment {
 //        writeArticleTitleET = view.findViewById(R.id.article_write_title);
 //        writeArticleContentET = view.findViewById(R.id.article_write_content);
 
-        toggleBoardsBTN = view.findViewById(R.id.toggle_boards_btn);
-        boardsToggler = new BoardsToggler();
-        toggleBoardsBTN.setOnClickListener(v -> {
-            boardsToggler.collapse();
-        });
 
 //        writeArticleHeaderCL = view.findViewById(R.id.wrapper_article_write_header);
 //        writeArticleExpandableLL = view.findViewById(R.id.wrapper_article_write_expandable);
 //        writeArticleExpandBTN = view.findViewById(R.id.wrapper_article_write_expand_btn);
             //set visibility to GONE
-        boardsView.setVisibility(View.GONE);
 
-        toggleBoardsBTN.setOnClickListener(boardsToggler);
     }
 
 //    public void CreateArticle(){
@@ -212,22 +215,5 @@ public class FeedFragment extends Fragment {
 //        }
 //    }
 //
-    public class BoardsToggler implements View.OnClickListener{
-        public void expand(){
-            Util.expandView(boardsView);
-            toggleBoardsBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-        }
-        public void collapse(){
-            Util.collapseView(boardsView);
-            toggleBoardsBTN.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-        }
-        public void toggle(){
-            if (boardsView.getVisibility()==View.GONE) expand();
-            else collapse();
-        }
-        @Override
-        public void onClick(View v) {
-            toggle();
-        }
-    }
+
 }

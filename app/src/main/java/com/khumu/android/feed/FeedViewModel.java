@@ -1,6 +1,7 @@
 package com.khumu.android.feed;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import dagger.Module;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -17,6 +19,7 @@ import okhttp3.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.data.Board;
+import com.khumu.android.data.RecentBoard;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.util.Util;
@@ -26,22 +29,37 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class FeedViewModel extends ViewModel {
+import javax.inject.Inject;
 
+@Module
+public class FeedViewModel extends ViewModel {
+    private final static String TAG = "FeedViewModel";
     private BoardRepository boardRepository;
     private ArticleRepository articleRepository;
 
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
+    private MutableLiveData<Board> currentBoard;
 
+    @Inject
     public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
         articles = new MutableLiveData<>(new ArrayList<Article>());
-        boards = new MutableLiveData<>(new ArrayList<Board>());
+        List<Board> initialBoards = new ArrayList<Board>();
+        Board initialBoard = new RecentBoard();
+        initialBoards.add(initialBoard);
+        boards = new MutableLiveData<>(initialBoards);
+        currentBoard = new MutableLiveData<>(initialBoard);
 
         this.boardRepository = boardRepository;
         this.articleRepository = articleRepository;
         ListBoards();
-        ListArticles();
+        // 기본적으로 recent 게시물들을 1 page 가져옴.
+        // 초기 게시판을 recent로 한 경우와 임의의 게시판을 설정한 경우로 나뉨.
+        if (initialBoard instanceof RecentBoard){
+            ListArticles(null, 1);
+        }else{
+            ListArticles(initialBoard.getName(), 1);
+        }
     }
 
     public MutableLiveData<List<Article>> getLiveDataArticles(){
@@ -50,6 +68,18 @@ public class FeedViewModel extends ViewModel {
 
     public MutableLiveData<List<Board>> getLiveDataBoards(){
         return boards;
+    }
+
+    public MutableLiveData<Board> getLiveDataCurrentBoard(){
+        return currentBoard;
+    }
+
+    public Board getCurrentBoard() {
+        return currentBoard.getValue();
+    }
+
+    public void setCurrentBoard(Board board) {
+        currentBoard.postValue(board);
     }
 
     public void ListBoards() {
@@ -68,13 +98,32 @@ public class FeedViewModel extends ViewModel {
         }.start();
     }
 
-    public void ListArticles(){
+    // Articles를 초기화
+    public void ListArticles(String board, int page){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Log.d(TAG, "run: ListArticles");
+                    articles.getValue().clear();
+                    articles.postValue(articleRepository.ListArticle(board, page));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (JSONException jsonException) {
+                    jsonException.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    // 기존에 존재하던 Articles에 추가. 미완성.
+    public void ListExtraArticles(String board, int page){
         new Thread(){
             @Override
             public void run() {
                 try {
                     List<Article> originalArticles = articles.getValue();
-                    for (Article newArticle: articleRepository.ListArticle()){
+                    for (Article newArticle: articleRepository.ListArticle(board, page)){
                         // 기존에 없던 새로운 article인지 확인
                         List<Article> duplicatedArticles = originalArticles.stream().filter(item->{
                             return (newArticle.getID()==(item.getID()));

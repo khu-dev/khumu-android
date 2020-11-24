@@ -17,9 +17,7 @@ import okhttp3.*;
 public class TokenRepository {
     public final static String TAG = "TokenRepository";
     @Inject
-    public TokenRepository(){
-        Log.d(TAG, "Create");
-    }
+    public TokenRepository(){}
     public String GetToken(String username, String password) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
         RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),

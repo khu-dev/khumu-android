@@ -31,9 +31,12 @@ public class ArticleRepository {
     @Inject
     public ArticleRepository(){}
     public ArrayList<Article> ListArticle() throws IOException, JSONException {
-        return ListArticle(1, null);
+        return ListArticle(null, 1);
     }
-    public ArrayList<Article> ListArticle(int page, String board) throws IOException, JSONException {
+
+    // board는 null | board_name. null인 경우에는 그냥 board 구분 없이, board_name을 입력하면 그 board의 게시물만.
+    // page는 아직 pagination을 이용한 기능이 많지 않으므로 그냥 1 page 처리
+    public ArrayList<Article> ListArticle(String board, int page) throws IOException, JSONException {
         TokenRepository tokenRepo = new TokenRepository();
         String token = "";
         try{

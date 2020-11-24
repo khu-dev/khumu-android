@@ -25,19 +25,24 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+// Adapter는 외부의 UI는 최대한 모르고싶다.
+// data 조작을 하고싶은 경우 ViewModel의 데이터만을 조작하며
+// 그 내용을 View 계층에서 이용해 보여준다.
 public class BoardAdapter extends ArrayAdapter<Board> {
     private final static String TAG = "BoardAdapter";
     public List<Board> boards;
 
     @Inject public ArticleRepository articleRepository;
+    private FeedViewModel feedViewModel;
+    private BoardsToggler boardsToggler;
 
-    private String selectedBoardDisplayName = "국제캠퍼스";
-
-    public BoardAdapter(@NonNull Context context, int resource, List<Board> boards) {
+    public BoardAdapter(@NonNull Context context, int resource, List<Board> boards, FeedViewModel feedViewModel, BoardsToggler boardsToggler) {
         // 세 번째 인자가 이 adpater의 collection을 의미
         super(context, resource, boards);
         KhumuApplication.container.inject(this);
         this.boards = boards;
+        this.feedViewModel = feedViewModel;
+        this.boardsToggler = boardsToggler;
     }
 
     @Override
@@ -47,54 +52,58 @@ public class BoardAdapter extends ArrayAdapter<Board> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getView: here");
         View view = convertView;
+        // view가 안 만들어져있으면 만든다.
         if(convertView == null){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_feed_board_item, parent, false);
         }
         Board board = boards.get(position);
         TextView boardNameTV = (TextView)view.findViewById(R.id.feed_board_item_display_name);
-        System.out.println(board.getDisplayName());
-        if(board.getDisplayName().equals(getSelectedBoardDisplayName())){
+
+        // 현재 선택되어있는 게시판
+        String currentBoardDisplayName = this.feedViewModel.getCurrentBoard().getDisplayName();
+        if(board.getDisplayName().equals(currentBoardDisplayName)){
             boardNameTV.setTextColor(parent.getContext().getColor(R.color.black));
         } else{
+            // 선택되지 않은 게시판
             boardNameTV.setTextColor(parent.getContext().getColor(R.color.colorMuted));
         }
+
         boardNameTV.setText(board.getDisplayName());
+
+        //
         if(board instanceof RecentBoard){
-            boardNameTV.setOnClickListener(new RecentBoardClickListener());
+            boardNameTV.setOnClickListener(new RecentBoardClickListener((RecentBoard) board));
         } else{
-            boardNameTV.setOnClickListener(new NormalBoardClickListener(board.getName(), board.getDisplayName()));
+            boardNameTV.setOnClickListener(new NormalBoardClickListener(board));
         }
         return view;
     }
 
     // DB상에는 존재하지 않지만 "최근게시판"으로서  Article을 가져온다.
     private class RecentBoardClickListener implements View.OnClickListener{
+        private RecentBoard board;
+        public RecentBoardClickListener(RecentBoard board) {
+            this.board = board;
+        }
         @Override
         public void onClick(View v) {
             new Thread(){
                 @Override
                 public void run() {
-                    try {
-                        articleRepository.ListArticle();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                BoardAdapter.this.feedViewModel.ListArticles(null, 1);
                 }
             }.start();
+            BoardAdapter.this.feedViewModel.setCurrentBoard(board);
+            BoardAdapter.this.boardsToggler.collapse();
         }
     }
 //
     // DB상에 존재하는 일반적인 보드의 Article을 가져온다.
     private class NormalBoardClickListener implements View.OnClickListener{
-        private String boardName;
-        private String boardDisplayName;
-        public NormalBoardClickListener(String boardName, String boardDisplayName) {
-            this.boardName = boardName;
-            this.boardDisplayName = boardDisplayName;
+        private Board board;
+        public NormalBoardClickListener(Board board) {
+            this.board = board;
         }
 
         @Override
@@ -102,23 +111,11 @@ public class BoardAdapter extends ArrayAdapter<Board> {
             new Thread(){
                 @Override
                 public void run() {
-                    try {
-                        articleRepository.ListArticle(1, NormalBoardClickListener.this.boardName);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    BoardAdapter.this.feedViewModel.ListArticles(board.getName(), 1);
                 }
             }.start();
+            BoardAdapter.this.feedViewModel.setCurrentBoard(board);
+            BoardAdapter.this.boardsToggler.collapse();
         }
-    }
-
-    public String getSelectedBoardDisplayName() {
-        return selectedBoardDisplayName;
-    }
-
-    public void setSelectedBoardDisplayName(String selectedBoardDisplayName) {
-        this.selectedBoardDisplayName = selectedBoardDisplayName;
     }
 }

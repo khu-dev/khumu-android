@@ -7,21 +7,18 @@ import java.util.List;
 
 public class Board {
     public String name;
-    public String shortName;
-    public String longName;
+    public String displayName;
     public String description;
     public List<Article> recentArticles;
 
     @JsonCreator
     public Board(
             @JsonProperty("name") String name,
-            @JsonProperty("short_name") String shortName,
-            @JsonProperty("long_name") String longName,
+            @JsonProperty("display_name") String displayName,
             @JsonProperty("description") String description,
             @JsonProperty("recent_articles") List<Article>recentArticles ) {
         this.name = name;
-        this.shortName = shortName;
-        this.longName = longName;
+        this.displayName = displayName;
         this.description = description;
         this.recentArticles = recentArticles;
     }
@@ -34,20 +31,12 @@ public class Board {
         this.name = name;
     }
 
-    public String getShortName() {
-        return shortName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public String getLongName() {
-        return longName;
-    }
-
-    public void setLongName(String longName) {
-        this.longName = longName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getDescription() {

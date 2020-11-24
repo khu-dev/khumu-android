@@ -20,7 +20,7 @@
             android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
         />
         <TextView
-            android:id="@+id/feed_current_board_name"
+            android:id="@+id/feed_current_board_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
