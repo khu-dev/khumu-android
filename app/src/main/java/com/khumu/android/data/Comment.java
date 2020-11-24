@@ -1,45 +1,64 @@
 package com.khumu.android.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class Comment {
-    private String id;
-    private String articleID;
-    private String authorUsername;
+    private int id;
+    private int articleID;
+    private SimpleUser author;
     private String content;
+    private int parent;
+    private int likeCommentCount;
+    private boolean liked;
+    private String commentCreatedAt;
     // private int isParent;
 
-    public Comment(String authorString, String content, String id, String articleID) {
+    @JsonCreator
+    public Comment (
+        @JsonProperty("id") int id,
+        @JsonProperty("articleID") int articleID,
+        @JsonProperty("author") SimpleUser author,
+        @JsonProperty("content") String content,
+        @JsonProperty("parent") int parent,
+        @JsonProperty("like_comment_count") int likeCommentCount,
+        @JsonProperty("liked") boolean liked,
+        @JsonProperty("created_at") String commentCreatedAt) {
         this.id = id;
         this.articleID = articleID;
-        this.authorUsername = authorString;
+        this.author = author;
         this.content = content;
+        this.parent = parent;
+        this.likeCommentCount = likeCommentCount;
+        this.liked = liked;
+        this.commentCreatedAt = commentCreatedAt;
     }
 
-    public String getID() {
+    public int getID() {
         return id;
     }
 
-    public void setID(String id) {
+    public void setID(int id) {
         this.id = id;
     }
 
-    public String getArticleID() {
+    public int getArticleID() {
         return articleID;
     }
 
-    public void setArticleID(String articleID) {
+    public void setArticleID(int articleID) {
         this.articleID = articleID;
     }
 
     @JsonSetter("author")
-    public String getAuthorUsername() {
-        return authorUsername;
+    public SimpleUser getAuthor() {
+        return author;
     }
 
     @JsonSetter("author")
-    public void setAuthorUsername(String authorUsername) {
-        this.authorUsername = authorUsername;
+    public void setAuthorUsername(SimpleUser author) {
+        this.author = author;
     }
 
     public String getContent() {
@@ -49,4 +68,20 @@ public class Comment {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public int getParent() { return parent; }
+
+    public void setParent(int parent) { this.parent = parent; }
+
+    public int getLikeCommentCount() { return likeCommentCount; }
+
+    public void setLikeCommentCount(int likeCommentCount) { this.likeCommentCount = likeCommentCount; }
+
+    public boolean isLiked() { return liked; }
+
+    public void setLiked(boolean liked) { this.liked = liked; }
+
+    public String getCommentCreatedAt() { return commentCreatedAt; }
+
+    public void setCommentCreatedAt(String commentCreatedAt) { this.commentCreatedAt = commentCreatedAt; }
 }

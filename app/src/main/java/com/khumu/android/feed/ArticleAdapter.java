@@ -36,6 +36,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public TextView articleCommentCountTV;
         public TextView articleLikeCountTV;
         public ImageView articleLikeIcon;
+        public TextView articleCreatedAtTV;
         // 이 view는 아마도 recycler view?
         public ArticleViewHolder(View view) {
             super(view);
@@ -46,6 +47,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             this.articleCommentCountTV = view.findViewById(R.id.article_item_comment_count_tv);
             this.articleLikeCountTV = view.findViewById(R.id.article_item_like_article_count_tv);
             this.articleLikeIcon = view.findViewById(R.id.article_item_like_icon);
+            this.articleCreatedAtTV = view.findViewById(R.id.article_item_created_at_tv);
         }
     }
 
@@ -73,6 +75,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
         holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
         holder.articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
+        holder.articleCreatedAtTV.setText(String.valueOf(article.getArticleCreatedAt()));
 
         holder.itemView.setTag(position);
         holder.articleBodyLayout.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +88,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("articleContent", article.getContent());
                 intent.putExtra("articleCommentCount", article.getCommentCount());
                 intent.putExtra("articleAuthorUsername", article.getAuthor().getUsername());
+                intent.putExtra("articleCreatedAt", article.getArticleCreatedAt());
 
                 v.getContext().startActivity(intent);
             }

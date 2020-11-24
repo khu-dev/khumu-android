@@ -45,6 +45,7 @@ public class ArticleRepository {
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
 //        System.out.println(respString);
         String data = new JSONObject(respString).getString("data");
+        System.out.println(data);
         JSONArray articleJSONArray = new JSONArray(data);
         ArrayList<Article> articles = new ArrayList<>();
 

@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.SyncFailedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +26,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 @Module
 public class CommentRepository {
+
     @Inject
     public CommentRepository(){}
-    public ArrayList<Comment> ListComment() throws IOException, JSONException {
+    public ArrayList<Comment> ListComment(String articleID) throws IOException, JSONException {
+        System.out.println("CommentRepo 진입 성공");
         TokenRepository tokenRepo = new TokenRepository();
         String token = "";
         try{
@@ -35,16 +38,16 @@ public class CommentRepository {
         } catch (Exception e){
             //
         }
-
         OkHttpClient client = new OkHttpClient();
         Request req = new Request.Builder()
                 .header("Authorization", "Bearer "+ token)
-                .url(Util.APIRootEndpoint + "comment?article=1")
+                .url(Util.APIRootEndpoint + "comments?article=" + articleID)
                 .build();
         Response fetchResp = client.newCall(req).execute();
-//        System.out.println(fetchResp);
         String respString = fetchResp.body().string();
+        System.out.println(respString);
         String data = new JSONObject(respString).getString("data");
+        System.out.println(data);
         JSONArray commentJSONArray = new JSONArray(data);
         ArrayList<Comment> comments = new ArrayList<>();
 

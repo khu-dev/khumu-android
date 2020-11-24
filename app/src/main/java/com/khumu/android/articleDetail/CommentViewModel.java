@@ -28,13 +28,14 @@ import org.json.JSONObject;
 public class CommentViewModel extends ViewModel {
     private CommentRepository commentRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
-    private MutableLiveData<String> articlesID;
+    private String articleID;
 
-    public CommentViewModel(CommentRepository commentRepository) {
+    public CommentViewModel(CommentRepository commentRepository, String articleID) {
         comments = new MutableLiveData<>();
         comments.setValue(new ArrayList<Comment>());
         this.commentRepository = commentRepository;
-
+        this.articleID = articleID;
+        ListComment();
     }
 
     public MutableLiveData<ArrayList<Comment>> getLiveDataComments(){
@@ -47,16 +48,16 @@ public class CommentViewModel extends ViewModel {
             public void run() {
                 try {
                     ArrayList<Comment> originalComments = comments.getValue();
-                    for (Comment newComment : commentRepository.ListComment()) {
+                    System.out.println(comments);
+                    for (Comment newComment : commentRepository.ListComment(articleID)) {
                         // 기존에 없던 새로운 comment인지 확인
                         List<Comment> duplicatedComments = originalComments.stream().filter(item->{
-                            return (newComment.getID().equals(item.getID()));
+                            return (newComment.getID() == item.getID());
                         }).collect(Collectors.toList());
                         if(duplicatedComments.size() == 0) {
                             originalComments.add(newComment);
                         }
                         else{
-
                         }
                     }
                     comments.postValue(originalComments);

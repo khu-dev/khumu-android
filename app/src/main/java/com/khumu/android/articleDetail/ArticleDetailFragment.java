@@ -40,8 +40,10 @@ public class ArticleDetailFragment extends Fragment {
     private TextView articleDetailContentTV;
     private TextView articleCommentCountTV;
     private TextView articleAuthorUsernameTV;
+    private TextView articleDetailCreatedAtTV;
     private EditText writeCommentContentET;
     private Button  writeCommentContentBTN;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +53,9 @@ public class ArticleDetailFragment extends Fragment {
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
+        KhumuApplication.container.inject(this);
         commentViewModel = new ViewModelProvider(this,
-                new CommentViewFactory(commentRepository)
+                new CommentViewFactory(commentRepository, Integer.toString(articleID))
         ).get(CommentViewModel.class);
 //        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
     }
@@ -86,7 +89,7 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailContentTV = view.findViewById(R.id.article_detail_content_tv);
         articleCommentCountTV = view.findViewById(R.id.article_detail_comment_count_tv);
         articleAuthorUsernameTV = view.findViewById(R.id.article_detail_author_username_tv);
-
+        articleDetailCreatedAtTV= view.findViewById(R.id.article_detail_created_at_tv);
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
 
@@ -105,7 +108,7 @@ public class ArticleDetailFragment extends Fragment {
 
         initWithIntentExtra();
     }
-
+    /*
     public class FetchCommentsAsyncTask extends AsyncTask {
 
         @Override
@@ -114,8 +117,8 @@ public class ArticleDetailFragment extends Fragment {
                 commentViewModel.CreateComment(new Comment(
                         null,
                         null,
-                        null,
-                        null
+                        0,
+                        0
                 ));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -130,16 +133,19 @@ public class ArticleDetailFragment extends Fragment {
             return null;
         }
     }
+     */
     private void initWithIntentExtra(){
         Intent intent = getActivity().getIntent();
         String titleString = intent.getStringExtra("articleTitle");
         String contentString = intent.getStringExtra("articleContent");
         int commentCountString = intent.getIntExtra("articleCommentCount", -1);
         String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
+        String articleCreatedAtString = intent.getStringExtra("articleCreatedAt");
 
         articleDetailTitleTV.setText(titleString);
         articleDetailContentTV.setText(contentString);
         articleCommentCountTV.setText("댓글 " + commentCountString);
         articleAuthorUsernameTV.setText(authorUsernameString);
+        articleDetailCreatedAtTV.setText(articleCreatedAtString);
     }
 }

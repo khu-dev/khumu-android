@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.text.SimpleDateFormat;
+
 public class Article {
     private int id;
     private SimpleUser author;
@@ -13,6 +15,7 @@ public class Article {
     private int commentCount;
     private int likeArticleCount;
     private boolean liked;
+    private String articleCreatedAt;
 
     @JsonCreator
     public Article(
@@ -22,7 +25,8 @@ public class Article {
         @JsonProperty("content") String content,
         @JsonProperty("liked") boolean liked,
         @JsonProperty("comment_count") int commentCount,
-        @JsonProperty("like_article_count") int likeArticleCount) {
+        @JsonProperty("like_article_count") int likeArticleCount,
+        @JsonProperty("created_at") String articleCreatedAt) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -30,6 +34,7 @@ public class Article {
         this.liked = liked;
         this.commentCount = commentCount;
         this.likeArticleCount = likeArticleCount;
+        this.articleCreatedAt = articleCreatedAt;
     }
 
     public int getID() {
@@ -86,4 +91,8 @@ public class Article {
     public void setLiked(boolean liked) {
         this.liked = liked;
     }
+
+    public String getArticleCreatedAt() { return articleCreatedAt; }
+
+    public void setArticleCreatedAt(String articleCreatedAt) { this.articleCreatedAt = articleCreatedAt; }
 }
