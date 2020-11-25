@@ -35,7 +35,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/ic_my_page"/>
         <TextView
-            android:id="@+id/article_detail_author_username_tv"
+            android:id="@+id/article_detail_author_nickname_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@+id/article_detail_author_icon"

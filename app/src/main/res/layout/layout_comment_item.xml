@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
-            android:id="@+id/comment_item_author_username_tv"
+            android:id="@+id/comment_item_author_nickname_tv"
             android:textColor="@color/colorMuted"
             android:text="이것은 코멘트 작성자"
             android:textSize="12dp"/>
@@ -43,7 +43,7 @@
             android:textSize="12dp"/>
         <TextView
             android:id="@+id/comment_item_content_tv"
-            app:layout_constraintTop_toBottomOf="@+id/comment_item_author_username_tv"
+            app:layout_constraintTop_toBottomOf="@+id/comment_item_author_nickname_tv"
             app:layout_constraintRight_toLeftOf="@+id/comment_more_option_icon"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="0dp"
@@ -56,7 +56,7 @@
             android:textSize="@dimen/default_font_size"/>
         <ImageView
             android:id="@+id/comment_more_option_icon"
-            app:layout_constraintTop_toBottomOf="@id/comment_item_author_username_tv"
+            app:layout_constraintTop_toBottomOf="@id/comment_item_author_nickname_tv"
             app:layout_constraintRight_toRightOf="parent"
             android:src="@drawable/ic_more_options"
             android:layout_width="20dp"

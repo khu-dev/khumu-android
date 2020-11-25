@@ -34,15 +34,14 @@ package com.khumu.android.articleDetail;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.khumu.android.BaseKhumuActivity;
 import com.khumu.android.R;
 
-public class ArticleDetailActivity extends AppCompatActivity {
-
+public class ArticleDetailActivity extends BaseKhumuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
+        this.toolbar = findViewById(R.id.toolbar);
     }
 }

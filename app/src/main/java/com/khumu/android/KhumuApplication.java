@@ -24,6 +24,7 @@ public class KhumuApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // 우리의 필요한 의존성들을 이 container에 Singleton으로 관리
+        Util.init();
         container = DaggerContainer.create();
         Context context = getApplicationContext();
         sharedPref = getSharedPreferences(

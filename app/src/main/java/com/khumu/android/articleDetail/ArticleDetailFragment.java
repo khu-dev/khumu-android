@@ -40,7 +40,7 @@ public class ArticleDetailFragment extends Fragment {
     private TextView articleDetailTitleTV;
     private TextView articleDetailContentTV;
     private TextView articleCommentCountTV;
-    private TextView articleAuthorUsernameTV;
+    private TextView articleAuthorNicknameTV;
     private TextView articleLikeCountTV;
     private ImageView articleLikeIcon;
     private TextView articleDetailCreatedAtTV;
@@ -92,7 +92,7 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailTitleTV = view.findViewById(R.id.article_detail_title_tv);
         articleDetailContentTV = view.findViewById(R.id.article_detail_content_tv);
         articleCommentCountTV = view.findViewById(R.id.article_detail_comment_count_tv);
-        articleAuthorUsernameTV = view.findViewById(R.id.article_detail_author_username_tv);
+        articleAuthorNicknameTV = view.findViewById(R.id.article_detail_author_nickname_tv);
         articleDetailCreatedAtTV= view.findViewById(R.id.article_detail_created_at_tv);
         articleLikeCountTV = view.findViewById(R.id.article_detail_like_article_count_tv);
         articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
@@ -145,7 +145,7 @@ public class ArticleDetailFragment extends Fragment {
         String titleString = intent.getStringExtra("articleTitle");
         String contentString = intent.getStringExtra("articleContent");
         int commentCountInt = intent.getIntExtra("articleCommentCount", -1);
-        String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
+        String authorNicknameString = intent.getStringExtra("articleAuthorNickname");
         String articleCreatedAtString = intent.getStringExtra("articleCreatedAt");
         int articleLikeCountInt = intent.getIntExtra("articleLikeCount", -1);
         Boolean isLikedBooloean = intent.getBooleanExtra("articleIsLiked", false);
@@ -153,7 +153,7 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailTitleTV.setText(titleString);
         articleDetailContentTV.setText(contentString);
         articleCommentCountTV.setText(String.valueOf(commentCountInt));
-        articleAuthorUsernameTV.setText(authorUsernameString);
+        articleAuthorNicknameTV.setText(authorNicknameString);
         articleDetailCreatedAtTV.setText(articleCreatedAtString);
         articleLikeCountTV.setText(String.valueOf(articleLikeCountInt));
         //articleLikeIcon.setImageResource();

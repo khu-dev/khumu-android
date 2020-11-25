@@ -19,7 +19,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private ArrayList<Comment> commentList;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
-        public TextView commentAuthorUsernameTV;
+        public TextView commentAuthorNicknameTV;
         public TextView commentContentTV;
         public TextView commentLikeCountTV;
         public ImageView commentLikeIcon;
@@ -28,7 +28,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public CommentViewHolder(@NonNull View view) {
             super(view);
             System.out.println(view);
-            this.commentAuthorUsernameTV = view.findViewById(R.id.comment_item_author_username_tv);
+            this.commentAuthorNicknameTV = view.findViewById(R.id.comment_item_author_nickname_tv);
             this.commentContentTV = view.findViewById(R.id.comment_item_content_tv);
             this.commentLikeCountTV = view.findViewById(R.id.comment_item_like_count_tv);
             this.commentLikeIcon = view.findViewById(R.id.comment_item_like_icon);
@@ -55,7 +55,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         System.out.println("hi");
         Comment comment = commentList.get(position);
-        holder.commentAuthorUsernameTV.setText(comment.getAuthor().getUsername());
+        holder.commentAuthorNicknameTV.setText(comment.getAuthor().getNickname());
         holder.commentContentTV.setText(comment.getContent());
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
