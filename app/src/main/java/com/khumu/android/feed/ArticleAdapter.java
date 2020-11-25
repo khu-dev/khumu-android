@@ -1,12 +1,16 @@
 package com.khumu.android.feed;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
@@ -28,7 +32,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public List<Article> articleList;
     @Inject
     public LikeArticleRepository likeArticleRepository;
-
+    // Adapter는 바깥 UI 상황을 최대한 모르고싶지만, Toast를 위해 context를 주입함.
+    private Context context;
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
         public ViewGroup articleBodyLayout;
         public TextView articleTitleTV;
@@ -52,9 +57,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         }
     }
 
-    public ArticleAdapter(List<Article> articleList) {
-        this.articleList = articleList;
+    public ArticleAdapter(List<Article> articleList, Context context) {
         KhumuApplication.container.inject(this);
+        this.context = context;
+        this.articleList = articleList;
     }
 
     @NonNull
@@ -100,14 +106,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.articleLikeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean liked = article.isLiked();
-                if(liked){
-                    article.setLiked(false);
-                    article.setLikeArticleCount(article.getLikeArticleCount() - 1);
-                } else{
-                    article.setLiked(true);
-                    article.setLikeArticleCount(article.getLikeArticleCount() + 1);
-                }
                 holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
                 holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
                 new Thread(){
@@ -115,6 +113,22 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                     public void run() {
                         try{
                             likeArticleRepository.toggleLikeArticle(new LikeArticle(article.getID()));
+
+                            boolean liked = article.isLiked();
+                            if(liked){
+                                article.setLiked(false);
+                                article.setLikeArticleCount(article.getLikeArticleCount() - 1);
+                            } else{
+                                article.setLiked(true);
+                                article.setLikeArticleCount(article.getLikeArticleCount() + 1);
+                            }
+                        } catch (LikeArticleRepository.BadRequestException e){
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } catch (Exception e){
                             e.printStackTrace();
                         }

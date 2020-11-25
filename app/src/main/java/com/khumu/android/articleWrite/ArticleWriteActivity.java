@@ -81,7 +81,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeTz`ext(getApplicationContext(), "게시물을 작성했습니다.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "게시물을 작성했습니다.", Toast.LENGTH_LONG).show();
                                     }
                                 });
                                 finish();

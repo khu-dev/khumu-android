@@ -117,7 +117,7 @@ public class FeedFragment extends Fragment {
                 feedViewModel,
                 boardsToggler
         );
-        articleAdapter = new ArticleAdapter(new ArrayList<>());
+        articleAdapter = new ArticleAdapter(new ArrayList<>(), getContext());
 
         articlesView.setLayoutManager(linearLayoutManager);
         articlesView.setAdapter(articleAdapter);
