@@ -67,16 +67,20 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     TokenRepository tokenRepository;
+    Button loginBTN;
+    Button signUpBTN;
+    EditText usernameET;
+    EditText passwordET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
         setContentView(R.layout.activity_login);
-        Button loginBTN = findViewById(R.id.login_btn);
-        Button signUpBTN = findViewById(R.id.sign_up_btn);
-        EditText usernameET = findViewById(R.id.login_username_et);
-        EditText passwordET = findViewById(R.id.login_password_et);
+        loginBTN = findViewById(R.id.login_btn);
+        signUpBTN = findViewById(R.id.sign_up_btn);
+        usernameET = findViewById(R.id.login_username_et);
+        passwordET = findViewById(R.id.login_password_et);
 
         loginBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +143,5 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
-
-
 }

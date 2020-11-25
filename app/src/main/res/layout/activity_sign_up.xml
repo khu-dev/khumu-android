@@ -80,6 +80,23 @@
                 android:text="동일한 패스워드를 입력해주세요."/>
 
             <EditText
+                android:id="@+id/sign_up_nickname_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/primary_round_bordered_white_background"
+                android:hint="Nickname"
+                android:text=""
+                android:textSize="@dimen/default_font_size" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/layout_default_space"
+                android:textColor="@color/colorMuted"
+                android:text="닉네임은 게시글, 댓글 등에서 보여지는 이름이며, 작성 시에 익명으로 설정할 수 있습니다."/>
+
+            <EditText
                 android:id="@+id/sign_up_email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
