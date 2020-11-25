@@ -37,4 +37,40 @@ public class KhumuApplication extends Application {
         nickname = sharedPref.getString("nickname", null);
         token = sharedPref.getString("token", null);
     }
+
+    public static void setKhumuConfig(String username, String nickname, String token){
+        SharedPreferences.Editor editor = KhumuApplication.sharedPref.edit();
+        editor.putString("username", username);
+        editor.putString("nickname", nickname);
+        editor.putString("token", token);
+        editor.commit();
+    }
+
+    public static void clearKhumuConfig(){
+        SharedPreferences.Editor editor = KhumuApplication.sharedPref.edit();
+        editor.remove("username");
+        editor.remove("nickname");
+        editor.remove("token");
+        editor.commit();
+    }
+
+    public static boolean isAuthenticated(){
+        return (username != null && username != "") && (nickname != null && nickname != "");
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static String getNickname() {
+        return nickname;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static Container getContainer() {
+        return container;
+    }
 }

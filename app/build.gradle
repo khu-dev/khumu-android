@@ -51,6 +51,8 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.29'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.29'
+
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
 //
 //    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 //    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'

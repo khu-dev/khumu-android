@@ -37,6 +37,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +52,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.data.KhumuJWT;
 import com.khumu.android.repository.TokenRepository;
 import com.khumu.android.signUp.SignUpActivity;
 import com.khumu.android.util.Util;
@@ -85,17 +87,8 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             String username = usernameET.getText().toString();
                             String password = passwordET.getText().toString();
-                            String token = tokenRepository.GetToken(username, password);
-
-                            if(token == "" || token == null){
-                                throw new TokenRepository.WrongCredentialException();
-                            }
-
-                            SharedPreferences.Editor editor = KhumuApplication.sharedPref.edit();
-                            editor.putString("username", username);
-                            editor.putString("nickname", "");
-                            editor.putString("token", token);
-                            editor.commit();
+                            KhumuJWT jwt = tokenRepository.GetToken(username, password);
+                            KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString());
                             KhumuApplication.loadKhumuConfig();
 
                             finish();
@@ -112,6 +105,14 @@ public class LoginActivity extends AppCompatActivity {
                             e.printStackTrace();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(LoginActivity.this, "로그인 관련 알 수 없는 문제 발생.\n관리자에게 문의해주세요..ㅜㅜ", Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
                     }
                 }.start();
@@ -123,6 +124,19 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
                 LoginActivity.this.startActivity(signUpIntent);
+            }
+        });
+
+        passwordET.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    loginBTN.callOnClick();
+                    return false;
+                }
+                return false;
             }
         });
 

@@ -33,7 +33,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public ViewGroup articleBodyLayout;
         public TextView articleTitleTV;
         public TextView articleContentTV;
-        public TextView articleAuthorUsernameTV;
+        public TextView articleAuthorNicknameTV;
         public TextView articleCommentCountTV;
         public TextView articleLikeCountTV;
         public ImageView articleLikeIcon;
@@ -44,7 +44,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             this.articleBodyLayout = (ViewGroup) view.findViewById(R.id.article_body_layout);
             this.articleTitleTV = view.findViewById(R.id.article_item_title_tv);
             this.articleContentTV = view.findViewById(R.id.article_item_content_tv);
-            this.articleAuthorUsernameTV = view.findViewById(R.id.article_item_author_username_tv);
+            this.articleAuthorNicknameTV = view.findViewById(R.id.article_item_author_nickname_tv);
             this.articleCommentCountTV = view.findViewById(R.id.article_item_comment_count_tv);
             this.articleLikeCountTV = view.findViewById(R.id.article_item_like_article_count_tv);
             this.articleLikeIcon = view.findViewById(R.id.article_item_like_icon);
@@ -72,7 +72,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         Article article = articleList.get(position);
         holder.articleTitleTV.setText(article.getTitle());
         holder.articleContentTV.setText(article.getContent());
-        holder.articleAuthorUsernameTV.setText(article.getAuthor().getUsername());
+        holder.articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
         holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
         holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
         holder.articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
@@ -88,7 +88,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("articleTitle", article.getTitle());
                 intent.putExtra("articleContent", article.getContent());
                 intent.putExtra("articleCommentCount", article.getCommentCount());
-                intent.putExtra("articleAuthorUsername", article.getAuthor().getUsername());
+                intent.putExtra("articleAuthorNickname", article.getAuthor().getNickname());
                 intent.putExtra("articleCreatedAt", article.getArticleCreatedAt());
 
                 v.getContext().startActivity(intent);

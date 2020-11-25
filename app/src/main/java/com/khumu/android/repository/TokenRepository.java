@@ -1,7 +1,7 @@
 package com.khumu.android.repository;
 
-import android.util.Log;
-
+import com.auth0.android.jwt.JWT;
+import com.khumu.android.data.KhumuJWT;
 import com.khumu.android.util.Util;
 
 import org.json.JSONException;
@@ -21,7 +21,7 @@ public class TokenRepository {
 
     public static class WrongCredentialException extends Exception{}
 
-    public String GetToken(String username, String password) throws IOException, JSONException, WrongCredentialException {
+    public KhumuJWT GetToken(String username, String password) throws IOException, JSONException, WrongCredentialException {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder formBuilder = new FormBody.Builder()
                 .add("username",username)
@@ -43,7 +43,7 @@ public class TokenRepository {
         }
 
         String authRespStr = authResp.body().string();
-        String token = new JSONObject(authRespStr).getString("access");
-        return token;
+        String tokenStr = new JSONObject(authRespStr).getString("access");
+        return new KhumuJWT(tokenStr);
     }
 }

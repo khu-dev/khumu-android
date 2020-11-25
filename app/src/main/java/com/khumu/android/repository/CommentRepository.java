@@ -2,6 +2,7 @@ package com.khumu.android.repository;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.util.Util;
@@ -31,14 +32,6 @@ public class CommentRepository {
     @Inject
     public CommentRepository(){}
     public ArrayList<Comment> ListComment(String articleID) throws IOException, JSONException {
-        System.out.println("CommentRepo 진입 성공");
-        TokenRepository tokenRepo = new TokenRepository();
-        String token = "";
-        try{
-            token = tokenRepo.GetToken(Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD);
-        } catch (Exception e){
-            //
-        }
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
@@ -46,14 +39,12 @@ public class CommentRepository {
             .addQueryParameter("article", articleID);
 
         Request req = new Request.Builder()
-                .header("Authorization", "Bearer "+ token)
+                .header("Authorization", "Bearer "+ KhumuApplication.getToken())
                 .url(urlBuilder.build())
                 .build();
         Response fetchResp = client.newCall(req).execute();
         String respString = fetchResp.body().string();
-        System.out.println(respString);
         String data = new JSONObject(respString).getString("data");
-        System.out.println(data);
         JSONArray commentJSONArray = new JSONArray(data);
         ArrayList<Comment> comments = new ArrayList<>();
 

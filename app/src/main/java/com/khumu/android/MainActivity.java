@@ -35,6 +35,7 @@ package com.khumu.android;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,6 +55,7 @@ import com.khumu.android.signUp.SignUpActivity;
 import com.khumu.android.util.Util;
 
 public class MainActivity extends AppCompatActivity {
+    private final static String TAG = "MainActivity";
     MaterialToolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +86,14 @@ public class MainActivity extends AppCompatActivity {
     private void setToolbarInfo(){
         ViewGroup toolbarInfo = (ViewGroup) toolbar.findViewById(R.id.layout_toolbar_info);
         ImageView userIcon = toolbar.findViewById(R.id.layout_toolbar_user_icon);
-        TextView usernameTV = toolbarInfo.findViewById(R.id.layout_toolbar_username_tv);
+        TextView usernameTV = toolbarInfo.findViewById(R.id.layout_toolbar_nickname_tv);
 
+        Log.d(TAG, "setToolbarInfo: " + KhumuApplication.isAuthenticated());
+        Log.d(TAG, "setToolbarInfo: " + KhumuApplication.getToken());
+        Log.d(TAG, "setToolbarInfo: " + KhumuApplication.getUsername());
+        Log.d(TAG, "setToolbarInfo: " + KhumuApplication.getNickname());
         // unauthenticated
-        if(KhumuApplication.username == null){
+        if(!KhumuApplication.isAuthenticated()){
             userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -104,12 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getApplicationContext(), KhumuApplication.username + " logout", Toast.LENGTH_SHORT).show();
-
-                    SharedPreferences.Editor editor = KhumuApplication.sharedPref.edit();
-                    editor.remove("username");
-                    editor.remove("nickname");
-                    editor.remove("token");
-                    editor.commit();
+                    KhumuApplication.clearKhumuConfig();
                     KhumuApplication.loadKhumuConfig();
                     //재귀적으로 툴바를 그린다.
                     setToolbarInfo();

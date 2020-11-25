@@ -5,6 +5,7 @@ import android.util.Log;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.util.Util;
 
@@ -37,14 +38,6 @@ public class ArticleRepository {
     // board는 null | board_name. null인 경우에는 그냥 board 구분 없이, board_name을 입력하면 그 board의 게시물만.
     // page는 아직 pagination을 이용한 기능이 많지 않으므로 그냥 1 page 처리
     public ArrayList<Article> ListArticle(String board, int page) throws IOException, JSONException {
-        TokenRepository tokenRepo = new TokenRepository();
-        String token = "";
-        try{
-            token = tokenRepo.GetToken(Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD);
-        } catch (Exception e){
-            //
-        }
-
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder urlBuilder = Util.newBuilder()
             .addPathSegment("articles");
@@ -53,7 +46,7 @@ public class ArticleRepository {
             urlBuilder = urlBuilder.addQueryParameter("board", board);
         }
         Request req = new Request.Builder()
-            .header("Authorization", "Bearer "+ token)
+            .header("Authorization", "Bearer "+ KhumuApplication.getToken())
             .url(urlBuilder.build())
             .build();
 

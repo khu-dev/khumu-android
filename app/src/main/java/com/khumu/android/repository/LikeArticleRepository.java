@@ -3,6 +3,7 @@ package com.khumu.android.repository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.util.Util;
@@ -28,14 +29,6 @@ public class LikeArticleRepository {
     @Inject
     public LikeArticleRepository(){}
     public void toggleLikeArticle(LikeArticle likeArticle) throws IOException, JSONException {
-        TokenRepository tokenRepo = new TokenRepository();
-        String token = "";
-        try{
-            token = tokenRepo.GetToken(Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD);
-        } catch (Exception e){
-            //
-        }
-
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
         String likeArticleString = mapper.writeValueAsString(likeArticle);
@@ -46,7 +39,7 @@ public class LikeArticleRepository {
             .addPathSegment("like-articles");
 
         Request createReq = new Request.Builder()
-            .header("Authorization", "Bearer "+token)
+            .header("Authorization", "Bearer " + KhumuApplication.getToken())
             .put(RequestBody.create(MediaType.parse("application/json"), likeArticleString))
             .url(urlBuilder.build())
             .build();
