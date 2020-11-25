@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
+import com.khumu.android.data.KhumuUser;
+import com.khumu.android.data.SimpleArticle;
 import com.khumu.android.util.Util;
 
 import org.json.JSONArray;
@@ -67,5 +69,31 @@ public class ArticleRepository {
             articles.add(article);
         }
         return articles;
+    }
+
+    public boolean CreateArticle(SimpleArticle article) throws IOException, JSONException {
+        OkHttpClient client = new OkHttpClient();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String articleStr = mapper.writeValueAsString(article);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), articleStr);
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+                .addPathSegment("articles");
+
+        Request req = new Request.Builder()
+                .header("Authorization", "Bearer " + KhumuApplication.getToken())
+                .post(body)
+                .url(urlBuilder.build())
+                .build();
+
+        Response resp = client.newCall(req).execute();
+
+        if(resp.code() == 201){
+            return true;
+        } else{
+            return false;
+        }
+
     }
 }

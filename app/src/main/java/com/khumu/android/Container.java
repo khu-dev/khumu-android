@@ -1,6 +1,7 @@
 package com.khumu.android;
 
 import com.khumu.android.articleDetail.ArticleDetailFragment;
+import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.feed.ArticleAdapter;
 import com.khumu.android.feed.BoardAdapter;
@@ -39,6 +40,7 @@ public interface Container {
     void inject(HomeFragment articleAdapter);
 
     void inject(LoginActivity loginActivity);
+    void inject(ArticleWriteActivity articleWriteActivity);
 
 }
 

@@ -30,7 +30,7 @@
             android:text="최근 게시물">
         </TextView>
         <ImageView
-            android:id="@+id/article_write_btn"
+            android:id="@+id/feed_article_write_btn"
             android:layout_width="16dp"
             android:layout_height="16dp"
             app:layout_constraintTop_toTopOf="parent"

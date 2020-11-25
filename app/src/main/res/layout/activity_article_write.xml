@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/layout_default_space"
+    android:background="@color/white">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/article_write_top_wrapper_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <LinearLayout
+            android:id="@+id/article_write_boards_wrapper_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/article_write_submit_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/article_write_toggle_boards_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+            <TextView
+                android:id="@+id/article_write_selected_board_display_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorMuted"
+                android:text="게시판을 선택해주세요."
+                />
+        </LinearLayout>
+        <Button
+            android:id="@+id/article_write_submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="@dimen/layout_default_space"
+            android:minWidth="0dp"
+            android:textColor="@color/white"
+            android:text="등록"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ListView
+        android:id="@+id/article_write_boards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+    <EditText
+        android:id="@+id/article_write_title_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/article_write_boards"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="제목을 입력해주세요."
+        />
+    <EditText
+        android:id="@+id/article_write_content_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/article_write_title_et"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="@dimen/layout_default_space"
+        android:background="@android:color/transparent"
+        android:hint="내용을 입력해주세요."
+
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,38 +1,28 @@
 package com.khumu.android.feed;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
-import com.khumu.android.data.SimpleUser;
-import com.khumu.android.home.RecentArticleAdapter;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.repository.LikeArticleRepository;
-import com.khumu.android.util.Util;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 
@@ -60,6 +50,8 @@ public class FeedFragment extends Fragment {
 
     private ImageView toggleBoardsBTN;
     private BoardsToggler boardsToggler;
+
+    private ImageView articleWriteBTN;
 //    private EditText writeArticleTitleET;
 //    private EditText writeArticleContentET;
 //    private ConstraintLayout writeArticleHeaderCL;
@@ -97,32 +89,42 @@ public class FeedFragment extends Fragment {
         // root.findViewById(R.id.action_navigation_board_to_navigation_home).setOnClickListener(Navigation);
         // xml 상에 recyclerview는 실질적으로 아이템이 어떻게 구현되어있는지 정의되어있지 않다.
         // linearlayout의 형태를 이용하겠다면 linearlayoutmanager을 이용한다.
-        likeIcon = (ImageView) view.findViewById(R.id.article_item_like_icon);
-        linearLayoutManager = new LinearLayoutManager(view.getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        articlesView = view.findViewById(R.id.feed_articles_list);
+        findViews(view);
+        setAdapters();
+        setEventListeners(view);
 
-        boardsView = view.findViewById(R.id.feed_boards_list);
-        toggleBoardsBTN = view.findViewById(R.id.toggle_boards_btn);
+    }
+
+    private void findViews(View root){
+        likeIcon = (ImageView) root.findViewById(R.id.article_item_like_icon);
+        linearLayoutManager = new LinearLayoutManager(root.getContext());
+        linearLayoutManager.setReverseLayout(false);
+        linearLayoutManager.setStackFromEnd(false);
+        articlesView = root.findViewById(R.id.feed_articles_list);
+
+        boardsView = root.findViewById(R.id.feed_boards_list);
+        toggleBoardsBTN = root.findViewById(R.id.toggle_boards_btn);
         boardsToggler = new BoardsToggler(boardsView, toggleBoardsBTN);
-
         boardsView.setVisibility(View.GONE);
-        toggleBoardsBTN.setOnClickListener(boardsToggler);
+        articleWriteBTN = root.findViewById(R.id.feed_article_write_btn);
+    }
 
+    private void setAdapters(){
         boardAdapter = new BoardAdapter(
-            getContext(),
-            R.layout.layout_feed_board_item,
-            new ArrayList<Board>(),
-            feedViewModel,
-            boardsToggler
+                getContext(),
+                R.layout.layout_feed_board_item,
+                new ArrayList<Board>(),
+                feedViewModel,
+                boardsToggler
         );
         articleAdapter = new ArticleAdapter(new ArrayList<>());
 
         articlesView.setLayoutManager(linearLayoutManager);
         articlesView.setAdapter(articleAdapter);
         boardsView.setAdapter(boardAdapter);
+    }
 
+    private void setEventListeners(View root){
         feedViewModel.getLiveDataBoards().observe(getViewLifecycleOwner(), new Observer<List<Board>>() {
             @Override
             public void onChanged(List<Board> changedSet) {
@@ -135,7 +137,7 @@ public class FeedFragment extends Fragment {
             @Override
             public void onChanged(Board board) {
                 Log.d(TAG, "onChanged: "+board.getDisplayName());
-                ((TextView)view.findViewById(R.id.feed_current_board_display_name)).setText(board.getDisplayName());
+                ((TextView)root.findViewById(R.id.feed_current_board_display_name)).setText(board.getDisplayName());
                 // current Board가 변경되었으니 board item들을 색 변경하기위해  다시 그려야함.
                 boardAdapter.notifyDataSetChanged();
             }
@@ -153,67 +155,14 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        articleWriteBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent writeIntent = new Intent(getContext(), ArticleWriteActivity.class);
+                v.getContext().startActivity(writeIntent);
+            }
+        });
 
-
-//        writeArticleTitleET = view.findViewById(R.id.article_write_title);
-//        writeArticleContentET = view.findViewById(R.id.article_write_content);
-
-
-//        writeArticleHeaderCL = view.findViewById(R.id.wrapper_article_write_header);
-//        writeArticleExpandableLL = view.findViewById(R.id.wrapper_article_write_expandable);
-//        writeArticleExpandBTN = view.findViewById(R.id.wrapper_article_write_expand_btn);
-            //set visibility to GONE
-
+        toggleBoardsBTN.setOnClickListener(boardsToggler);
     }
-
-//    public void CreateArticle(){
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                try {
-//                    feedViewModel.CreateArticle(new Article(
-//                            null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
-//                            writeArticleTitleET.getText().toString(),
-//                            writeArticleContentET.getText().toString(),
-//                            null
-//                    ));
-//                    writeArticleTitleET.setText("");
-//                    writeArticleContentET.setText("");
-//                    feedViewModel.ListArticle();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }.start();
-//    }
-//
-//    public class FetchAfterCreateArticleAsyncTask extends AsyncTask{
-//
-//        @Override
-//        protected Object doInBackground(Object[] objects) {
-//            try {
-//                feedViewModel.CreateArticle(new Article(
-//                        null, new SimpleUser(Util.DEFAULT_USERNAME, "active"),
-//                        writeArticleTitleET.getText().toString(),
-//                        writeArticleContentET.getText().toString(),
-//                        null
-//                ));
-//                writeArticleTitleET.setText("");
-//                writeArticleContentET.setText("");
-//                feedViewModel.ListArticle();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        e.printStackTrace();
-//                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//            }
-//            return null;
-//        }
-//    }
-//
-
 }
