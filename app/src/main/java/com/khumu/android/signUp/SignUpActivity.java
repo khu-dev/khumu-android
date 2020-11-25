@@ -105,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(getApplicationContext(), createdUsername + "님 Khumu 가입을 환영합니다 >_<\n", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), createdUsername + "님\nKhumu 가입을 환영합니다 >_<", Toast.LENGTH_LONG).show();
                                     }
                                 });
                                 SignUpActivity.this.finish();

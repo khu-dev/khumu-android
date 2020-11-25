@@ -29,6 +29,8 @@
             android:layout_width="0dp"
             android:paddingRight="@dimen/layout_default_space"
             android:textColor="@color/black"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="ARTICLE TITLE"
             android:textSize="@dimen/title_font_size">
         </TextView>
@@ -51,6 +53,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/layout_default_space"
             android:paddingBottom="12dp"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:textSize="@dimen/default_font_size"
             android:text="Article content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

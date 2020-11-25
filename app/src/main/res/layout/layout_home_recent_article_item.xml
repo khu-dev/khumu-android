@@ -37,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:paddingRight="@dimen/layout_default_space"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/black"
             android:text="ARTICLE TITLE"
             android:textSize="@dimen/default_font_size">
