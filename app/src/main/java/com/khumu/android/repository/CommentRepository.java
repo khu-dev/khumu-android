@@ -35,7 +35,7 @@ public class CommentRepository {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
-            .addPathSegment("token")
+            .addPathSegment("comments")
             .addQueryParameter("article", articleID);
 
         Request req = new Request.Builder()

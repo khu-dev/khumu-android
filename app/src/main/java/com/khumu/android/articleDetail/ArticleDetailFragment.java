@@ -144,18 +144,18 @@ public class ArticleDetailFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         String titleString = intent.getStringExtra("articleTitle");
         String contentString = intent.getStringExtra("articleContent");
-        int commentCountString = intent.getIntExtra("articleCommentCount", -1);
+        int commentCountInt = intent.getIntExtra("articleCommentCount", -1);
         String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
         String articleCreatedAtString = intent.getStringExtra("articleCreatedAt");
-        String articleLikeCountString = intent.getStringExtra("articleLikeCount");
+        int articleLikeCountInt = intent.getIntExtra("articleLikeCount", -1);
         Boolean isLikedBooloean = intent.getBooleanExtra("articleIsLiked", false);
 
         articleDetailTitleTV.setText(titleString);
         articleDetailContentTV.setText(contentString);
-        articleCommentCountTV.setText("댓글 " + commentCountString);
+        articleCommentCountTV.setText(String.valueOf(commentCountInt));
         articleAuthorUsernameTV.setText(authorUsernameString);
         articleDetailCreatedAtTV.setText(articleCreatedAtString);
-        articleLikeCountTV.setText(articleLikeCountString);
+        articleLikeCountTV.setText(String.valueOf(articleLikeCountInt));
         //articleLikeIcon.setImageResource();
     }
 }

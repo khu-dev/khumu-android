@@ -16,6 +16,7 @@ public class SimpleUser {
             @JsonProperty("nickname") String nickname,
             @JsonProperty("state") String state) {
         this.username = username;
+        this.nickname = nickname;
         this.state = state;
     }
 

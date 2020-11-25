@@ -51,7 +51,7 @@
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
             android:paddingRight="3dp"
-            android:textColor="@color/black"
+            android:textColor="@color/colorDefault"
             android:text="이것은 코멘트 내용"
             android:textSize="@dimen/default_font_size"/>
         <ImageView
