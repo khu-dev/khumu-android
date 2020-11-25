@@ -90,6 +90,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("articleCommentCount", article.getCommentCount());
                 intent.putExtra("articleAuthorNickname", article.getAuthor().getNickname());
                 intent.putExtra("articleCreatedAt", article.getArticleCreatedAt());
+                intent.putExtra("articleLikeCount", article.getLikeArticleCount());
+                intent.putExtra("articleIsLiked", article.isLiked());
 
                 v.getContext().startActivity(intent);
             }
