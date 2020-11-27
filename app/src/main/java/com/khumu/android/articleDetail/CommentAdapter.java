@@ -1,23 +1,36 @@
 package com.khumu.android.articleDetail;
 
+import android.content.Context;
+import android.os.Looper;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
+import com.khumu.android.data.LikeComment;
 import com.khumu.android.repository.LikeArticleRepository;
+import com.khumu.android.repository.LikeCommentRepository;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-
-    private ArrayList<Comment> commentList;
+    private final static String TAG = "CommentAdapter";
+    public List<Comment> commentList;
+    @Inject
+    public LikeCommentRepository likeCommentRepository;
+    private Context context;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorNicknameTV;
         public TextView commentContentTV;
@@ -37,6 +50,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public CommentAdapter(ArrayList<Comment> commentList) {
+        KhumuApplication.container.inject(this);
+        this.context = context;
         this.commentList = commentList;
     }
 
@@ -53,7 +68,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        System.out.println("hi");
         Comment comment = commentList.get(position);
         holder.commentAuthorNicknameTV.setText(comment.getAuthor().getNickname());
         holder.commentContentTV.setText(comment.getContent());
@@ -73,18 +87,43 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentLikeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean liked = comment.isLiked();
-                if(liked) {
-                    comment.setLiked(false);
-                    comment.setLikeCommentCount(comment.getLikeCommentCount() - 1);
-                }
-                else {
-                    comment.setLiked(true);
-                    comment.setLikeCommentCount(comment.getLikeCommentCount() + 1);
-                }
-                holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
-                holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
-                //TODO 아직 Comment를 좋아요 한 것이 database에 적용되지 않음 나갔다오면 초기화
+                // 현기 : Network 작업시 새 쓰레드 필요
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try{
+                            likeCommentRepository.toggleLikeComment(new LikeComment(comment.getID()));
+                            boolean liked = comment.isLiked();
+                            if(liked) {
+                                comment.setLiked(false);
+                                comment.setLikeCommentCount(comment.getLikeCommentCount() - 1);
+                            }
+                            else {
+                                comment.setLiked(true);
+                                comment.setLikeCommentCount(comment.getLikeCommentCount() + 1);
+                            }
+                            // Network 쓰레드에서 작업 수행 후 MainThread에서 UI 작업을 post
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
+                                    holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
+                                }
+                            });
+                        } catch(LikeCommentRepository.BadRequestException e) {
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();;
+                        }
+
+                    }
+                }.start();
+
             }
         });
     }

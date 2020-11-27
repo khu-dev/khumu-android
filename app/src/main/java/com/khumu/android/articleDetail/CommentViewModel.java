@@ -29,7 +29,6 @@ public class CommentViewModel extends ViewModel {
     private CommentRepository commentRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
     private String articleID;
-
     public CommentViewModel(CommentRepository commentRepository, String articleID) {
         comments = new MutableLiveData<>();
         comments.setValue(new ArrayList<Comment>());
