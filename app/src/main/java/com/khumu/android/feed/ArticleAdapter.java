@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
+    private final static String TAG = "ArticleAdapter";
     public List<Article> articleList;
     @Inject
     public LikeArticleRepository likeArticleRepository;
@@ -106,14 +108,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.articleLikeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
-                holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
                 new Thread(){
                     @Override
                     public void run() {
                         try{
                             likeArticleRepository.toggleLikeArticle(new LikeArticle(article.getID()));
-
                             boolean liked = article.isLiked();
                             if(liked){
                                 article.setLiked(false);
@@ -122,6 +121,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                                 article.setLiked(true);
                                 article.setLikeArticleCount(article.getLikeArticleCount() + 1);
                             }
+                            // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
+                                    holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
+                                }
+                            });
                         } catch (LikeArticleRepository.BadRequestException e){
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
