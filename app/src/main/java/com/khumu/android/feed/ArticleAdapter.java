@@ -80,7 +80,18 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         Article article = articleList.get(position);
         holder.articleTitleTV.setText(article.getTitle());
         holder.articleContentTV.setText(article.getContent());
-        holder.articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
+        // article의 kind에 따른 닉네임 설정
+        if(article.getKind().equals("anonymous")){
+            holder.articleAuthorNicknameTV.setText("익명");
+        } else{
+            holder.articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
+        }
+        if(article.getAuthor().getUsername().equals(KhumuApplication.getUsername())){
+            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.colorSecondary));
+        } else{
+            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.colorMuted));
+        }
+
         holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
         holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
         holder.articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));

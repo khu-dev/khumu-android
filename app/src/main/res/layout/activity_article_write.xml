@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
-                android:id="@+id/article_write_toggle_boards_icon"
+                android:id="@+id/article_write_popup_boards_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
@@ -50,19 +50,19 @@
             android:text="등록"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <ListView
-        android:id="@+id/article_write_boards"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+<!--    <ListView-->
+<!--        android:id="@+id/article_write_boards"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:visibility="gone"/>-->
     <EditText
         android:id="@+id/article_write_title_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/article_write_boards"
+        app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="제목을 입력해주세요."
@@ -71,7 +71,9 @@
         android:id="@+id/article_write_content_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintTop_toBottomOf="@+id/article_write_title_et"
+        app:layout_constraintBottom_toTopOf="@+id/article_write_meta_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="@dimen/layout_default_space"
@@ -79,6 +81,21 @@
         android:hint="내용을 입력해주세요."
 
         />
+    <LinearLayout
+        android:id="@+id/article_write_meta_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+        <CheckBox
+            android:id="@+id/article_write_is_anonymous_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="익명"
+            android:checked="true"
+            />
+    </LinearLayout>
 
 
 

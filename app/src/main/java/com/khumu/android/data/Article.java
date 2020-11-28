@@ -13,6 +13,7 @@ public class Article {
     private String title;
     private String board;
     private String content;
+    private String kind;
     private int commentCount;
     private int likeArticleCount;
     private boolean liked;
@@ -25,6 +26,7 @@ public class Article {
         @JsonProperty("title") String title,
         @JsonProperty("board") String board,
         @JsonProperty("content") String content,
+        @JsonProperty("kind") String kind,
         @JsonProperty("liked") boolean liked,
         @JsonProperty("comment_count") int commentCount,
         @JsonProperty("like_article_count") int likeArticleCount,
@@ -34,6 +36,7 @@ public class Article {
         this.title = title;
         this.board = board;
         this.content = content;
+        this.kind = kind;
         this.liked = liked;
         this.commentCount = commentCount;
         this.likeArticleCount = likeArticleCount;
@@ -77,6 +80,14 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
     public int getCommentCount() {
