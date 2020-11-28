@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -92,7 +93,13 @@ public class FeedFragment extends Fragment {
         findViews(view);
         setAdapters();
         setEventListeners(view);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        feedViewModel.clearArticles();
+        feedViewModel.ListArticles();
     }
 
     private void findViews(View root){
@@ -136,7 +143,6 @@ public class FeedFragment extends Fragment {
         feedViewModel.getLiveDataCurrentBoard().observe(getViewLifecycleOwner(), new Observer<Board>() {
             @Override
             public void onChanged(Board board) {
-                Log.d(TAG, "onChanged: "+board.getDisplayName());
                 ((TextView)root.findViewById(R.id.feed_current_board_display_name)).setText(board.getDisplayName());
                 // current Board가 변경되었으니 board item들을 색 변경하기위해  다시 그려야함.
                 boardAdapter.notifyDataSetChanged();
