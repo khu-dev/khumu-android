@@ -55,11 +55,16 @@ public class FeedViewModel extends ViewModel {
         ListBoards();
         // 기본적으로 recent 게시물들을 1 page 가져옴.
         // 초기 게시판을 recent로 한 경우와 임의의 게시판을 설정한 경우로 나뉨.
-        if (initialBoard instanceof RecentBoard){
-            ListArticles(null, 1);
-        }else{
-            ListArticles(initialBoard.getName(), 1);
-        }
+//        if (initialBoard instanceof RecentBoard){
+//            ListArticles(null, 1);
+//        }else{
+//            ListArticles(initialBoard.getName(), 1);
+//        }
+        ListArticles();
+    }
+
+    public void clearArticles(){
+        this.articles.getValue().clear();
     }
 
     public MutableLiveData<List<Article>> getLiveDataArticles(){
@@ -79,7 +84,8 @@ public class FeedViewModel extends ViewModel {
     }
 
     public void setCurrentBoard(Board board) {
-        currentBoard.postValue(board);
+        // post로 하면 setCurrentBoard 후에 List 할 때 currentBoard가 최신화가 안되어있을 수 있음.
+        currentBoard.setValue(board);
     }
 
     public void ListBoards() {
@@ -99,14 +105,21 @@ public class FeedViewModel extends ViewModel {
     }
 
     // Articles를 초기화
-    public void ListArticles(String board, int page){
+    public void ListArticles(){
+        String tempBoard = currentBoard.getValue().getName();
+        if(tempBoard == "recent"){
+            tempBoard = null; // null로 하면 board 상관없이 가져온다.
+        }
+        final String board = tempBoard;
+
+        int page = 1;
+
         new Thread(){
             @Override
             public void run() {
                 try {
-                    Log.d(TAG, "run: ListArticles");
-                    articles.getValue().clear();
-                    articles.postValue(articleRepository.ListArticle(board, page));
+                    List<Article> _articles = articleRepository.ListArticle(board, page);
+                    articles.postValue(_articles);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 } catch (JSONException jsonException) {
@@ -140,33 +153,6 @@ public class FeedViewModel extends ViewModel {
                 }
             }
         }.start();
-    }
-
-    public void CreateArticle(Article article) throws Exception{
-        OkHttpClient client = new OkHttpClient();
-        ObjectMapper mapper = new ObjectMapper();
-        String articleString = mapper.writeValueAsString(article);
-        JSONObject articleJSON = new JSONObject(articleString);
-        //System.out.println(articleString);
-        RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),
-                String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
-        );
-        Request authReq = new Request.Builder()
-                .post(authBody)
-                .url(Util.APIRootEndpoint + "token")
-                .build();
-        Response authResp = client.newCall(authReq).execute();
-        String authRespStr = authResp.body().string();
-        String token = new JSONObject(authRespStr).getString("access");
-
-        Request createReq = new Request.Builder()
-                .header("Authorization", "Bearer "+token)
-                .post(RequestBody.create(MediaType.parse("application/json"), articleString))
-                .url(Util.APIRootEndpoint + "articles")
-                .build();
-        Response createResp = client.newCall(createReq).execute();
-        String createRespStr = createResp.body().string();
-        System.out.println("createRespStr: " + createRespStr);
     }
 
 }

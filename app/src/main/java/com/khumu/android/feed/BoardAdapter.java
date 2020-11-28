@@ -71,38 +71,12 @@ public class BoardAdapter extends ArrayAdapter<Board> {
 
         boardNameTV.setText(board.getDisplayName());
 
-        //
-        if(board instanceof RecentBoard){
-            boardNameTV.setOnClickListener(new RecentBoardClickListener((RecentBoard) board));
-        } else{
-            boardNameTV.setOnClickListener(new NormalBoardClickListener(board));
-        }
+        boardNameTV.setOnClickListener(new BoardClickListener(board));
         return view;
     }
-
-    // DB상에는 존재하지 않지만 "최근게시판"으로서  Article을 가져온다.
-    private class RecentBoardClickListener implements View.OnClickListener{
-        private RecentBoard board;
-        public RecentBoardClickListener(RecentBoard board) {
-            this.board = board;
-        }
-        @Override
-        public void onClick(View v) {
-            new Thread(){
-                @Override
-                public void run() {
-                BoardAdapter.this.feedViewModel.ListArticles(null, 1);
-                }
-            }.start();
-            BoardAdapter.this.feedViewModel.setCurrentBoard(board);
-            BoardAdapter.this.boardsToggler.collapse();
-        }
-    }
-//
-    // DB상에 존재하는 일반적인 보드의 Article을 가져온다.
-    private class NormalBoardClickListener implements View.OnClickListener{
+    private class BoardClickListener implements View.OnClickListener{
         private Board board;
-        public NormalBoardClickListener(Board board) {
+        public BoardClickListener(Board board) {
             this.board = board;
         }
 
@@ -111,7 +85,7 @@ public class BoardAdapter extends ArrayAdapter<Board> {
             new Thread(){
                 @Override
                 public void run() {
-                    BoardAdapter.this.feedViewModel.ListArticles(board.getName(), 1);
+                    BoardAdapter.this.feedViewModel.ListArticles();
                 }
             }.start();
             BoardAdapter.this.feedViewModel.setCurrentBoard(board);
