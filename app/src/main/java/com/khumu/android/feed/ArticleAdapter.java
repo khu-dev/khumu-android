@@ -38,6 +38,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     private Context context;
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
         public ViewGroup articleBodyLayout;
+        public ViewGroup articleLikeWrapperLayout;
         public TextView articleTitleTV;
         public TextView articleContentTV;
         public TextView articleAuthorNicknameTV;
@@ -49,6 +50,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public ArticleViewHolder(View view) {
             super(view);
             this.articleBodyLayout = (ViewGroup) view.findViewById(R.id.article_body_layout);
+            articleLikeWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_like_wrapper_layout);
             this.articleTitleTV = view.findViewById(R.id.article_item_title_tv);
             this.articleContentTV = view.findViewById(R.id.article_item_content_tv);
             this.articleAuthorNicknameTV = view.findViewById(R.id.article_item_author_nickname_tv);
@@ -116,7 +118,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             }
         });
 
-        holder.articleLikeIcon.setOnClickListener(new View.OnClickListener() {
+        holder.articleLikeWrapperLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(){
