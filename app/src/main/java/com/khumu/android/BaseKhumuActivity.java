@@ -27,7 +27,7 @@ public class BaseKhumuActivity extends AppCompatActivity {
     protected void setToolbarInfo(){
         ViewGroup toolbarInfo = (ViewGroup) toolbar.findViewById(R.id.layout_toolbar_info);
         ImageView userIcon = toolbar.findViewById(R.id.layout_toolbar_user_icon);
-        TextView usernameTV = toolbarInfo.findViewById(R.id.layout_toolbar_nickname_tv);
+        TextView nicknameTV = toolbarInfo.findViewById(R.id.layout_toolbar_nickname_tv);
 
         // unauthenticated
         if(!KhumuApplication.isAuthenticated()){
@@ -38,15 +38,15 @@ public class BaseKhumuActivity extends AppCompatActivity {
                     BaseKhumuActivity.this.startActivity(loginIntent);
                 }
             });
-            usernameTV.setText("로그인해주시기 바랍니다.");
+            nicknameTV.setText("로그인해주시기 바랍니다.");
         } else{
             // authenticated => logout
-            usernameTV.setText(KhumuApplication.username);
+            nicknameTV.setText(KhumuApplication.getNickname());
 
             userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), KhumuApplication.username + " logout", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), KhumuApplication.getNickname() + "님 로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
                     KhumuApplication.clearKhumuConfig();
                     KhumuApplication.loadKhumuConfig();
                     //재귀적으로 툴바를 그린다.

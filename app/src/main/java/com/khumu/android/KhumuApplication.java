@@ -21,9 +21,9 @@ import javax.inject.Inject;
 
 public class KhumuApplication extends Application {
     private final static String TAG = "KhumuApplication";
-    public static String username;
-    public static String nickname;
-    public static String token;
+    private static String username;
+    private static String nickname;
+    private static String token;
     public static Container container;
     public static SharedPreferences sharedPref;
 
