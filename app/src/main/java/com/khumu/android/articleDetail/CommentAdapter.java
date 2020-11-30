@@ -1,11 +1,14 @@
 package com.khumu.android.articleDetail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Looper;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,8 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.LikeComment;
+import com.khumu.android.data.SimpleComment;
+import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.repository.LikeCommentRepository;
 
@@ -27,9 +32,14 @@ import javax.inject.Inject;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private final static String TAG = "CommentAdapter";
-    public List<Comment> commentList;
+
     @Inject
     public LikeCommentRepository likeCommentRepository;
+    @Inject
+    public CommentRepository commentRepository;
+
+    public List<Comment> commentList;
+
     private Context context;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorNicknameTV;
@@ -38,9 +48,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public ImageView commentLikeIcon;
         public TextView commentCreatedAtTV;
 
+
         public CommentViewHolder(@NonNull View view) {
             super(view);
-            System.out.println(view);
             this.commentAuthorNicknameTV = view.findViewById(R.id.comment_item_author_nickname_tv);
             this.commentContentTV = view.findViewById(R.id.comment_item_content_tv);
             this.commentLikeCountTV = view.findViewById(R.id.comment_item_like_count_tv);
@@ -91,14 +101,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 new Thread() {
                     @Override
                     public void run() {
-                        try{
+                        try {
                             likeCommentRepository.toggleLikeComment(new LikeComment(comment.getID()));
                             boolean liked = comment.isLiked();
-                            if(liked) {
+                            if (liked) {
                                 comment.setLiked(false);
                                 comment.setLikeCommentCount(comment.getLikeCommentCount() - 1);
-                            }
-                            else {
+                            } else {
                                 comment.setLiked(true);
                                 comment.setLikeCommentCount(comment.getLikeCommentCount() + 1);
                             }
@@ -110,7 +119,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                     holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
                                 }
                             });
-                        } catch(LikeCommentRepository.BadRequestException e) {
+                        } catch (LikeCommentRepository.BadRequestException e) {
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -118,7 +127,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                 }
                             });
                         } catch (Exception e) {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
 
                     }

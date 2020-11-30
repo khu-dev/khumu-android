@@ -73,9 +73,9 @@ public class ArticleRepository {
 
     public boolean CreateArticle(SimpleArticle article) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
-
         ObjectMapper mapper = new ObjectMapper();
         String articleStr = mapper.writeValueAsString(article);
+        System.out.println(articleStr);
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), articleStr);
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()

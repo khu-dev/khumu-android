@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
+import com.khumu.android.data.SimpleComment;
 import com.khumu.android.util.Util;
 
 import org.json.JSONArray;
@@ -57,5 +58,33 @@ public class CommentRepository {
             comments.add(comment);
         }
         return comments;
+    }
+
+    public boolean CreateComment(SimpleComment comment, String articleID) throws IOException, JSONException {
+
+        OkHttpClient client = new OkHttpClient();
+        ObjectMapper mapper = new ObjectMapper();
+        String commentStr = mapper.writeValueAsString(comment);
+        System.out.println(commentStr);
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), commentStr);
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+                .addPathSegment("comments")
+                .addQueryParameter("article", articleID);
+
+        Request req = new Request.Builder()
+                .header("Authorization", "Bearer " + KhumuApplication.getToken())
+                .post(body)
+                .url(urlBuilder.build())
+                .build();
+
+        Response resp = client.newCall(req).execute();
+
+        if(resp.code() == 201){
+            return true;
+        } else{
+            return false;
+        }
     }
 }

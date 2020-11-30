@@ -3,6 +3,9 @@ package com.khumu.android.articleDetail;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
+import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.CommentRepository;
 
 import java.util.ArrayList;
@@ -44,16 +48,15 @@ public class ArticleDetailFragment extends Fragment {
     private TextView articleLikeCountTV;
     private ImageView articleLikeIcon;
     private TextView articleDetailCreatedAtTV;
-
     private EditText writeCommentContentET;
-    private Button  writeCommentContentBTN;
+    private Button writeCommentContentBTN;
+    private int articleID;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Intent intent = getActivity().getIntent();
-        int articleID = intent.getIntExtra("articleID", 0);
-        System.out.println(articleID);
+        articleID = intent.getIntExtra("articleID", 0);
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
@@ -98,6 +101,46 @@ public class ArticleDetailFragment extends Fragment {
         articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
+
+        writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        Comment comment = new Comment(
+                                1000,
+                                articleID,
+                                SimpleUser(
+                                        Preference
+                                ),
+                                writeCommentContentET.getText().toString()
+                        );
+                        try {
+                            boolean isCommentCreated = commentRepository.CreateComment(comment, Integer.toString(articleID));
+                            if (!isCommentCreated) {
+                                throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
+                            } else {
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(), "댓글을 작성했습니다.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getContext(), "알 수 없는 이유로 댓글을 생성하지 못했습니다.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                }.start();
+            }
+        });
 
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
@@ -157,5 +200,9 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailCreatedAtTV.setText(articleCreatedAtString);
         articleLikeCountTV.setText(String.valueOf(articleLikeCountInt));
         //articleLikeIcon.setImageResource();
+    }
+
+    private void setEventListeners() {
+
     }
 }
