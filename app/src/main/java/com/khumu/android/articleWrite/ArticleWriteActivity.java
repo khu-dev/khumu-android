@@ -21,7 +21,6 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
-import com.khumu.android.data.SimpleArticle;
 import com.khumu.android.feed.BoardsToggler;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
@@ -92,7 +91,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
                 new Thread(){
                     @Override
                     public void run() {
-                        SimpleArticle article = new SimpleArticle(
+                        Article article = new Article(
                             selectedBoard.getName(),
                             titleET.getText().toString(),
                             contentET.getText().toString(),
