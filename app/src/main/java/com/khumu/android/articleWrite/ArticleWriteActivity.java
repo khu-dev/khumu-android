@@ -115,9 +115,10 @@ public class ArticleWriteActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getApplicationContext(), "알 수 없는 이유로 게시글을 생성하지 못했습니다. ㅜ.ㅜ", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "게시물을 작성했습니다.", Toast.LENGTH_LONG).show();
                                 }
                             });
+                            finish();
                         }
                     }
                 }.start();

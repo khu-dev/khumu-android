@@ -28,7 +28,6 @@ public class ArticleUseCase {
 
     public String getAuthorNickname(Article a){
         String kind = a.getKind();
-        System.out.println(kind);
         if(kind.equals("anonymous")){
             return "익명";
         } else if (kind.equals("named")){

@@ -16,6 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.util.Util;
@@ -26,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CommentViewModel extends ViewModel {
+    private final static String TAG = "CommentViewModel";
     private CommentRepository commentRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
     private String articleID;
@@ -67,7 +69,7 @@ public class CommentViewModel extends ViewModel {
         }.start();
     }
 
-    public void CreateComment(Comment comment) throws Exception{
+    public void CreateComment(SimpleComment comment) throws Exception{
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
         String commentString = mapper.writeValueAsString(comment);
