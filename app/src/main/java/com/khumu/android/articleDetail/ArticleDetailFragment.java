@@ -102,6 +102,7 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
 
+        /*
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,9 +112,6 @@ public class ArticleDetailFragment extends Fragment {
                         Comment comment = new Comment(
                                 1000,
                                 articleID,
-                                SimpleUser(
-                                        Preference
-                                ),
                                 writeCommentContentET.getText().toString()
                         );
                         try {
@@ -141,7 +139,8 @@ public class ArticleDetailFragment extends Fragment {
                 }.start();
             }
         });
-
+        */
+        
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
