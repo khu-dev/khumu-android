@@ -51,6 +51,7 @@ public class RecentArticleAdapter extends ArrayAdapter<Article> {
         Article article = articles.get(position);
         ((TextView)view.findViewById(R.id.home_recent_article_board_name_tv)).setText(article.getBoard());
         ((TextView)view.findViewById(R.id.home_recent_article_title_tv)).setText(article.getTitle());
+        ((TextView)view.findViewById(R.id.home_recent_article_created_at_tv)).setText(article.getArticleCreatedAt());
         return view;
     }
 // 없어도 될 듯

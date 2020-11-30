@@ -17,7 +17,9 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
 import com.khumu.android.data.Article;
+import com.khumu.android.data.BookmarkArticle;
 import com.khumu.android.data.LikeArticle;
+import com.khumu.android.repository.BookmarkArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.usecase.ArticleUseCase;
 import com.khumu.android.util.Util;
@@ -35,6 +37,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public List<Article> articleList;
     @Inject
     public LikeArticleRepository likeArticleRepository;
+    @Inject
+    public BookmarkArticleRepository bookmarkArticleRepository;
     @Inject
     public ArticleUseCase articleUseCase;
     // Adapter는 바깥 UI 상황을 최대한 모르고싶지만, Toast를 위해 context를 주입함.
@@ -70,6 +74,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
         holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
+
+        holder.articleBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
+        holder.articleBookmarkCountTV.setText(String.valueOf(article.getBookmarkArticleCount()));
+
         holder.articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
         holder.articleCreatedAtTV.setText(String.valueOf(article.getArticleCreatedAt()));
 
@@ -86,7 +94,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("articleAuthorNickname", article.getAuthor().getNickname());
                 intent.putExtra("articleCreatedAt", article.getArticleCreatedAt());
                 intent.putExtra("articleLikeCount", article.getLikeArticleCount());
+                intent.putExtra("articleBookmarkCount", article.getBookmarkArticleCount());
                 intent.putExtra("articleIsLiked", article.isLiked());
+                intent.putExtra("articleIsBookmarked", article.isBookmarked());
 
                 v.getContext().startActivity(intent);
             }
@@ -117,6 +127,45 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                                 }
                             });
                         } catch (LikeArticleRepository.BadRequestException e){
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+            }
+        });
+
+        holder.articleBookmarkWrapperLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try{
+                            bookmarkArticleRepository.toggleBookmarkArticle(new BookmarkArticle(article.getID()));
+                            boolean bookmarked = article.isBookmarked();
+                            if(bookmarked){
+                                article.setBookmarked(false);
+                                article.setBookmarkArticleCount(article.getBookmarkArticleCount() - 1);
+                            } else{
+                                article.setBookmarked(true);
+                                article.setBookmarkArticleCount(article.getBookmarkArticleCount() + 1);
+                            }
+                            // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.articleBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
+                                    holder.articleBookmarkCountTV.setText(String.valueOf(article.getBookmarkArticleCount()));
+                                }
+                            });
+                        } catch (BookmarkArticleRepository.BadRequestException e){
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -162,27 +211,40 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         return R.drawable.ic_empty_heart;
     }
 
+    private int getArticleBookmarkedImage(Article article){
+        if(article.isBookmarked()){
+            return R.drawable.ic_filled_bookmark;
+        }
+        return R.drawable.ic_empty_bookmark;
+    }
+
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
         public ViewGroup articleBodyLayout;
         public ViewGroup articleLikeWrapperLayout;
+        public ViewGroup articleBookmarkWrapperLayout;
         public TextView articleTitleTV;
         public TextView articleContentTV;
         public TextView articleAuthorNicknameTV;
         public TextView articleCommentCountTV;
         public TextView articleLikeCountTV;
+        public TextView articleBookmarkCountTV;
         public ImageView articleLikeIcon;
+        public ImageView articleBookmarkIcon;
         public TextView articleCreatedAtTV;
         // 이 view는 아마도 recycler view?
         public ArticleViewHolder(View view) {
             super(view);
             this.articleBodyLayout = (ViewGroup) view.findViewById(R.id.article_body_layout);
-            articleLikeWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_like_wrapper_layout);
+            this.articleLikeWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_like_wrapper_layout);
+            this.articleBookmarkWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_bookmark_wrapper_layout);
             this.articleTitleTV = view.findViewById(R.id.article_item_title_tv);
             this.articleContentTV = view.findViewById(R.id.article_item_content_tv);
             this.articleAuthorNicknameTV = view.findViewById(R.id.article_item_author_nickname_tv);
             this.articleCommentCountTV = view.findViewById(R.id.article_item_comment_count_tv);
             this.articleLikeCountTV = view.findViewById(R.id.article_item_like_article_count_tv);
+            this.articleBookmarkCountTV = view.findViewById(R.id.article_item_bookmark_count_tv);
             this.articleLikeIcon = view.findViewById(R.id.article_item_like_icon);
+            this.articleBookmarkIcon = view.findViewById(R.id.article_item_bookmark_icon);
             this.articleCreatedAtTV = view.findViewById(R.id.article_item_created_at_tv);
         }
     }

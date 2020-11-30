@@ -16,7 +16,9 @@ public class Article {
     private String kind;
     private int commentCount;
     private int likeArticleCount;
+    private int bookmarkArticleCount;
     private boolean liked;
+    private boolean bookmarked;
     private String articleCreatedAt;
 
     public Article(String board, String title, String content, String kind) {
@@ -34,8 +36,10 @@ public class Article {
             @JsonProperty("content") String content,
             @JsonProperty("kind") String kind,
             @JsonProperty("liked") boolean liked,
+            @JsonProperty("bookmarked") boolean bookmarked,
             @JsonProperty("comment_count") int commentCount,
             @JsonProperty("like_article_count") int likeArticleCount,
+            @JsonProperty("bookmark_article_count") int bookmarkArticleCount,
             @JsonProperty("created_at") String articleCreatedAt) {
         this.id = id;
         this.author = author;
@@ -44,11 +48,13 @@ public class Article {
         this.content = content;
         this.kind = kind;
         this.liked = liked;
+        this.bookmarked = bookmarked;
         this.commentCount = commentCount;
         this.likeArticleCount = likeArticleCount;
+        this.bookmarkArticleCount = bookmarkArticleCount;
         this.articleCreatedAt = articleCreatedAt;
     }
-
+// 없어도 되네
 //    @JsonCreator
 //    public Article JSONSimpleArticle(
 //            @JsonProperty("board") String board,
@@ -119,6 +125,22 @@ public class Article {
 
     public void setLikeArticleCount(int likeArticleCount) {
         this.likeArticleCount = likeArticleCount;
+    }
+
+    public int getBookmarkArticleCount() {
+        return bookmarkArticleCount;
+    }
+
+    public void setBookmarkArticleCount(int bookmarkArticleCount) {
+        this.bookmarkArticleCount = bookmarkArticleCount;
+    }
+
+    public boolean isBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
     }
 
     public boolean isLiked() {
