@@ -60,18 +60,16 @@ public class CommentRepository {
         return comments;
     }
 
-    public boolean CreateComment(SimpleComment comment, String articleID) throws IOException, JSONException {
-
+    public boolean CreateComment(SimpleComment simpleComment, String articleID) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
-        String commentStr = mapper.writeValueAsString(comment);
+        String commentStr = mapper.writeValueAsString(simpleComment);
         System.out.println(commentStr);
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), commentStr);
-
+        System.out.println(body);
         HttpUrl.Builder urlBuilder = Util.newBuilder()
-                .addPathSegment("comments")
-                .addQueryParameter("article", articleID);
+                .addPathSegment("comments");
 
         Request req = new Request.Builder()
                 .header("Authorization", "Bearer " + KhumuApplication.getToken())
@@ -80,8 +78,9 @@ public class CommentRepository {
                 .build();
 
         Response resp = client.newCall(req).execute();
-
-        if(resp.code() == 201){
+        System.out.println(resp);
+        // 계속 200이듬
+        if(resp.code() == 200){
             return true;
         } else{
             return false;

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.util.ArrayList;
+
 public class Comment {
     private int id;
     private int articleID;
@@ -22,6 +24,7 @@ public class Comment {
         @JsonProperty("author") SimpleUser author,
         @JsonProperty("content") String content,
         @JsonProperty("parent") int parent,
+        @JsonProperty("children") ArrayList<Integer> children,
         @JsonProperty("like_comment_count") int likeCommentCount,
         @JsonProperty("liked") boolean liked,
         @JsonProperty("created_at") String commentCreatedAt) {
