@@ -14,6 +14,7 @@
     <color name="colorAccent">#bf3519</color>
     <color name="colorDefault">#4a4a4a</color>
     <color name="colorMuted">#aaaaaa</color>
+    <color name="defaultGray">#DCDCDC</color>
 
 
 </resources>
