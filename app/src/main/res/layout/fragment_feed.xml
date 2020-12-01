@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorLightBackground"
     android:orientation="vertical">
@@ -10,25 +10,30 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/layout_default_space"
         android:background="@drawable/bordered_white_background">
-        <ImageView
-            android:id="@+id/toggle_boards_btn"
-            android:layout_width="@dimen/default_icon_size"
-            android:layout_height="@dimen/default_icon_size"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-        />
-        <TextView
-            android:id="@+id/feed_current_board_display_name"
+        <LinearLayout
+            android:id="@+id/feed_boards_toggle_wrapper_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/toggle_boards_btn"
-            android:textSize="@dimen/default_font_size"
-            android:textColor="@color/colorDefault"
-            android:text="최근 게시물">
-        </TextView>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/toggle_boards_btn"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
+                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                />
+            <TextView
+                android:id="@+id/feed_current_board_display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/default_font_size"
+                android:textColor="@color/colorDefault"
+                android:text="최근 게시물">
+            </TextView>
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/feed_article_write_btn"
             android:layout_width="@dimen/default_icon_size"
@@ -54,4 +59,4 @@
         android:id="@+id/feed_articles_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    </LinearLayout>
+</LinearLayout>

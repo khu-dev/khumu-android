@@ -49,7 +49,7 @@ public class FeedFragment extends Fragment {
     private ImageView commentIcon;
     private ImageView bookmarkIcon;
 
-    private ImageView toggleBoardsBTN;
+    private ViewGroup toggleBoardsWrapperVG;
     private BoardsToggler boardsToggler;
 
     private ImageView articleWriteBTN;
@@ -110,8 +110,8 @@ public class FeedFragment extends Fragment {
         articlesView = root.findViewById(R.id.feed_articles_list);
 
         boardsView = root.findViewById(R.id.feed_boards_list);
-        toggleBoardsBTN = root.findViewById(R.id.toggle_boards_btn);
-        boardsToggler = new BoardsToggler(boardsView, toggleBoardsBTN);
+        toggleBoardsWrapperVG = (ViewGroup) root.findViewById(R.id.feed_boards_toggle_wrapper_layout);
+        boardsToggler = new BoardsToggler(boardsView, toggleBoardsWrapperVG);
         boardsView.setVisibility(View.GONE);
         articleWriteBTN = root.findViewById(R.id.feed_article_write_btn);
     }
@@ -169,6 +169,6 @@ public class FeedFragment extends Fragment {
             }
         });
 
-        toggleBoardsBTN.setOnClickListener(boardsToggler);
+        toggleBoardsWrapperVG.setOnClickListener(boardsToggler);
     }
 }
