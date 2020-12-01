@@ -96,8 +96,8 @@ public class ArticleDetailFragment extends Fragment {
         // onCreateView에서 return된 view를 가지고 있다
         super.onViewCreated(view, savedInstanceState);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
+//        linearLayoutManager.setReverseLayout(true);
+//        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentArrayList = new ArrayList<>();
@@ -162,7 +162,7 @@ public class ArticleDetailFragment extends Fragment {
                     commentArrayList.add(changedSet.get(i));
                 }
                 commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
-                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
+//                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
 
