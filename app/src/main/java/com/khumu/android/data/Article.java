@@ -19,18 +19,24 @@ public class Article {
     private boolean liked;
     private String articleCreatedAt;
 
+    public Article(String board, String title, String content, String kind) {
+        this.board = board;
+        this.title = title;
+        this.content = content;
+        this.kind = kind;
+    }
     @JsonCreator
-    public Article(
-        @JsonProperty("id") int id,
-        @JsonProperty("author") SimpleUser author,
-        @JsonProperty("title") String title,
-        @JsonProperty("board") String board,
-        @JsonProperty("content") String content,
-        @JsonProperty("kind") String kind,
-        @JsonProperty("liked") boolean liked,
-        @JsonProperty("comment_count") int commentCount,
-        @JsonProperty("like_article_count") int likeArticleCount,
-        @JsonProperty("created_at") String articleCreatedAt) {
+    public Article (
+            @JsonProperty("id") int id,
+            @JsonProperty("author") SimpleUser author,
+            @JsonProperty("title") String title,
+            @JsonProperty("board") String board,
+            @JsonProperty("content") String content,
+            @JsonProperty("kind") String kind,
+            @JsonProperty("liked") boolean liked,
+            @JsonProperty("comment_count") int commentCount,
+            @JsonProperty("like_article_count") int likeArticleCount,
+            @JsonProperty("created_at") String articleCreatedAt) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -42,6 +48,15 @@ public class Article {
         this.likeArticleCount = likeArticleCount;
         this.articleCreatedAt = articleCreatedAt;
     }
+
+//    @JsonCreator
+//    public Article JSONSimpleArticle(
+//            @JsonProperty("board") String board,
+//            @JsonProperty("title") String title,
+//            @JsonProperty("content") String content,
+//            @JsonProperty("kind") String kind) {
+//        return new Article(board, title, content, kind);
+//    }
 
     public int getID() {
         return id;

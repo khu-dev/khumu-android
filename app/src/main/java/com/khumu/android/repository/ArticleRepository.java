@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.KhumuUser;
-import com.khumu.android.data.SimpleArticle;
 import com.khumu.android.util.Util;
 
 import org.json.JSONArray;
@@ -71,7 +70,7 @@ public class ArticleRepository {
         return articles;
     }
 
-    public boolean CreateArticle(SimpleArticle article) throws IOException, JSONException {
+    public boolean CreateArticle(Article article) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
         String articleStr = mapper.writeValueAsString(article);

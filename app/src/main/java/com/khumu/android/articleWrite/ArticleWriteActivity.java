@@ -21,7 +21,6 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
-import com.khumu.android.data.SimpleArticle;
 import com.khumu.android.feed.BoardsToggler;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
@@ -92,17 +91,27 @@ public class ArticleWriteActivity extends AppCompatActivity {
                 new Thread(){
                     @Override
                     public void run() {
-                        SimpleArticle article = new SimpleArticle(
-                        selectedBoard.getName(),
-                        titleET.getText().toString(),
-                        contentET.getText().toString(),
-                        ArticleWriteActivity.this.getArticleKind()
-                    );
-                    try {
-                        boolean isArticleCreated = articleRepository.CreateArticle(article);
-                        if (!isArticleCreated){
-                            throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
-                        } else{
+                        Article article = new Article(
+                            selectedBoard.getName(),
+                            titleET.getText().toString(),
+                            contentET.getText().toString(),
+                            ArticleWriteActivity.this.getArticleKind()
+                        );
+                        try {
+                            boolean isArticleCreated = articleRepository.CreateArticle(article);
+                            if (!isArticleCreated){
+                                throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
+                            } else{
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "게시물을 작성했습니다.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                finish();
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -111,15 +120,6 @@ public class ArticleWriteActivity extends AppCompatActivity {
                             });
                             finish();
                         }
-                    } catch (Exception e){
-                        e.printStackTrace();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "알 수 없는 이유로 게시글을 생성하지 못했습니다. ㅜ.ㅜ", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
                     }
                 }.start();
             }

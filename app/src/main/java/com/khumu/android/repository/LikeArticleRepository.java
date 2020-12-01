@@ -55,7 +55,6 @@ public class LikeArticleRepository {
 
         if (toggleResp.code() != 201 && toggleResp.code() != 204 && toggleResp.code() != 200){
             String respString = toggleResp.body().string();
-            Log.d(TAG, "toggleLikeArticle: " + respString);
             JSONObject respObj = new JSONObject(respString);
             throw new BadRequestException(respObj.getString("message"));
         }

@@ -1,5 +1,7 @@
 package com.khumu.android.repository;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
@@ -29,7 +31,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 @Module
 public class CommentRepository {
-
+    private final static String TAG = "CommentRepository";
     @Inject
     public CommentRepository(){}
     public ArrayList<Comment> ListComment(String articleID) throws IOException, JSONException {
