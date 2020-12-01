@@ -78,7 +78,7 @@ public class FeedViewModel extends ViewModel {
             public void run() {
                 super.run();
                 try {
-                    List<Board> _boards = boardRepository.ListBoards();
+                    List<Board> _boards = boardRepository.ListBoards(null);
                     boards.postValue(_boards);
                 } catch (IOException e) {
                     e.printStackTrace();

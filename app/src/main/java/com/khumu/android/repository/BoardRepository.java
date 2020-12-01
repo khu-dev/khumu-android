@@ -32,11 +32,14 @@ import okhttp3.Response;
 public class BoardRepository {
     @Inject
     public BoardRepository(){}
-    public List<Board> ListBoards() throws IOException, JSONException {
+    public List<Board> ListBoards(String category) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
             .addPathSegment("boards");
+        if (category!=null && !category.equals("")){
+            urlBuilder.addQueryParameter("category", category);
+        }
 
         Request.Builder req = new Request.Builder();
         if(KhumuApplication.getToken() != null){
