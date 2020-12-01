@@ -102,6 +102,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     @Override
                     public void run() {
                         try {
+                            System.out.println(commentList);
                             likeCommentRepository.toggleLikeComment(new LikeComment(comment.getID()));
                             boolean liked = comment.isLiked();
                             if (liked) {
@@ -123,7 +124,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } catch (Exception e) {

@@ -49,7 +49,6 @@ public class CommentViewModel extends ViewModel {
             public void run() {
                 try {
                     ArrayList<Comment> originalComments = comments.getValue();
-                    System.out.println(comments);
                     for (Comment newComment : commentRepository.ListComment(articleID)) {
                         // 기존에 없던 새로운 comment인지 확인
                         List<Comment> duplicatedComments = originalComments.stream().filter(item->{

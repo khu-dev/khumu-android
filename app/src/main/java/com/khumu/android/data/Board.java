@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Board {
     public String name;
+    public String category;
     public String displayName;
     public String description;
     public List<Article> recentArticles;
@@ -14,10 +15,12 @@ public class Board {
     @JsonCreator
     public Board(
             @JsonProperty("name") String name,
+            @JsonProperty("category") String category,
             @JsonProperty("display_name") String displayName,
             @JsonProperty("description") String description,
             @JsonProperty("recent_articles") List<Article>recentArticles ) {
         this.name = name;
+        this.category = category;
         this.displayName = displayName;
         this.description = description;
         this.recentArticles = recentArticles;
@@ -29,6 +32,10 @@ public class Board {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public String getDisplayName() {

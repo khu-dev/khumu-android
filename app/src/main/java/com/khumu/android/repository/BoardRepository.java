@@ -1,4 +1,6 @@
 package com.khumu.android.repository;
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -30,11 +32,14 @@ import okhttp3.Response;
 public class BoardRepository {
     @Inject
     public BoardRepository(){}
-    public List<Board> ListBoards() throws IOException, JSONException {
+    public List<Board> ListBoards(String category) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
             .addPathSegment("boards");
+        if (category!=null && !category.equals("")){
+            urlBuilder.addQueryParameter("category", category);
+        }
 
         Request.Builder req = new Request.Builder();
         if(KhumuApplication.getToken() != null){
@@ -52,7 +57,21 @@ public class BoardRepository {
         ObjectMapper mapper  = new ObjectMapper();
         // 이걸 해야 정의하지 않은 property가 있어도 에러가 안남.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        List<Board> boards = mapper.readValue(articleJSONArray.toString(), new TypeReference<List<Board>>(){});
+        List<Board> tmp = mapper.readValue(articleJSONArray.toString(), new TypeReference<List<Board>>(){});
+        List<Board> boards = new ArrayList<>();
+        //logical board부터 담음
+        for (Board b: tmp){
+            if (b.getCategory().equals("logical")){
+                boards.add(b);
+                System.out.println(b.getDisplayName());
+            }
+        }
+
+        for (Board b: tmp){
+            if (!b.getCategory().equals("logical")){
+                boards.add(b);
+            }
+        }
 
         return boards;
     }

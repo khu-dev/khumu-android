@@ -44,8 +44,8 @@ public class LikeCommentRepository {
             .url(urlBuilder.build())
             .build();
         Response toggleResp = client.newCall(toggleReq).execute();
-
-        //TODO toggle 하면 log에 message가 전달되는건가?
+        System.out.println(toggleResp);
+        //toggle 하면 log에 message가 전달되는건가? -> 된다
         if(toggleResp.code() != 201 && toggleResp.code() != 204 && toggleResp.code() != 200) {
             String respString = toggleResp.body().string();
             Log.d(TAG, "toggleLikeComment: " + respString);
