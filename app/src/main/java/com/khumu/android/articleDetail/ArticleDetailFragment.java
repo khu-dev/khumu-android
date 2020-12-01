@@ -28,8 +28,13 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
+import com.khumu.android.data.LikeArticle;
+import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
+import com.khumu.android.data.SimpleUser;
 import com.khumu.android.repository.CommentRepository;
+import com.khumu.android.repository.LikeArticleRepository;
+import com.khumu.android.repository.LikeCommentRepository;
 
 import java.util.ArrayList;
 
@@ -37,6 +42,8 @@ import javax.inject.Inject;
 
 public class ArticleDetailFragment extends Fragment {
     private final static String TAG = "ArticleDetailFragment";
+    @Inject
+    public LikeArticleRepository likeArticleRepository;
     @Inject
     public CommentRepository commentRepository;
     private CommentViewModel commentViewModel;
@@ -107,27 +114,27 @@ public class ArticleDetailFragment extends Fragment {
         articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
+
         articleSettingIcon = view.findViewById(R.id.article_detail_more_icon);
-        /*
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread() {
                     @Override
                     public void run() {
-                        Comment comment = new Comment(
-                                1000,
+                        SimpleComment simpleComment = new SimpleComment(
                                 articleID,
                                 writeCommentContentET.getText().toString()
                         );
                         try {
-                            boolean isCommentCreated = commentRepository.CreateComment(comment, Integer.toString(articleID));
+                            boolean isCommentCreated = commentRepository.CreateComment(simpleComment, Integer.toString(articleID));
                             if (!isCommentCreated) {
                                 throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
                             } else {
                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        commentViewModel.ListComment();
                                         Toast.makeText(getContext(), "댓글을 작성했습니다.", Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -145,7 +152,6 @@ public class ArticleDetailFragment extends Fragment {
                 }.start();
             }
         });
-        */
         
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
@@ -204,7 +210,53 @@ public class ArticleDetailFragment extends Fragment {
         articleAuthorNicknameTV.setText(authorNicknameString);
         articleDetailCreatedAtTV.setText(articleCreatedAtString);
         articleLikeCountTV.setText(String.valueOf(articleLikeCountInt));
-        //articleLikeIcon.setImageResource();
+        articleLikeIcon.setImageResource(getCommentLikedImage(isLikedBooloean));
+
+        /*
+        articleLikeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try{
+                            likeArticleRepository.toggleLikeArticle(new LikeArticle(articleID));
+                            boolean liked = isLikedBooloean;
+                            if(liked){
+                                article.setLiked(false);
+                                article.setLikeArticleCount(article.getLikeArticleCount() - 1);
+                            } else{
+                                article.setLiked(true);
+                                article.setLikeArticleCount(article.getLikeArticleCount() + 1);
+                            }
+                            // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
+                                    holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
+                                }
+                            });
+                        } catch (LikeArticleRepository.BadRequestException e){
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+            }
+        });*/
+    }
+    private int getCommentLikedImage(boolean isLiked) {
+        if(isLiked) {
+            return R.drawable.ic_filled_heart;
+        }
+        return R.drawable.ic_empty_heart;
     }
 
     private void setEventListeners() {
