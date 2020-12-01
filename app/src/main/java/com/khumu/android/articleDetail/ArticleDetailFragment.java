@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.Preference;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.CommentRepository;
@@ -34,9 +36,12 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 public class ArticleDetailFragment extends Fragment {
+    private final static String TAG = "ArticleDetailFragment";
     @Inject
     public CommentRepository commentRepository;
     private CommentViewModel commentViewModel;
+    private Article article;
+
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
     private RecyclerView recyclerView;
@@ -51,6 +56,7 @@ public class ArticleDetailFragment extends Fragment {
     private EditText writeCommentContentET;
     private Button writeCommentContentBTN;
     private int articleID;
+    private ImageView articleSettingIcon;
 
 
     @Override
@@ -101,7 +107,7 @@ public class ArticleDetailFragment extends Fragment {
         articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
-
+        articleSettingIcon = view.findViewById(R.id.article_detail_more_icon);
         /*
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override

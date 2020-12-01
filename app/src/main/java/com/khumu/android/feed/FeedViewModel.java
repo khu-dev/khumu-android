@@ -1,8 +1,5 @@
 package com.khumu.android.feed;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import java.io.IOException;
@@ -11,23 +8,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dagger.Module;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.data.Board;
-import com.khumu.android.data.RecentBoard;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.util.Util;
 import com.khumu.android.data.Article;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -45,11 +32,8 @@ public class FeedViewModel extends ViewModel {
     public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
         articles = new MutableLiveData<>(new ArrayList<Article>());
         List<Board> initialBoards = new ArrayList<Board>();
-        Board initialBoard = new RecentBoard();
-        initialBoards.add(initialBoard);
         boards = new MutableLiveData<>(initialBoards);
-        currentBoard = new MutableLiveData<>(initialBoard);
-
+        currentBoard = new MutableLiveData<>(new Board("recent", "logical","최근게시판","임시로 띄우는 최근 게시물", null));
         this.boardRepository = boardRepository;
         this.articleRepository = articleRepository;
         ListBoards();
@@ -94,7 +78,8 @@ public class FeedViewModel extends ViewModel {
             public void run() {
                 super.run();
                 try {
-                    boards.postValue(boardRepository.ListBoards());
+                    List<Board> _boards = boardRepository.ListBoards();
+                    boards.postValue(_boards);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -106,11 +91,7 @@ public class FeedViewModel extends ViewModel {
 
     // Articles를 초기화
     public void ListArticles(){
-        String tempBoard = currentBoard.getValue().getName();
-        if(tempBoard == "recent"){
-            tempBoard = null; // null로 하면 board 상관없이 가져온다.
-        }
-        final String board = tempBoard;
+        final String board = currentBoard.getValue().getName();
 
         int page = 1;
 

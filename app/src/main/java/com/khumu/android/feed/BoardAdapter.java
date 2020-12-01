@@ -1,7 +1,6 @@
 package com.khumu.android.feed;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +11,9 @@ import androidx.annotation.NonNull;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
-import com.khumu.android.data.RecentBoard;
 import com.khumu.android.repository.ArticleRepository;
-import com.khumu.android.repository.LikeArticleRepository;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
