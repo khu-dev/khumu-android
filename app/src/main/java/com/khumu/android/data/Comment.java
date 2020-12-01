@@ -15,7 +15,6 @@ public class Comment {
     private int likeCommentCount;
     private boolean liked;
     private String commentCreatedAt;
-    // private int isParent;
 
     @JsonCreator
     public Comment (
