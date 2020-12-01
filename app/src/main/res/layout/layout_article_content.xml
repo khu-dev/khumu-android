@@ -26,8 +26,8 @@
         </TextView>
         <ImageView
             android:id="@+id/article_detail_author_icon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
             app:layout_constraintTop_toBottomOf="@id/article_detail_title_tv"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="@dimen/layout_default_space"
@@ -63,8 +63,8 @@
             android:orientation="horizontal">
             <ImageView
                 android:id="@+id/article_detail_like_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
                 android:src="@drawable/ic_empty_heart"
                 android:layout_marginRight="3dp"
                 ></ImageView>
@@ -77,8 +77,8 @@
                 android:text="100"/>
             <ImageView
                 android:id="@+id/article_detail_comment_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
                 android:layout_marginRight="3dp"
                 android:src="@drawable/ic_message"
                 ></ImageView>
@@ -91,8 +91,8 @@
                 android:text="100"/>
             <ImageView
                 android:id="@+id/article_detail_bookmark_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
                 android:layout_marginRight="3dp"
                 android:src="@drawable/ic_empty_bookmark"
                 ></ImageView>
@@ -112,8 +112,8 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/article_detail_more_icon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_more_dots"/>

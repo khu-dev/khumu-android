@@ -11,7 +11,7 @@
     android:paddingLeft="@dimen/layout_large_space"
     android:paddingRight="@dimen/layout_large_space"
     android:layout_marginTop="0dp"
-    android:layout_marginBottom="16dp"
+    android:layout_marginBottom="@dimen/default_icon_size"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/article_body_layout"
@@ -70,8 +70,8 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/article_item_like_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
                 android:src="@drawable/ic_empty_heart"
                 android:layout_marginRight="3dp"
                 ></ImageView>
@@ -89,8 +89,8 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/article_item_comment_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
                 android:layout_marginRight="3dp"
                 android:src="@drawable/ic_message"
                 ></ImageView>
@@ -108,8 +108,8 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/article_item_bookmark_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
                 android:layout_marginRight="3dp"
                 android:src="@drawable/ic_empty_bookmark"
                 ></ImageView>

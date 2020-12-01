@@ -78,8 +78,8 @@
             android:id="@+id/reply_item_like_icon"
             app:layout_constraintTop_toBottomOf="@id/reply_item_content_tv"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
             android:src="@drawable/ic_empty_heart"
             android:layout_marginRight="3dp"/>
         <TextView

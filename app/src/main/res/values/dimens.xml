@@ -8,7 +8,10 @@
     <dimen name="title_font_size">16dp</dimen>
     <dimen name="big_title_font_size">20dp</dimen>
     <dimen name="layout_default_space">8dp</dimen>
-    <dimen name="layout_large_space">22dp</dimen>
+    <dimen name="layout_semi_large_space">16dp</dimen>
+    <dimen name="layout_large_space">20dp</dimen>
+    <dimen name="default_icon_size">16dp</dimen>
+
 
 
 </resources>

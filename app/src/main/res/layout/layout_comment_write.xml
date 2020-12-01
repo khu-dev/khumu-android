@@ -18,7 +18,7 @@
         android:hint="댓글"
         android:inputType="text"
         android:textFontWeight="10"
-        android:textSize="16dp"
+        android:textSize="@dimen/default_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
