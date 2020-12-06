@@ -41,29 +41,27 @@ public class BoardRepository {
             urlBuilder.addQueryParameter("category", category);
         }
 
-        Request.Builder req = new Request.Builder();
+        Request.Builder reqBuilder = new Request.Builder();
         if(KhumuApplication.getToken() != null){
-            req.header("Authorization", "Bearer "+ KhumuApplication.getToken());
+            reqBuilder.header("Authorization", "Bearer "+ KhumuApplication.getToken());
         }
-        req = req.url(urlBuilder.build());
+        reqBuilder.url(urlBuilder.build());
 
-        Response fetchResp = client.newCall(req.build()).execute();
+        Response fetchResp = client.newCall(reqBuilder.build()).execute();
         String respString = fetchResp.body().string();
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
         String data = new JSONObject(respString).getString("data");
         JSONArray articleJSONArray = new JSONArray(data);
-        ArrayList<Article> articles = new ArrayList<>();
 
         ObjectMapper mapper  = new ObjectMapper();
         // 이걸 해야 정의하지 않은 property가 있어도 에러가 안남.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        List<Board> tmp = mapper.readValue(articleJSONArray.toString(), new TypeReference<List<Board>>(){});
+        List<Board> tmp = mapper.readValue(data, new TypeReference<List<Board>>(){});
         List<Board> boards = new ArrayList<>();
         //logical board부터 담음
         for (Board b: tmp){
             if (b.getCategory().equals("logical")){
                 boards.add(b);
-                System.out.println(b.getDisplayName());
             }
         }
 
