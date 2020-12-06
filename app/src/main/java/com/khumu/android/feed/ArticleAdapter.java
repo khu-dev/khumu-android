@@ -92,6 +92,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("articleTitle", article.getTitle());
                 intent.putExtra("articleContent", article.getContent());
                 intent.putExtra("articleCommentCount", article.getCommentCount());
+                intent.putExtra("articleAuthorUsername", article.getAuthor().getUsername());
                 intent.putExtra("articleAuthorNickname", article.getAuthor().getNickname());
                 intent.putExtra("articleCreatedAt", article.getArticleCreatedAt());
                 intent.putExtra("articleLikeCount", article.getLikeArticleCount());

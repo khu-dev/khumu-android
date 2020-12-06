@@ -26,6 +26,10 @@ public class ArticleUseCase {
         return a.getAuthor().getUsername().equals(KhumuApplication.getUsername());
     }
 
+    public boolean amIAuthor(String username){
+        return username.equals(KhumuApplication.getUsername());
+    }
+
     public String getAuthorNickname(Article a){
         String kind = a.getKind();
         if(kind.equals("anonymous")){

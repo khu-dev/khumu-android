@@ -38,6 +38,7 @@ import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.repository.LikeCommentRepository;
+import com.khumu.android.usecase.ArticleUseCase;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,9 @@ public class ArticleDetailFragment extends Fragment {
     public LikeArticleRepository likeArticleRepository;
     @Inject
     public CommentRepository commentRepository;
+    @Inject
+    ArticleUseCase articleUseCase;
+
     private CommentViewModel commentViewModel;
     private Article article;
 
@@ -243,6 +247,7 @@ public class ArticleDetailFragment extends Fragment {
         String contentString = intent.getStringExtra("articleContent");
         int commentCountInt = intent.getIntExtra("articleCommentCount", -1);
         String authorNicknameString = intent.getStringExtra("articleAuthorNickname");
+        String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
         String articleCreatedAtString = intent.getStringExtra("articleCreatedAt");
         int articleLikeCountInt = intent.getIntExtra("articleLikeCount", -1);
         Boolean isLikedBooloean = intent.getBooleanExtra("articleIsLiked", false);
@@ -254,6 +259,11 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailCreatedAtTV.setText(articleCreatedAtString);
         articleLikeCountTV.setText(String.valueOf(articleLikeCountInt));
         articleLikeIcon.setImageResource(getCommentLikedImage(isLikedBooloean));
+        if(articleUseCase.amIAuthor(authorUsernameString)){
+            articleSettingIcon.setVisibility(View.VISIBLE);
+        } else{
+            articleSettingIcon.setVisibility(View.GONE);
+        }
 
         /*
         articleLikeIcon.setOnClickListener(new View.OnClickListener() {
