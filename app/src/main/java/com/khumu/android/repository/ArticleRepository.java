@@ -3,6 +3,7 @@ package com.khumu.android.repository;
 import android.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
@@ -95,6 +96,29 @@ public class ArticleRepository {
         }
     }
 
+    public void UpdateArticle(Article article) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+        ObjectMapper mapper = new ObjectMapper();
+        String articleStr = mapper.writeValueAsString(article);
+        System.out.println(articleStr);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), articleStr);
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+                .addPathSegment("articles")
+                .addPathSegment(String.valueOf(article.getID()));
+
+        Request req = new Request.Builder()
+                .header("Authorization", "Bearer " + KhumuApplication.getToken())
+                .patch(body)
+                .url(urlBuilder.build())
+                .build();
+
+        Response resp = client.newCall(req).execute();
+        if(resp.code() != 200){
+            Log.d(TAG, "UpdateArticle: " + resp.body());
+            throw new Exception("게시물 업데이트 실패");
+        }
+    }
     // 삭제가 잘 되었으면 true, 오류가 발생하면 false
     public boolean DeleteArticle(int articleID) {
         OkHttpClient client = new OkHttpClient();

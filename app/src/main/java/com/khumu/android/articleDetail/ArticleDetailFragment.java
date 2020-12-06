@@ -1,5 +1,6 @@
 package com.khumu.android.articleDetail;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.articleWrite.ArticleModifyActivity;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.LikeArticle;
@@ -45,7 +47,8 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 public class ArticleDetailFragment extends Fragment {
-    private final static String TAG = "ArticleDetailFragment";
+    private static final String TAG = "ArticleDetailFragment";
+    private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
     public ArticleRepository articleRepository;
     @Inject
@@ -55,6 +58,7 @@ public class ArticleDetailFragment extends Fragment {
     @Inject
     ArticleUseCase articleUseCase;
 
+    private Intent intent;
     private CommentViewModel commentViewModel;
     private Article article;
 
@@ -78,7 +82,7 @@ public class ArticleDetailFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Intent intent = getActivity().getIntent();
+        this.intent = getActivity().getIntent();
         articleID = intent.getIntExtra("articleID", 0);
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
@@ -104,6 +108,10 @@ public class ArticleDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // onCreateView에서 return된 view를 가지고 있다
         super.onViewCreated(view, savedInstanceState);
+
+        Intent intent = getActivity().getIntent();
+        this.article = (Article) intent.getSerializableExtra("article");
+
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
@@ -161,7 +169,9 @@ public class ArticleDetailFragment extends Fragment {
                 }.start();
             }
         });
-        
+
+        loadArticleToView();
+
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
@@ -189,7 +199,12 @@ public class ArticleDetailFragment extends Fragment {
                             public void run() {
                                 switch (item.getItemId()){
                                     case R.id.article_detail_modify_item:
-                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "modify", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
+                                        // intent에서 해당 article에 대한 정보들을 저장
+                                        intent.putExtra("article", article);
+                                        ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
+//                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "modify", Toast.LENGTH_LONG).show();
+                                        break;
                                     case R.id.article_detail_delete_item:
                                         boolean isDeleted = articleRepository.DeleteArticle(articleID);
                                         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -203,6 +218,7 @@ public class ArticleDetailFragment extends Fragment {
                                                 }
                                             }
                                         });
+                                        break;
 
                                 }
                             }
@@ -212,9 +228,8 @@ public class ArticleDetailFragment extends Fragment {
                 });
             }
         });
-
-        initWithIntentExtra();
     }
+
     /*
     public class FetchCommentsAsyncTask extends AsyncTask {
 
@@ -241,25 +256,16 @@ public class ArticleDetailFragment extends Fragment {
         }
     }
      */
-    private void initWithIntentExtra(){
-        Intent intent = getActivity().getIntent();
-        String titleString = intent.getStringExtra("articleTitle");
-        String contentString = intent.getStringExtra("articleContent");
-        int commentCountInt = intent.getIntExtra("articleCommentCount", -1);
-        String authorNicknameString = intent.getStringExtra("articleAuthorNickname");
-        String authorUsernameString = intent.getStringExtra("articleAuthorUsername");
-        String articleCreatedAtString = intent.getStringExtra("articleCreatedAt");
-        int articleLikeCountInt = intent.getIntExtra("articleLikeCount", -1);
-        Boolean isLikedBooloean = intent.getBooleanExtra("articleIsLiked", false);
-
-        articleDetailTitleTV.setText(titleString);
-        articleDetailContentTV.setText(contentString);
-        articleCommentCountTV.setText(String.valueOf(commentCountInt));
-        articleAuthorNicknameTV.setText(authorNicknameString);
-        articleDetailCreatedAtTV.setText(articleCreatedAtString);
-        articleLikeCountTV.setText(String.valueOf(articleLikeCountInt));
-        articleLikeIcon.setImageResource(getCommentLikedImage(isLikedBooloean));
-        if(articleUseCase.amIAuthor(authorUsernameString)){
+    // this.article의 정보를 view에 적용한다.
+    private void loadArticleToView(){
+        articleDetailTitleTV.setText(article.getTitle());
+        articleDetailContentTV.setText(article.getContent());
+        articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
+        articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
+        articleDetailCreatedAtTV.setText(article.getArticleCreatedAt());
+        articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
+        articleLikeIcon.setImageResource(getCommentLikedImage(article.isLiked()));
+        if(articleUseCase.amIAuthor(article.getAuthor().getUsername())){
             articleSettingIcon.setVisibility(View.VISIBLE);
         } else{
             articleSettingIcon.setVisibility(View.GONE);
@@ -305,6 +311,21 @@ public class ArticleDetailFragment extends Fragment {
             }
         });*/
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            // article modify 후에 성공적이었다면.
+            case ArticleDetailFragment.MODIFY_ARTICLE_ACTIVITY:{
+                if(resultCode == Activity.RESULT_OK){
+                    this.article = (Article) data.getSerializableExtra("article");
+                    this.loadArticleToView();
+                }
+            }
+        }
+    }
+
     private int getCommentLikedImage(boolean isLiked) {
         if(isLiked) {
             return R.drawable.ic_filled_heart;
