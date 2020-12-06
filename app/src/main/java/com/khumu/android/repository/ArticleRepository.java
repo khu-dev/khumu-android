@@ -93,6 +93,33 @@ public class ArticleRepository {
         } else{
             return false;
         }
+    }
 
+    // 삭제가 잘 되었으면 true, 오류가 발생하면 false
+    public boolean DeleteArticle(int articleID) {
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+                .addPathSegment("articles")
+                .addPathSegment(String.valueOf(articleID));
+
+        Request req = new Request.Builder()
+                .header("Authorization", "Bearer " + KhumuApplication.getToken())
+                .url(urlBuilder.build())
+                .delete()
+                .build();
+
+        Response resp = null;
+        try {
+            resp = client.newCall(req).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if(resp.code() == 204){
+            return true;
+        } else{
+            return false;
+        }
     }
 }

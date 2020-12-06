@@ -111,7 +111,7 @@
                 android:text="방금 전"/>
         </LinearLayout>
         <ImageView
-            android:id="@+id/article_detail_more_icon"
+            android:id="@+id/article_detail_setting_icon"
             android:layout_width="@dimen/default_icon_size"
             android:layout_height="@dimen/default_icon_size"
             app:layout_constraintTop_toTopOf="parent"

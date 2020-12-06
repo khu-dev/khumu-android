@@ -8,11 +8,13 @@ import android.os.Looper;
 import android.preference.Preference;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.khumu.android.data.LikeArticle;
 import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.SimpleUser;
+import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.repository.LikeCommentRepository;
@@ -42,6 +45,8 @@ import javax.inject.Inject;
 
 public class ArticleDetailFragment extends Fragment {
     private final static String TAG = "ArticleDetailFragment";
+    @Inject
+    public ArticleRepository articleRepository;
     @Inject
     public LikeArticleRepository likeArticleRepository;
     @Inject
@@ -64,6 +69,7 @@ public class ArticleDetailFragment extends Fragment {
     private Button writeCommentContentBTN;
     private int articleID;
     private ImageView articleSettingIcon;
+    private PopupMenu articleSettingPopupMenu;
 
 
     @Override
@@ -90,7 +96,6 @@ public class ArticleDetailFragment extends Fragment {
         return root;
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // onCreateView에서 return된 view를 가지고 있다
@@ -114,8 +119,8 @@ public class ArticleDetailFragment extends Fragment {
         articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
+        articleSettingIcon = view.findViewById(R.id.article_detail_setting_icon);
 
-        articleSettingIcon = view.findViewById(R.id.article_detail_more_icon);
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +168,44 @@ public class ArticleDetailFragment extends Fragment {
                 }
                 commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
 //                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
+            }
+        });
+
+        articleSettingIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                articleSettingPopupMenu = new PopupMenu(ArticleDetailFragment.this.getActivity(), v);
+                articleSettingPopupMenu.inflate(R.menu.menu_article_detail_more);
+                articleSettingPopupMenu.show();
+                articleSettingPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                switch (item.getItemId()){
+                                    case R.id.article_detail_modify_item:
+                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "modify", Toast.LENGTH_LONG).show();
+                                    case R.id.article_detail_delete_item:
+                                        boolean isDeleted = articleRepository.DeleteArticle(articleID);
+                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (isDeleted){
+                                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제했습니다.", Toast.LENGTH_LONG).show();
+                                                    ArticleDetailFragment.this.getActivity().finish();
+                                                } else{
+                                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제를 실패했습니다.", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+
+                                }
+                            }
+                        }.start();
+                        return true;
+                    }
+                });
             }
         });
 
