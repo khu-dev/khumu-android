@@ -75,7 +75,6 @@ public class ArticleDetailFragment extends Fragment {
     private TextView articleDetailCreatedAtTV;
     private EditText writeCommentContentET;
     private Button writeCommentContentBTN;
-    private int articleID;
     private ImageView articleSettingIcon;
     private PopupMenu articleSettingPopupMenu;
 
@@ -83,13 +82,13 @@ public class ArticleDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         this.intent = getActivity().getIntent();
-        articleID = intent.getIntExtra("articleID", 0);
+        this.article = (Article) intent.getSerializableExtra("article");
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
         commentViewModel = new ViewModelProvider(this,
-                new CommentViewFactory(commentRepository, Integer.toString(articleID))
+                new CommentViewFactory(commentRepository, Integer.toString(article.getID()))
         ).get(CommentViewModel.class);
 //        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
     }
@@ -110,7 +109,7 @@ public class ArticleDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-        this.article = (Article) intent.getSerializableExtra("article");
+
 
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 //        linearLayoutManager.setReverseLayout(true);
@@ -140,11 +139,11 @@ public class ArticleDetailFragment extends Fragment {
                     @Override
                     public void run() {
                         SimpleComment simpleComment = new SimpleComment(
-                                articleID,
+                                article.getID(),
                                 writeCommentContentET.getText().toString()
                         );
                         try {
-                            boolean isCommentCreated = commentRepository.CreateComment(simpleComment, Integer.toString(articleID));
+                            boolean isCommentCreated = commentRepository.CreateComment(simpleComment, String.valueOf(article.getID()));
                             if (!isCommentCreated) {
                                 throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
                             } else {
@@ -206,7 +205,7 @@ public class ArticleDetailFragment extends Fragment {
 //                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "modify", Toast.LENGTH_LONG).show();
                                         break;
                                     case R.id.article_detail_delete_item:
-                                        boolean isDeleted = articleRepository.DeleteArticle(articleID);
+                                        boolean isDeleted = articleRepository.DeleteArticle(article.getID());
                                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                                             @Override
                                             public void run() {

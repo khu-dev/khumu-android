@@ -77,6 +77,8 @@ public class ArticleWriteActivity extends AppCompatActivity {
         boardsView = findViewById(R.id.article_write_boards_wrapper_layout);
         submitBTN = findViewById(R.id.article_write_submit_btn);
         isAnonymousCB = findViewById(R.id.article_write_is_anonymous_cb);
+        isAnonymousCB.setChecked(true);
+        this.article.setKind("anonymous");
     }
 
     protected void setEventListeners(){
@@ -107,7 +109,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) article.setKind("anonymous");
-                else article.setKind("naemd");
+                else article.setKind("named");
             }
         });
 

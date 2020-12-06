@@ -37,7 +37,6 @@ public class HomeViewModel extends ViewModel {
 //                        Board board = boards.get(i);
                     List<Article> articles = new ArrayList<>();
                     for(Board board: boards){
-                        System.out.println("Board: "+board.getName());
                         if (board.getRecentArticles().size() != 0){
                             articles.addAll(board.getRecentArticles());
                         }
