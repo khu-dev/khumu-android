@@ -3,9 +3,10 @@ package com.khumu.android.data;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Board {
+public class Board implements Serializable {
     public String name;
     public String category;
     public String displayName;

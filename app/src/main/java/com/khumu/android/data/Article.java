@@ -5,9 +5,10 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
-public class Article {
+public class Article implements Serializable {
     private int id;
     private SimpleUser author;
     private String title;
@@ -20,6 +21,8 @@ public class Article {
     private boolean liked;
     private boolean bookmarked;
     private String articleCreatedAt;
+
+    public Article(){}
 
     public Article(String board, String title, String content, String kind) {
         this.board = board;

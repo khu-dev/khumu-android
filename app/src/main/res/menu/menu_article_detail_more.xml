@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"    >
     <item
         android:id="@+id/article_detail_modify_item"
-        android:title="수정하기" />
+        android:title="수정" />
     <item
         android:id="@+id/article_detail_delete_item"
-        android:title="삭제하기" />
+        android:title="삭제" />
 </menu>

@@ -2,11 +2,14 @@ package com.khumu.android.articleWrite;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,6 +42,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
     ArticleRepository articleRepository;
     @Inject
     BoardRepository boardRepository;
+    Article article;
 
     List<Board> boards;
     Board selectedBoard;
@@ -56,18 +60,16 @@ public class ArticleWriteActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
-
+        article = new Article();
         boards = new ArrayList<Board>();
 
         listBoards();
         setContentView(R.layout.activity_article_write);
         findViews();
         setEventListeners();
-
-        setTestInput();
     }
 
-    private void findViews(){
+    protected void findViews(){
         titleET = findViewById(R.id.article_write_title_et);
         contentET = findViewById(R.id.article_write_content_et);
         boardToggleBTN = findViewById(R.id.article_write_popup_boards_icon);
@@ -77,7 +79,38 @@ public class ArticleWriteActivity extends AppCompatActivity {
         isAnonymousCB = findViewById(R.id.article_write_is_anonymous_cb);
     }
 
-    private void setEventListeners(){
+    protected void setEventListeners(){
+        titleET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                article.setTitle(s.toString());
+                System.out.println(article.getTitle());
+            }
+        });
+
+        contentET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                article.setContent(s.toString());
+            }
+        });
+
+        isAnonymousCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) article.setKind("anonymous");
+                else article.setKind("naemd");
+            }
+        });
+
         boardsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,12 +124,6 @@ public class ArticleWriteActivity extends AppCompatActivity {
                 new Thread(){
                     @Override
                     public void run() {
-                        Article article = new Article(
-                            selectedBoard.getName(),
-                            titleET.getText().toString(),
-                            contentET.getText().toString(),
-                            ArticleWriteActivity.this.getArticleKind()
-                        );
                         try {
                             boolean isArticleCreated = articleRepository.CreateArticle(article);
                             if (!isArticleCreated){
@@ -115,7 +142,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getApplicationContext(), "게시물을 작성했습니다.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "게시물을 작성하지 못했습니다.", Toast.LENGTH_LONG).show();
                                 }
                             });
                             finish();
@@ -126,13 +153,13 @@ public class ArticleWriteActivity extends AppCompatActivity {
         });
     }
 
-    private void setTestInput(){
+    protected void setTestInput(){
         titleET.setText("텟트");
         contentET.setText("텟트");
     }
 
     // write 할 article의 kind를 리턴
-    private String getArticleKind(){
+    protected String getArticleKind(){
         if(this.isAnonymousCB.isChecked()){
             return "anonymous";
         } else {
@@ -140,7 +167,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
         }
     }
 
-    private void createBoardListDialog(){
+    protected void createBoardListDialog(){
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(ArticleWriteActivity.this);
 //        builderSingle.setIcon(R.drawable.ic_launcher);
         builderSingle.setTitle("게시판을 선택해주세요.");
@@ -162,12 +189,13 @@ public class ArticleWriteActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 selectedBoard = boards.get(which);
                 selectedBoardTV.setText(selectedBoard.getDisplayName());
+                article.setBoard(selectedBoard.getName());
             }
         });
         builderSingle.show();
     }
 
-    private void listBoards(){
+    protected void listBoards(){
         new Thread(){
             @Override
             public void run() {

@@ -50,19 +50,12 @@
             android:text="등록"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--    <ListView-->
-<!--        android:id="@+id/article_write_boards"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:visibility="gone"/>-->
     <EditText
         android:id="@+id/article_write_title_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="제목을 입력해주세요."
@@ -71,6 +64,7 @@
         android:id="@+id/article_write_content_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="vertical"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintTop_toBottomOf="@+id/article_write_title_et"
         app:layout_constraintBottom_toTopOf="@+id/article_write_meta_layout"

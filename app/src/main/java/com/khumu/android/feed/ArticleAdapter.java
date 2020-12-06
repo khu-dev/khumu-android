@@ -88,17 +88,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
                 // intent에서 해당 article에 대한 정보들을 저장
-                intent.putExtra("articleID", article.getID());
-                intent.putExtra("articleTitle", article.getTitle());
-                intent.putExtra("articleContent", article.getContent());
-                intent.putExtra("articleCommentCount", article.getCommentCount());
-                intent.putExtra("articleAuthorNickname", article.getAuthor().getNickname());
-                intent.putExtra("articleCreatedAt", article.getArticleCreatedAt());
-                intent.putExtra("articleLikeCount", article.getLikeArticleCount());
-                intent.putExtra("articleBookmarkCount", article.getBookmarkArticleCount());
-                intent.putExtra("articleIsLiked", article.isLiked());
-                intent.putExtra("articleIsBookmarked", article.isBookmarked());
-
+                intent.putExtra("article", article);
                 v.getContext().startActivity(intent);
             }
         });

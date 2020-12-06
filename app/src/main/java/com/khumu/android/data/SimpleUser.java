@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-public class SimpleUser {
+import java.io.Serializable;
+
+public class SimpleUser implements Serializable {
     private String username;
     private String nickname;
     private String state;
