@@ -117,7 +117,7 @@ public class ArticleDetailFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentArrayList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(commentArrayList);
+        commentAdapter = new CommentAdapter(commentArrayList, getContext());
         recyclerView.setAdapter(commentAdapter);
 
 

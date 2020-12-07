@@ -2,6 +2,7 @@ package com.khumu.android;
 
 import com.khumu.android.articleDetail.ArticleDetailFragment;
 import com.khumu.android.articleDetail.CommentAdapter;
+import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.data.LikeComment;
@@ -41,6 +42,7 @@ public interface Container {
 
     void inject(ArticleUseCase articleUseCase);
 
+    void inject(ReplyAdapter replyAdapter);
     void inject(CommentAdapter commentAdapter);
     void inject(ArticleAdapter articleAdapter);
     void inject(BoardAdapter boardAdapter);

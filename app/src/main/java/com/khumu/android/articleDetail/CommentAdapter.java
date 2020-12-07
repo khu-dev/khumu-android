@@ -1,7 +1,10 @@
 package com.khumu.android.articleDetail;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Looper;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -10,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
@@ -47,19 +52,34 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public TextView commentLikeCountTV;
         public ImageView commentLikeIcon;
         public TextView commentCreatedAtTV;
+        public ImageView writeReplyIcon;
+        public RecyclerView replyRecyclerView;
+        public ReplyAdapter replyAdapter;
+        private ArrayList<Comment> replyArrayList;
+        private LinearLayoutManager linearLayoutManager;
+
 
 
         public CommentViewHolder(@NonNull View view) {
             super(view);
+
+            linearLayoutManager = new LinearLayoutManager(view.getContext());
+            this.replyRecyclerView = view.findViewById(R.id.recycler_view_comment_list);
+            replyArrayList = new ArrayList<>();
+            //replyAdapter = new ReplyAdapter(replyArrayList);
+            //replyRecyclerView.setAdapter(replyAdapter);
+
             this.commentAuthorNicknameTV = view.findViewById(R.id.comment_item_author_nickname_tv);
             this.commentContentTV = view.findViewById(R.id.comment_item_content_tv);
             this.commentLikeCountTV = view.findViewById(R.id.comment_item_like_count_tv);
             this.commentLikeIcon = view.findViewById(R.id.comment_item_like_icon);
             this.commentCreatedAtTV = view.findViewById(R.id.comment_item_created_at_tv);
+            this.writeReplyIcon = view.findViewById(R.id.comment_item_reply_icon);
+
         }
     }
 
-    public CommentAdapter(ArrayList<Comment> commentList) {
+    public CommentAdapter(ArrayList<Comment> commentList, Context context) {
         KhumuApplication.container.inject(this);
         this.context = context;
         this.commentList = commentList;
@@ -84,8 +104,26 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
         holder.commentCreatedAtTV.setText(comment.getCommentCreatedAt());
-        holder.itemView.setTag(position);
+        holder.writeReplyIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+        holder.itemView.setTag(position);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -129,7 +167,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            ;
                         }
 
                     }
