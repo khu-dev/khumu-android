@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
@@ -63,12 +64,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public CommentViewHolder(@NonNull View view) {
             super(view);
 
-            linearLayoutManager = new LinearLayoutManager(view.getContext());
             this.replyRecyclerView = view.findViewById(R.id.recycler_view_comment_list);
-            replyArrayList = new ArrayList<>();
-            //replyAdapter = new ReplyAdapter(replyArrayList);
-            //replyRecyclerView.setAdapter(replyAdapter);
-
             this.commentAuthorNicknameTV = view.findViewById(R.id.comment_item_author_nickname_tv);
             this.commentContentTV = view.findViewById(R.id.comment_item_content_tv);
             this.commentLikeCountTV = view.findViewById(R.id.comment_item_like_count_tv);
@@ -99,6 +95,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = commentList.get(position);
+
+        holder.linearLayoutManager = new LinearLayoutManager(context);
+        holder.replyArrayList = new ArrayList<>();
+        holder.replyAdapter = new ReplyAdapter(holder.replyArrayList, context);
+        holder.replyRecyclerView.setAdapter(holder.replyAdapter);
+
         holder.commentAuthorNicknameTV.setText(comment.getAuthor().getNickname());
         holder.commentContentTV.setText(comment.getContent());
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
@@ -107,6 +109,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.writeReplyIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override

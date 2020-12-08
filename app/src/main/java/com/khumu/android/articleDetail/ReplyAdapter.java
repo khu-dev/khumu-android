@@ -53,7 +53,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         }
     }
 
-    public ReplyAdapter(ArrayList<Comment> ReplyList) {
+    public ReplyAdapter(ArrayList<Comment> ReplyList, Context context)    {
         KhumuApplication.container.inject(this);
         this.context = context;
         this.replyList = ReplyList;

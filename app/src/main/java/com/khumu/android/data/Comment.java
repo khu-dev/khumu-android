@@ -16,6 +16,7 @@ public class Comment {
     private boolean liked;
     private String commentCreatedAt;
 
+
     @JsonCreator
     public Comment (
         @JsonProperty("id") int id,
@@ -23,7 +24,6 @@ public class Comment {
         @JsonProperty("author") SimpleUser author,
         @JsonProperty("content") String content,
         @JsonProperty("parent") int parent,
-        @JsonProperty("children") ArrayList<Integer> children,
         @JsonProperty("like_comment_count") int likeCommentCount,
         @JsonProperty("liked") boolean liked,
         @JsonProperty("created_at") String commentCreatedAt) {

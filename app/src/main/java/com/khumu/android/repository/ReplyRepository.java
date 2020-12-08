@@ -1,11 +1,8 @@
 package com.khumu.android.repository;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.util.Util;
@@ -15,32 +12,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.SyncFailedException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import dagger.Module;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-@Module
-public class CommentRepository {
-    private final static String TAG = "CommentRepository";
+
+public class ReplyRepository {
+    private final static String TAG = "ReplyRepository";
     @Inject
-    public CommentRepository(){}
-    public ArrayList<Comment> ListComment(String articleID) throws IOException, JSONException {
+    public ReplyRepository(){}
+    public ArrayList<Comment> ListReply(String commentID) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
-            .addPathSegment("comments")
-            .addQueryParameter("article", articleID)
-            .addQueryParameter("parent", "0");
+                .addPathSegment("comments")
+                .addQueryParameter("parent", commentID);
 
         Request req = new Request.Builder()
                 .header("Authorization", "Bearer "+ KhumuApplication.getToken())
@@ -50,23 +42,23 @@ public class CommentRepository {
         String respString = fetchResp.body().string();
         String data = new JSONObject(respString).getString("data");
         JSONArray commentJSONArray = new JSONArray(data);
-        ArrayList<Comment> comments = new ArrayList<>();
+        ArrayList<Comment> replies = new ArrayList<>();
 
         ObjectMapper mapper  = new ObjectMapper();
         // 이걸 해야 정의하지 않은 property가 있어도 에러가 안남.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         for(int i=0; i < commentJSONArray.length(); i++){
-            Comment comment = mapper.readValue(commentJSONArray.getJSONObject(i).toString(), Comment.class);
-            comments.add(comment);
+            Comment reply = mapper.readValue(commentJSONArray.getJSONObject(i).toString(), Comment.class);
+            replies.add(reply);
         }
-        return comments;
+        return replies;
     }
 
-    public boolean CreateComment(SimpleComment simpleComment, String articleID) throws IOException, JSONException {
+    public boolean CreateReply(SimpleComment simpleReply, String articleID) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
-        String commentStr = mapper.writeValueAsString(simpleComment);
+        String commentStr = mapper.writeValueAsString(simpleReply);
         System.out.println(commentStr);
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), commentStr);
