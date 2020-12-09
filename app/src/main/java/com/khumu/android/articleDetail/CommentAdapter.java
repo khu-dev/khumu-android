@@ -7,28 +7,74 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+<<<<<<< Updated upstream
+=======
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.recyclerview.widget.LinearLayoutManager;
+>>>>>>> Stashed changes
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
 import com.khumu.android.repository.LikeArticleRepository;
+<<<<<<< Updated upstream
+=======
+import com.khumu.android.repository.LikeCommentRepository;
+import com.khumu.android.repository.ReplyRepository;
+>>>>>>> Stashed changes
 
 import java.util.ArrayList;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
+<<<<<<< Updated upstream
 
     private ArrayList<Comment> commentList;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorUsernameTV;
+=======
+    private final static String TAG = "CommentAdapter";
+
+    @Inject
+    public LikeCommentRepository likeCommentRepository;
+    @Inject
+    public CommentRepository commentRepository;
+    @Inject
+    public ReplyRepository replyRepository;
+    public List<Comment> commentList;
+    public ReplyViewModel replyViewModel;
+    private Context context;
+
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
+        public RecyclerView.RecycledViewPool recycledViewPool;
+        public TextView commentAuthorNicknameTV;
+>>>>>>> Stashed changes
         public TextView commentContentTV;
         public TextView commentLikeCountTV;
         public ImageView commentLikeIcon;
         public TextView commentCreatedAtTV;
+<<<<<<< Updated upstream
 
         public CommentViewHolder(@NonNull View view) {
             super(view);
             System.out.println(view);
             this.commentAuthorUsernameTV = view.findViewById(R.id.comment_item_author_username_tv);
+=======
+        public ImageView writeReplyIcon;
+        public RecyclerView replyRecyclerView;
+        public ReplyAdapter replyAdapter;
+        public ArrayList<Comment> replyArrayList;
+        public LinearLayoutManager linearLayoutManager;
+
+
+
+        public CommentViewHolder(@NonNull View view) {
+            super(view);
+            this.recycledViewPool = new RecyclerView.RecycledViewPool();
+            this.linearLayoutManager = new LinearLayoutManager(view.getContext());
+            this.replyRecyclerView = view.findViewById(R.id.recycler_view_comment_list);
+            this.commentAuthorNicknameTV = view.findViewById(R.id.comment_item_author_nickname_tv);
+>>>>>>> Stashed changes
             this.commentContentTV = view.findViewById(R.id.comment_item_content_tv);
             this.commentLikeCountTV = view.findViewById(R.id.comment_item_like_count_tv);
             this.commentLikeIcon = view.findViewById(R.id.comment_item_like_icon);
@@ -53,9 +99,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+<<<<<<< Updated upstream
         System.out.println("hi");
         Comment comment = commentList.get(position);
         holder.commentAuthorUsernameTV.setText(comment.getAuthor().getUsername());
+=======
+
+        Comment comment = commentList.get(position);
+        replyViewModel = new ViewModelProvider((ViewModelStoreOwner) this,
+                new ReplyViewFactory(replyRepository, String.valueOf(comment.getID()))
+        ).get(ReplyViewModel.class);
+        holder.replyArrayList = new ArrayList<>();
+        holder.replyAdapter = new ReplyAdapter(holder.replyArrayList, context);
+        holder.replyRecyclerView.setAdapter(holder.replyAdapter);
+        holder.replyRecyclerView.setRecycledViewPool(holder.recycledViewPool);
+
+        holder.commentAuthorNicknameTV.setText(comment.getAuthor().getNickname());
+>>>>>>> Stashed changes
         holder.commentContentTV.setText(comment.getContent());
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
