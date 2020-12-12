@@ -6,7 +6,7 @@
     android:id="@+id/wrapper_article_item"
     android:orientation="vertical"
     android:background="@drawable/bordered_white_background"
-    android:paddingLeft="22dp"
+    android:paddingLeft="18dp"
     android:paddingRight="22dp"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
@@ -88,7 +88,7 @@
             android:src="@drawable/ic_reply"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyler_view_reply_list"
+        android:id="@+id/recycler_view_reply_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

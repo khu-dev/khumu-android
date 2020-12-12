@@ -116,8 +116,7 @@ public class ArticleDetailFragment extends Fragment {
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
         recyclerView.setLayoutManager(linearLayoutManager);
-        commentArrayList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(commentArrayList, getContext());
+        commentAdapter = new CommentAdapter(new ArrayList<>(), getContext());
         recyclerView.setAdapter(commentAdapter);
 
 
@@ -174,10 +173,10 @@ public class ArticleDetailFragment extends Fragment {
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
-                int originalLength = commentArrayList.size();
+                int originalLength = commentAdapter.commentList.size();
                 int newLength = changedSet.size();
                 for (int i = originalLength; i<newLength; i++) {
-                    commentArrayList.add(changedSet.get(i));
+                    commentAdapter.commentList.add(changedSet.get(i));
                 }
                 commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
 //                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);

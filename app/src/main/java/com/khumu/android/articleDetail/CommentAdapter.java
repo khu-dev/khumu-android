@@ -59,19 +59,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private ArrayList<Comment> replyArrayList;
         private LinearLayoutManager linearLayoutManager;
 
-
-
         public CommentViewHolder(@NonNull View view) {
             super(view);
-
-            this.replyRecyclerView = view.findViewById(R.id.recycler_view_comment_list);
+            this.replyRecyclerView = view.findViewById(R.id.recycler_view_reply_list);
             this.commentAuthorNicknameTV = view.findViewById(R.id.comment_item_author_nickname_tv);
             this.commentContentTV = view.findViewById(R.id.comment_item_content_tv);
             this.commentLikeCountTV = view.findViewById(R.id.comment_item_like_count_tv);
             this.commentLikeIcon = view.findViewById(R.id.comment_item_like_icon);
             this.commentCreatedAtTV = view.findViewById(R.id.comment_item_created_at_tv);
             this.writeReplyIcon = view.findViewById(R.id.comment_item_reply_icon);
-
         }
     }
 
@@ -79,8 +75,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         KhumuApplication.container.inject(this);
         this.context = context;
         this.commentList = commentList;
+        System.out.println("commentList : " + commentList);
     }
-
 
     @NonNull
     @Override
@@ -95,12 +91,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = commentList.get(position);
-
+        System.out.println(commentList);
         holder.linearLayoutManager = new LinearLayoutManager(context);
         holder.replyArrayList = new ArrayList<>();
+        if(!comment.getChildren().isEmpty())
+            holder.replyArrayList.addAll(comment.getChildren());
+        System.out.println("replyList" + holder.replyArrayList);
         holder.replyAdapter = new ReplyAdapter(holder.replyArrayList, context);
         holder.replyRecyclerView.setAdapter(holder.replyAdapter);
-
+        holder.replyRecyclerView.setLayoutManager(holder.linearLayoutManager);
         holder.commentAuthorNicknameTV.setText(comment.getAuthor().getNickname());
         holder.commentContentTV.setText(comment.getContent());
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
@@ -171,7 +170,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 }.start();
 

@@ -31,7 +31,7 @@ public class HomeViewModel extends ViewModel {
             public void run() {
                 super.run();
                 try {
-                    List<Board> boards = br.ListBoards("free,department");
+                    List<Board> boards = br.ListBoards("free,department,lecture");
 
 //                    for(int i=0; i<boards.size(); i++){
 //                        Board board = boards.get(i);

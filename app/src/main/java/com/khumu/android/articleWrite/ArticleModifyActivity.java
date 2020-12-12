@@ -96,7 +96,7 @@ public class ArticleModifyActivity extends ArticleWriteActivity {
             @Override
             public void run() {
                 try {
-                    boards.addAll(boardRepository.ListBoards("free,department"));
+                    boards.addAll(boardRepository.ListBoards("free,department,lecture"));
                     ArticleModifyActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

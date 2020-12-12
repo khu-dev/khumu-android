@@ -38,9 +38,38 @@ public class CommentRepository {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
-            .addPathSegment("comments")
-            .addQueryParameter("article", articleID)
-            .addQueryParameter("parent", "0");
+                .addPathSegment("comments")
+                .addQueryParameter("article", articleID)
+                .addQueryParameter("parent", "0");
+
+        Request req = new Request.Builder()
+                .header("Authorization", "Bearer "+ KhumuApplication.getToken())
+                .url(urlBuilder.build())
+                .build();
+        Response fetchResp = client.newCall(req).execute();
+        String respString = fetchResp.body().string();
+        String data = new JSONObject(respString).getString("data");
+        JSONArray commentJSONArray = new JSONArray(data);
+        ArrayList<Comment> comments = new ArrayList<>();
+
+        ObjectMapper mapper  = new ObjectMapper();
+        // 이걸 해야 정의하지 않은 property가 있어도 에러가 안남.
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        for(int i=0; i < commentJSONArray.length(); i++){
+            Comment comment = mapper.readValue(commentJSONArray.getJSONObject(i).toString(), Comment.class);
+            comments.add(comment);
+        }
+        return comments;
+    }
+
+    public ArrayList<Comment> ListReply(String articleID, String commentID) throws IOException, JSONException {
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+                .addPathSegment("comments")
+                .addQueryParameter("article", articleID)
+                .addQueryParameter("parent", commentID);
 
         Request req = new Request.Builder()
                 .header("Authorization", "Bearer "+ KhumuApplication.getToken())

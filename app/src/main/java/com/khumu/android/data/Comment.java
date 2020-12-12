@@ -12,6 +12,7 @@ public class Comment {
     private SimpleUser author;
     private String content;
     private int parent;
+    private ArrayList<Comment> children;
     private int likeCommentCount;
     private boolean liked;
     private String commentCreatedAt;
@@ -24,6 +25,7 @@ public class Comment {
         @JsonProperty("author") SimpleUser author,
         @JsonProperty("content") String content,
         @JsonProperty("parent") int parent,
+        @JsonProperty("children") ArrayList<Comment> children,
         @JsonProperty("like_comment_count") int likeCommentCount,
         @JsonProperty("liked") boolean liked,
         @JsonProperty("created_at") String commentCreatedAt) {
@@ -32,6 +34,7 @@ public class Comment {
         this.author = author;
         this.content = content;
         this.parent = parent;
+        this.children = children;
         this.likeCommentCount = likeCommentCount;
         this.liked = liked;
         this.commentCreatedAt = commentCreatedAt;
@@ -74,6 +77,10 @@ public class Comment {
     public int getParent() { return parent; }
 
     public void setParent(int parent) { this.parent = parent; }
+
+    public ArrayList<Comment> getChildren() { return children; }
+
+    public void setChildren(ArrayList<Comment> children) { this.children = children; }
 
     public int getLikeCommentCount() { return likeCommentCount; }
 
