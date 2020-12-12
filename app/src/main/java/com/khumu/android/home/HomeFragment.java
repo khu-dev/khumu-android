@@ -69,7 +69,6 @@ public class HomeFragment extends Fragment {
         homeViewModel.getLiveDataRecentArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
             @Override
             public void onChanged(List<Article> articles) {
-                System.out.println("changed");
                 for(Article a : articles){
 
                     recentArticleAdapter.add(a);

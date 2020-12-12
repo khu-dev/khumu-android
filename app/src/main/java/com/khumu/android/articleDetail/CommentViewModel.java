@@ -73,7 +73,6 @@ public class CommentViewModel extends ViewModel {
         ObjectMapper mapper = new ObjectMapper();
         String commentString = mapper.writeValueAsString(comment);
         JSONObject commentJSON = new JSONObject(commentString);
-        System.out.println(commentString);
         RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),
                 String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
         );

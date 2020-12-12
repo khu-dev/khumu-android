@@ -62,7 +62,6 @@ public class ReplyRepository {
         System.out.println(commentStr);
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), commentStr);
-        System.out.println(body);
         HttpUrl.Builder urlBuilder = Util.newBuilder()
                 .addPathSegment("comments");
 
@@ -73,7 +72,6 @@ public class ReplyRepository {
                 .build();
 
         Response resp = client.newCall(req).execute();
-        System.out.println(resp);
         // 계속 200이듬
         if(resp.code() == 200){
             return true;

@@ -75,7 +75,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         KhumuApplication.container.inject(this);
         this.context = context;
         this.commentList = commentList;
-        System.out.println("commentList : " + commentList);
     }
 
     @NonNull
@@ -91,12 +90,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = commentList.get(position);
-        System.out.println(commentList);
         holder.linearLayoutManager = new LinearLayoutManager(context);
         holder.replyArrayList = new ArrayList<>();
         if(!comment.getChildren().isEmpty())
             holder.replyArrayList.addAll(comment.getChildren());
-        System.out.println("replyList" + holder.replyArrayList);
         holder.replyAdapter = new ReplyAdapter(holder.replyArrayList, context);
         holder.replyRecyclerView.setAdapter(holder.replyAdapter);
         holder.replyRecyclerView.setLayoutManager(holder.linearLayoutManager);
@@ -142,7 +139,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     @Override
                     public void run() {
                         try {
-                            System.out.println(commentList);
                             likeCommentRepository.toggleLikeComment(new LikeComment(comment.getID()));
                             boolean liked = comment.isLiked();
                             if (liked) {
