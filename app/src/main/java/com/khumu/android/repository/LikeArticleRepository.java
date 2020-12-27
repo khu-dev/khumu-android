@@ -48,7 +48,7 @@ public class LikeArticleRepository {
 
         Request toggleReq = new Request.Builder()
             .header("Authorization", "Bearer " + KhumuApplication.getToken())
-            .put(RequestBody.create(MediaType.parse("application/json"), likeArticleString))
+            .patch(RequestBody.create(MediaType.parse("application/json"), likeArticleString))
             .url(urlBuilder.build())
             .build();
         Response toggleResp = client.newCall(toggleReq).execute();

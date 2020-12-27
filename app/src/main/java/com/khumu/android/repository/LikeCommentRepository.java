@@ -40,7 +40,7 @@ public class LikeCommentRepository {
 
         Request toggleReq = new Request.Builder()
             .header("Authorization", "Bearer " + KhumuApplication.getToken())
-            .put(RequestBody.create(MediaType.parse("application/json"), likeCommentString))
+            .patch(RequestBody.create(MediaType.parse("application/json"), likeCommentString))
             .url(urlBuilder.build())
             .build();
         Response toggleResp = client.newCall(toggleReq).execute();
@@ -51,6 +51,5 @@ public class LikeCommentRepository {
             JSONObject respObj = new JSONObject(respString);
             throw new BadRequestException(respObj.getString("message"));
         }
-
     }
 }

@@ -259,7 +259,19 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailTitleTV.setText(article.getTitle());
         articleDetailContentTV.setText(article.getContent());
         articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
-        articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
+        // 글쓴이가 본인인 경우
+        if (article.getAuthor().getUsername().equals(KhumuApplication.getUsername())){
+            articleAuthorNicknameTV.setTextColor(getContext().getColor(R.color.colorSecondary));
+            if (article.getKind().equals("anonymous")){
+                articleAuthorNicknameTV.setText("익명");
+            } else{
+                articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
+            }
+        } else{
+            // 글쓴이가 본인이 아닌 경우
+            articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
+        }
+
         articleDetailCreatedAtTV.setText(article.getArticleCreatedAt());
         articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
         articleLikeIcon.setImageResource(getCommentLikedImage(article.isLiked()));

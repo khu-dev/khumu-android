@@ -129,11 +129,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     // test용으로 input값을 집어넣을 때에만 사용
     private void setTestInput(){
-        this.usernameET.setText(""+java.util.Calendar.getInstance().getTimeInMillis());
+        this.usernameET.setText(""+java.util.Calendar.getInstance().getTimeInMillis()%5);
         this.passwordET.setText("123123");
         this.passwordConfirmET.setText("123123");
-        this.nicknameET.setText("" + java.util.Calendar.getInstance().getTimeInMillis());
-        this.emailET.setText("testJinsu@khu.ac.kr");
+        this.nicknameET.setText("테스트 닉네임" + java.util.Calendar.getInstance().getTimeInMillis()%5);
+        this.emailET.setText("test@khu.ac.kr");
         this.studentNumberET.setText("2000123123");
         this.departmentNumber.setText("컴퓨터공학과");
     }
