@@ -39,7 +39,6 @@ import com.khumu.android.data.SimpleUser;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
-import com.khumu.android.repository.LikeCommentRepository;
 import com.khumu.android.usecase.ArticleUseCase;
 
 import java.util.ArrayList;
@@ -51,8 +50,6 @@ public class ArticleDetailFragment extends Fragment {
     private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
     public ArticleRepository articleRepository;
-    @Inject
-    public LikeArticleRepository likeArticleRepository;
     @Inject
     public CommentRepository commentRepository;
     @Inject

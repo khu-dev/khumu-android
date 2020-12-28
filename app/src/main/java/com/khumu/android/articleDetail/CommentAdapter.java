@@ -29,7 +29,6 @@ import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
-import com.khumu.android.repository.LikeCommentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +38,6 @@ import javax.inject.Inject;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private final static String TAG = "CommentAdapter";
 
-    @Inject
-    public LikeCommentRepository likeCommentRepository;
     @Inject
     public CommentRepository commentRepository;
 
@@ -139,7 +136,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     @Override
                     public void run() {
                         try {
-                            likeCommentRepository.toggleLikeComment(new LikeComment(comment.getID()));
+                            commentRepository.toggleLikeComment(comment.getID());
                             boolean liked = comment.isLiked();
                             if (liked) {
                                 comment.setLiked(false);
@@ -154,13 +151,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                 public void run() {
                                     holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
                                     holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
-                                }
-                            });
-                        } catch (LikeCommentRepository.BadRequestException e) {
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } catch (Exception e) {

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
+import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.util.Util;
 
@@ -116,6 +117,29 @@ public class CommentRepository {
             return true;
         } else{
             return false;
+        }
+    }
+
+    public void toggleLikeComment(int commentID) throws IOException, JSONException {
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = Util.newBuilder()
+                .addPathSegment("comments")
+                .addPathSegment(String.valueOf(commentID))
+                .addPathSegment("likes");
+
+        Request toggleReq = new Request.Builder()
+                .header("Authorization", "Bearer " + KhumuApplication.getToken())
+                .patch(RequestBody.create(null, new byte[0])) // empty body. like를 toggle할 때에는 body 필요없음.
+                .url(urlBuilder.build())
+                .build();
+        Response toggleResp = client.newCall(toggleReq).execute();
+        //toggle 하면 log에 message가 전달되는건가? -> 된다
+        if(toggleResp.code() != 201 && toggleResp.code() != 204 && toggleResp.code() != 200) {
+            String respString = toggleResp.body().string();
+            Log.d(TAG, "toggleLikeComment: " + respString);
+            Log.d(TAG, "[ERROR] toggleLikeComment: wrong response");
+            JSONObject respObj = new JSONObject(respString);
         }
     }
 }

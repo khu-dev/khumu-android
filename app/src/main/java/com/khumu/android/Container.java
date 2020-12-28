@@ -16,7 +16,6 @@ import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
-import com.khumu.android.repository.LikeCommentRepository;
 import com.khumu.android.repository.TokenRepository;
 import com.khumu.android.usecase.ArticleUseCase;
 
@@ -29,14 +28,12 @@ public interface Container {
     BoardRepository getBoardRepository();
     ArticleRepository getArticleRepository();
     LikeArticleRepository getLikeArticleRepository();
-    LikeCommentRepository getLikeCommentRepository();
     CommentRepository getCommentRepository();
     ArticleUseCase getArticleUseCase();
 
     // 여기에 의존성 주입을 원하는 클래스들을 명시
     void inject(ArticleRepository articleRepository);
     void inject(LikeArticleRepository likeArticleRepository);
-    void inject(LikeCommentRepository likeCommentRepository);
     void inject(CommentRepository commentRepository);
     void inject(TokenRepository tokenRepository);
 
