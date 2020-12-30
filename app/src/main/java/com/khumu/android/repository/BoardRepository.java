@@ -32,13 +32,16 @@ import okhttp3.Response;
 public class BoardRepository {
     @Inject
     public BoardRepository(){}
-    public List<Board> ListBoards(String category) throws IOException, JSONException {
+    public List<Board> ListBoards(String category, Boolean followed) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
             .addPathSegment("boards");
         if (category!=null && !category.equals("")){
             urlBuilder.addQueryParameter("category", category);
+        }
+        if (followed!=null){
+            urlBuilder.addQueryParameter("followed", String.valueOf(followed));
         }
 
         Request.Builder reqBuilder = new Request.Builder();

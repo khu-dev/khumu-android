@@ -202,7 +202,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    boards.addAll(boardRepository.ListBoards("free,department,lecture"));
+                    boards.addAll(boardRepository.ListBoards("free,department,lecture", null));
                 } catch (Exception e){
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {

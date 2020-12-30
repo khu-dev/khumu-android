@@ -120,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_default_space"
-                android:text="최근 게시물"
+                android:text="팔로우 중인 게시판"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/big_title_font_size"
                 android:textStyle="bold"/>

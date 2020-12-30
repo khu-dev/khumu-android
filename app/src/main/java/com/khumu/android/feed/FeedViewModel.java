@@ -1,5 +1,7 @@
 package com.khumu.android.feed;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import java.io.IOException;
@@ -24,26 +26,25 @@ public class FeedViewModel extends ViewModel {
     private BoardRepository boardRepository;
     private ArticleRepository articleRepository;
 
+    private Board recentBoard;
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
     private MutableLiveData<Board> currentBoard;
 
     @Inject
     public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
-        articles = new MutableLiveData<>(new ArrayList<Article>());
-        List<Board> initialBoards = new ArrayList<Board>();
-        boards = new MutableLiveData<>(initialBoards);
-        currentBoard = new MutableLiveData<>(new Board("recent", "logical","최근게시판","임시로 띄우는 최근 게시물", null));
         this.boardRepository = boardRepository;
         this.articleRepository = articleRepository;
+
+        recentBoard = new Board("recent", "logical","최근게시판","임시로 띄우는 최근 게시물", null, null, null);
+        currentBoard = new MutableLiveData<>(recentBoard);
+        List<Board> initialBoards = new ArrayList<Board>();
+        initialBoards.add(recentBoard);
+        boards = new MutableLiveData<>(initialBoards);
+
+        articles = new MutableLiveData<>(new ArrayList<Article>());
+
         ListBoards();
-        // 기본적으로 recent 게시물들을 1 page 가져옴.
-        // 초기 게시판을 recent로 한 경우와 임의의 게시판을 설정한 경우로 나뉨.
-//        if (initialBoard instanceof RecentBoard){
-//            ListArticles(null, 1);
-//        }else{
-//            ListArticles(initialBoard.getName(), 1);
-//        }
         ListArticles();
     }
 
@@ -78,7 +79,8 @@ public class FeedViewModel extends ViewModel {
             public void run() {
                 super.run();
                 try {
-                    List<Board> _boards = boardRepository.ListBoards(null);
+                    List<Board> _boards = new ArrayList<>();
+                    _boards.addAll(boardRepository.ListBoards(null, null));
                     boards.postValue(_boards);
                 } catch (IOException e) {
                     e.printStackTrace();

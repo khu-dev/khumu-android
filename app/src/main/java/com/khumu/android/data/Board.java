@@ -11,6 +11,8 @@ public class Board implements Serializable {
     public String category;
     public String displayName;
     public String description;
+    public Boolean followed;
+    public String followedAt;
     public List<Article> recentArticles;
 
     @JsonCreator
@@ -19,11 +21,15 @@ public class Board implements Serializable {
             @JsonProperty("category") String category,
             @JsonProperty("display_name") String displayName,
             @JsonProperty("description") String description,
+            @JsonProperty("followed") Boolean followed,
+            @JsonProperty("followed_at") String followedAt,
             @JsonProperty("recent_articles") List<Article>recentArticles ) {
         this.name = name;
         this.category = category;
         this.displayName = displayName;
         this.description = description;
+        this.followed = followed;
+        this.followedAt = followedAt;
         this.recentArticles = recentArticles;
     }
 
@@ -61,5 +67,25 @@ public class Board implements Serializable {
 
     public void setRecentArticles(List<Article> recentArticles) {
         this.recentArticles = recentArticles;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Boolean getFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(Boolean followed) {
+        this.followed = followed;
+    }
+
+    public String getFollowedAt() {
+        return followedAt;
+    }
+
+    public void setFollowedAt(String followedAt) {
+        this.followedAt = followedAt;
     }
 }
