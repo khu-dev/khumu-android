@@ -27,7 +27,7 @@
         android:label="Board"
         tools:layout="@layout/fragment_feed" >
         <action
-            android:id="@+id/action_navigation_boards_to_navigation_feed2"
+            android:id="@+id/action_navigation_boards_to_navigation_feed"
             app:destination="@id/navigation_feed" />
         <action
             android:id="@+id/action_navigation_boards_to_navigation_my_page"
@@ -54,9 +54,9 @@
 
     <fragment
         android:id="@+id/navigation_my_page"
-        android:name="com.khumu.android.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" >
+        android:name="com.khumu.android.myPage.MyPageFragment"
+        android:label="@string/title_my_page"
+        tools:layout="@layout/fragment_my_page" >
         <action
             android:id="@+id/action_navigation_my_page_to_navigation_feed"
             app:destination="@id/navigation_feed" />

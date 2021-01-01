@@ -65,6 +65,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
 
-//    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-//    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'com.google.android:flexbox:2.0.1'
 }

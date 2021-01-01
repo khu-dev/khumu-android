@@ -12,6 +12,7 @@ import com.khumu.android.feed.FeedFragment;
 import com.khumu.android.feed.FeedViewModel;
 import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
+import com.khumu.android.myPage.MyPageFragment;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
@@ -46,7 +47,8 @@ public interface Container {
 
     void inject(FeedFragment feedFragment);
     void inject(ArticleDetailFragment articleDetailFragment);
-    void inject(HomeFragment articleAdapter);
+    void inject(HomeFragment homeFragment);
+    void inject(MyPageFragment myPageFragment);
 
     void inject(LoginActivity loginActivity);
     void inject(ArticleWriteActivity articleWriteActivity);
