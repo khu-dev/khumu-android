@@ -85,7 +85,6 @@ public class FeedViewModel extends ViewModel {
     // board가 변경되면 그에 맞게 article도 list
     public void setCurrentBoard(String boardDisplayName) {
         for(Board b: boards.getValue()){
-            Log.d(TAG, "setCurrentBoard: " + b.getDisplayName());
             if(b.getDisplayName().equals(boardDisplayName)){
                 currentBoard.setValue(b);
 
