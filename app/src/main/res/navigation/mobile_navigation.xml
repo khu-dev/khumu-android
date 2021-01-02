@@ -23,9 +23,9 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_boards"
-        android:name="com.khumu.android.feed.FeedFragment"
+        android:name="com.khumu.android.feed.TabFeedFragment"
         android:label="Board"
-        tools:layout="@layout/fragment_feed" >
+        tools:layout="@layout/layout_feed" >
         <action
             android:id="@+id/action_navigation_boards_to_navigation_feed"
             app:destination="@id/navigation_feed" />
@@ -38,9 +38,9 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_feed"
-        android:name="com.khumu.android.feed.FeedFragment"
+        android:name="com.khumu.android.feed.TabFeedFragment"
         android:label="Board"
-        tools:layout="@layout/fragment_feed" >
+        tools:layout="@layout/layout_feed" >
         <action
             android:id="@+id/action_navigation_feed_to_navigation_my_page"
             app:destination="@id/navigation_my_page" />

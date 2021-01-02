@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--article write activity에서 이용할 글쓰는 layout-->
 <LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"

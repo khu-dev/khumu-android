@@ -20,40 +20,5 @@ public class BaseKhumuActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        // login 후 돌아온 걸 수도 있음.
-        setToolbarInfo();
-    }
-
-    protected void setToolbarInfo(){
-        ViewGroup toolbarInfo = (ViewGroup) toolbar.findViewById(R.id.layout_toolbar_info);
-        ImageView userIcon = toolbar.findViewById(R.id.layout_toolbar_user_icon);
-        TextView nicknameTV = toolbarInfo.findViewById(R.id.layout_toolbar_nickname_tv);
-
-        // unauthenticated
-        if(!KhumuApplication.isAuthenticated()){
-            userIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                    BaseKhumuActivity.this.startActivity(loginIntent);
-                }
-            });
-            nicknameTV.setText("로그인해주시기 바랍니다.");
-        } else{
-            // authenticated => logout
-            nicknameTV.setText(KhumuApplication.getNickname());
-
-            userIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), KhumuApplication.getNickname() + "님 로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
-                    KhumuApplication.clearKhumuConfig();
-                    KhumuApplication.loadKhumuConfig();
-                    //재귀적으로 툴바를 그린다.
-                    setToolbarInfo();
-                }
-            });
-
-        }
     }
 }

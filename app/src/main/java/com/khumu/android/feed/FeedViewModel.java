@@ -26,26 +26,35 @@ public class FeedViewModel extends ViewModel {
     private BoardRepository boardRepository;
     private ArticleRepository articleRepository;
 
-    private Board recentBoard;
+    private Board recentMyBoard;
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
     private MutableLiveData<Board> currentBoard;
-
-    @Inject
-    public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
-        this.boardRepository = boardRepository;
+    /*
+    하나의 Board에 대한 feed를 이용하는 경우, Board를 전달해줘야하며 내가 쓴 게시물, 내가 좋아요한 게시물 등을 볼 수 있는 board 이다.
+    */
+    public FeedViewModel(ArticleRepository articleRepository, Board board){
+        Log.d(TAG, "FeedViewModel: (ArticleRepository articleRepository, Board board)");
         this.articleRepository = articleRepository;
-
-        recentBoard = new Board("recent", "logical","최근게시판","임시로 띄우는 최근 게시물", null, null, null);
-        currentBoard = new MutableLiveData<>(recentBoard);
-        List<Board> initialBoards = new ArrayList<Board>();
-        initialBoards.add(recentBoard);
-        boards = new MutableLiveData<>(initialBoards);
+        this.currentBoard = new MutableLiveData<>(board);
 
         articles = new MutableLiveData<>(new ArrayList<Article>());
+    }
+    /*
+    여러 Board에 대한 feed를 이용하는 경우이고, Feed tab을 위해 사용된다.
+    (WIP) 내가 Follow한 게시판을 조회하고, 전체 게시물도 조회하도록한다.
+     */
+    public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
+        Log.d(TAG, "FeedViewModel: (BoardRepository boardRepository, ArticleRepository articleRepository)");
+        this.boardRepository = boardRepository;
+        this.articleRepository = articleRepository;
+        recentMyBoard = new Board("recent", null,"나의 피드","내가 팔로우한 게시판들로 이루어진 피드입니다.", false, null, null);
+        currentBoard = new MutableLiveData<>(recentMyBoard);
+        List<Board> tmpBoards = new ArrayList<Board>();
+        tmpBoards.add(recentMyBoard);
+        boards = new MutableLiveData<>(tmpBoards);
 
-        ListBoards();
-        ListArticles();
+        articles = new MutableLiveData<>(new ArrayList<Article>());
     }
 
     public void clearArticles(){
@@ -73,13 +82,31 @@ public class FeedViewModel extends ViewModel {
         currentBoard.setValue(board);
     }
 
+    // board가 변경되면 그에 맞게 article도 list
+    public void setCurrentBoard(String boardDisplayName) {
+        for(Board b: boards.getValue()){
+            Log.d(TAG, "setCurrentBoard: " + b.getDisplayName());
+            if(b.getDisplayName().equals(boardDisplayName)){
+                currentBoard.setValue(b);
+
+            }
+        }
+
+        ListArticles();
+    }
+
+    // Boards를 list 하여 저장
     public void ListBoards() {
+        Log.d(TAG, "ListBoards: ");
         new Thread(){
             @Override
             public void run() {
                 super.run();
                 try {
                     List<Board> _boards = new ArrayList<>();
+                    // ListBoards API에서는 최근 내가 팔로우한 피드를 보여주지 않는다.
+                    // 따라서 수동으로 추가해준다.
+                    _boards.add(recentMyBoard);
                     _boards.addAll(boardRepository.ListBoards(null, null));
                     boards.postValue(_boards);
                 } catch (IOException e) {
@@ -91,17 +118,14 @@ public class FeedViewModel extends ViewModel {
         }.start();
     }
 
-    // Articles를 초기화
+    // Articles를 list하여 저장
     public void ListArticles(){
-        final String board = currentBoard.getValue().getName();
-
-        int page = 1;
-
+        Log.d(TAG, "ListArticles: " + currentBoard.getValue().getName());
         new Thread(){
             @Override
             public void run() {
                 try {
-                    List<Article> _articles = articleRepository.ListArticle(board, page);
+                    List<Article> _articles = articleRepository.ListArticle(currentBoard.getValue().getName(), 1);
                     articles.postValue(_articles);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

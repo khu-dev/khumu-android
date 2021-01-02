@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--article detail activity에서 게시물에 대한 댓글에 대한 RecyclerView가
+이용할 Comment Item을 나타내는 layout-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

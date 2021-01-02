@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--단일 보드에 대한 feed를 나타내는 액티비티
+예를 들어 마이페이지에서 자신이 작성한 글을 보려하거나
+게시판 검색 후 해당 게시판의 글을 보려하는 경우 이용된다.-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+    </include>
+
+<!-- 이 곳에 feed fragment가 위치하게 되는데, 인자를 전달해야하기 때문에 xml에서 직접 생성하지는 않는다.-->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/single_board_articles_fragment_container"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

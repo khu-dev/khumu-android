@@ -49,6 +49,11 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
             android:label="@string/app_name">
 
         </activity>
+        <activity
+            android:name=".feed.SingleBoardFeedActivity"
+            android:label="@string/app_name">
+
+        </activity>
 
     </application>
 

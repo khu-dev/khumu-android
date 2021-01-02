@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--아직 안 씀. 나중에 board 관련 내용에서 쓸 수도 있고, 근데 거의 안 쓸 듯-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+</androidx.constraintlayout.widget.ConstraintLayout>

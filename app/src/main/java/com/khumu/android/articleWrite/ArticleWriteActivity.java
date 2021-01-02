@@ -24,7 +24,6 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
-import com.khumu.android.feed.BoardsToggler;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.KhumuUserRepository;
@@ -49,7 +48,6 @@ public class ArticleWriteActivity extends AppCompatActivity {
 
     EditText titleET;
     EditText contentET;
-    BoardsToggler boardsToggler;
     ImageView boardToggleBTN;
     TextView selectedBoardTV;
     View boardsView;
@@ -72,7 +70,6 @@ public class ArticleWriteActivity extends AppCompatActivity {
     protected void findViews(){
         titleET = findViewById(R.id.article_write_title_et);
         contentET = findViewById(R.id.article_write_content_et);
-        boardToggleBTN = findViewById(R.id.article_write_popup_boards_icon);
         selectedBoardTV = findViewById(R.id.article_write_selected_board_display_name_tv);
         boardsView = findViewById(R.id.article_write_boards_wrapper_layout);
         submitBTN = findViewById(R.id.article_write_submit_btn);

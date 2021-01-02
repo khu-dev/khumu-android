@@ -21,7 +21,6 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
-import com.khumu.android.feed.BoardsToggler;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 

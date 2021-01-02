@@ -51,6 +51,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.MainActivity;
 import com.khumu.android.R;
 import com.khumu.android.data.KhumuJWT;
 import com.khumu.android.repository.TokenRepository;
@@ -94,7 +95,9 @@ public class LoginActivity extends AppCompatActivity {
                             KhumuJWT jwt = tokenRepository.GetToken(username, password);
                             KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString());
                             KhumuApplication.loadKhumuConfig();
-
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            LoginActivity.this.startActivity(intent);
                             finish();
                         } catch (TokenRepository.WrongCredentialException e) {
                             System.out.println("잘못된 계정 정보입니다.\n올바른 정보를 입력해주세요.");

@@ -69,7 +69,7 @@ public class KhumuApplication extends Application {
         editor.commit();
     }
 
-    public static void clearKhumuConfig(){
+    public static void clearKhumuAuthenticationConfig(){
         SharedPreferences.Editor editor = KhumuApplication.sharedPref.edit();
         editor.remove("username");
         editor.remove("nickname");

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--MyPage로서 사용하는 Fragment-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -41,24 +42,24 @@
                 android:orientation="vertical"
                 >
                 <TextView
-                    android:id="@+id/my_page_profile_username_tv"
+                    android:id="@+id/my_page_profile_nickname_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:textColor="@color/colorMuted"
                     android:textSize="@dimen/default_font_size"
-                    android:text="닉네임"/>
+                    android:text="유저네임"/>
                 <TextView
-                    android:id="@+id/my_page_profile_nickname_tv"
+                    android:id="@+id/my_page_profile_username_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/my_page_profile_username_tv"
-
+                    app:layout_constraintTop_toBottomOf="@+id/my_page_profile_nickname_tv"
                     android:textColor="@color/colorDefault"
                     android:textSize="@dimen/default_font_size"
-                    android:text="유저네임"/>
+                    android:text="닉네임"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <Space
@@ -83,12 +84,29 @@
 <!--        <com.khumu.android.component.BaseTag-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"/>-->
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorDefault"
-            android:textSize="@dimen/title_font_size"
-            android:text="팔로우 중인 게시판 태그"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/my_page_following_article_tags_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/my_page_following_article_tags_edit_icon"
+                android:textColor="@color/colorDefault"
+                android:textSize="@dimen/title_font_size"
+                android:text="팔로우 중인 게시판 태그"/>
+            <ImageView
+                android:id="@+id/my_page_following_article_tags_edit_icon"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_write_article"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.flexbox.FlexboxLayout
             app:flexWrap="wrap"
             android:layout_width="match_parent"
@@ -148,12 +166,29 @@
         <!--        <com.khumu.android.component.BaseTag-->
         <!--            android:layout_width="wrap_content"-->
         <!--            android:layout_height="wrap_content"/>-->
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorDefault"
-            android:textSize="@dimen/title_font_size"
-            android:text="팔로우 중인 공지사항 태그"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/my_page_following_announcement_tags_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/my_page_following_announcement_tags_edit_icon"
+                android:textColor="@color/colorDefault"
+                android:textSize="@dimen/title_font_size"
+                android:text="팔로우 중인 공지사항 태그"/>
+            <ImageView
+                android:id="@+id/my_page_following_announcement_tags_edit_icon"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_write_article"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.flexbox.FlexboxLayout
             app:flexWrap="wrap"
             android:layout_width="match_parent"
@@ -185,6 +220,7 @@
         <!--            android:layout_width="wrap_content"-->
         <!--            android:layout_height="wrap_content"/>-->
         <TextView
+            android:id="@+id/my_page_articles_written_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorDefault"
@@ -192,6 +228,7 @@
             android:text="작성한 게시물"
             android:paddingBottom="@dimen/layout_default_space"/>
         <TextView
+            android:id="@+id/my_page_articles_liked_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorDefault"
@@ -199,6 +236,7 @@
             android:text="좋아요한 게시물"
             android:paddingBottom="@dimen/layout_default_space"/>
         <TextView
+            android:id="@+id/my_page_articles_bookmarked_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorDefault"
@@ -206,6 +244,7 @@
             android:text="북마크한 게시물"
             android:paddingBottom="@dimen/layout_default_space"/>
         <TextView
+            android:id="@+id/my_page_articles_commented_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorDefault"
@@ -214,4 +253,13 @@
             android:paddingBottom="@dimen/layout_default_space"/>
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/my_page_logout_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorMuted"
+        android:textSize="@dimen/title_font_size"
+        android:text="로그아웃하기"
+        android:paddingHorizontal="@dimen/layout_large_space"
+        android:paddingVertical="@dimen/layout_large_space"/>
 </LinearLayout>

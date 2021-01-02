@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--아직 안씀. 나중에 notification에 사용할 fragment-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

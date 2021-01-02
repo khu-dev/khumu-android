@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--article detail activity에서 대댓글에 대한 RecyclerView 에서
+이용되는 대댓글 item-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

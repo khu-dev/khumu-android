@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--로그인 페이지에서 연결되어 회원가입을 할 때 이용하는 액티비티-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
