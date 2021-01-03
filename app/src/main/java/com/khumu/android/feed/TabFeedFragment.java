@@ -62,7 +62,7 @@ public class TabFeedFragment extends BaseFeedFragment {
 
     @Override
     protected void generateFeedViewModel() {
-        feedViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory(){
+        feedViewModel = new ViewModelProvider(getActivity(), new ViewModelProvider.Factory(){
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
