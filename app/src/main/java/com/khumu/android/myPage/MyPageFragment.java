@@ -135,6 +135,7 @@ public class MyPageFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         KhumuApplication.clearKhumuAuthenticationConfig();
+                        KhumuApplication.loadKhumuConfig(); // refresh 과정
                         MyPageFragment.this.getActivity().finishAffinity();
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {

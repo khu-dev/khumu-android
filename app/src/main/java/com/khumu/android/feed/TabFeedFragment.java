@@ -69,6 +69,7 @@ public class TabFeedFragment extends BaseFeedFragment {
                 return (T) new FeedViewModel(boardRepository, articleRepository);
             }
         }).get(FeedViewModel.class);
+
         feedViewModel.ListBoards();
         feedViewModel.ListArticles();
     }
@@ -140,7 +141,6 @@ public class TabFeedFragment extends BaseFeedFragment {
                 // TODO : 이미 선택된 tab이 다시
             }
         });
-
         articleWriteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
