@@ -119,22 +119,24 @@ public class ArticleWriteActivity extends AppCompatActivity {
                 createBoardListDialog();
             }
         });
-
-        tagET.setOnKeyListener(new View.OnKeyListener() {
+        tagET.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                    (keyCode == KeyEvent.KEYCODE_SPACE || keyCode == KeyEvent.KEYCODE_COMMA ||
-                        keyCode == KeyEvent.KEYCODE_NUMPAD_COMMA)) {
-                    String newTagName = tagET.getText().toString().trim();
-                    tagET.setText("");
-                    article.getTags().add(new ArticleTag(newTagName, false)); // follwed는 뭐가 되든 상관없음.
-                    articleTagAdapter.notifyItemInserted(article.getTags().size()-1);
-                    return true;
-                }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
-                return false;
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().endsWith(" ") || s.toString().endsWith(",") || s.toString().endsWith("\n")){
+                    String newTagName = s.toString().replace(" ", "").replace(",", "").replace("\n", "");
+                    if (!newTagName.isEmpty()){
+                        article.getTags().add(new ArticleTag(newTagName, false)); // follwed는 뭐가 되든 상관없음.
+                        articleTagAdapter.notifyItemInserted(article.getTags().size()-1);
+                    } else{
+                        Toast.makeText(ArticleWriteActivity.this, "태그 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                    tagET.setText("");
+                }
             }
         });
 
