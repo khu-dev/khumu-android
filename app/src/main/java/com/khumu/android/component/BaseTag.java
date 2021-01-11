@@ -36,18 +36,25 @@ public class BaseTag extends androidx.appcompat.widget.LinearLayoutCompat {
         tagTV.setText(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "text"));
         this.addView(tagTV);
 
-        if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "background") == null){
-            this.setBackgroundResource(R.drawable.round_primary_bordered_background);
-        }
-
-        if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textColor") == null){
-            tagTV.setTextColor(context.getColor(R.color.colorPrimary));
-        }
+        this.setBackground(context, attrs);
+        this.setTextColor(context, attrs);
 
         if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textSize") == null){
             tagTV.setTextSize(14);
         }
 
         this.setPadding(20,10,20,10); // 10배 상세한 단위인듯
+    }
+
+    protected void setBackground(@NonNull Context context, @Nullable AttributeSet attrs){
+        if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "background") == null){
+            this.setBackgroundResource(R.drawable.round_primary_bordered_background);
+        }
+    }
+
+    protected void setTextColor(@NonNull Context context, @Nullable AttributeSet attrs){
+        if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textColor") == null){
+            tagTV.setTextColor(context.getColor(R.color.colorPrimary));
+        }
     }
 }

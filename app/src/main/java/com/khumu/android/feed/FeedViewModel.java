@@ -48,7 +48,7 @@ public class FeedViewModel extends ViewModel {
         Log.d(TAG, "FeedViewModel: (BoardRepository boardRepository, ArticleRepository articleRepository)");
         this.boardRepository = boardRepository;
         this.articleRepository = articleRepository;
-        recentMyBoard = new Board("recent", null,"나의 피드","내가 팔로우한 게시판들로 이루어진 피드입니다.", false, null, null);
+        recentMyBoard = new Board("following", null,"Following","내가 팔로우한 게시판들로 이루어진 피드입니다.", false, null, null);
         currentBoard = new MutableLiveData<>(recentMyBoard);
         List<Board> tmpBoards = new ArrayList<Board>();
         tmpBoards.add(recentMyBoard);
