@@ -4,33 +4,30 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.component.ArticleTagAdapter;
 import com.khumu.android.data.Article;
+import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.repository.KhumuUserRepository;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +45,14 @@ public class ArticleWriteActivity extends AppCompatActivity {
 
     EditText titleET;
     EditText contentET;
-    ImageView boardToggleBTN;
     TextView selectedBoardTV;
     View boardsView;
     Button submitBTN;
     CheckBox isAnonymousCB;
+    EditText tagET;
+    RecyclerView tagsRecyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    ArticleTagAdapter articleTagAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class ArticleWriteActivity extends AppCompatActivity {
         KhumuApplication.container.inject(this);
         article = new Article();
         boards = new ArrayList<Board>();
-
         listBoards();
         setContentView(R.layout.activity_article_write);
         findViews();
@@ -75,6 +74,10 @@ public class ArticleWriteActivity extends AppCompatActivity {
         submitBTN = findViewById(R.id.article_write_submit_btn);
         isAnonymousCB = findViewById(R.id.article_write_is_anonymous_cb);
         isAnonymousCB.setChecked(true);
+        tagET = findViewById(R.id.article_write_tag_et);
+        tagsRecyclerView = findViewById(R.id.article_write_tags_recycler_view);
+        articleTagAdapter = new ArticleTagAdapter(article.getTags());
+        tagsRecyclerView.setAdapter(articleTagAdapter);
         this.article.setKind("anonymous");
     }
 
@@ -114,6 +117,24 @@ public class ArticleWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createBoardListDialog();
+            }
+        });
+
+        tagET.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                    (keyCode == KeyEvent.KEYCODE_SPACE || keyCode == KeyEvent.KEYCODE_COMMA ||
+                        keyCode == KeyEvent.KEYCODE_NUMPAD_COMMA)) {
+                    String newTagName = tagET.getText().toString().trim();
+                    tagET.setText("");
+                    article.getTags().add(new ArticleTag(newTagName, false)); // follwed는 뭐가 되든 상관없음.
+                    articleTagAdapter.notifyItemInserted(article.getTags().size()-1);
+                    return true;
+                }
+
+                return false;
             }
         });
 

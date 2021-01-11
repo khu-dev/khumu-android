@@ -15,7 +15,7 @@ import com.khumu.android.R;
 
 public class BaseTag extends androidx.appcompat.widget.LinearLayoutCompat {
     final static String TAG = "BaseTag";
-    TextView tagTV;
+    TextView tagNameTV;
     public BaseTag(@NonNull Context context) {
         super(context);
     }
@@ -32,15 +32,16 @@ public class BaseTag extends androidx.appcompat.widget.LinearLayoutCompat {
     protected void initialize(@NonNull Context context, @Nullable AttributeSet attrs){
         // android는 http://schemas.android.com/apk/res/android의 alias이기때문에
         // attr을 얻을 땐 full name인 http://schemas.android.com/apk/res/android을 이용해야한다.
-        tagTV = new TextView(context);
-        tagTV.setText(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "text"));
-        this.addView(tagTV);
+        tagNameTV = new TextView(context);
+        tagNameTV.setTag("tag_name_tv"); // 동적으로 생성한 View를 R.id가 아닌 Tag로 참조할 수 있도록 함.
+        tagNameTV.setText(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "text"));
+        this.addView(tagNameTV);
 
         this.setBackground(context, attrs);
         this.setTextColor(context, attrs);
 
         if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textSize") == null){
-            tagTV.setTextSize(14);
+            tagNameTV.setTextSize(14);
         }
 
         this.setPadding(20,10,20,10); // 10배 상세한 단위인듯
@@ -54,7 +55,7 @@ public class BaseTag extends androidx.appcompat.widget.LinearLayoutCompat {
 
     protected void setTextColor(@NonNull Context context, @Nullable AttributeSet attrs){
         if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textColor") == null){
-            tagTV.setTextColor(context.getColor(R.color.colorPrimary));
+            tagNameTV.setTextColor(context.getColor(R.color.colorPrimary));
         }
     }
 }

@@ -52,6 +52,13 @@
         android:layout_marginTop="@dimen/layout_large_space"
         android:layout_marginBottom="@dimen/layout_large_space"
         android:text="게시물 내용"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/article_detail_article_tags_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/layout_default_space"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
+import com.khumu.android.component.ArticleTagAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.LikeArticle;
@@ -75,6 +76,9 @@ public class ArticleDetailFragment extends Fragment {
     private ImageView articleSettingIcon;
     private PopupMenu articleSettingPopupMenu;
 
+    private RecyclerView articleTagRecyclerView;
+    private ArticleTagAdapter articleTagAdapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,9 +108,7 @@ public class ArticleDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // onCreateView에서 return된 view를 가지고 있다
         super.onViewCreated(view, savedInstanceState);
-
         Intent intent = getActivity().getIntent();
-
 
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 //        linearLayoutManager.setReverseLayout(true);
@@ -116,6 +118,7 @@ public class ArticleDetailFragment extends Fragment {
         commentAdapter = new CommentAdapter(new ArrayList<>(), getContext());
         recyclerView.setAdapter(commentAdapter);
 
+        articleTagRecyclerView = view.findViewById(R.id.article_detail_article_tags_recycler_view);
 
         articleDetailTitleTV = view.findViewById(R.id.article_detail_title_tv);
         articleDetailContentTV = view.findViewById(R.id.article_detail_content_tv);
@@ -277,6 +280,8 @@ public class ArticleDetailFragment extends Fragment {
         } else{
             articleSettingIcon.setVisibility(View.GONE);
         }
+
+        articleTagRecyclerView.setAdapter(new ArticleTagAdapter(article.getTags()));
 
         /*
         articleLikeIcon.setOnClickListener(new View.OnClickListener() {

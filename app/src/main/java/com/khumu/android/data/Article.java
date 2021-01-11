@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Article implements Serializable {
     private int id;
@@ -16,6 +18,7 @@ public class Article implements Serializable {
     private String boardDisplayName;
     private String content;
     private String kind;
+    private List<ArticleTag> tags;
     private int commentCount;
     private int likeArticleCount;
     private int bookmarkArticleCount;
@@ -23,15 +26,12 @@ public class Article implements Serializable {
     private boolean bookmarked;
     private String articleCreatedAt;
 
-    public Article(){}
-
-    public Article(String boardName, String boardDisplayName, String title, String content, String kind) {
-        this.boardName = boardName;
-        this.boardDisplayName = boardDisplayName;
-        this.title = title;
-        this.content = content;
-        this.kind = kind;
+    // 최소한 ArticleWrite할 때 사용
+    // 빈 Article 생성 후 내용을 수정해나감.
+    public Article(){
+        tags = new ArrayList<ArticleTag>();
     }
+
     @JsonCreator
     public Article (
             @JsonProperty("id") int id,
@@ -41,6 +41,7 @@ public class Article implements Serializable {
             @JsonProperty("board_display_name") String boardDisplayName,
             @JsonProperty("content") String content,
             @JsonProperty("kind") String kind,
+            @JsonProperty("tags") List<ArticleTag> tags,
             @JsonProperty("liked") boolean liked,
             @JsonProperty("bookmarked") boolean bookmarked,
             @JsonProperty("comment_count") int commentCount,
@@ -54,6 +55,7 @@ public class Article implements Serializable {
         this.boardDisplayName = boardDisplayName;
         this.content = content;
         this.kind = kind;
+        this.tags = tags;
         this.liked = liked;
         this.bookmarked = bookmarked;
         this.commentCount = commentCount;
@@ -126,6 +128,14 @@ public class Article implements Serializable {
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public List<ArticleTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<ArticleTag> tags) {
+        this.tags = tags;
     }
 
     public int getCommentCount() {
