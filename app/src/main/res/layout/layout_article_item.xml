@@ -14,8 +14,18 @@
     android:layout_marginTop="0dp"
     android:layout_marginBottom="@dimen/default_icon_size"
     >
+    <TextView
+        android:id="@+id/article_item_board_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="게시판 이름"
+        android:ellipsize="end"
+        android:textColor="@color/colorMuted"
+        android:textSize="@dimen/small_font_size"
+        android:maxLines="1"
+        />
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/article_body_layout"
+        android:id="@+id/article_item_body_layout"
         android:paddingRight="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

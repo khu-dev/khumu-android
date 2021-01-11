@@ -12,7 +12,8 @@ public class Article implements Serializable {
     private int id;
     private SimpleUser author;
     private String title;
-    private String board;
+    private String boardName;
+    private String boardDisplayName;
     private String content;
     private String kind;
     private int commentCount;
@@ -24,8 +25,9 @@ public class Article implements Serializable {
 
     public Article(){}
 
-    public Article(String board, String title, String content, String kind) {
-        this.board = board;
+    public Article(String boardName, String boardDisplayName, String title, String content, String kind) {
+        this.boardName = boardName;
+        this.boardDisplayName = boardDisplayName;
         this.title = title;
         this.content = content;
         this.kind = kind;
@@ -35,7 +37,8 @@ public class Article implements Serializable {
             @JsonProperty("id") int id,
             @JsonProperty("author") SimpleUser author,
             @JsonProperty("title") String title,
-            @JsonProperty("board") String board,
+            @JsonProperty("board_name") String boardName,
+            @JsonProperty("board_display_name") String boardDisplayName,
             @JsonProperty("content") String content,
             @JsonProperty("kind") String kind,
             @JsonProperty("liked") boolean liked,
@@ -47,7 +50,8 @@ public class Article implements Serializable {
         this.id = id;
         this.author = author;
         this.title = title;
-        this.board = board;
+        this.boardName = boardName;
+        this.boardDisplayName = boardDisplayName;
         this.content = content;
         this.kind = kind;
         this.liked = liked;
@@ -73,13 +77,11 @@ public class Article implements Serializable {
     public void setID(int id) {
         this.id = id;
     }
-    @JsonGetter("author")
+
     public SimpleUser getAuthor(){
-//        return String.format("{\"id\": \"%s\", \"username\": \"%s\"}", authorUsername,authorUsername);
         return author;
     }
 
-    @JsonSetter("author")
     public void setAuthorUsername(SimpleUser author){this.author = author;}
 
     public String getTitle() {
@@ -90,12 +92,24 @@ public class Article implements Serializable {
         this.title = title;
     }
 
-    public String getBoard() {
-        return board;
+    // 편의상 board를 object 형태가 아닌 board_name, board_display_name으로 이용하고있다.
+    // 하지만 article create api 요청을 보낼 때에는 board: board_name의 string 값을 전달해야하기 때문에
+    // board_name이 아닌 board에 대한 JsonGetter로 이용하기 위해 Annotation 추가.
+    @JsonGetter("board")
+    public String getBoardName() {
+        return boardName;
     }
 
-    public void setBoard(String board) {
-        this.board = board;
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
+    }
+
+    public String getBoardDisplayName() {
+        return boardDisplayName;
+    }
+
+    public void setBoardDisplayName(String boardDisplayName) {
+        this.boardDisplayName = boardDisplayName;
     }
 
     public String getContent() {

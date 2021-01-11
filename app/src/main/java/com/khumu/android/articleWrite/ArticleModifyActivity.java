@@ -117,7 +117,7 @@ public class ArticleModifyActivity extends ArticleWriteActivity {
 
     private void setInitialBoard(){
         for (Board b: boards){
-            if(article.getBoard().equals(b.getName())){
+            if(article.getBoardName().equals(b.getName())){
                 selectedBoard = b;
                 selectedBoardTV.setText(selectedBoard.getDisplayName());
             }

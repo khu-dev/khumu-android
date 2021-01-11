@@ -188,7 +188,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 selectedBoard = boards.get(which);
                 selectedBoardTV.setText(selectedBoard.getDisplayName());
-                article.setBoard(selectedBoard.getName());
+                article.setBoardName(selectedBoard.getName());
             }
         });
         builderSingle.show();

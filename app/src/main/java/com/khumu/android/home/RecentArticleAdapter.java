@@ -49,7 +49,7 @@ public class RecentArticleAdapter extends ArrayAdapter<Article> {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_home_recent_article_item, parent, false);
         }
         Article article = articles.get(position);
-        ((TextView)view.findViewById(R.id.home_recent_article_board_name_tv)).setText(article.getBoard());
+        ((TextView)view.findViewById(R.id.home_recent_article_board_name_tv)).setText(article.getBoardDisplayName());
         ((TextView)view.findViewById(R.id.home_recent_article_title_tv)).setText(article.getTitle());
         ((TextView)view.findViewById(R.id.home_recent_article_created_at_tv)).setText(article.getArticleCreatedAt());
         return view;

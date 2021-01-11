@@ -63,6 +63,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         Article article = articleList.get(position);
+        holder.articleBoardNameTV.setText(article.getBoardDisplayName());
         holder.articleTitleTV.setText(article.getTitle());
         holder.articleContentTV.setText(article.getContent());
         // usecase를 활용해 사용할 data를 적절히 변환한 뒤 리턴받음.
@@ -213,6 +214,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public ViewGroup articleBodyLayout;
         public ViewGroup articleLikeWrapperLayout;
         public ViewGroup articleBookmarkWrapperLayout;
+        public TextView articleBoardNameTV;
         public TextView articleTitleTV;
         public TextView articleContentTV;
         public TextView articleAuthorNicknameTV;
@@ -225,9 +227,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         // 이 view는 아마도 recycler view?
         public ArticleViewHolder(View view) {
             super(view);
-            this.articleBodyLayout = (ViewGroup) view.findViewById(R.id.article_body_layout);
+            this.articleBodyLayout = (ViewGroup) view.findViewById(R.id.article_item_body_layout);
             this.articleLikeWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_like_wrapper_layout);
             this.articleBookmarkWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_bookmark_wrapper_layout);
+            this.articleBoardNameTV = view.findViewById(R.id.article_item_board_name_tv);
             this.articleTitleTV = view.findViewById(R.id.article_item_title_tv);
             this.articleContentTV = view.findViewById(R.id.article_item_content_tv);
             this.articleAuthorNicknameTV = view.findViewById(R.id.article_item_author_nickname_tv);
