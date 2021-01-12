@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
             android:id="@+id/comment_item_author_nickname_tv"
-            android:textColor="@color/colorMuted"
+            android:textColor="@color/gray_500"
             android:text="이것은 코멘트 작성자"
             android:textSize="12dp"/>
         <TextView
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:textColor="@color/colorMuted"
+            android:textColor="@color/gray_500"
             android:text="방금 전"
             android:textSize="12dp"/>
         <TextView
@@ -53,7 +53,7 @@
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
             android:paddingRight="3dp"
-            android:textColor="@color/colorDefault"
+            android:textColor="@color/gray_700"
             android:text="이것은 코멘트 내용"
             android:textSize="@dimen/default_font_size"/>
         <ImageView

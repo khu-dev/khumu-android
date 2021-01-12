@@ -72,9 +72,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         // usecase를 활용해 사용할 data를 적절히 변환한 뒤 리턴받음.
         holder.articleAuthorNicknameTV.setText(articleUseCase.getAuthorNickname(article));
         if(articleUseCase.amIAuthor(article)){
-            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.colorSecondary));
+            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.red_300));
         } else{
-            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.colorMuted));
+            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.gray_500));
         }
 
         holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));

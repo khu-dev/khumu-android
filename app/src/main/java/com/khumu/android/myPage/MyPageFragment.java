@@ -12,24 +12,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.component.ArticleTagAdapter;
+import com.khumu.android.data.Article;
+import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.Board;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.R;
+import com.khumu.android.home.HomeViewModel;
+import com.khumu.android.home.HomeViewModelFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyPageFragment extends Fragment {
-//    private final static String TAG = "MyPageFragment";
-//    @Inject public BoardRepository boardRepository;
-//    @Inject public ArticleRepository articleRepository;
-//    private FeedViewModel feedViewModel;
-//
-//    private BoardAdapter boardAdapter;
-//    private ArticleAdapter articleAdapter;
-//
-//    private RecyclerView articlesView;
-//    private ListView boardsView;
-//
+    private final static String TAG = "MyPageFragment";
+    private MyPageViewModel myPageViewModel;
 
     private TextView usernameTV;
     private TextView nicknameTV;
@@ -38,7 +44,9 @@ public class MyPageFragment extends Fragment {
     private TextView articlesBookmarkedTV;
     private TextView articlesCommentedTV;
     private TextView logoutTV;
-
+    private RecyclerView followingArticleTagsRecyclerView;
+    private FlexboxLayoutManager followingArticleTagsLayoutManager;
+    private ArticleTagAdapter followingArticleTagAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +56,15 @@ public class MyPageFragment extends Fragment {
         if(KhumuApplication.isAuthenticated()){
             KhumuApplication.container.inject(this);
         }
+
+        myPageViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new MyPageViewModel();
+            }
+        }).get(MyPageViewModel.class);
+        myPageViewModel.ListFollowingArticleTags();
     }
 
     @Override
@@ -74,6 +91,15 @@ public class MyPageFragment extends Fragment {
         findViews(view);
 //        setAdapters();
 //        setEventListeners(view);
+        myPageViewModel.getLiveDataFollowingArticleTags().observe(getViewLifecycleOwner(), new Observer<List<ArticleTag>>() {
+            @Override
+            public void onChanged(List<ArticleTag> tags) {
+                followingArticleTagAdapter = new ArticleTagAdapter(tags);
+                // 너무 간단해서 recycler view adapter 상속 후 article adapter를 정의하기도 귀찮은 경우에는
+                // 그냥 adapter를 새로 만들어버리면 data를 바꿀 수 있다.
+                followingArticleTagsRecyclerView.setAdapter(followingArticleTagAdapter);
+            }
+        });
     }
 
     private void findViews(View root){
@@ -87,6 +113,33 @@ public class MyPageFragment extends Fragment {
 
         usernameTV.setText(KhumuApplication.getUsername());
         nicknameTV.setText(KhumuApplication.getNickname());
+
+        followingArticleTagsRecyclerView = root.findViewById(R.id.my_page_following_article_tags_recycler_view);
+        followingArticleTagsLayoutManager = new FlexboxLayoutManager(this.getContext());
+        followingArticleTagsLayoutManager.setFlexDirection(FlexDirection.ROW); // 기본값임
+        followingArticleTagsLayoutManager.setJustifyContent(JustifyContent.FLEX_START); // 기본값임
+        followingArticleTagsRecyclerView.setLayoutManager(followingArticleTagsLayoutManager);
+        List<ArticleTag> l = new ArrayList<>();
+        l.add(new ArticleTag("hello", true));
+        l.add(new ArticleTag("world", true));
+        l.add(new ArticleTag("내 이름은 진격의", true));
+        l.add(new ArticleTag("거인", true));
+        l.add(new ArticleTag("캬하하", true));
+        l.add(new ArticleTag("현", true));
+        l.add(new ArticleTag("일본여행", true));
+        l.add(new ArticleTag("미국여행", true));
+        l.add(new ArticleTag("연탄재", true));
+        l.add(new ArticleTag("함부로", true));
+        l.add(new ArticleTag("밟지마라", true));
+        l.add(new ArticleTag("난", true));
+        l.add(new ArticleTag("뜨거웡!", true));
+        l.add(new ArticleTag("world", true));
+        l.add(new ArticleTag("hello", true));
+        l.add(new ArticleTag("world", true));
+
+
+        followingArticleTagAdapter = new ArticleTagAdapter(l);
+        followingArticleTagsRecyclerView.setAdapter(followingArticleTagAdapter);
 
         articlesWrittenTV.setOnClickListener(new View.OnClickListener() {
             @Override

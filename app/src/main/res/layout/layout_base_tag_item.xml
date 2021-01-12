@@ -3,6 +3,7 @@
 
 <com.khumu.android.component.BaseTag
     android:layout_marginRight="@dimen/layout_default_space"
+    android:layout_marginBottom="@dimen/layout_default_space"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="태그"

@@ -41,7 +41,7 @@ public class BaseTag extends androidx.appcompat.widget.LinearLayoutCompat {
         this.setTextColor(context, attrs);
 
         if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textSize") == null){
-            tagNameTV.setTextSize(14);
+            tagNameTV.setTextSize(10);
         }
 
         this.setPadding(20,10,20,10); // 10배 상세한 단위인듯
@@ -55,7 +55,7 @@ public class BaseTag extends androidx.appcompat.widget.LinearLayoutCompat {
 
     protected void setTextColor(@NonNull Context context, @Nullable AttributeSet attrs){
         if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textColor") == null){
-            tagNameTV.setTextColor(context.getColor(R.color.colorPrimary));
+            tagNameTV.setTextColor(context.getColor(R.color.red_500));
         }
     }
 }

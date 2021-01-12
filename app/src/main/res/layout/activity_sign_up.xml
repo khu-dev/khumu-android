@@ -19,7 +19,7 @@
             android:padding="@dimen/layout_large_space"
             android:text="KHUMU"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/red_500"
             android:textSize="36dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/layout_default_space"
-                android:textColor="@color/colorMuted"
+                android:textColor="@color/gray_500"
                 android:text="username은 로그인 시에 이용됩니다."/>
 
             <EditText
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/layout_default_space"
-                android:textColor="@color/colorMuted"
+                android:textColor="@color/gray_500"
                 android:text="동일한 패스워드를 입력해주세요."/>
 
             <EditText
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/layout_default_space"
-                android:textColor="@color/colorMuted"
+                android:textColor="@color/gray_500"
                 android:text="닉네임은 게시글, 댓글 등에서 보여지는 이름이며, 작성 시에 익명으로 설정할 수 있습니다."/>
 
             <EditText
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/layout_default_space"
-                android:textColor="@color/colorMuted"
+                android:textColor="@color/gray_500"
                 android:text="경희대학교 웹메일(@khu.ac.kr)을 입력해주세요."/>
 
             <EditText
@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/layout_default_space"
-                android:textColor="@color/colorMuted"
+                android:textColor="@color/gray_500"
                 android:text="2016123123 형식의 학번을 입력해주세요. 까먹으셨다면 생략하셔도 됩니다."/>
 
             <EditText
@@ -152,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/layout_default_space"
-                android:textColor="@color/colorMuted"
+                android:textColor="@color/gray_500"
                 android:text="띄어쓰기 없이 학과를 입력해주세요. e.g. 컴퓨터공학과"/>
 
         </LinearLayout>

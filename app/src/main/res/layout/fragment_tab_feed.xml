@@ -7,7 +7,7 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorLightBackground"
+    android:background="@color/red_100"
     android:orientation="vertical">
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_feed_tab_layout"
@@ -18,8 +18,8 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
         android:elevation="@dimen/cardview_default_elevation"
         app:tabMode="scrollable"
         app:tabGravity="start"
-        app:tabTextColor="@color/colorSecondary"
-        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/red_300"
+        app:tabSelectedTextColor="@color/red_500"
         >
     </com.google.android.material.tabs.TabLayout>
     <include
@@ -39,7 +39,7 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/layout_large_space"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/red_500"
         android:backgroundTint="#ffffff"
 
         android:text="작성"/>

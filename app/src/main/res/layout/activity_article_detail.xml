@@ -7,7 +7,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightBackground">
+    android:background="@color/red_100">
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent"

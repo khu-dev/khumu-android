@@ -59,7 +59,7 @@
 //            boardNameTV.setTextColor(parent.getContext().getColor(R.color.black));
 //        } else{
 //            // 선택되지 않은 게시판
-//            boardNameTV.setTextColor(parent.getContext().getColor(R.color.colorMuted));
+//            boardNameTV.setTextColor(parent.getContext().getColor(R.color.gray_500));
 //        }
 //
 //        boardNameTV.setText(board.getDisplayName());

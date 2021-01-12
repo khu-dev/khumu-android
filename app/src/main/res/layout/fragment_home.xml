@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:text="공지사항"/>
 
             <Button
@@ -33,7 +33,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:text="학사일정"/>
 
             <Button
@@ -41,7 +41,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:text="현장실습"/>
         </TableRow>
         <TableRow>
@@ -50,21 +50,21 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:text="수강신청"/>
             <Button
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:text="동아리"/>
             <Button
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:text="학식"/>
 
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_default_space"
                 android:text="경희소식"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:textSize="@dimen/big_title_font_size"
                 android:textStyle="bold" />
             <TextView
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_default_space"
                 android:text="- 다음 주 수요일부터는 수강신청 기간이므로 시간표를 확인해주세요!"
-                android:textColor="@color/colorDefault"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/default_font_size" />
 
         </LinearLayout>
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_default_space"
                 android:text="팔로우 중인 게시판"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/red_500"
                 android:textSize="@dimen/big_title_font_size"
                 android:textStyle="bold"/>
             <ListView

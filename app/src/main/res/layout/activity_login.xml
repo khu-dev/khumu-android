@@ -19,7 +19,7 @@
             android:padding="@dimen/layout_large_space"
             android:text="KHUMU"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/red_500"
             android:textSize="60dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"

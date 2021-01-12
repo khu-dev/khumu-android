@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:textColor="@color/colorMuted"
+                    android:textColor="@color/gray_500"
                     android:textSize="@dimen/default_font_size"
                     android:text="유저네임"/>
                 <TextView
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/my_page_profile_nickname_tv"
-                    android:textColor="@color/colorDefault"
+                    android:textColor="@color/gray_700"
                     android:textSize="@dimen/default_font_size"
                     android:text="닉네임"/>
 
@@ -86,7 +86,8 @@
 <!--            android:layout_height="wrap_content"/>-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layout_default_space">
             <TextView
                 android:id="@+id/my_page_following_article_tags_title"
                 android:layout_width="match_parent"
@@ -95,7 +96,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/my_page_following_article_tags_edit_icon"
-                android:textColor="@color/colorDefault"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/title_font_size"
                 android:text="팔로우 중인 게시판 태그"/>
             <ImageView
@@ -107,51 +108,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/ic_write_article"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.flexbox.FlexboxLayout
-            app:flexWrap="wrap"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="@dimen/layout_default_space"
-            >
 
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="몇"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="가지"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="예시용"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="으로"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="태그마냥"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="추가해봄"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="feat."/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="팔로우 중인 게시판 태그"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="FlexboxLayout"/>
-        </com.google.android.flexbox.FlexboxLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_page_following_article_tags_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layout_default_space"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"/>
 
     </LinearLayout>
 
@@ -177,7 +141,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/my_page_following_announcement_tags_edit_icon"
-                android:textColor="@color/colorDefault"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/title_font_size"
                 android:text="팔로우 중인 공지사항 태그"/>
             <ImageView
@@ -223,7 +187,7 @@
             android:id="@+id/my_page_articles_written_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorDefault"
+            android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="작성한 게시물"
             android:paddingBottom="@dimen/layout_default_space"/>
@@ -231,7 +195,7 @@
             android:id="@+id/my_page_articles_liked_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorDefault"
+            android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="좋아요한 게시물"
             android:paddingBottom="@dimen/layout_default_space"/>
@@ -239,7 +203,7 @@
             android:id="@+id/my_page_articles_bookmarked_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorDefault"
+            android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="북마크한 게시물"
             android:paddingBottom="@dimen/layout_default_space"/>
@@ -247,7 +211,7 @@
             android:id="@+id/my_page_articles_commented_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorDefault"
+            android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="댓글단 게시물"
             android:paddingBottom="@dimen/layout_default_space"/>
@@ -257,7 +221,7 @@
         android:id="@+id/my_page_logout_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorMuted"
+        android:textColor="@color/gray_500"
         android:textSize="@dimen/title_font_size"
         android:text="로그아웃하기"
         android:paddingHorizontal="@dimen/layout_large_space"

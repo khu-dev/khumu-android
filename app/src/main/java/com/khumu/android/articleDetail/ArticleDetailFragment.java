@@ -261,7 +261,7 @@ public class ArticleDetailFragment extends Fragment {
         articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
         // 글쓴이가 본인인 경우
         if (article.getAuthor().getUsername().equals(KhumuApplication.getUsername())){
-            articleAuthorNicknameTV.setTextColor(getContext().getColor(R.color.colorSecondary));
+            articleAuthorNicknameTV.setTextColor(getContext().getColor(R.color.red_300));
             if (article.getKind().equals("anonymous")){
                 articleAuthorNicknameTV.setText("익명");
             } else{

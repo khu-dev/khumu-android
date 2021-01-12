@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:paddingRight="@dimen/layout_default_space"
-            android:textColor="@color/colorMuted"
+            android:textColor="@color/gray_500"
             android:text="BOARD NAME"
             android:textSize="@dimen/default_font_size"/>
         <TextView
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
 
-            android:textColor="@color/colorMuted"
+            android:textColor="@color/gray_500"
             android:text="방금 전"
             android:textSize="@dimen/meta_font_size">
         </TextView>

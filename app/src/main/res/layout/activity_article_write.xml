@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/colorMuted"
+                android:textColor="@color/gray_500"
                 android:text="게시판을 선택해주세요."
                 />
         </LinearLayout>
@@ -104,7 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/red_500"
             android:text="# 태그"/>
         <EditText
             android:id="@+id/article_write_tag_et"

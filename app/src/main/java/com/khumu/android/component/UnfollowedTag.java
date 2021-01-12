@@ -31,7 +31,7 @@ public class UnfollowedTag extends BaseTag{
     @Override
     protected void setTextColor(@NonNull Context context, @Nullable AttributeSet attrs) {
         if(attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "textColor") == null){
-            tagNameTV.setTextColor(context.getColor(R.color.colorSecondary));
+            tagNameTV.setTextColor(context.getColor(R.color.red_300));
         }
     }
 }
