@@ -94,8 +94,8 @@ public class FeedViewModel extends ViewModel {
         ListArticles();
     }
 
-    // Boards를 list 하여 저장
-    public void ListBoards() {
+    // 특정 카테고리 혹은 follow 중인 board를 조회할 수 있음.
+    public void ListBoards(String category, Boolean followed){
         Log.d(TAG, "ListBoards: ");
         new Thread(){
             @Override
@@ -106,7 +106,7 @@ public class FeedViewModel extends ViewModel {
                     // ListBoards API에서는 최근 내가 팔로우한 피드를 보여주지 않는다.
                     // 따라서 수동으로 추가해준다.
                     _boards.add(recentMyBoard);
-                    _boards.addAll(boardRepository.ListBoards(null, null));
+                    _boards.addAll(boardRepository.ListBoards(category, followed));
                     boards.postValue(_boards);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -115,6 +115,11 @@ public class FeedViewModel extends ViewModel {
                 }
             }
         }.start();
+    }
+
+    // 모든 Boards를 list 하여 저장
+    public void ListBoards() {
+        ListBoards(null, null);
     }
 
     // Articles를 list하여 저장

@@ -19,7 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.component.ArticleTagAdapter;
 import com.khumu.android.data.Article;
+import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
@@ -87,6 +89,10 @@ public class ArticleModifyActivity extends ArticleWriteActivity {
         } else{
             this.isAnonymousCB.setChecked(false);
         }
+        
+        // 편의상 있던 article tags를 바탕으로 adapter를 다시 생성
+        this.articleTagAdapter = new ArticleTagAdapter(this.article.getTags());
+        this.tagsRecyclerView.setAdapter(articleTagAdapter);
     }
 
     @Override

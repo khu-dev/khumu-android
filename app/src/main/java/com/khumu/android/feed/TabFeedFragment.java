@@ -70,7 +70,7 @@ public class TabFeedFragment extends BaseFeedFragment {
             }
         }).get(FeedViewModel.class);
 
-        feedViewModel.ListBoards();
+        feedViewModel.ListBoards(null, true);
         feedViewModel.ListArticles();
     }
 
@@ -115,7 +115,6 @@ public class TabFeedFragment extends BaseFeedFragment {
                 // changedSet과 tab list를 동일하게 하려면 한 번 remove해줘야함.
                 tabLayout.removeAllTabs();
                 for(Board b: changedSet){
-
                     tabLayout.addTab(
                             tabLayout.newTab().setText(b.getDisplayName())
                     );
