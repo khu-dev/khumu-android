@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -25,6 +27,7 @@ import com.khumu.android.component.ArticleTagAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.Board;
+import com.khumu.android.databinding.FragmentMyPageBinding;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.R;
 import com.khumu.android.home.HomeViewModel;
@@ -75,8 +78,12 @@ public class MyPageFragment extends Fragment {
         // homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
-        View root = inflater.inflate(R.layout.fragment_my_page, container, false);
+//        View root = inflater.inflate(R.layout.fragment_my_page, container, false);
 
+        FragmentMyPageBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_page, container, false);
+        View root = binding.getRoot();
+        binding.setViewModel(myPageViewModel);
+//        binding.setLifecycleOwner(this);//이 객체가 이 액티비티의 라이프사이클을 참조하면서 데이터가 변경되거나 하면 refresh 시키겠다.
         return root;
     }
 
@@ -111,8 +118,8 @@ public class MyPageFragment extends Fragment {
         articlesCommentedTV = root.findViewById(R.id.my_page_articles_commented_tv);
         logoutTV = root.findViewById(R.id.my_page_logout_tv);
 
-        usernameTV.setText(KhumuApplication.getUsername());
-        nicknameTV.setText(KhumuApplication.getNickname());
+//        usernameTV.setText(KhumuApplication.getUsername());
+//        nicknameTV.setText(KhumuApplication.getNickname());
 
         followingArticleTagsRecyclerView = root.findViewById(R.id.my_page_following_article_tags_recycler_view);
         followingArticleTagsLayoutManager = new FlexboxLayoutManager(this.getContext());
