@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +14,16 @@ import android.widget.Toast;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
-import com.khumu.android.component.ArticleTagAdapter;
 import com.khumu.android.data.Article;
-import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.BookmarkArticle;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.repository.BookmarkArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.usecase.ArticleUseCase;
-import com.khumu.android.util.Util;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;

@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,15 +23,11 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.component.ArticleTagAdapter;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyPageBinding;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.R;
-import com.khumu.android.home.HomeViewModel;
-import com.khumu.android.home.HomeViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +46,12 @@ public class MyPageFragment extends Fragment {
     private RecyclerView followingArticleTagsRecyclerView;
     private FlexboxLayoutManager followingArticleTagsLayoutManager;
     private ArticleTagAdapter followingArticleTagAdapter;
+
+    @BindingAdapter("article_tag_list")
+    public static void bindItem(RecyclerView recyclerView, LiveData articleTagList){
+        ArticleTagAdapter adapter = new ArticleTagAdapter((List<ArticleTag>) articleTagList.getValue());
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,8 +84,8 @@ public class MyPageFragment extends Fragment {
 
         FragmentMyPageBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_page, container, false);
         View root = binding.getRoot();
+        // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
         binding.setViewModel(myPageViewModel);
-//        binding.setLifecycleOwner(this);//이 객체가 이 액티비티의 라이프사이클을 참조하면서 데이터가 변경되거나 하면 refresh 시키겠다.
         return root;
     }
 
@@ -98,15 +100,6 @@ public class MyPageFragment extends Fragment {
         findViews(view);
 //        setAdapters();
 //        setEventListeners(view);
-        myPageViewModel.getLiveDataFollowingArticleTags().observe(getViewLifecycleOwner(), new Observer<List<ArticleTag>>() {
-            @Override
-            public void onChanged(List<ArticleTag> tags) {
-                followingArticleTagAdapter = new ArticleTagAdapter(tags);
-                // 너무 간단해서 recycler view adapter 상속 후 article adapter를 정의하기도 귀찮은 경우에는
-                // 그냥 adapter를 새로 만들어버리면 data를 바꿀 수 있다.
-                followingArticleTagsRecyclerView.setAdapter(followingArticleTagAdapter);
-            }
-        });
     }
 
     private void findViews(View root){

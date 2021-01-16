@@ -1,35 +1,16 @@
 package com.khumu.android.articleWrite;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.khumu.android.KhumuApplication;
-import com.khumu.android.R;
-import com.khumu.android.component.ArticleTagAdapter;
+import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Article;
-import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.Board;
-import com.khumu.android.repository.ArticleRepository;
-import com.khumu.android.repository.BoardRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
 
 public class ArticleModifyActivity extends ArticleWriteActivity {
     private Intent intent;

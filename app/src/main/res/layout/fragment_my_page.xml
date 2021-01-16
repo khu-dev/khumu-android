@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--MyPage로서 사용하는 Fragment-->
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
@@ -117,6 +117,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_page_following_article_tags_recycler_view"
+            app:article_tag_list="@{viewModel.liveDataFollowingArticleTags}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/layout_default_space"
@@ -166,15 +167,6 @@
             android:background="@color/white"
             android:padding="@dimen/layout_default_space"
             >
-
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="예시"/>
-            <com.khumu.android.component.BaseTag
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="태그"/>
         </com.google.android.flexbox.FlexboxLayout>
 
     </LinearLayout>

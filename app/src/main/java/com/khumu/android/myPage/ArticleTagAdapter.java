@@ -1,15 +1,16 @@
-package com.khumu.android.component;
+package com.khumu.android.myPage;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
 import com.khumu.android.data.ArticleTag;
+import com.khumu.android.databinding.LayoutArticleTagItemBinding;
 
 import java.util.List;
 
@@ -20,18 +21,16 @@ public class ArticleTagAdapter extends RecyclerView.Adapter<ArticleTagAdapter.Ar
         this.articleTagList = articleTagList;
     }
 
-    @NonNull
     @Override
     public ArticleTagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_base_tag_item, parent, false);
-        ArticleTagAdapter.ArticleTagViewHolder holder = new ArticleTagAdapter.ArticleTagViewHolder(view);
-
-        return holder;
+        LayoutArticleTagItemBinding binding = DataBindingUtil.
+                inflate(LayoutInflater.from(parent.getContext()),R.layout.layout_article_tag_item,  parent, false);
+        return new ArticleTagViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleTagViewHolder holder, int position) {
-        holder.tagNameTV.setText(articleTagList.get(position).getName());
+        holder.bind(articleTagList.get(position));
     }
 
     @Override
@@ -41,10 +40,15 @@ public class ArticleTagAdapter extends RecyclerView.Adapter<ArticleTagAdapter.Ar
 
     public class ArticleTagViewHolder extends RecyclerView.ViewHolder{
         public TextView tagNameTV;
-        public ArticleTagViewHolder(@NonNull View itemView) {
-            super(itemView);
-            BaseTag tagView = (BaseTag) itemView;
-            tagNameTV = (TextView) itemView.findViewWithTag("tag_name_tv");
+        private LayoutArticleTagItemBinding binding;
+        public ArticleTagViewHolder(LayoutArticleTagItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        // 이 data를 이용해 view holder를 bind 한다.
+        void bind(ArticleTag tag){
+            binding.setArticleTag(tag);
         }
     }
 }

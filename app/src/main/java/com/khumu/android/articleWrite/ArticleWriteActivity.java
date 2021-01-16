@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.component.ArticleTagAdapter;
+import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.ArticleTag;
 import com.khumu.android.data.Board;

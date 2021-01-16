@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Feed의 RecyclerView에서 하나의 Article Item을 나타내는 layout-->
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="articleTag"
+            type="com.khumu.android.data.ArticleTag" />
+    </data>
+    <LinearLayout
+        android:layout_marginRight="@dimen/layout_default_space"
+        android:layout_marginBottom="@dimen/layout_default_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_100"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font_size"
+            android:textColor="@color/gray_300"
+            android:text="# "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font_size"
+            android:textColor="@color/gray_500"
+            android:text="@{articleTag.name, default=abc}"
+            />
+    </LinearLayout>
+
+</layout>
