@@ -16,10 +16,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -31,6 +34,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
+import com.khumu.android.databinding.FragmentMyPageBinding;
+import com.khumu.android.databinding.FragmentTabFeedBinding;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.R;
@@ -71,7 +76,6 @@ public class TabFeedFragment extends BaseFeedFragment {
         }).get(FeedViewModel.class);
 
         feedViewModel.ListBoards(null, true);
-        feedViewModel.ListArticles();
     }
 
     @Override
@@ -82,7 +86,11 @@ public class TabFeedFragment extends BaseFeedFragment {
         // homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
-        View root = inflater.inflate(R.layout.fragment_tab_feed, container, false);
+        FragmentTabFeedBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tab_feed, container, false);
+        View root = binding.getRoot();
+        // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
+        binding.setFeedViewModel(feedViewModel);
+        binding.setLifecycleOwner(this);
         return root;
     }
 
@@ -94,8 +102,8 @@ public class TabFeedFragment extends BaseFeedFragment {
     @Override
     public void onResume() {
         super.onResume();
-        feedViewModel.clearArticles();
-        feedViewModel.ListArticles();
+//        feedViewModel.clearArticles();
+//        feedViewModel.ListArticles();
     }
 
     @Override
@@ -122,11 +130,13 @@ public class TabFeedFragment extends BaseFeedFragment {
             }
         });
 
+        // 지금은 초기에 Following 탭이 여러번 선택되어서 깜빡깜빡거리는 게 심하고 그게 아니어도 깜빡거리기는 하는 듯...?
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 // TODO : tab의 상태가 선택 상태로 변경.
                 Log.d(TAG, "onTabSelected: " + tab.getText());
+                articleRecyclerView.smoothScrollToPosition(0);
                 feedViewModel.setCurrentBoard(String.valueOf(tab.getText()));
             }
 

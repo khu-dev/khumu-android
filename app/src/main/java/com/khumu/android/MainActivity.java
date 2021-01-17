@@ -35,6 +35,7 @@ package com.khumu.android;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -43,7 +44,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.login.LoginActivity;
 
-public class MainActivity extends BaseKhumuActivity {
+public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,6 @@ public class MainActivity extends BaseKhumuActivity {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(navView, navController);
-            toolbar = findViewById(R.id.toolbar);
         } else{
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);

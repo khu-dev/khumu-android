@@ -2,6 +2,7 @@ package com.khumu.android.feed;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 @Module
 public class FeedViewModel extends ViewModel {
     private final static String TAG = "FeedViewModel";
+    public String debuggingMessage = "debug";
     private BoardRepository boardRepository;
     private ArticleRepository articleRepository;
 
@@ -61,7 +63,7 @@ public class FeedViewModel extends ViewModel {
         this.articles.getValue().clear();
     }
 
-    public MutableLiveData<List<Article>> getLiveDataArticles(){
+    public LiveData<List<Article>> getLiveDataArticles(){
         return articles;
     }
 

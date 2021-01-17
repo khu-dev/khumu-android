@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
@@ -18,7 +19,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.khumu.android.BaseKhumuActivity;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.MainActivity;
 import com.khumu.android.R;
@@ -29,12 +29,12 @@ import com.khumu.android.repository.BoardRepository;
 
 import javax.inject.Inject;
 
-public class SingleBoardFeedActivity extends BaseKhumuActivity {
+public class SingleBoardFeedActivity extends AppCompatActivity {
 
     private final static String TAG = "SingleBoardActivity";
     private SingleBoardFeedFragment feedFragment;
     private Board board;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

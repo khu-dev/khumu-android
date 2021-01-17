@@ -1,144 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Feed의 RecyclerView에서 하나의 Article Item을 나타내는 layout-->
-<LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/bordered_white_background"
-    android:paddingTop="@dimen/layout_large_space"
-    android:paddingBottom="@dimen/layout_large_space"
-    android:paddingLeft="@dimen/layout_large_space"
-    android:paddingRight="@dimen/layout_large_space"
-    android:layout_marginTop="0dp"
-    android:layout_marginBottom="@dimen/default_icon_size"
-    >
-    <TextView
-        android:id="@+id/article_item_board_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="게시판 이름"
-        android:ellipsize="end"
-        android:textColor="@color/gray_500"
-        android:textSize="@dimen/small_font_size"
-        android:maxLines="1"
-        />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/article_item_body_layout"
-        android:paddingRight="6dp"
+<layout>
+    <data>
+<!--필요에 따라 variable은 나를 include하는 부모에게서 주입받을 수 있다.-->
+        <variable
+            name="article"
+            type="com.khumu.android.data.Article" />
+    </data>
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:background="@drawable/bordered_white_background"
+        android:paddingTop="@dimen/layout_large_space"
+        android:paddingBottom="@dimen/layout_large_space"
+        android:paddingLeft="@dimen/layout_large_space"
+        android:paddingRight="@dimen/layout_large_space"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/default_icon_size"
         >
         <TextView
-            android:id="@+id/article_item_title_tv"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/article_item_created_at_tv"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:paddingRight="@dimen/layout_default_space"
-            android:textColor="@color/black"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:text="ARTICLE TITLE"
-            android:textSize="@dimen/title_font_size">
-        </TextView>
-        <TextView
-            android:id="@+id/article_item_created_at_tv"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/article_item_board_name_tv"
             android:layout_width="wrap_content"
-
+            android:layout_height="wrap_content"
+            android:text="@{article.boardDisplayName, default=boardDisplayName}"
+            android:ellipsize="end"
             android:textColor="@color/gray_500"
-            android:text="방금 전"
-            android:textSize="@dimen/meta_font_size">
-        </TextView>
-
-        <TextView
-            android:id="@+id/article_item_content_tv"
-            app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
+            android:textSize="@dimen/small_font_size"
+            android:maxLines="1"
+            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/article_item_body_layout"
+            android:paddingRight="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/layout_default_space"
-            android:paddingBottom="12dp"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:textSize="@dimen/default_font_size"
-            android:text="Article content"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/article_item_title_tv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/article_item_created_at_tv"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:paddingRight="@dimen/layout_default_space"
+                android:textColor="@color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="@{article.title, default=title}"
+                android:textSize="@dimen/title_font_size">
+            </TextView>
+            <TextView
+                android:id="@+id/article_item_created_at_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
 
-    <LinearLayout
-        android:id="@+id/article_item_additional_info_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:id="@+id/article_item_like_wrapper_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/article_item_like_icon"
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
-                android:src="@drawable/ic_empty_heart"
-                android:layout_marginRight="3dp"
-                ></ImageView>
+                android:textColor="@color/gray_500"
+                android:text="@{article.articleCreatedAt, default=createdAt}"
+                android:textSize="@dimen/meta_font_size">
+            </TextView>
+
             <TextView
-                android:id="@+id/article_item_like_article_count_tv"
-                android:layout_width="wrap_content"
+                android:id="@+id/article_item_content_tv"
+                app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:textSize="@dimen/meta_font_size"
-                android:text="100"/>
-        </LinearLayout>
+                android:paddingTop="@dimen/layout_default_space"
+                android:paddingBottom="12dp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="@dimen/default_font_size"
+                android:text="@{article.content, default=content}"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
-            android:id="@+id/article_item_comment_wrapper_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/article_item_comment_icon"
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
-                android:layout_marginRight="3dp"
-                android:src="@drawable/ic_message"
-                ></ImageView>
-            <TextView
-                android:id="@+id/article_item_comment_count_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:textSize="@dimen/meta_font_size"
-                android:text="100"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/article_item_bookmark_wrapper_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/article_item_bookmark_icon"
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
-                android:layout_marginRight="3dp"
-                android:src="@drawable/ic_empty_bookmark"
-                ></ImageView>
-            <TextView
-                android:id="@+id/article_item_bookmark_count_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:textSize="@dimen/meta_font_size"
-                android:text="100"/>
-        </LinearLayout>
-        <TextView
-            android:id="@+id/article_item_author_nickname_tv"
+            android:id="@+id/article_item_additional_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/meta_font_size"
-            android:textColor="@color/gray_500"
-            android:text="작성자"/>
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/article_item_like_wrapper_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/article_item_like_icon"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:src="@drawable/ic_empty_heart"
+                    android:layout_marginRight="3dp"
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/article_item_like_article_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textSize="@dimen/meta_font_size"
+                    android:text="@{String.valueOf(article.likeArticleCount), default=0}"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/article_item_comment_wrapper_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/article_item_comment_icon"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/ic_message"
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/article_item_comment_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textSize="@dimen/meta_font_size"
+                    android:text="@{String.valueOf(article.commentCount), default=0}"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/article_item_bookmark_wrapper_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/article_item_bookmark_icon"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/ic_empty_bookmark"
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/article_item_bookmark_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textSize="@dimen/meta_font_size"
+                    android:text="@{String.valueOf(article.bookmarkArticleCount), default=0}"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/article_item_author_nickname_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/meta_font_size"
+                android:textColor="@color/gray_500"
+                android:text="@{article.author.nickname, default=authorNickname}"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-</LinearLayout>
+</layout>

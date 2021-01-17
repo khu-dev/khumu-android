@@ -130,7 +130,7 @@ public class CommentRepository {
 
         Request toggleReq = new Request.Builder()
                 .header("Authorization", "Bearer " + KhumuApplication.getToken())
-                .patch(RequestBody.create(null, new byte[0])) // empty body. like를 toggle할 때에는 body 필요없음.
+                .patch(RequestBody.create(MediaType.parse("application/json"), "{}")) // empty body. like를 toggle할 때에는 body 필요없음.
                 .url(urlBuilder.build())
                 .build();
         Response toggleResp = client.newCall(toggleReq).execute();

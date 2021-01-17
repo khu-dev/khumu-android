@@ -47,6 +47,7 @@ public class MyPageFragment extends Fragment {
     private FlexboxLayoutManager followingArticleTagsLayoutManager;
     private ArticleTagAdapter followingArticleTagAdapter;
 
+    // namespace는 안 적어줘도 되는건가? 안 적어야 동작하네
     @BindingAdapter("article_tag_list")
     public static void bindItem(RecyclerView recyclerView, LiveData articleTagList){
         ArticleTagAdapter adapter = new ArticleTagAdapter((List<ArticleTag>) articleTagList.getValue());

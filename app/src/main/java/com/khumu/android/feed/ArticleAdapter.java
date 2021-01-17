@@ -17,11 +17,15 @@ import com.khumu.android.articleDetail.ArticleDetailActivity;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.BookmarkArticle;
 import com.khumu.android.data.LikeArticle;
+import com.khumu.android.databinding.LayoutArticleItemBinding;
+import com.khumu.android.databinding.LayoutArticleTagItemBinding;
+import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.repository.BookmarkArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.usecase.ArticleUseCase;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -46,41 +50,34 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         this.articleList = articleList;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return articleList.get(position).getID();
+    }
+
     @NonNull
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // attach to root를 하지 않을 것이기 때문에 parent인 recyclerview를 전달하지 않아도 된다(null).
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_item, parent, false);
-        ArticleViewHolder holder = new ArticleViewHolder(view);
-
-        return holder;
+        LayoutArticleItemBinding binding = DataBindingUtil.
+                inflate(LayoutInflater.from(parent.getContext()),R.layout.layout_article_item,  parent, false);
+        return new ArticleAdapter.ArticleViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         Article article = articleList.get(position);
-        holder.articleBoardNameTV.setText(article.getBoardDisplayName());
-        holder.articleTitleTV.setText(article.getTitle());
-        holder.articleContentTV.setText(article.getContent());
-        // usecase를 활용해 사용할 data를 적절히 변환한 뒤 리턴받음.
-        holder.articleAuthorNicknameTV.setText(articleUseCase.getAuthorNickname(article));
+        holder.bind(article);
         if(articleUseCase.amIAuthor(article)){
-            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.red_300));
+            holder.binding.articleItemAuthorNicknameTv.setTextColor(context.getColor(R.color.red_300));
         } else{
-            holder.articleAuthorNicknameTV.setTextColor(context.getColor(R.color.gray_500));
+            holder.binding.articleItemAuthorNicknameTv.setTextColor(context.getColor(R.color.gray_500));
         }
+//
+        holder.binding.articleItemLikeIcon.setImageResource(getArticleLikedImage(article));
+        holder.binding.articleItemBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
 
-        holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
-        holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
-
-        holder.articleBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
-        holder.articleBookmarkCountTV.setText(String.valueOf(article.getBookmarkArticleCount()));
-
-        holder.articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
-        holder.articleCreatedAtTV.setText(String.valueOf(article.getArticleCreatedAt()));
-
-        holder.itemView.setTag(position);
-        holder.articleBodyLayout.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setTag(position); // ?
+        holder.binding.articleItemBodyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
@@ -90,7 +87,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             }
         });
 
-        holder.articleLikeWrapperLayout.setOnClickListener(new View.OnClickListener() {
+        holder.binding.articleItemLikeWrapperLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(){
@@ -110,8 +107,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
-                                    holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
+                                    holder.binding.articleItemLikeIcon.setImageResource(getArticleLikedImage(article));
                                 }
                             });
                         } catch (LikeArticleRepository.BadRequestException e){
@@ -129,7 +125,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             }
         });
 
-        holder.articleBookmarkWrapperLayout.setOnClickListener(new View.OnClickListener() {
+        holder.binding.articleItemBookmarkWrapperLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(){
@@ -149,8 +145,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    holder.articleBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
-                                    holder.articleBookmarkCountTV.setText(String.valueOf(article.getBookmarkArticleCount()));
+                                    holder.binding.articleItemBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
                                 }
                             });
                         } catch (BookmarkArticleRepository.BadRequestException e){
@@ -165,15 +160,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         }
                     }
                 }.start();
-            }
-        });
-
-        // 그냥 테스트용
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View v) {
-                remove(holder.getAdapterPosition());
-                return false;
             }
         });
     }
@@ -207,35 +193,16 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
-        public ViewGroup articleBodyLayout;
-        public ViewGroup articleLikeWrapperLayout;
-        public ViewGroup articleBookmarkWrapperLayout;
-        public TextView articleBoardNameTV;
-        public TextView articleTitleTV;
-        public TextView articleContentTV;
-        public TextView articleAuthorNicknameTV;
-        public TextView articleCommentCountTV;
-        public TextView articleLikeCountTV;
-        public TextView articleBookmarkCountTV;
-        public ImageView articleLikeIcon;
-        public ImageView articleBookmarkIcon;
-        public TextView articleCreatedAtTV;
+        public LayoutArticleItemBinding binding;
         // 이 view는 아마도 recycler view?
-        public ArticleViewHolder(View view) {
-            super(view);
-            this.articleBodyLayout = (ViewGroup) view.findViewById(R.id.article_item_body_layout);
-            this.articleLikeWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_like_wrapper_layout);
-            this.articleBookmarkWrapperLayout = (ViewGroup) view.findViewById(R.id.article_item_bookmark_wrapper_layout);
-            this.articleBoardNameTV = view.findViewById(R.id.article_item_board_name_tv);
-            this.articleTitleTV = view.findViewById(R.id.article_item_title_tv);
-            this.articleContentTV = view.findViewById(R.id.article_item_content_tv);
-            this.articleAuthorNicknameTV = view.findViewById(R.id.article_item_author_nickname_tv);
-            this.articleCommentCountTV = view.findViewById(R.id.article_item_comment_count_tv);
-            this.articleLikeCountTV = view.findViewById(R.id.article_item_like_article_count_tv);
-            this.articleBookmarkCountTV = view.findViewById(R.id.article_item_bookmark_count_tv);
-            this.articleLikeIcon = view.findViewById(R.id.article_item_like_icon);
-            this.articleBookmarkIcon = view.findViewById(R.id.article_item_bookmark_icon);
-            this.articleCreatedAtTV = view.findViewById(R.id.article_item_created_at_tv);
+        private TextView articleAuthorNicknameTV;
+        public ArticleViewHolder(LayoutArticleItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public void bind(Article article){
+            this.binding.setArticle(article);
         }
     }
 }

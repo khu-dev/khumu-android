@@ -34,10 +34,13 @@ package com.khumu.android.articleDetail;
 
 import android.os.Bundle;
 
-import com.khumu.android.BaseKhumuActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.khumu.android.R;
 
-public class ArticleDetailActivity extends BaseKhumuActivity {
+public class ArticleDetailActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

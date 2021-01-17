@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -35,7 +36,7 @@ public class HomeFragment extends Fragment {
     private RecentArticleAdapter recentArticleAdapter;
     private ListView recentArticlesListView;
     private HomeViewModel homeViewModel;
-
+    private Toolbar toolbar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -64,6 +65,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        toolbar = view.findViewById(R.id.toolbar);
         recentArticlesListView = view.findViewById(R.id.recent_articles_list);
         recentArticlesListView.setAdapter(recentArticleAdapter);
         homeViewModel.getLiveDataRecentArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
