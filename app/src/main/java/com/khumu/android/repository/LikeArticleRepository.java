@@ -39,16 +39,15 @@ public class LikeArticleRepository {
     public void toggleLikeArticle(LikeArticle likeArticle) throws IOException, JSONException, BadRequestException {
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
-        String likeArticleString = mapper.writeValueAsString(likeArticle);
-//        JSONObject articleJSON = new JSONObject(articleString);
-        //System.out.println(articleString);
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
-            .addPathSegment("like-articles");
+            .addPathSegment("articles")
+            .addPathSegment(String.valueOf(likeArticle.getArticleID()))
+            .addPathSegment("likes");
 
         Request toggleReq = new Request.Builder()
             .header("Authorization", "Bearer " + KhumuApplication.getToken())
-            .patch(RequestBody.create(MediaType.parse("application/json"), likeArticleString))
+            .patch(RequestBody.create(MediaType.parse("application/json"), "{}")) // 별 다른 body를 필요로 하지 않음.
             .url(urlBuilder.build())
             .build();
         Response toggleResp = client.newCall(toggleReq).execute();

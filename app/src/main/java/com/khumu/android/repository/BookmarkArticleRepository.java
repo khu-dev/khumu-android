@@ -33,14 +33,15 @@ public class BookmarkArticleRepository {
     public void toggleBookmarkArticle(BookmarkArticle bookmarkArticle) throws IOException, JSONException, BadRequestException {
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
-        String bookmarkArticleString = mapper.writeValueAsString(bookmarkArticle);
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
-            .addPathSegment("bookmark-articles");
+            .addPathSegment("articles")
+            .addPathSegment(String.valueOf(bookmarkArticle.getArticleID()))
+            .addPathSegment("bookmarks");
 
         Request toggleReq = new Request.Builder()
             .header("Authorization", "Bearer " + KhumuApplication.getToken())
-            .put(RequestBody.create(MediaType.parse("application/json"), bookmarkArticleString))
+            .patch(RequestBody.create(MediaType.parse("application/json"), "{}"))
             .url(urlBuilder.build())
             .build();
         Response toggleResp = client.newCall(toggleReq).execute();
