@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import com.khumu.android.retrofitInterface.ArticleService;
+
 import java.text.MessageFormat;
 import java.util.Scanner;
 
@@ -24,6 +26,10 @@ public class Util {
 
     public static void init(){
         APIRootEndpoint = APIScheme + "://" +  APIHost +  ":" + APIPort + APISubPathForRoot + "/";;
+    }
+
+    public static ArticleService getArticleService() {
+        return RetrofitClient.getClient(APIRootEndpoint).create(ArticleService.class);
     }
 
     // APIRootEndpoint를 직접 가져다쓰기보단 이 함수를 이용할 것을 권장.
