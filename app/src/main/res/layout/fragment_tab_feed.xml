@@ -50,6 +50,6 @@
             android:textColor="@color/red_500"
             android:backgroundTint="#ffffff"
 
-            android:text="@{feedViewModel.debuggingMessage}"/>
+            android:text="작성"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

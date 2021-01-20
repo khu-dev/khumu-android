@@ -1,3 +1,7 @@
+/**
+ * FeedFragment가 사용하는 ViewModel
+ * FeedFragment를 상속하거나 포함하면 이 ViewModel을 이용해야할 것으로 예상. *
+ */
 package com.khumu.android.feed;
 
 import android.util.Log;
@@ -32,8 +36,11 @@ public class FeedViewModel extends ViewModel {
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
     private MutableLiveData<Board> currentBoard;
-    /*
-    하나의 Board에 대한 feed를 이용하는 경우, Board를 전달해줘야하며 내가 쓴 게시물, 내가 좋아요한 게시물 등을 볼 수 있는 board 이다.
+    /**
+     * 하나의 Board에 대한 feed를 이용하고자 하는 경우 => board가 null이 아니라 유효한 값을 가져야한다.
+     * Board를 주입해줘야하며 현재는 내가 쓴 게시물, 내가 좋아요한 게시물 등의 논리적 게시판을 볼 수 있게 해준다.
+     *
+     * 후에는 특정 게시판에 대한 피드도 제공해야하고, Board뿐만 아니라 특정 Tag에 대한 피드 기능도 추가되어야할 것이다.
     */
     public FeedViewModel(ArticleRepository articleRepository, Board board){
         Log.d(TAG, "FeedViewModel: (ArticleRepository articleRepository, Board board)");
@@ -42,9 +49,10 @@ public class FeedViewModel extends ViewModel {
 
         articles = new MutableLiveData<>(new ArrayList<Article>());
     }
-    /*
-    여러 Board에 대한 feed를 이용하는 경우이고, Feed tab을 위해 사용된다.
-    (WIP) 내가 Follow한 게시판을 조회하고, 전체 게시물도 조회하도록한다.
+
+    /**
+     * 여러 Board에 대한 feed를 이용하는 경우 board를 null로 둔다. TabFeedFragment에서 Board List를 하기에 사용된다.
+     * (WIP) 내가 Follow한 게시판을 조회하고, 전체 게시물도 조회하도록한다. (? 전에 써놓은 건데 무슨 소리지)
      */
     public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
         Log.d(TAG, "FeedViewModel: (BoardRepository boardRepository, ArticleRepository articleRepository)");

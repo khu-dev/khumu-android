@@ -1,6 +1,15 @@
-// BaseFeedFragment를 상속받아 몇 가지 추가 기능을 수행한다.
-// - Boards List
-// - Article Create
+/**
+ * BaseFeedFragment를 상속받아 몇 가지 추가 기능을 수행한다.
+ *
+ * 1. fragment_feed.xml이 아닌 fragment_tab_feed.xml이용
+ *    fragment_feed.xml을 include하는 fragment_tab_feed.xml을 바탕으로 inflate
+ *
+ * 2. ListBoards
+ *    Tab layout이 추가되면서 한 Board에 대한 Article을 불러오는 것 뿐만 아니라 Board의 List도 필요하기에
+ *
+ * 3. ArticleCreate
+ *    Article을 생성하는 버튼을 통해 ArticleWriteActivity를 띄움.
+ */
 package com.khumu.android.feed;
 
 import android.content.Intent;
