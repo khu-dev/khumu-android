@@ -75,11 +75,11 @@ public class FeedViewModel extends ViewModel {
         return articles;
     }
 
-    public MutableLiveData<List<Board>> getLiveDataBoards(){
+    public LiveData<List<Board>> getLiveDataBoards(){
         return boards;
     }
 
-    public MutableLiveData<Board> getLiveDataCurrentBoard(){
+    public LiveData<Board> getLiveDataCurrentBoard(){
         return currentBoard;
     }
 
@@ -97,7 +97,6 @@ public class FeedViewModel extends ViewModel {
         for(Board b: boards.getValue()){
             if(b.getDisplayName().equals(boardDisplayName)){
                 currentBoard.setValue(b);
-
             }
         }
 

@@ -48,12 +48,12 @@ public abstract class BaseFeedFragment extends Fragment {
     abstract protected void generateFeedViewModel();
 
     @BindingAdapter("article_list")
-    public static void bindItem(RecyclerView recyclerView, LiveData articleTagList){
+    public static void bindItem(RecyclerView recyclerView, LiveData articleList){
         // null 인 경우에는 아직 다룰 때가 아님.
         if (recyclerView.getAdapter() != null){
             ArticleAdapter adapter = (ArticleAdapter)recyclerView.getAdapter();
             adapter.articleList.clear();
-            adapter.articleList.addAll((List<Article>) articleTagList.getValue());
+            adapter.articleList.addAll((List<Article>) articleList.getValue());
             adapter.notifyDataSetChanged();
         }
     }
@@ -87,18 +87,5 @@ public abstract class BaseFeedFragment extends Fragment {
         articleRecyclerView.setAdapter(articleAdapter);
     }
 
-    protected void setEventListeners(View root){
-//        feedViewModel.getLiveDataArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
-//            // 추가인지 삭제인지를 모르네
-//            @Override
-//            public void onChanged(List<Article> added) {
-//                ArticleAdapter articleAdapter = (ArticleAdapter) articleRecyclerView.getAdapter();
-//                articleAdapter.articleList.clear();
-//                articleAdapter.articleList.addAll(added);
-//                articleAdapter.notifyDataSetChanged();
-//                // scroll to top
-//                articleRecyclerView.smoothScrollToPosition(0);
-//            }
-//        });
-    }
+    protected void setEventListeners(View root){}
 }

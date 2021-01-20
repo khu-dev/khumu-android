@@ -59,8 +59,6 @@ public class TabFeedFragment extends BaseFeedFragment {
     private final static String TAG = "TabFeedFragment";
     @Inject public BoardRepository boardRepository;
 
-    protected ListView boardsView;
-    protected ViewGroup toggleBoardsWrapperVG;
     protected TabLayout tabLayout;
     protected Button articleWriteBTN;
 
@@ -72,19 +70,18 @@ public class TabFeedFragment extends BaseFeedFragment {
         Log.d(TAG, "onCreate: ");
         KhumuApplication.container.inject(this);
         generateFeedViewModel();
+        this.feedViewModel.ListBoards(null, true);
     }
 
     @Override
     protected void generateFeedViewModel() {
-        feedViewModel = new ViewModelProvider(getActivity(), new ViewModelProvider.Factory(){
+        this.feedViewModel = new ViewModelProvider(getActivity(), new ViewModelProvider.Factory(){
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new FeedViewModel(boardRepository, articleRepository);
             }
         }).get(FeedViewModel.class);
-
-        feedViewModel.ListBoards(null, true);
     }
 
     @Override
@@ -98,7 +95,7 @@ public class TabFeedFragment extends BaseFeedFragment {
         FragmentTabFeedBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tab_feed, container, false);
         View root = binding.getRoot();
         // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
-        binding.setFeedViewModel(feedViewModel);
+        binding.setFeedViewModel(this.feedViewModel);
         binding.setLifecycleOwner(this);
         return root;
     }
