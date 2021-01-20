@@ -7,6 +7,9 @@
         <variable
             name="viewModel"
             type="com.khumu.android.myPage.MyPageViewModel" />
+        <variable
+            name="fragment"
+            type="com.khumu.android.myPage.MyPageFragment" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"
@@ -188,6 +191,7 @@
             android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="작성한 게시물"
+            android:onClick="@{(v)->fragment.onClickArticlesWrittenByMeTV(v)}"
             android:paddingBottom="@dimen/layout_default_space"/>
         <TextView
             android:id="@+id/my_page_articles_liked_tv"
@@ -196,6 +200,7 @@
             android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="좋아요한 게시물"
+            android:onClick="@{(v)->fragment.onClickArticlesLikedTV(v)}"
             android:paddingBottom="@dimen/layout_default_space"/>
         <TextView
             android:id="@+id/my_page_articles_bookmarked_tv"
@@ -204,6 +209,7 @@
             android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="북마크한 게시물"
+            android:onClick="@{(v)->fragment.onClickArticlesBookmarkedTV(v)}"
             android:paddingBottom="@dimen/layout_default_space"/>
         <TextView
             android:id="@+id/my_page_articles_commented_tv"
@@ -212,6 +218,7 @@
             android:textColor="@color/gray_700"
             android:textSize="@dimen/title_font_size"
             android:text="댓글단 게시물"
+            android:onClick="@{(v)->fragment.onClickArticlesCommentedTV(v)}"
             android:paddingBottom="@dimen/layout_default_space"/>
 
     </LinearLayout>
@@ -222,6 +229,7 @@
         android:textColor="@color/gray_500"
         android:textSize="@dimen/title_font_size"
         android:text="로그아웃하기"
+        android:onClick="@{v -> fragment.onClickLogoutTV(v)}"
         android:paddingHorizontal="@dimen/layout_large_space"
         android:paddingVertical="@dimen/layout_large_space"/>
 </LinearLayout>
