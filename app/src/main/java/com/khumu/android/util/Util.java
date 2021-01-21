@@ -25,7 +25,7 @@ public class Util {
     public static String DEFAULT_PASSWORD = "123123";
 
     public static void init(){
-        APIRootEndpoint = APIScheme + "://" +  APIHost +  ":" + APIPort + APISubPathForRoot + "/";;
+        APIRootEndpoint = APIScheme + "://" +  APIHost +  ":" + APIPort + "/" + APISubPathForRoot + "/";;
     }
 
     public static ArticleService getArticleService() {

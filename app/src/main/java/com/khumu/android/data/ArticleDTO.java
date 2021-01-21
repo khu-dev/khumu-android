@@ -1,50 +1,90 @@
 package com.khumu.android.data;
 
+import java.util.List;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.khumu.android.data.SimpleUser;
 
 public class ArticleDTO {
+
     @SerializedName("id")
-    private int id;
-
-    @SerializedName("author")
-    private SimpleUser author;
-
+    @Expose
+    private Integer id;
+    @SerializedName("url")
+    @Expose
+    private String url;
+    @SerializedName("board_name")
+    @Expose
+    private String boardName;
+    @SerializedName("board_display_name")
+    @Expose
+    private String boardDisplayName;
     @SerializedName("title")
+    @Expose
     private String title;
-
-    @SerializedName("board")
-    private String board;
-
-    @SerializedName("content")
-    private String content;
-
+    @SerializedName("author")
+    @Expose
+    private Author author;
     @SerializedName("kind")
+    @Expose
     private String kind;
-
+    @SerializedName("content")
+    @Expose
+    private String content;
+    @SerializedName("tags")
+    @Expose
+    private List<Tag> tags = null;
+    @SerializedName("images")
+    @Expose
+    private Object images;
     @SerializedName("comment_count")
-    private int commentCount;
-
+    @Expose
+    private Integer commentCount;
     @SerializedName("created_at")
-    private String articleCreatedAt;
-
+    @Expose
+    private String createdAt;
     @SerializedName("liked")
-    private boolean liked;
-
+    @Expose
+    private Boolean liked;
     @SerializedName("like_article_count")
-    private int likeArticleCount;
-
+    @Expose
+    private Integer likeArticleCount;
     @SerializedName("bookmarked")
-    private boolean bookmarked;
-
+    @Expose
+    private Boolean bookmarked;
     @SerializedName("bookmark_article_count")
-    private int bookmarkArticleCount;
+    @Expose
+    private Integer bookmarkArticleCount;
 
-    public ArticleDTO(String board, String title, String content, String kind) {
-        this.board = board;
-        this.title = title;
-        this.content = content;
-        this.kind = kind;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getBoardName() {
+        return boardName;
+    }
+
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
+    }
+
+    public String getBoardDisplayName() {
+        return boardDisplayName;
+    }
+
+    public void setBoardDisplayName(String boardDisplayName) {
+        this.boardDisplayName = boardDisplayName;
     }
 
     public String getTitle() {
@@ -55,20 +95,12 @@ public class ArticleDTO {
         this.title = title;
     }
 
-    public String getBoard() {
-        return board;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setBoard(String board) {
-        this.board = board;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public String getKind() {
@@ -79,69 +111,76 @@ public class ArticleDTO {
         this.kind = kind;
     }
 
-    public int getCommentCount() {
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Object getImages() {
+        return images;
+    }
+
+    public void setImages(Object images) {
+        this.images = images;
+    }
+
+    public Integer getCommentCount() {
         return commentCount;
     }
 
-    public void setCommentCount(int commentCount) {
+    public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
     }
 
-    public int getLikeArticleCount() {
-        return likeArticleCount;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setLikeArticleCount(int likeArticleCount) {
-        this.likeArticleCount = likeArticleCount;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public int getBookmarkArticleCount() {
-        return bookmarkArticleCount;
-    }
-
-    public void setBookmarkArticleCount(int bookmarkArticleCount) {
-        this.bookmarkArticleCount = bookmarkArticleCount;
-    }
-
-    public boolean isBookmarked() {
-        return bookmarked;
-    }
-
-    public void setBookmarked(boolean bookmarked) {
-        this.bookmarked = bookmarked;
-    }
-
-    public boolean isLiked() {
+    public Boolean getLiked() {
         return liked;
     }
 
-    public void setLiked(boolean liked) {
+    public void setLiked(Boolean liked) {
         this.liked = liked;
     }
 
-    public String getArticleCreatedAt() {
-        return articleCreatedAt;
+    public Integer getLikeArticleCount() {
+        return likeArticleCount;
     }
 
-    public void setArticleCreatedAt(String articleCreatedAt) {
-        this.articleCreatedAt = articleCreatedAt;
+    public void setLikeArticleCount(Integer likeArticleCount) {
+        this.likeArticleCount = likeArticleCount;
     }
 
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", author=" + author +
-                ", title=" + title +
-                ", board=" + board +
-                ", content=" + content +
-                ", kind=" + kind +
-                ", comment_count=" + commentCount +
-                ", created_at=" + articleCreatedAt +
-                ", liked=" + liked +
-                ", like_article_count=" + likeArticleCount +
-                ", bookmarked=" + bookmarked +
-                ", bookmark_article_count=" + bookmarkArticleCount +
-                '}';
+    public Boolean getBookmarked() {
+        return bookmarked;
     }
+
+    public void setBookmarked(Boolean bookmarked) {
+        this.bookmarked = bookmarked;
+    }
+
+    public Integer getBookmarkArticleCount() {
+        return bookmarkArticleCount;
+    }
+
+    public void setBookmarkArticleCount(Integer bookmarkArticleCount) {
+        this.bookmarkArticleCount = bookmarkArticleCount;
+    }
+
 }
