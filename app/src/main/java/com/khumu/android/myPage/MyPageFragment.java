@@ -23,7 +23,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.ArticleTag;
+import com.khumu.android.data.Article.Tag;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyPageBinding;
 import com.khumu.android.feed.SingleBoardFeedActivity;
@@ -50,7 +50,7 @@ public class MyPageFragment extends Fragment {
     // namespace는 안 적어줘도 되는건가? 안 적어야 동작하네
     @BindingAdapter("article_tag_list")
     public static void bindItem(RecyclerView recyclerView, LiveData articleTagList){
-        ArticleTagAdapter adapter = new ArticleTagAdapter((List<ArticleTag>) articleTagList.getValue());
+        ArticleTagAdapter adapter = new ArticleTagAdapter((List<Tag>) articleTagList.getValue());
         recyclerView.setAdapter(adapter);
     }
 
@@ -120,23 +120,23 @@ public class MyPageFragment extends Fragment {
         followingArticleTagsLayoutManager.setFlexDirection(FlexDirection.ROW); // 기본값임
         followingArticleTagsLayoutManager.setJustifyContent(JustifyContent.FLEX_START); // 기본값임
         followingArticleTagsRecyclerView.setLayoutManager(followingArticleTagsLayoutManager);
-        List<ArticleTag> l = new ArrayList<>();
-        l.add(new ArticleTag("hello", true));
-        l.add(new ArticleTag("world", true));
-        l.add(new ArticleTag("내 이름은 진격의", true));
-        l.add(new ArticleTag("거인", true));
-        l.add(new ArticleTag("캬하하", true));
-        l.add(new ArticleTag("현", true));
-        l.add(new ArticleTag("일본여행", true));
-        l.add(new ArticleTag("미국여행", true));
-        l.add(new ArticleTag("연탄재", true));
-        l.add(new ArticleTag("함부로", true));
-        l.add(new ArticleTag("밟지마라", true));
-        l.add(new ArticleTag("난", true));
-        l.add(new ArticleTag("뜨거웡!", true));
-        l.add(new ArticleTag("world", true));
-        l.add(new ArticleTag("hello", true));
-        l.add(new ArticleTag("world", true));
+        List<Tag> l = new ArrayList<>();
+        l.add(new Tag("hello", true));
+        l.add(new Tag("world", true));
+        l.add(new Tag("내 이름은 진격의", true));
+        l.add(new Tag("거인", true));
+        l.add(new Tag("캬하하", true));
+        l.add(new Tag("현", true));
+        l.add(new Tag("일본여행", true));
+        l.add(new Tag("미국여행", true));
+        l.add(new Tag("연탄재", true));
+        l.add(new Tag("함부로", true));
+        l.add(new Tag("밟지마라", true));
+        l.add(new Tag("난", true));
+        l.add(new Tag("뜨거웡!", true));
+        l.add(new Tag("world", true));
+        l.add(new Tag("hello", true));
+        l.add(new Tag("world", true));
 
 
         followingArticleTagAdapter = new ArticleTagAdapter(l);

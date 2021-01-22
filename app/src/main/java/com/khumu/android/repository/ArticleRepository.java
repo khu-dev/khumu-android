@@ -2,44 +2,31 @@ package com.khumu.android.repository;
 
 import android.util.Log;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article;
-import com.khumu.android.data.ArticleDTO;
+import com.khumu.android.data.Article.Article;
 import com.khumu.android.data.ArticleListResponse;
-import com.khumu.android.data.KhumuUser;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.util.RetrofitClient;
 import com.khumu.android.util.Util;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.Module;
-import dagger.Provides;
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class ArticleRepository {
@@ -67,15 +54,14 @@ public class ArticleRepository {
         System.out.println(respString);
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
         assert respString != null;
-        List<ArticleDTO> articleDTOList = respString.getData();
-        System.out.println(articleDTOList.toString());
+        List<Article> ArticleList = respString.getData();
+        System.out.println(ArticleList.toString());
         //String data = new JSONObject(respString).getString();
 //        Log.d(TAG, "ListArticle: "+data);
 
-        //JSONArray articleJSONArray = new JSONArray(articleDTOList);
-        ArrayList<ArticleDTO> articles = new ArrayList<>();
-        articles.addAll(articleDTOList);
+        //JSONArray articleJSONArray = new JSONArray(ArticleList);
         ArrayList<Article> articles = new ArrayList<>();
+        articles.addAll(ArticleList);
 
         //ObjectMapper mapper  = new ObjectMapper();
         // 이걸 해야 정의하지 않은 property가 있어도 에러가 안남.
@@ -122,7 +108,7 @@ public class ArticleRepository {
 
         HttpUrl.Builder urlBuilder = Util.newBuilder()
                 .addPathSegment("articles")
-                .addPathSegment(String.valueOf(article.getID()));
+                .addPathSegment(String.valueOf(article.getId()));
 
         Request req = new Request.Builder()
                 .header("Authorization", "Bearer " + KhumuApplication.getToken())

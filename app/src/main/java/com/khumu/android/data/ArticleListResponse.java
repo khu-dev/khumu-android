@@ -3,6 +3,8 @@ package com.khumu.android.data;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.khumu.android.data.Article.Article;
+import com.khumu.android.data.Article.Links;
 
 public class ArticleListResponse {
 
@@ -14,7 +16,7 @@ public class ArticleListResponse {
     private Integer count;
     @SerializedName("data")
     @Expose
-    private List<ArticleDTO> data = null;
+    private List<Article> data = null;
 
     public Links getLinks() {
         return links;
@@ -32,11 +34,11 @@ public class ArticleListResponse {
         this.count = count;
     }
 
-    public List<ArticleDTO> getData() {
+    public List<Article> getData() {
         return data;
     }
 
-    public void setData(List<ArticleDTO> data) {
+    public void setData(List<Article> data) {
         this.data = data;
     }
 

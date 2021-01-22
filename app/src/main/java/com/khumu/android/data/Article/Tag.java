@@ -1,4 +1,4 @@
-package com.khumu.android.data;
+package com.khumu.android.data.Article;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -11,6 +11,11 @@ public class Tag {
     @SerializedName("followed")
     @Expose
     private Boolean followed;
+
+    public Tag(String name, boolean followed) {
+        this.name = name;
+        this.followed = followed;
+    }
 
     public String getName() {
         return name;

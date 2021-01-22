@@ -27,14 +27,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
+import com.khumu.android.data.Article.Article;
 import com.khumu.android.myPage.ArticleTagAdapter;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.usecase.ArticleUseCase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -82,7 +83,7 @@ public class ArticleDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
         commentViewModel = new ViewModelProvider(this,
-                new CommentViewFactory(commentRepository, Integer.toString(article.getID()))
+                new CommentViewFactory(commentRepository, Integer.toString(article.getId()))
         ).get(CommentViewModel.class);
 //        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
     }
@@ -131,11 +132,11 @@ public class ArticleDetailFragment extends Fragment {
                     @Override
                     public void run() {
                         SimpleComment simpleComment = new SimpleComment(
-                                article.getID(),
+                                article.getId(),
                                 writeCommentContentET.getText().toString()
                         );
                         try {
-                            boolean isCommentCreated = commentRepository.CreateComment(simpleComment, String.valueOf(article.getID()));
+                            boolean isCommentCreated = commentRepository.CreateComment(simpleComment, String.valueOf(article.getId()));
                             if (!isCommentCreated) {
                                 throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
                             } else {
@@ -192,12 +193,12 @@ public class ArticleDetailFragment extends Fragment {
                                     case R.id.article_detail_modify_item:
                                         Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
                                         // intent에서 해당 article에 대한 정보들을 저장
-                                        intent.putExtra("article", article);
+                                        intent.putExtra("article", (Serializable) article);
                                         ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
 //                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "modify", Toast.LENGTH_LONG).show();
                                         break;
                                     case R.id.article_detail_delete_item:
-                                        boolean isDeleted = articleRepository.DeleteArticle(article.getID());
+                                        boolean isDeleted = articleRepository.DeleteArticle(article.getId());
                                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -265,9 +266,9 @@ public class ArticleDetailFragment extends Fragment {
             articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
         }
 
-        articleDetailCreatedAtTV.setText(article.getArticleCreatedAt());
+        articleDetailCreatedAtTV.setText(article.getCreatedAt());
         articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
-        articleLikeIcon.setImageResource(getCommentLikedImage(article.isLiked()));
+        articleLikeIcon.setImageResource(getCommentLikedImage(article.getLiked()));
         if(articleUseCase.amIAuthor(article.getAuthor().getUsername())){
             articleSettingIcon.setVisibility(View.VISIBLE);
         } else{

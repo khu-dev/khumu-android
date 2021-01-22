@@ -3,13 +3,14 @@ package com.khumu.android.articleWrite;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.khumu.android.myPage.ArticleTagAdapter;
-import com.khumu.android.data.Article;
+import com.khumu.android.data.Article.Article;
 import com.khumu.android.data.Board;
 
 public class ArticleModifyActivity extends ArticleWriteActivity {
@@ -41,7 +42,7 @@ public class ArticleModifyActivity extends ArticleWriteActivity {
                             });
                             // 수정한 경우에만 Activity 수행 코드 OK
                             Intent resultIntent = new Intent();
-                            resultIntent.putExtra("article", article);
+                            resultIntent.putExtra("article", (Parcelable) article);
                             ArticleModifyActivity.this.setResult(Activity.RESULT_OK, resultIntent);
                             finish();
 

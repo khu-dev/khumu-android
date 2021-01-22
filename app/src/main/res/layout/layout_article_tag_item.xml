@@ -4,9 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <import type="com.khumu.android.data.Article.Tag"/>
         <variable
-            name="articleTag"
-            type="com.khumu.android.data.ArticleTag" />
+            name="t"
+            type="com.khumu.android.data.Article.Tag" />
     </data>
     <LinearLayout
         android:layout_marginRight="@dimen/layout_default_space"
@@ -27,7 +28,6 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font_size"
             android:textColor="@color/gray_500"
-            android:text="@{articleTag.name, default=abc}"
             />
     </LinearLayout>
 

@@ -21,8 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.myPage.ArticleTagAdapter;
-import com.khumu.android.data.Article;
-import com.khumu.android.data.ArticleTag;
+import com.khumu.android.data.Article.Article;
+import com.khumu.android.data.Article.Tag;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
@@ -129,7 +129,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
                 if (s.toString().endsWith(" ") || s.toString().endsWith(",") || s.toString().endsWith("\n")){
                     String newTagName = s.toString().replace(" ", "").replace(",", "").replace("\n", "");
                     if (!newTagName.isEmpty()){
-                        article.getTags().add(new ArticleTag(newTagName, false)); // follwed는 뭐가 되든 상관없음.
+                        article.getTags().add(new Tag(newTagName, false)); // follwed는 뭐가 되든 상관없음.
                         articleTagAdapter.notifyItemInserted(article.getTags().size()-1);
                     } else{
                         Toast.makeText(ArticleWriteActivity.this, "태그 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();

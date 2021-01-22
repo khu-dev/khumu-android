@@ -2,6 +2,7 @@ package com.khumu.android.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.khumu.android.data.Article.Article;
 
 import java.io.Serializable;
 import java.util.List;

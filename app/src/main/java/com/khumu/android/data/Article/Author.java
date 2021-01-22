@@ -1,4 +1,4 @@
-package com.khumu.android.data;
+package com.khumu.android.data.Article;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

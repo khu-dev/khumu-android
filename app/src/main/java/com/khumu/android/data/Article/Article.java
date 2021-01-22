@@ -1,12 +1,10 @@
-package com.khumu.android.data;
+package com.khumu.android.data.Article;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.khumu.android.data.Article.Author;
-import com.khumu.android.data.Article.Tag;
 
-public class ArticleDTO {
+public class Article {
 
     @SerializedName("id")
     @Expose

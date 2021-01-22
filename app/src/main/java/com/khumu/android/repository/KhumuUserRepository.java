@@ -2,25 +2,17 @@ package com.khumu.android.repository;
 
 import android.util.Log;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article;
-import com.khumu.android.data.KhumuJWT;
 import com.khumu.android.data.KhumuUser;
 import com.khumu.android.util.Util;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import dagger.Module;
-import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

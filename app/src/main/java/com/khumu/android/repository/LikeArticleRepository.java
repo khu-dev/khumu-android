@@ -1,21 +1,14 @@
 package com.khumu.android.repository;
 
-import android.util.Log;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.util.Util;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
