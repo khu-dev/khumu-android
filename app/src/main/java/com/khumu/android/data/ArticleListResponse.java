@@ -3,8 +3,8 @@ package com.khumu.android.data;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.khumu.android.data.Article.Article;
-import com.khumu.android.data.Article.Links;
+import com.khumu.android.data.article.Article;
+import com.khumu.android.data.article.Links;
 
 public class ArticleListResponse {
 

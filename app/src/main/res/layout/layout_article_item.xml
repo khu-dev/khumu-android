@@ -5,7 +5,7 @@
 <!--필요에 따라 variable은 나를 include하는 부모에게서 주입받을 수 있다.-->
         <variable
             name="article"
-            type="com.khumu.android.data.Article.Article" />
+            type="com.khumu.android.data.article.Article" />
     </data>
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"

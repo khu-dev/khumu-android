@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
-import com.khumu.android.data.Article.Article;
+import com.khumu.android.data.article.Article;
 import com.khumu.android.data.BookmarkArticle;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.databinding.LayoutArticleItemBinding;
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -80,7 +82,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
                 // intent에서 해당 article에 대한 정보들을 저장
-                intent.putExtra("article", (Parcelable) article);
+                intent.putExtra("article", article);
                 v.getContext().startActivity(intent);
             }
         });

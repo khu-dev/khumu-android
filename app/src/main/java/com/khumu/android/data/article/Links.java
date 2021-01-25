@@ -1,9 +1,11 @@
-package com.khumu.android.data.Article;
+package com.khumu.android.data.article;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Links {
+import java.io.Serializable;
+
+public class Links implements Serializable {
 
     @SerializedName("next")
     @Expose

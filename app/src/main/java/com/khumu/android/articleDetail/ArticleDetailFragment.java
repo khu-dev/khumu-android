@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
-import com.khumu.android.data.Article.Article;
+import com.khumu.android.data.article.Article;
 import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;

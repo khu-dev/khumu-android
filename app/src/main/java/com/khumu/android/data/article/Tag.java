@@ -1,9 +1,11 @@
-package com.khumu.android.data.Article;
+package com.khumu.android.data.article;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tag {
+import java.io.Serializable;
+
+public class Tag implements Serializable {
 
     @SerializedName("name")
     @Expose

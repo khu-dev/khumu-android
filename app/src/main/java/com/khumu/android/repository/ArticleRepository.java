@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article.Article;
+import com.khumu.android.data.article.Article;
 import com.khumu.android.data.ArticleListResponse;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.util.RetrofitClient;

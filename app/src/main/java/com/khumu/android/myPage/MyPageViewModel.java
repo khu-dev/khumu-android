@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.khumu.android.data.Article.Tag;
+import com.khumu.android.data.article.Tag;
 import com.khumu.android.data.KhumuUser;
 
 import java.util.ArrayList;

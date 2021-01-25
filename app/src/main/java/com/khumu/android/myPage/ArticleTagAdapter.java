@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
-import com.khumu.android.data.Article.Tag;
+import com.khumu.android.data.article.Tag;
 import com.khumu.android.databinding.LayoutArticleTagItemBinding;
 
 import java.util.List;

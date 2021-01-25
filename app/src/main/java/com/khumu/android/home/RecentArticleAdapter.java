@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.khumu.android.R;
-import com.khumu.android.data.Article.Article;
+import com.khumu.android.data.article.Article;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.khumu.android.myPage.ArticleTagAdapter;
-import com.khumu.android.data.Article.Article;
+import com.khumu.android.data.article.Article;
 import com.khumu.android.data.Board;
 
 public class ArticleModifyActivity extends ArticleWriteActivity {
