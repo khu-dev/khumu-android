@@ -9,15 +9,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
-import com.khumu.android.data.ArticleTag;
+import com.khumu.android.data.article.Tag;
 import com.khumu.android.databinding.LayoutArticleTagItemBinding;
 
 import java.util.List;
 
 public class ArticleTagAdapter extends RecyclerView.Adapter<ArticleTagAdapter.ArticleTagViewHolder>{
-    private List<ArticleTag> articleTagList;
+    private List<Tag> articleTagList;
 
-    public ArticleTagAdapter(List<ArticleTag> articleTagList) {
+    public ArticleTagAdapter(List<Tag> articleTagList) {
         this.articleTagList = articleTagList;
     }
 
@@ -47,8 +47,8 @@ public class ArticleTagAdapter extends RecyclerView.Adapter<ArticleTagAdapter.Ar
         }
 
         // 이 data를 이용해 view holder를 bind 한다.
-        void bind(ArticleTag tag){
-            binding.setArticleTag(tag);
+        void bind(Tag tag){
+            binding.setT(tag);
         }
     }
 }

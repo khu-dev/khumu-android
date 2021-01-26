@@ -1,12 +1,9 @@
 package com.khumu.android.repository;
-import android.util.Log;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.util.Util;
 
@@ -21,12 +18,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Module;
-import dagger.Provides;
 import okhttp3.HttpUrl;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 @Module
 public class BoardRepository {

@@ -16,14 +16,12 @@ import java.util.stream.Collectors;
 
 import dagger.Module;
 
+import com.khumu.android.data.article.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.data.Article;
 
 import org.json.JSONException;
-
-import javax.inject.Inject;
 
 @Module
 public class FeedViewModel extends ViewModel {
@@ -159,7 +157,7 @@ public class FeedViewModel extends ViewModel {
                     for (Article newArticle: articleRepository.ListArticle(board, page)){
                         // 기존에 없던 새로운 article인지 확인
                         List<Article> duplicatedArticles = originalArticles.stream().filter(item->{
-                            return (newArticle.getID()==(item.getID()));
+                            return (newArticle.getId()==(item.getId()));
                         }).collect(Collectors.toList());
                         if(duplicatedArticles.size() == 0){
                             originalArticles.add(newArticle);

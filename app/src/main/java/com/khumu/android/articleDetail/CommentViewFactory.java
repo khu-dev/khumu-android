@@ -1,12 +1,9 @@
 package com.khumu.android.articleDetail;
 
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.khumu.android.data.Article;
 import com.khumu.android.repository.CommentRepository;
 
 public class CommentViewFactory implements ViewModelProvider.Factory{

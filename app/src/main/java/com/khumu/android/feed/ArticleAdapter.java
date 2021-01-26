@@ -4,22 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
-import com.khumu.android.data.Article;
+import com.khumu.android.data.article.Article;
 import com.khumu.android.data.BookmarkArticle;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.databinding.LayoutArticleItemBinding;
-import com.khumu.android.databinding.LayoutArticleTagItemBinding;
-import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.repository.BookmarkArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.usecase.ArticleUseCase;
@@ -28,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,7 +52,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     @Override
     public long getItemId(int position) {
-        return articleList.get(position).getID();
+        return articleList.get(position).getId();
     }
 
     @NonNull
@@ -94,8 +94,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                     @Override
                     public void run() {
                         try{
-                            likeArticleRepository.toggleLikeArticle(new LikeArticle(article.getID()));
-                            boolean liked = article.isLiked();
+                            likeArticleRepository.toggleLikeArticle(new LikeArticle(article.getId()));
+                            boolean liked = article.getLiked();
                             if(liked){
                                 article.setLiked(false);
                                 article.setLikeArticleCount(article.getLikeArticleCount() - 1);
@@ -132,8 +132,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                     @Override
                     public void run() {
                         try{
-                            bookmarkArticleRepository.toggleBookmarkArticle(new BookmarkArticle(article.getID()));
-                            boolean bookmarked = article.isBookmarked();
+                            bookmarkArticleRepository.toggleBookmarkArticle(new BookmarkArticle(article.getId()));
+                            boolean bookmarked = article.getBookmarked();
                             if(bookmarked){
                                 article.setBookmarked(false);
                                 article.setBookmarkArticleCount(article.getBookmarkArticleCount() - 1);
@@ -179,14 +179,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     private int getArticleLikedImage(Article article){
-        if(article.isLiked()){
+        if(article.getLiked()){
             return R.drawable.ic_filled_heart;
         }
         return R.drawable.ic_empty_heart;
     }
 
     private int getArticleBookmarkedImage(Article article){
-        if(article.isBookmarked()){
+        if(article.getBookmarked()){
             return R.drawable.ic_filled_bookmark;
         }
         return R.drawable.ic_empty_bookmark;

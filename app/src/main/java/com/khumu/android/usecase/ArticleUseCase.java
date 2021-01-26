@@ -4,7 +4,7 @@
 package com.khumu.android.usecase;
 
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article;
+import com.khumu.android.data.article.Article;
 import com.khumu.android.repository.ArticleRepository;
 
 import javax.inject.Inject;

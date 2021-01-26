@@ -19,38 +19,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
-import com.khumu.android.databinding.FragmentMyPageBinding;
 import com.khumu.android.databinding.FragmentTabFeedBinding;
-import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.R;
-import com.khumu.android.data.Article;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;

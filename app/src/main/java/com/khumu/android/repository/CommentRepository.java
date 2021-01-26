@@ -5,9 +5,7 @@ import android.util.Log;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
-import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.util.Util;
 
@@ -16,10 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.SyncFailedException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 

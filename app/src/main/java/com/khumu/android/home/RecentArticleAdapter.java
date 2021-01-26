@@ -1,30 +1,19 @@
 package com.khumu.android.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.articleDetail.ArticleDetailActivity;
-import com.khumu.android.data.Article;
-import com.khumu.android.data.LikeArticle;
-import com.khumu.android.repository.LikeArticleRepository;
+import com.khumu.android.data.article.Article;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class RecentArticleAdapter extends ArrayAdapter<Article> {
     private final static String TAG = "RecentArticleAdapter";
@@ -38,7 +27,7 @@ public class RecentArticleAdapter extends ArrayAdapter<Article> {
 
     @Override
     public long getItemId(int position) {
-        return articles.get(position).getID();
+        return articles.get(position).getId();
     }
 
     @Override
@@ -51,7 +40,7 @@ public class RecentArticleAdapter extends ArrayAdapter<Article> {
         Article article = articles.get(position);
         ((TextView)view.findViewById(R.id.home_recent_article_board_name_tv)).setText(article.getBoardDisplayName());
         ((TextView)view.findViewById(R.id.home_recent_article_title_tv)).setText(article.getTitle());
-        ((TextView)view.findViewById(R.id.home_recent_article_created_at_tv)).setText(article.getArticleCreatedAt());
+        ((TextView)view.findViewById(R.id.home_recent_article_created_at_tv)).setText(article.getCreatedAt());
         return view;
     }
 // 없어도 될 듯
