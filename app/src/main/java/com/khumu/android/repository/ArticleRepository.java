@@ -34,15 +34,11 @@ import retrofit2.Retrofit;
 @Module
 public class ArticleRepository {
     private final static String TAG="ArticleRepository";
-    private Retrofit client;
-    private ArticleService service;
+
     @Inject
-    public ArticleRepository(){
-        // EndPoint의 baseUrl을 가진 Retrofit instance를 생성한다
-        this.client = RetrofitClient.getClient(Util.APIRootEndpoint);
-        // Article에 대한 메소드를 사용할 것이므로 retrofit instance에서 ArticleService를 불러온다
-        this.service = client.create(ArticleService.class);
-    }
+    public ArticleService service;
+    @Inject
+    public ArticleRepository(){}
     public ArrayList<Article> ListArticle() throws IOException, JSONException {
         return ListArticle(null, 1);
     }
@@ -72,27 +68,8 @@ public class ArticleRepository {
     }
 
     public boolean CreateArticle(Article article) throws IOException, JSONException {
-        article.setBoardName("free");
-        System.out.println(article.getId());
-        Call<Article> call = service.createArticle("Bearer " + KhumuApplication.getToken(), article);
-        call.clone().enqueue(new Callback<Article>() {
-            @Override
-            public void onResponse(Call<Article> call, retrofit2.Response<Article> response) {
-                try {
-                    Log.d(TAG, response.body().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(Call<Article> call, Throwable t) {
-                System.out.println(t.getMessage());;
-            }
-        });
-        retrofit2.Response<Article> resp = call.execute();
-        Log.d(TAG, "CreateArticle" + article.getId());
-        System.out.println(resp.code());
-
+        Call<Result> call = service.createArticle("Bearer " + KhumuApplication.getToken(), "application/json", article);
+        retrofit2.Response<Result> resp = call.execute();
         if(resp.code() == 201){
             return true;
         } else{

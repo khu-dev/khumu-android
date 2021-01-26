@@ -50,7 +50,7 @@ public class ArticleTagAdapter extends RecyclerView.Adapter<ArticleTagAdapter.Ar
 
         // 이 data를 이용해 view holder를 bind 한다.
         void bind(Tag tag){
-            binding.setT(tag);
+            binding.setTag(tag);
         }
     }
 }

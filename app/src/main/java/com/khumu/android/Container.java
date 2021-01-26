@@ -17,11 +17,17 @@ import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.repository.TokenRepository;
+import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.usecase.ArticleUseCase;
+import com.khumu.android.util.RetrofitClient;
+
+import javax.inject.Singleton;
 
 import dagger.Component;
+import retrofit2.Retrofit;
 
-@Component
+@Singleton
+@Component(modules=RetrofitClient.class)
 public interface Container {
     // 여기에 의존성 주입할 클래스들 명시
     TokenRepository getTokenRepository();
@@ -30,12 +36,16 @@ public interface Container {
     LikeArticleRepository getLikeArticleRepository();
     CommentRepository getCommentRepository();
     ArticleUseCase getArticleUseCase();
+    Retrofit getRetrofit();
+//    ArticleService getArticleService();
+
 
     // 여기에 의존성 주입을 원하는 클래스들을 명시
     void inject(ArticleRepository articleRepository);
     void inject(LikeArticleRepository likeArticleRepository);
     void inject(CommentRepository commentRepository);
     void inject(TokenRepository tokenRepository);
+    void inject(BoardRepository boardRepository);
 
     void inject(ArticleUseCase articleUseCase);
 

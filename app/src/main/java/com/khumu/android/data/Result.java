@@ -6,9 +6,7 @@ import com.khumu.android.data.article.Article;
 
 public class Result {
 
-    @SerializedName("request")
     private Article request;
-    @SerializedName("response")
     private JsonObject response;
 
     public Article getRequest() {

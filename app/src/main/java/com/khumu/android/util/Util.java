@@ -28,9 +28,6 @@ public class Util {
         APIRootEndpoint = APIScheme + "://" +  APIHost +  ":" + APIPort + "/" + APISubPathForRoot + "/";;
     }
 
-    public static ArticleService getArticleService() {
-        return RetrofitClient.getClient(APIRootEndpoint).create(ArticleService.class);
-    }
 
     // APIRootEndpoint를 직접 가져다쓰기보단 이 함수를 이용할 것을 권장.
     public static HttpUrl.Builder newBuilder(){

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.khumu.android.data.SimpleUser;
 
 public class Article implements Serializable {
 
@@ -13,7 +14,7 @@ public class Article implements Serializable {
     @SerializedName("url")
     @Expose
     private String url;
-    @SerializedName("board_name")
+    @SerializedName("board")
     @Expose
     private String boardName;
     @SerializedName("board_display_name")
@@ -24,7 +25,7 @@ public class Article implements Serializable {
     private String title;
     @SerializedName("author")
     @Expose
-    private Author author;
+    private SimpleUser author;
     @SerializedName("kind")
     @Expose
     private String kind;
@@ -55,6 +56,8 @@ public class Article implements Serializable {
     @SerializedName("bookmark_article_count")
     @Expose
     private Integer bookmarkArticleCount;
+
+
 
     public Integer getId() {
         return id;
@@ -96,11 +99,11 @@ public class Article implements Serializable {
         this.title = title;
     }
 
-    public Author getAuthor() {
+    public SimpleUser getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(SimpleUser author) {
         this.author = author;
     }
 

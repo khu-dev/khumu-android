@@ -3,20 +3,21 @@ package com.khumu.android.data;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 public class SimpleUser implements Serializable {
+
     private String username;
     private String nickname;
     private String state;
 
     // private int isParent;
-    @JsonCreator
     public SimpleUser(
-            @JsonProperty("username") String username,
-            @JsonProperty("nickname") String nickname,
-            @JsonProperty("state") String state) {
+            String username,
+            String nickname,
+            String state) {
         this.username = username;
         this.nickname = nickname;
         this.state = state;

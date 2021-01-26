@@ -9,7 +9,7 @@ import com.khumu.android.data.article.Links;
 public class ArticleListResponse {
 
     @SerializedName("links")
-    @Expose
+    @Expose(serialize = false, deserialize = false)
     private Links links;
     @SerializedName("count")
     @Expose

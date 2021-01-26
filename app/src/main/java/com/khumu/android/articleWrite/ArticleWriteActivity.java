@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.data.SimpleUser;
 import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.article.Article;
 import com.khumu.android.data.article.Tag;
@@ -146,7 +147,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            System.out.println("authorname" + article.getAuthor().getUsername());
+                            //article.setAuthor(new SimpleUser("현기", "현기", ""));
                             boolean isArticleCreated = articleRepository.CreateArticle(article);
                             if (!isArticleCreated){
                                 throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
