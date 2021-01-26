@@ -146,6 +146,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
+                            System.out.println("authorname" + article.getAuthor().getUsername());
                             boolean isArticleCreated = articleRepository.CreateArticle(article);
                             if (!isArticleCreated){
                                 throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
@@ -222,6 +223,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             public void run() {
                 try {
                     boards.addAll(boardRepository.ListBoards("free,department,lecture", null));
+                    System.out.println("boards : " + boards);
                 } catch (Exception e){
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {

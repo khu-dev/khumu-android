@@ -35,6 +35,8 @@ public class ArticleTagAdapter extends RecyclerView.Adapter<ArticleTagAdapter.Ar
 
     @Override
     public int getItemCount() {
+        if (articleTagList == null)
+                return 0;
         return articleTagList.size();
     }
 
