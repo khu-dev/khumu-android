@@ -4,18 +4,15 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Result;
 import com.khumu.android.data.article.Article;
 import com.khumu.android.data.ArticleListResponse;
 import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.util.RetrofitClient;
 import com.khumu.android.util.Util;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,8 +25,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
 
 @Module
 public class ArticleRepository {
@@ -68,8 +63,8 @@ public class ArticleRepository {
     }
 
     public boolean CreateArticle(Article article) throws IOException, JSONException {
-        Call<Result> call = service.createArticle("Bearer " + KhumuApplication.getToken(), "application/json", article);
-        retrofit2.Response<Result> resp = call.execute();
+        Call<Article> call = service.createArticle("Bearer " + KhumuApplication.getToken(), "application/json", article);
+        retrofit2.Response<Article> resp = call.execute();
         if(resp.code() == 201){
             return true;
         } else{
