@@ -29,7 +29,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
-import com.khumu.android.data.article.Article;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentTabFeedBinding;
 import com.khumu.android.databinding.LayoutFeedBinding;

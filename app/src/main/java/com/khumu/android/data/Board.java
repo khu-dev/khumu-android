@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.khumu.android.data.article.Article;
+import com.khumu.android.data.Article;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.khumu.android.retrofitInterface;
 
-//import com.khumu.android.data.article.Tag;
+//import com.khumu.android.data.Tag;
 //
 //import retrofit2.Call;
 //import retrofit2.http.GET;

@@ -14,7 +14,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.R;
-import com.khumu.android.data.article.Article;
+import com.khumu.android.data.Article;
 import com.khumu.android.repository.ArticleRepository;
 
 import java.util.ArrayList;

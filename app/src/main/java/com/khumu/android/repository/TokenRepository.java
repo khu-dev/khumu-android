@@ -13,7 +13,6 @@ import javax.inject.Inject;
 
 import dagger.Module;
 import okhttp3.*;
-@Module
 public class TokenRepository {
     public final static String TAG = "TokenRepository";
     @Inject

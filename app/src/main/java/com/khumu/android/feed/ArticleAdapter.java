@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
-import com.khumu.android.data.article.Article;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.BookmarkArticle;
 import com.khumu.android.data.LikeArticle;
 import com.khumu.android.databinding.LayoutArticleItemBinding;

@@ -4,10 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="com.khumu.android.data.article.Tag"/>
+        <import type="com.khumu.android.data.Tag"/>
         <variable
             name="tag"
-            type="com.khumu.android.data.article.Tag" />
+            type="com.khumu.android.data.Tag" />
     </data>
     <LinearLayout
         android:layout_marginRight="@dimen/layout_default_space"

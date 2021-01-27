@@ -1,10 +1,9 @@
-package com.khumu.android.data;
+package com.khumu.android.data.rest;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.khumu.android.data.article.Article;
-import com.khumu.android.data.article.Links;
+import com.khumu.android.data.Article;
 
 public class ArticleListResponse {
 
