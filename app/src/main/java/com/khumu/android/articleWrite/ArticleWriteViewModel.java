@@ -3,7 +3,9 @@ package com.khumu.android.articleWrite;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -74,11 +76,10 @@ public class ArticleWriteViewModel extends ViewModel {
     public void uploadImage(ClipData.Item imageClipDataItem) throws IOException {
         Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageClipDataItem.getUri());
         uploadingBitmaps.postValue(Collections.singletonList(imageBitmap));
-        File file = new File(context.getCacheDir(), imageClipDataItem.getUri().getPath());
-
-//        File file = new File("content://media/external/images/media/22800/ORIGINAL/NONE/image/jpeg/1659461618");
-        System.out.println(imageClipDataItem.getUri().getPath());
-        System.out.println(file.canRead());
+        File file = new File(this.getPathFromUri(imageClipDataItem.getUri()));
+        System.out.println(imageClipDataItem.getUri().getPath().replace("/-1/1/", ""));
+        System.out.println(this.getPathFromUri(imageClipDataItem.getUri()));
+        System.out.println(file.getName());
 
         Call<ImageUploadResponse> call = imageService.uploadImage(
                 "Bearer " + KhumuApplication.getToken(),
@@ -87,9 +88,7 @@ public class ArticleWriteViewModel extends ViewModel {
         call.enqueue(new Callback<ImageUploadResponse>() {
             @Override
             public void onResponse(Call<ImageUploadResponse> call, Response<ImageUploadResponse> response) {
-
-                System.out.println(response.body().message);
-                System.out.println(response.body().data);
+                System.out.println(response.raw());
             }
 
             @Override
@@ -97,5 +96,18 @@ public class ArticleWriteViewModel extends ViewModel {
                 System.out.println(t);
             }
         });
+    }
+
+    public String getPathFromUri(Uri u){
+
+        Cursor cursor = contentResolver.query(u, null, null, null, null );
+
+        cursor.moveToNext();
+
+        String path = cursor.getString( cursor.getColumnIndex( "_data" ) );
+
+        cursor.close();
+
+        return path;
     }
 }
