@@ -1,10 +1,6 @@
 package com.khumu.android.retrofitInterface;
 
-import com.khumu.android.data.ArticleListResponse;
-import com.khumu.android.data.Board;
-import com.khumu.android.data.BoardListResponse;
-
-import java.util.List;
+import com.khumu.android.data.rest.BoardListResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

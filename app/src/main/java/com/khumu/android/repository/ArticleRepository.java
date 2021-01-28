@@ -4,23 +4,19 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.Result;
-import com.khumu.android.data.article.Article;
-import com.khumu.android.data.ArticleListResponse;
+import com.khumu.android.data.Article;
+import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.util.RetrofitClient;
 import com.khumu.android.util.Util;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.Module;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -28,10 +24,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-
-@Module
 public class ArticleRepository {
     private final static String TAG="ArticleRepository";
 
@@ -68,8 +60,8 @@ public class ArticleRepository {
     }
 
     public boolean CreateArticle(Article article) throws IOException, JSONException {
-        Call<Result> call = service.createArticle("Bearer " + KhumuApplication.getToken(), "application/json", article);
-        retrofit2.Response<Result> resp = call.execute();
+        Call<Article> call = service.createArticle("Bearer " + KhumuApplication.getToken(), "application/json", article);
+        retrofit2.Response<Article> resp = call.execute();
         if(resp.code() == 201){
             return true;
         } else{
@@ -78,21 +70,28 @@ public class ArticleRepository {
     }
 
     public void UpdateArticle(Article article) throws Exception {
-        OkHttpClient client = new OkHttpClient();
-        ObjectMapper mapper = new ObjectMapper();
-        String articleStr = mapper.writeValueAsString(article);
-        System.out.println(articleStr);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), articleStr);
-
-        HttpUrl.Builder urlBuilder = Util.newBuilder()
-                .addPathSegment("articles")
-                .addPathSegment(String.valueOf(article.getId()));
-
-        Request req = new Request.Builder()
-                .header("Authorization", "Bearer " + KhumuApplication.getToken())
-                .patch(body)
-                .url(urlBuilder.build())
-                .build();
+        Call<Article> call = service.updateArticle("Bearer " + KhumuApplication.getToken(), "application/json", String.valueOf(article.getId()), article);
+        retrofit2.Response<Article> resp = call.execute();
+        if(resp.code() == 201){
+            return true;
+        } else{
+            return false;
+        }
+//        OkHttpClient client = new OkHttpClient();
+//        ObjectMapper mapper = new ObjectMapper();
+//        String articleStr = mapper.writeValueAsString(article);
+//        System.out.println(articleStr);
+//        RequestBody body = RequestBody.create(MediaType.parse("application/json"), articleStr);
+//
+//        HttpUrl.Builder urlBuilder = Util.newBuilder()
+//                .addPathSegment("articles")
+//                .addPathSegment(String.valueOf(article.getId()));
+//
+//        Request req = new Request.Builder()
+//                .header("Authorization", "Bearer " + KhumuApplication.getToken())
+//                .patch(body)
+//                .url(urlBuilder.build())
+//                .build();
 
         Response resp = client.newCall(req).execute();
         if(resp.code() != 200){

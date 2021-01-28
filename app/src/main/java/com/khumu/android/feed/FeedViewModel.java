@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import dagger.Module;
 
-import com.khumu.android.data.article.Article;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;

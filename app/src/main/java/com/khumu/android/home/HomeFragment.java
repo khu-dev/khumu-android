@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.data.article.Article;
+import com.khumu.android.data.Article;
 import com.khumu.android.repository.BoardRepository;
 
 import java.util.ArrayList;

@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.khumu.android.myPage.ArticleTagAdapter;
-import com.khumu.android.data.article.Article;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 
 public class ArticleModifyActivity extends ArticleWriteActivity {
@@ -51,7 +51,7 @@ public class ArticleModifyActivity extends ArticleWriteActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getApplicationContext(), "게시물을 수정하지 못했습니다..", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "게시물을 수정하지 못했습니다.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }

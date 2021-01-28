@@ -1,6 +1,7 @@
-package com.khumu.android.data;
+package com.khumu.android.data.rest;
 
 import com.google.gson.annotations.SerializedName;
+import com.khumu.android.data.Board;
 
 import java.util.List;
 

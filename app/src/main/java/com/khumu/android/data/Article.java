@@ -1,4 +1,4 @@
-package com.khumu.android.data.article;
+package com.khumu.android.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.khumu.android.data.SimpleUser;
+import com.khumu.android.data.Tag;
 
 public class Article implements Serializable {
 

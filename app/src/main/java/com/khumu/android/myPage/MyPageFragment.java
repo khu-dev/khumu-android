@@ -23,7 +23,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.data.article.Tag;
+import com.khumu.android.data.Tag;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyPageBinding;
 import com.khumu.android.feed.SingleBoardFeedActivity;
