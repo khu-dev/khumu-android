@@ -5,8 +5,10 @@
  */
 package com.khumu.android.articleWrite;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -17,15 +19,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
-import com.khumu.android.data.article.Tag;
+import com.khumu.android.data.Tag;
 import com.khumu.android.databinding.LayoutArticleItemBinding;
 import com.khumu.android.databinding.LayoutArticleTagItemBinding;
 import com.khumu.android.feed.ArticleAdapter;
 
+import java.security.PermissionCollection;
+import java.security.Permissions;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -58,14 +63,27 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    //기기 기본 갤러리 접근
-                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                    //구글 갤러리 접근
-                    // intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    ((AppCompatActivity)context).startActivityForResult(intent, ArticleWriteActivity.UPLOAD_IMAGE_ACTIVITY);
+                    // Checking if permission is not granted
+                    if (context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        ((AppCompatActivity)context).requestPermissions(
+                                        new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 1);
+                    }
+                    else {
+//                        Intent intent = new Intent();
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType("image/*");
+                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+//                        Intent intent = new Intent(Intent.ACTION_PICK);
+//                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+//                        //기기 기본 갤러리 접근
+////                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+//                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                        ((AppCompatActivity)context).startActivityForResult(intent, ArticleWriteActivity.UPLOAD_IMAGE_ACTIVITY);
+                    }
                 }
             });
         } else if (holder instanceof Item){

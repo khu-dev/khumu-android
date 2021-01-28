@@ -44,6 +44,7 @@ import com.khumu.android.data.Tag;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
+import com.khumu.android.retrofitInterface.ImageService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class ArticleWriteActivity extends AppCompatActivity {
     ArticleRepository articleRepository;
     @Inject
     BoardRepository boardRepository;
+    @Inject
+    ImageService imageService;
     ActivityArticleWriteBinding binding;
     ArticleWriteViewModel viewModel;
     Article article;
@@ -100,7 +103,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new ArticleWriteViewModel(boardRepository, articleRepository, ArticleWriteActivity.this.getContentResolver());
+                return (T) new ArticleWriteViewModel(ArticleWriteActivity.this,boardRepository, articleRepository, imageService, ArticleWriteActivity.this.getContentResolver());
             }
         }).get(ArticleWriteViewModel.class);
 

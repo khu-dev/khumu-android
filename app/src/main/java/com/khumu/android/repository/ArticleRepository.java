@@ -73,9 +73,9 @@ public class ArticleRepository {
         Call<Article> call = service.updateArticle("Bearer " + KhumuApplication.getToken(), "application/json", String.valueOf(article.getId()), article);
         retrofit2.Response<Article> resp = call.execute();
         if(resp.code() == 201){
-            return true;
+//            return true;
         } else{
-            return false;
+//            return false;
         }
 //        OkHttpClient client = new OkHttpClient();
 //        ObjectMapper mapper = new ObjectMapper();
@@ -93,11 +93,11 @@ public class ArticleRepository {
 //                .url(urlBuilder.build())
 //                .build();
 
-        Response resp = client.newCall(req).execute();
-        if(resp.code() != 200){
-            Log.d(TAG, "UpdateArticle: " + resp.body());
-            throw new Exception("게시물 업데이트 실패");
-        }
+//        Response resp = client.newCall(req).execute();
+//        if(resp.code() != 200){
+//            Log.d(TAG, "UpdateArticle: " + resp.body());
+//            throw new Exception("게시물 업데이트 실패");
+//        }
     }
     // 삭제가 잘 되었으면 true, 오류가 발생하면 false
     public boolean DeleteArticle(int articleID) {

@@ -29,7 +29,8 @@ import retrofit2.Retrofit;
 @Singleton
 @Component(modules=RetrofitClient.class)
 public interface Container {
-    // 여기에 의존성 주입할 클래스들 명시
+    // 여기에 의존성으로 주입될 수 있는 주입할 클래스들 명시
+    // ??? 모듈로 생성되는 애들은 여기에 적지 않는 것임?
     TokenRepository getTokenRepository();
     BoardRepository getBoardRepository();
     ArticleRepository getArticleRepository();
@@ -37,7 +38,6 @@ public interface Container {
     CommentRepository getCommentRepository();
     ArticleUseCase getArticleUseCase();
     Retrofit getRetrofit();
-//    ArticleService getArticleService();
 
 
     // 여기에 의존성 주입을 원하는 클래스들을 명시
