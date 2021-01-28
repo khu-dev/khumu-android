@@ -1,6 +1,7 @@
 package com.khumu.android.data.article;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -57,6 +58,9 @@ public class Article implements Serializable {
     @Expose
     private Integer bookmarkArticleCount;
 
+    public Article(){
+        this.tags = new ArrayList<>(); // 이게 없으면 기본 생성자로 Deserialization 될 때 tags가 Null이 됨.
+    }
 
 
     public Integer getId() {

@@ -1,9 +1,16 @@
 package com.khumu.android.articleWrite;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,14 +20,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.SimpleUser;
+import com.khumu.android.databinding.ActivityArticleWriteBinding;
+import com.khumu.android.feed.ArticleAdapter;
+import com.khumu.android.feed.FeedViewModel;
 import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.article.Article;
 import com.khumu.android.data.article.Tag;
@@ -28,18 +45,25 @@ import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class ArticleWriteActivity extends AppCompatActivity {
+    final static String TAG = "ArticleWriteActivity";
+    public final static int UPLOAD_IMAGE_ACTIVITY = 1;
     @Inject
     ArticleRepository articleRepository;
     @Inject
     BoardRepository boardRepository;
+    ActivityArticleWriteBinding binding;
+    ArticleWriteViewModel viewModel;
     Article article;
-
+    RecyclerView imageRecyclerView;
+    ImageAdapter imageAdapter;
     List<Board> boards;
     Board selectedBoard;
 
@@ -54,16 +78,70 @@ public class ArticleWriteActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     ArticleTagAdapter articleTagAdapter;
 
+    @BindingAdapter("article_image_list")
+    public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<Bitmap>> uploadingBitmaps){
+        Log.d(TAG, "bindItem: " + uploadingBitmaps.getValue().size());
+        if (recyclerView.getAdapter() == null){
+            recyclerView.setAdapter(new ImageAdapter(new ArrayList<>()));
+        }
+        if (recyclerView.getAdapter() != null && uploadingBitmaps != null){
+            ImageAdapter adapter = (ImageAdapter) recyclerView.getAdapter();
+            adapter.getBitmaps().clear();
+            adapter.getBitmaps().addAll(uploadingBitmaps.getValue());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
+        this.viewModel = new ViewModelProvider(ArticleWriteActivity.this, new ViewModelProvider.Factory(){
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new ArticleWriteViewModel(boardRepository, articleRepository, ArticleWriteActivity.this.getContentResolver());
+            }
+        }).get(ArticleWriteViewModel.class);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_article_write);
+        binding.setViewModel(this.viewModel);
+        // LifeCycle을 설정해주지 않으면 MutableLiveData을 제대로 Observe할 수 없어서 값이 변경이 안됨!
+        binding.setLifecycleOwner(this);
+        imageRecyclerView = findViewById(R.id.article_upload_images_recycler_view);
+
         article = new Article();
         boards = new ArrayList<Board>();
         listBoards();
-        setContentView(R.layout.activity_article_write);
+
+
         findViews();
         setEventListeners();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPLOAD_IMAGE_ACTIVITY){
+            if (resultCode == RESULT_OK){
+                if (data.getClipData() != null){
+                    ClipData imageClipData = data.getClipData();
+                    List<ClipData.Item> imageClipDataItems = new ArrayList<>();
+
+                    for (int i = 0; i < imageClipData.getItemCount(); i++) {
+                        imageClipDataItems.add(imageClipData.getItemAt(i));
+                    }
+                    try {
+                        viewModel.uploadImages(imageClipDataItems);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "이미지를 선택 중 오류가 발생했습니다.\n문의 부탁드립니다.", Toast.LENGTH_SHORT).show();
+                    }
+                } else{
+                    Toast.makeText(this, "아무런 이미지가 선택되지 못했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     protected void findViews(){
@@ -237,4 +315,6 @@ public class ArticleWriteActivity extends AppCompatActivity {
             }
         }.start();
     }
+
+
 }

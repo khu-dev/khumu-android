@@ -1,127 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--게시물 생성 시에 사용할 액티비티-->
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/layout_default_space"
-    android:background="@color/white">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.khumu.android.articleWrite.ArticleWriteViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/article_write_top_wrapper_layout"
+
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-        <LinearLayout
-            android:id="@+id/article_write_boards_wrapper_layout"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/layout_default_space"
+        android:background="@color/white">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/article_write_top_wrapper_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/article_write_submit_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/article_write_popup_boards_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"/>
-            <TextView
-                android:id="@+id/article_write_selected_board_display_name_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+            <LinearLayout
+                android:id="@+id/article_write_boards_wrapper_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/article_write_submit_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/article_write_popup_boards_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+                <TextView
+                    android:id="@+id/article_write_selected_board_display_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/gray_500"
+                    android:text="게시판을 선택해주세요."
+                    />
+            </LinearLayout>
+            <Button
+                android:id="@+id/article_write_submit_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/gray_500"
-                android:text="게시판을 선택해주세요."
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="@dimen/layout_default_space"
+                android:minWidth="0dp"
+                android:textColor="@color/white"
+                android:text="등록"
                 />
-        </LinearLayout>
-        <Button
-            android:id="@+id/article_write_submit_btn"
-            android:layout_width="wrap_content"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/article_write_title_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="제목을 입력해주세요."
+            />
+        <EditText
+            android:id="@+id/article_write_content_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintTop_toBottomOf="@+id/article_write_title_et"
+            app:layout_constraintBottom_toTopOf="@+id/article_write_meta_layout"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="@dimen/layout_default_space"
-            android:minWidth="0dp"
-            android:textColor="@color/white"
-            android:text="등록"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <EditText
-        android:id="@+id/article_write_title_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"
+            android:background="@android:color/transparent"
+            android:hint="내용을 입력해주세요."
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="제목을 입력해주세요."
-        />
-    <EditText
-        android:id="@+id/article_write_content_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintTop_toBottomOf="@+id/article_write_title_et"
-        app:layout_constraintBottom_toTopOf="@+id/article_write_meta_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/layout_default_space"
-        android:background="@android:color/transparent"
-        android:hint="내용을 입력해주세요."
-
-        />
-    <LinearLayout
-        android:id="@+id/article_write_meta_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/article_write_tag_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-        <CheckBox
-            android:id="@+id/article_write_is_anonymous_cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="익명"
-            android:checked="true"
             />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/article_write_tag_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical">
+    <!--    본문을 제외한 View들-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/red_500"
-            android:text="# 태그"/>
-        <EditText
-            android:id="@+id/article_write_tag_et"
+            android:id="@+id/article_write_meta_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/layout_default_space"
-            android:textSize="@dimen/default_font_size"
-            android:hint="태그는 쉼표나 공백으로 구분 됩니다."/>
+            app:layout_constraintBottom_toTopOf="@+id/article_write_tag_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/article_upload_images_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:article_image_list="@{viewModel.uploadingBitmaps}"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <CheckBox
+                android:id="@+id/article_write_is_anonymous_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="익명"
+                android:checked="true"
+                />
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/article_write_tags_recycler_view"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/article_write_tag_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-    </LinearLayout>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_500"
+                android:text="# 태그"/>
+            <EditText
+                android:id="@+id/article_write_tag_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/layout_default_space"
+                android:textSize="@dimen/default_font_size"
+                android:hint="태그는 쉼표나 공백으로 구분 됩니다."/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/article_write_tags_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
