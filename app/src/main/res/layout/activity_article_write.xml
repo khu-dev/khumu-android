@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/gray_500"
-                    android:text="게시판을 선택해주세요."
+                    android:text="@{viewModel.article.boardDisplayName, default=`게시판 표시 이름`}"
                     />
             </LinearLayout>
             <Button
@@ -56,6 +56,7 @@
                 android:minWidth="0dp"
                 android:textColor="@color/white"
                 android:text="등록"
+                android:onClick="onClickSubmitButton"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <EditText
@@ -63,10 +64,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/article_write_top_wrapper_layout"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="제목을 입력해주세요."
+            android:text="@{viewModel.article.title}"
             />
         <EditText
             android:id="@+id/article_write_content_et"
@@ -81,7 +82,7 @@
             android:padding="@dimen/layout_default_space"
             android:background="@android:color/transparent"
             android:hint="내용을 입력해주세요."
-
+            android:text="@={viewModel.article.content}"
             />
     <!--    본문을 제외한 View들-->
         <LinearLayout
@@ -103,7 +104,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="익명"
-                android:checked="true"
+                android:checked="@={viewModel.isAnonymous}"
+
+
                 />
         </LinearLayout>
 

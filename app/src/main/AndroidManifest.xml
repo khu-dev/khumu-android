@@ -17,15 +17,16 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Khumu">
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+
         <activity
             android:name=".articleDetail.ArticleDetailActivity"
             android:label="@string/app_name">
@@ -38,10 +39,10 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
             android:name=".articleWrite.ArticleWriteActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".articleWrite.ArticleModifyActivity"

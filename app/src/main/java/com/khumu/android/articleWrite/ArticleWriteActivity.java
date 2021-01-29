@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.InverseBindingAdapter;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -45,7 +48,10 @@ import com.khumu.android.data.Tag;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
+import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.ImageService;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +69,8 @@ public class ArticleWriteActivity extends AppCompatActivity {
     BoardRepository boardRepository;
     @Inject
     ImageService imageService;
+    @Inject
+    ArticleService articleService;
     ActivityArticleWriteBinding binding;
     ArticleWriteViewModel viewModel;
     Article article;
@@ -104,7 +112,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new ArticleWriteViewModel(ArticleWriteActivity.this,boardRepository, articleRepository, imageService, ArticleWriteActivity.this.getContentResolver());
+                return (T) new ArticleWriteViewModel(ArticleWriteActivity.this,boardRepository, articleService, imageService, ArticleWriteActivity.this.getContentResolver());
             }
         }).get(ArticleWriteViewModel.class);
 
@@ -155,34 +163,14 @@ public class ArticleWriteActivity extends AppCompatActivity {
         this.article.setKind("anonymous");
     }
 
-    protected void setEventListeners(){
-        titleET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                article.setTitle(s.toString());
-                System.out.println(article.getTitle());
-            }
-        });
-
-        contentET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                article.setContent(s.toString());
-            }
-        });
-
+    protected void setEventListeners() {
         isAnonymousCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) article.setKind("anonymous");
+                //test
+                Log.d(TAG, "onCheckedChanged: " + viewModel.getArticle().getValue().getBoardDisplayName());
+
+                if (isChecked) article.setKind("anonymous");
                 else article.setKind("named");
             }
         });
@@ -195,18 +183,21 @@ public class ArticleWriteActivity extends AppCompatActivity {
         });
         tagET.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().endsWith(" ") || s.toString().endsWith(",") || s.toString().endsWith("\n")){
+                if (s.toString().endsWith(" ") || s.toString().endsWith(",") || s.toString().endsWith("\n")) {
                     String newTagName = s.toString().replace(" ", "").replace(",", "").replace("\n", "");
-                    if (!newTagName.isEmpty()){
+                    if (!newTagName.isEmpty()) {
                         article.getTags().add(new Tag(newTagName, false)); // follwed는 뭐가 되든 상관없음.
-                        articleTagAdapter.notifyItemInserted(article.getTags().size()-1);
-                    } else{
+                        articleTagAdapter.notifyItemInserted(article.getTags().size() - 1);
+                    } else {
                         Toast.makeText(ArticleWriteActivity.this, "태그 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
                     tagET.setText("");
@@ -214,45 +205,10 @@ public class ArticleWriteActivity extends AppCompatActivity {
             }
         });
 
-        submitBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            //article.setAuthor(new SimpleUser("현기", "현기", ""));
-                            boolean isArticleCreated = articleRepository.CreateArticle(article);
-                            if (!isArticleCreated){
-                                throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
-                            } else{
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getApplicationContext(), "게시물을 작성했습니다.", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                                finish();
-                            }
-                        } catch (Exception e){
-                            e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "게시물을 작성하지 못했습니다.", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                            finish();
-                        }
-                    }
-                }.start();
-            }
-        });
     }
 
-    protected void setTestInput(){
-        titleET.setText("텟트");
-        contentET.setText("텟트");
+    public void onClickSubmitButton(View v){
+        viewModel.writeArticle();
     }
 
     // write 할 article의 kind를 리턴
@@ -285,8 +241,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 selectedBoard = boards.get(which);
-                selectedBoardTV.setText(selectedBoard.getDisplayName());
-                article.setBoardName(selectedBoard.getName());
+                viewModel.setBoardToWrite(selectedBoard);
             }
         });
         builderSingle.show();
