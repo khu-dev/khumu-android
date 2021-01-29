@@ -39,7 +39,7 @@ public class Article implements Serializable {
     private List<Tag> tags = null;
     @SerializedName("images")
     @Expose
-    private Object images;
+    private List<String> images;
     @SerializedName("comment_count")
     @Expose
     private Integer commentCount;
@@ -61,6 +61,7 @@ public class Article implements Serializable {
 
     public Article(){
         this.tags = new ArrayList<>(); // 이게 없으면 기본 생성자로 Deserialization 될 때 tags가 Null이 됨.
+        this.images = new ArrayList<>(); //Image file name들을 담는 List
     }
 
 
@@ -136,11 +137,11 @@ public class Article implements Serializable {
         this.tags = tags;
     }
 
-    public Object getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(Object images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 

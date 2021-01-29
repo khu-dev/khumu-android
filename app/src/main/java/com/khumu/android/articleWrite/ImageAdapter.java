@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.esafirm.imagepicker.features.ImagePicker;
 import com.khumu.android.R;
 import com.khumu.android.data.Tag;
 import com.khumu.android.databinding.LayoutArticleItemBinding;
@@ -69,20 +71,25 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                         new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 1);
                     }
                     else {
-//                        Intent intent = new Intent();
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("image/*");
-                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-//                        Intent intent = new Intent(Intent.ACTION_PICK);
-//                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-//                        //기기 기본 갤러리 접근
-////                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-//                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                        intent.setAction(Intent.ACTION_GET_CONTENT);
-
-                        ((AppCompatActivity)context).startActivityForResult(intent, ArticleWriteActivity.UPLOAD_IMAGE_ACTIVITY);
+                        ImagePicker.create((AppCompatActivity)context) // Activity or Fragment
+//                            .returnMode(ReturnMode.ALL) // set whether pick and / or camera action should return immediate result or not.
+                                .folderMode(true) // folder mode (false by default)
+                                .toolbarFolderTitle("폴더") // folder selection title
+//                                .toolbarImageTitle("Tap to select") // image selection title
+//                                .toolbarArrowColor(Color.BLACK) // Toolbar 'up' arrow color
+//                                .includeVideo(true) // Show video on image picker
+//                                .onlyVideo(onlyVideo) // include video (false by default)
+//                                .single() // single mode
+                                .multi() // multi mode (default mode)
+//                                .limit(10) // max images can be selected (99 by default)
+                                .showCamera(true) // show camera or not (true by default)
+                                .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
+//                                .origin(images) // original selected images, used in multi mode
+//                                .exclude(images) // exclude anything that in image.getPath()
+//                                .excludeFiles(files) // same as exclude but using ArrayList<File>
+                                .theme(R.style.KhumuImagePickerTheme) // must inherit ef_BaseTheme. please refer to sample
+                                .enableLog(true) // disabling log
+                                .start();
                     }
                 }
             });

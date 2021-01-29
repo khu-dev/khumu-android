@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,6 +31,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.SimpleUser;
@@ -125,25 +126,17 @@ public class ArticleWriteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == UPLOAD_IMAGE_ACTIVITY){
-            if (resultCode == RESULT_OK){
-                if (data.getClipData() != null){
-                    ClipData imageClipData = data.getClipData();
-                    List<ClipData.Item> imageClipDataItems = new ArrayList<>();
-
-                    for (int i = 0; i < imageClipData.getItemCount(); i++) {
-                        imageClipDataItems.add(imageClipData.getItemAt(i));
-                    }
-                    try {
-                        viewModel.uploadImages(imageClipDataItems);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, "이미지를 선택 중 오류가 발생했습니다.\n문의 부탁드립니다.", Toast.LENGTH_SHORT).show();
-                    }
-                } else{
-                    Toast.makeText(this, "아무런 이미지가 선택되지 못했습니다.", Toast.LENGTH_SHORT).show();
-                }
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            // Get a list of picked images
+            List<Image> images = ImagePicker.getImages(data);
+            try {
+                viewModel.uploadImages(images);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "이미지 업로드가 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
+            // or get a single image only. 하지만 우린 여러 장을 default로 함.
+            // Image image = ImagePicker.getFirstImageOrNull(data);
         }
     }
 

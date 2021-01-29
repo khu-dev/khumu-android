@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.Article;
@@ -21,6 +22,9 @@ import com.khumu.android.data.rest.ImageUploadResponse;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.retrofitInterface.ImageService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,27 +72,29 @@ public class ArticleWriteViewModel extends ViewModel {
         return uploadingBitmaps;
     }
 
-    public void uploadImages(List<ClipData.Item> imageClipDataItems) throws IOException {
-        for(ClipData.Item item: imageClipDataItems) {
-            uploadImage(item);
+    public void uploadImages(List<Image> images) throws IOException {
+        for(Image img: images) {
+            uploadImage(img);
         }
     }
-    public void uploadImage(ClipData.Item imageClipDataItem) throws IOException {
-        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageClipDataItem.getUri());
-        uploadingBitmaps.postValue(Collections.singletonList(imageBitmap));
-        File file = new File(this.getPathFromUri(imageClipDataItem.getUri()));
-        System.out.println(imageClipDataItem.getUri().getPath().replace("/-1/1/", ""));
-        System.out.println(this.getPathFromUri(imageClipDataItem.getUri()));
-        System.out.println(file.getName());
+    public void uploadImage(Image img) throws IOException {
+        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, img.getUri());
+        uploadingBitmaps.getValue().add(imageBitmap);
+        uploadingBitmaps.postValue(uploadingBitmaps.getValue());
+        File file = new File(img.getPath());
 
         Call<ImageUploadResponse> call = imageService.uploadImage(
                 "Bearer " + KhumuApplication.getToken(),
-                MultipartBody.Part.createFormData("image", imageClipDataItem.getUri().getLastPathSegment(),
+                MultipartBody.Part.createFormData("image", img.getUri().getLastPathSegment(),
                 RequestBody.create(MediaType.parse("multipart/form-data"), file)));
         call.enqueue(new Callback<ImageUploadResponse>() {
             @Override
             public void onResponse(Call<ImageUploadResponse> call, Response<ImageUploadResponse> response) {
-                System.out.println(response.raw());
+                String uploadedFileName = response.body().getData().get("file_name");
+                List tmpImgSrcs = article.getValue().getImages();
+                tmpImgSrcs.add(uploadedFileName);
+                article.getValue().setImages(tmpImgSrcs);
+                article.postValue(article.getValue());
             }
 
             @Override
@@ -96,18 +102,5 @@ public class ArticleWriteViewModel extends ViewModel {
                 System.out.println(t);
             }
         });
-    }
-
-    public String getPathFromUri(Uri u){
-
-        Cursor cursor = contentResolver.query(u, null, null, null, null );
-
-        cursor.moveToNext();
-
-        String path = cursor.getString( cursor.getColumnIndex( "_data" ) );
-
-        cursor.close();
-
-        return path;
     }
 }
