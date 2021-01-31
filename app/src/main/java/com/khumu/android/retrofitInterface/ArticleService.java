@@ -28,7 +28,7 @@ public interface ArticleService {
     Call<Article> updateArticle(@Header("Authorization") String authorization, @Header("Content-Type") String contentType, @Path("id") String id, @Body Article article);
 
     @DELETE("articles/{id}")
-    Call<Article> deleteArticle(@Header("Authorization") String authorization, @Header("Content-Type") String contentType, @Path("id") String id, @Body Article article);
+    Call<Article> deleteArticle(@Header("Authorization") String authorization, @Header("Content-Type") String contentType, @Path("id") String id);
 
 
 }
