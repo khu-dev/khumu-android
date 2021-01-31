@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.khumu.android">
-
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <!--
 android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이징징
 -->
+
     <application
         android:name=".KhumuApplication"
         android:usesCleartextTraffic="true"
@@ -23,6 +25,8 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
             android:name=".articleDetail.ArticleDetailActivity"
             android:label="@string/app_name">
@@ -35,7 +39,10 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
             android:name=".articleWrite.ArticleWriteActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize">
-
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".articleWrite.ArticleModifyActivity"

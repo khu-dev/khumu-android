@@ -1,9 +1,17 @@
 package com.khumu.android.articleWrite;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,33 +21,61 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.InverseBindingAdapter;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.SimpleUser;
+import com.khumu.android.databinding.ActivityArticleWriteBinding;
+import com.khumu.android.feed.ArticleAdapter;
+import com.khumu.android.feed.FeedViewModel;
 import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Tag;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
+import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.retrofitInterface.ImageService;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class ArticleWriteActivity extends AppCompatActivity {
+    final static String TAG = "ArticleWriteActivity";
+    public final static int UPLOAD_IMAGE_ACTIVITY = 1;
     @Inject
     ArticleRepository articleRepository;
     @Inject
     BoardRepository boardRepository;
+    @Inject
+    ImageService imageService;
+    @Inject
+    ArticleService articleService;
+    ActivityArticleWriteBinding binding;
+    ArticleWriteViewModel viewModel;
     Article article;
-
+    RecyclerView imageRecyclerView;
+    ImageAdapter imageAdapter;
     List<Board> boards;
     Board selectedBoard;
 
@@ -54,16 +90,62 @@ public class ArticleWriteActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     ArticleTagAdapter articleTagAdapter;
 
+    @BindingAdapter("article_image_list")
+    public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<Bitmap>> uploadingBitmaps){
+        Log.d(TAG, "bindItem: " + uploadingBitmaps.getValue().size());
+        if (recyclerView.getAdapter() == null){
+            recyclerView.setAdapter(new ImageAdapter(new ArrayList<>()));
+        }
+        if (recyclerView.getAdapter() != null && uploadingBitmaps != null){
+            ImageAdapter adapter = (ImageAdapter) recyclerView.getAdapter();
+            adapter.getBitmaps().clear();
+            adapter.getBitmaps().addAll(uploadingBitmaps.getValue());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
+        this.viewModel = new ViewModelProvider(ArticleWriteActivity.this, new ViewModelProvider.Factory(){
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new ArticleWriteViewModel(ArticleWriteActivity.this,boardRepository, articleService, imageService, ArticleWriteActivity.this.getContentResolver());
+            }
+        }).get(ArticleWriteViewModel.class);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_article_write);
+        binding.setViewModel(this.viewModel);
+        // LifeCycle을 설정해주지 않으면 MutableLiveData을 제대로 Observe할 수 없어서 값이 변경이 안됨!
+        binding.setLifecycleOwner(this);
+        imageRecyclerView = findViewById(R.id.article_upload_images_recycler_view);
+
         article = new Article();
         boards = new ArrayList<Board>();
         listBoards();
-        setContentView(R.layout.activity_article_write);
+
+
         findViews();
         setEventListeners();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            // Get a list of picked images
+            List<Image> images = ImagePicker.getImages(data);
+            try {
+                viewModel.uploadImages(images);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "이미지 업로드가 실패했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            // or get a single image only. 하지만 우린 여러 장을 default로 함.
+            // Image image = ImagePicker.getFirstImageOrNull(data);
+        }
     }
 
     protected void findViews(){
@@ -81,34 +163,14 @@ public class ArticleWriteActivity extends AppCompatActivity {
         this.article.setKind("anonymous");
     }
 
-    protected void setEventListeners(){
-        titleET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                article.setTitle(s.toString());
-                System.out.println(article.getTitle());
-            }
-        });
-
-        contentET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                article.setContent(s.toString());
-            }
-        });
-
+    protected void setEventListeners() {
         isAnonymousCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) article.setKind("anonymous");
+                //test
+                Log.d(TAG, "onCheckedChanged: " + viewModel.getArticle().getValue().getBoardDisplayName());
+
+                if (isChecked) article.setKind("anonymous");
                 else article.setKind("named");
             }
         });
@@ -121,18 +183,21 @@ public class ArticleWriteActivity extends AppCompatActivity {
         });
         tagET.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().endsWith(" ") || s.toString().endsWith(",") || s.toString().endsWith("\n")){
+                if (s.toString().endsWith(" ") || s.toString().endsWith(",") || s.toString().endsWith("\n")) {
                     String newTagName = s.toString().replace(" ", "").replace(",", "").replace("\n", "");
-                    if (!newTagName.isEmpty()){
+                    if (!newTagName.isEmpty()) {
                         article.getTags().add(new Tag(newTagName, false)); // follwed는 뭐가 되든 상관없음.
-                        articleTagAdapter.notifyItemInserted(article.getTags().size()-1);
-                    } else{
+                        articleTagAdapter.notifyItemInserted(article.getTags().size() - 1);
+                    } else {
                         Toast.makeText(ArticleWriteActivity.this, "태그 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
                     tagET.setText("");
@@ -140,45 +205,10 @@ public class ArticleWriteActivity extends AppCompatActivity {
             }
         });
 
-        submitBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            //article.setAuthor(new SimpleUser("현기", "현기", ""));
-                            boolean isArticleCreated = articleRepository.CreateArticle(article);
-                            if (!isArticleCreated){
-                                throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
-                            } else{
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getApplicationContext(), "게시물을 작성했습니다.", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                                finish();
-                            }
-                        } catch (Exception e){
-                            e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "게시물을 작성하지 못했습니다.", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                            finish();
-                        }
-                    }
-                }.start();
-            }
-        });
     }
 
-    protected void setTestInput(){
-        titleET.setText("텟트");
-        contentET.setText("텟트");
+    public void onClickSubmitButton(View v){
+        viewModel.writeArticle();
     }
 
     // write 할 article의 kind를 리턴
@@ -211,8 +241,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 selectedBoard = boards.get(which);
-                selectedBoardTV.setText(selectedBoard.getDisplayName());
-                article.setBoardName(selectedBoard.getName());
+                viewModel.setBoardToWrite(selectedBoard);
             }
         });
         builderSingle.show();
@@ -237,4 +266,6 @@ public class ArticleWriteActivity extends AppCompatActivity {
             }
         }.start();
     }
+
+
 }

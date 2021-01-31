@@ -14,4 +14,10 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="KhumuImagePickerTheme" parent="ef_BaseTheme">
+        <item name="colorPrimary">@color/red_500</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/red_300</item>
+    </style>
 </resources>

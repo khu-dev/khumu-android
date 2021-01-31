@@ -11,6 +11,9 @@
     <dimen name="layout_semi_large_space">16dp</dimen>
     <dimen name="layout_large_space">20dp</dimen>
     <dimen name="default_icon_size">16dp</dimen>
+    <dimen name="default_thumbnail_width">64dp</dimen>
+    <dimen name="default_thumbnail_height">64dp</dimen>
+
 
 
 

@@ -1,5 +1,7 @@
 package com.khumu.android.util;
 //import com.khumu.android.util.Helper;
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -7,6 +9,10 @@ import android.view.animation.Transformation;
 
 import com.khumu.android.retrofitInterface.ArticleService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Scanner;
 
@@ -18,7 +24,7 @@ public class Util {
     public static int APIPort = 443;
 //    static String APIScheme = "http";
 //    static String APIHost = "192.168.219.254";
-//    static int APIPort = 8000;
+//    static int APIPort = 9001;
     public static String APISubPathForRoot = "api";
     public static String APIRootEndpoint;
     public static String DEFAULT_USERNAME = "admin";

@@ -71,4 +71,12 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.1'
     // mateiral ui를 사용할 수 있는데, TabLayout을 위함.
     implementation 'com.google.android.material:material:1.1.0'
+
+    // 갤러리 Image Pick 오픈소스
+    // ref: https://github.com/esafirm/android-image-picker
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:2.4.1'
+    // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:rximagepicker:2.4.1'
+    // If you have a problem with Glide, please use the same Glide version or simply open an issue
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
 }

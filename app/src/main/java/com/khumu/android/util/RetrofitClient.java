@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.BoardService;
+import com.khumu.android.retrofitInterface.ImageService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,5 +43,12 @@ public class RetrofitClient {
     public static BoardService getBoardService (Retrofit retrofit){
         Log.d(TAG, "getBoardService: ");
         return retrofit.create(BoardService.class);
+    }
+
+    @Singleton
+    @Provides
+    public static ImageService getImageService (Retrofit r){
+        Log.d(TAG, "getImageService: ");
+        return r.create(ImageService.class);
     }
 }
