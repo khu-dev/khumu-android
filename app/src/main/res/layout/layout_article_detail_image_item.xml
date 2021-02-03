@@ -6,8 +6,8 @@
     android:background="@drawable/bordered_white_background">
     <ImageView
         android:id="@+id/image_iv"
-        android:layout_width="@dimen/default_thumbnail_width"
-        android:layout_height="@dimen/default_thumbnail_width"
+        android:layout_width="@dimen/default_image_width"
+        android:layout_height="@dimen/default_image_height"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

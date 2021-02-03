@@ -7,32 +7,20 @@ package com.khumu.android.articleWrite;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.khumu.android.R;
-import com.khumu.android.data.Tag;
-import com.khumu.android.databinding.LayoutArticleItemBinding;
-import com.khumu.android.databinding.LayoutArticleTagItemBinding;
-import com.khumu.android.feed.ArticleAdapter;
 
-import java.security.PermissionCollection;
-import java.security.Permissions;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -54,7 +42,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == TYPE_IMAGE_ADDER){
             view = new ImageAdder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_image_adder, parent, false));
         } else if (viewType == TYPE_ITEM){
-            view = new Item(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_image_item, parent, false));
+            view = new Item(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_detail_image_item, parent, false));
         }
         return view;
     }

@@ -2,10 +2,15 @@
 <!--Feed의 RecyclerView에서 하나의 Article Item을 나타내는 layout-->
 <layout>
     <data>
-<!--필요에 따라 variable은 나를 include하는 부모에게서 주입받을 수 있다.-->
+        <import type="androidx.core.content.ContextCompat" />
+        <!--필요에 따라 variable은 나를 include하는 부모에게서 주입받아야 할 수 있다.-->
         <variable
             name="article"
             type="com.khumu.android.data.Article" />
+        <!-- adapter로부터 viewholder를 생성할 때 주입받음 -->
+        <variable
+            name="viewHolder"
+            type="com.khumu.android.feed.ArticleAdapter.ArticleViewHolder"/>
     </data>
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -67,7 +72,9 @@
             <TextView
                 android:id="@+id/article_item_content_tv"
                 app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
-                android:layout_width="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/article_item_thumbnail_iv"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/layout_default_space"
                 android:paddingBottom="12dp"
@@ -75,6 +82,35 @@
                 android:ellipsize="end"
                 android:textSize="@dimen/default_font_size"
                 android:text="@{article.content, default=content}"/>
+            <LinearLayout
+                android:id="@+id/article_item_thumbnail_count_tv_wrapper"
+                android:layout_width="@dimen/default_thumbnail_width"
+                android:layout_height="@dimen/default_thumbnail_height"
+                android:background="@color/black"
+                android:visibility="@{viewHolder.thumbnailCountVisibility}"
+                app:layout_constraintTop_toTopOf="@+id/article_item_thumbnail_iv"
+                app:layout_constraintBottom_toBottomOf="@+id/article_item_thumbnail_iv"
+                app:layout_constraintStart_toStartOf="@+id/article_item_thumbnail_iv"
+                app:layout_constraintEnd_toEndOf="@+id/article_item_thumbnail_iv">
+                <TextView
+                    android:id="@+id/article_item_thumbnail_count_tv"
+                    android:gravity="center"
+                    android:textSize="24dp"
+                    android:text="@{viewHolder.thumbnailCountText, default=`+1`}"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/article_item_thumbnail_iv"
+                app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{viewHolder.thumbnailImageVisibility, default=visible}"
+                android:alpha="@{viewHolder.thumbnailImageAlpha, default=0.5}"
+                android:layout_width="@dimen/default_thumbnail_width"
+                android:layout_height="@dimen/default_thumbnail_height" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -144,7 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/meta_font_size"
-                android:textColor="@color/gray_500"
+                android:textColor="@{ContextCompat.getColor(context, viewHolder.authorNicknameColor)}"
                 android:text="@{article.author.nickname, default=authorNickname}"/>
         </LinearLayout>
 

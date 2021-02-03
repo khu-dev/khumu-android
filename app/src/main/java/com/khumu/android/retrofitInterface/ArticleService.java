@@ -29,5 +29,6 @@ public interface ArticleService {
     @DELETE("articles/{id}")
     Call<Article> deleteArticle(@Header("Content-Type") String contentType, @Path("id") String id);
 
+
 }
 

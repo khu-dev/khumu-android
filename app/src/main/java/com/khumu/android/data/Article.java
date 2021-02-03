@@ -28,6 +28,9 @@ public class Article implements Serializable {
     @SerializedName("author")
     @Expose
     private SimpleUser author;
+    @SerializedName("is_author")
+    @Expose
+    private boolean isAuthor;
     @SerializedName("kind")
     @Expose
     private String kind;
@@ -191,5 +194,13 @@ public class Article implements Serializable {
 
     public void setBookmarkArticleCount(Integer bookmarkArticleCount) {
         this.bookmarkArticleCount = bookmarkArticleCount;
+    }
+
+    public boolean getIsAuthor() {
+        return isAuthor;
+    }
+
+    public void setIsAuthor(boolean isAuthor) {
+        this.isAuthor = isAuthor;
     }
 }
