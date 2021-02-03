@@ -44,8 +44,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public LikeArticleRepository likeArticleRepository;
     @Inject
     public BookmarkArticleRepository bookmarkArticleRepository;
-    @Inject
-    public ArticleUseCase articleUseCase;
     // Adapter는 바깥 UI 상황을 최대한 모르고싶지만, Toast를 위해 context를 주입함.
     private Context context;
 
@@ -78,14 +76,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                     .load("https://storage.khumu.jinsu.me/" + "thumbnail/" + article.getImages().get(0))
                     .centerCrop()
                     .into(holder.binding.articleItemThumbnailIv);
-        }
-
-
-        // 밑에 다 리팩토링 좀 해야할 듯 data binding 잘 쓰는 쪽으로
-        if(articleUseCase.amIAuthor(article)){
-            holder.binding.articleItemAuthorNicknameTv.setTextColor(context.getColor(R.color.red_300));
-        } else{
-            holder.binding.articleItemAuthorNicknameTv.setTextColor(context.getColor(R.color.gray_500));
         }
 
         holder.binding.articleItemLikeIcon.setImageResource(getArticleLikedImage(article));
@@ -243,6 +233,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         public String getThumbnailCountText(){
             return "+" + (this.binding.getArticle().getImages().size()-1);
+        }
+
+        public int getAuthorNicknameColor(){
+            if(this.binding.getArticle().getIsAuthor()){
+                return R.color.red_300;
+            }
+            return R.color.gray_500;
         }
     }
 }

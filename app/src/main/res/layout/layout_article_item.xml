@@ -2,10 +2,12 @@
 <!--Feed의 RecyclerView에서 하나의 Article Item을 나타내는 layout-->
 <layout>
     <data>
-<!--필요에 따라 variable은 나를 include하는 부모에게서 주입받을 수 있다.-->
+        <import type="androidx.core.content.ContextCompat" />
+        <!--필요에 따라 variable은 나를 include하는 부모에게서 주입받아야 할 수 있다.-->
         <variable
             name="article"
             type="com.khumu.android.data.Article" />
+        <!-- adapter로부터 viewholder를 생성할 때 주입받음 -->
         <variable
             name="viewHolder"
             type="com.khumu.android.feed.ArticleAdapter.ArticleViewHolder"/>
@@ -178,7 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/meta_font_size"
-                android:textColor="@color/gray_500"
+                android:textColor="@{ContextCompat.getColor(context, viewHolder.authorNicknameColor)}"
                 android:text="@{article.author.nickname, default=authorNickname}"/>
         </LinearLayout>
 
