@@ -15,7 +15,6 @@ import androidx.databinding.Bindable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Board;
@@ -106,7 +105,7 @@ public class ArticleWriteViewModel extends ViewModel {
     }
 
     public void writeArticle(){
-        Call<Article> call = articleService.createArticle("Bearer "+KhumuApplication.getToken(), "application/json", this.article.getValue());
+        Call<Article> call = articleService.createArticle("application/json", this.article.getValue());
         call.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
