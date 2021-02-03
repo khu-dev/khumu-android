@@ -7,6 +7,7 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.util.AuthenticationInterceptor;
 import com.khumu.android.util.Util;
 
 import org.json.JSONException;
@@ -41,10 +42,10 @@ public class ArticleRepository {
         // ArticleService에서 Articles들을 가져올 것이므로 getArticles와 파라미터로 토큰과 현재 페이지의 쿼리를 넘긴다.
         ArticleListResponse respString = new ArticleListResponse();
         if (board == null) {
-            Call<ArticleListResponse> call = service.getArticles("Bearer " + KhumuApplication.getToken(), String.valueOf(page));
+            Call<ArticleListResponse> call = service.getArticles(String.valueOf(page));
             respString = call.execute().body();
         } else {
-            Call<ArticleListResponse> call = service.getArticles("Bearer " + KhumuApplication.getToken(), String.valueOf(page), board);
+            Call<ArticleListResponse> call = service.getArticles(String.valueOf(page), board);
             respString = call.execute().body();
         }
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
@@ -60,7 +61,7 @@ public class ArticleRepository {
     }
 
     public boolean CreateArticle(Article article) throws IOException, JSONException {
-        Call<Article> call = service.createArticle("Bearer " + KhumuApplication.getToken(), "application/json", article);
+        Call<Article> call = service.createArticle("application/json", article);
         retrofit2.Response<Article> resp = call.execute();
         if(resp.code() == 201){
             return true;
@@ -70,7 +71,7 @@ public class ArticleRepository {
     }
 
     public void UpdateArticle(Article article) throws Exception {
-        Call<Article> call = service.updateArticle("Bearer " + KhumuApplication.getToken(), "application/json", String.valueOf(article.getId()), article);
+        Call<Article> call = service.updateArticle("application/json", String.valueOf(article.getId()), article);
         retrofit2.Response<Article> resp = call.execute();
         if(resp.code() == 200){
             Log.d(TAG, "UpdateArticle: " + resp.body());
