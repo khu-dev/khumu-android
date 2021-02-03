@@ -33,7 +33,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-            Log.d(TAG, "onBindViewHolder: " + thumbnailSrc.get(position));
+        Log.d(TAG, "onBindViewHolder: " + thumbnailSrc.get(position));
         Glide.with(this.context)
                 .load("https://storage.khumu.jinsu.me/" + "resized/256/" + thumbnailSrc.get(position))
                 .centerCrop()

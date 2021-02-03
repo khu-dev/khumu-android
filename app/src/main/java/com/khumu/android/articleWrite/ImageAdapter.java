@@ -42,7 +42,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == TYPE_IMAGE_ADDER){
             view = new ImageAdder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_image_adder, parent, false));
         } else if (viewType == TYPE_ITEM){
-            view = new Item(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_detail_image_item, parent, false));
+            view = new Item(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_thumbnail_item, parent, false));
         }
         return view;
     }
@@ -122,7 +122,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public ImageView imageIV;
         public Item(@NonNull View itemView) {
             super(itemView);
-            imageIV = (ImageView) itemView.findViewById(R.id.image_iv);
+            imageIV = (ImageView) itemView.findViewById(R.id.thumbnail_image_view);
         }
     }
 }

@@ -166,4 +166,5 @@ public class ArticleWriteViewModel extends ViewModel {
         initial.setTitle("tmp");
         return initial;
     }
+
 }
