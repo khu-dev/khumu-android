@@ -6,6 +6,9 @@
         <variable
             name="article"
             type="com.khumu.android.data.Article" />
+        <variable
+            name="viewHolder"
+            type="com.khumu.android.feed.ArticleAdapter.ArticleViewHolder"/>
     </data>
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -67,7 +70,9 @@
             <TextView
                 android:id="@+id/article_item_content_tv"
                 app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
-                android:layout_width="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/article_item_thumbnail_iv"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/layout_default_space"
                 android:paddingBottom="12dp"
@@ -75,6 +80,35 @@
                 android:ellipsize="end"
                 android:textSize="@dimen/default_font_size"
                 android:text="@{article.content, default=content}"/>
+            <LinearLayout
+                android:id="@+id/article_item_thumbnail_count_tv_wrapper"
+                android:layout_width="@dimen/default_thumbnail_width"
+                android:layout_height="@dimen/default_thumbnail_height"
+                android:background="@color/black"
+                android:visibility="@{viewHolder.thumbnailCountVisibility}"
+                app:layout_constraintTop_toTopOf="@+id/article_item_thumbnail_iv"
+                app:layout_constraintBottom_toBottomOf="@+id/article_item_thumbnail_iv"
+                app:layout_constraintStart_toStartOf="@+id/article_item_thumbnail_iv"
+                app:layout_constraintEnd_toEndOf="@+id/article_item_thumbnail_iv">
+                <TextView
+                    android:id="@+id/article_item_thumbnail_count_tv"
+                    android:gravity="center"
+                    android:textSize="24dp"
+                    android:text="@{viewHolder.thumbnailCountText, default=`+1`}"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/article_item_thumbnail_iv"
+                app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{viewHolder.thumbnailImageVisibility, default=visible}"
+                android:alpha="@{viewHolder.thumbnailImageAlpha, default=0.5}"
+                android:layout_width="@dimen/default_thumbnail_width"
+                android:layout_height="@dimen/default_thumbnail_height" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.BoardService;
 import com.khumu.android.retrofitInterface.ImageService;
+import com.khumu.android.retrofitInterface.StorageService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -50,5 +51,11 @@ public class RetrofitClient {
     public static ImageService getImageService (Retrofit r){
         Log.d(TAG, "getImageService: ");
         return r.create(ImageService.class);
+    }
+
+    @Singleton
+    @Provides
+    public static StorageService getStorageService (Retrofit r){
+        return r.create(StorageService.class);
     }
 }

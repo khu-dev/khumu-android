@@ -31,5 +31,6 @@ public interface ArticleService {
     Call<Article> deleteArticle(@Header("Authorization") String authorization, @Header("Content-Type") String contentType, @Path("id") String id);
 
 
+
 }
 

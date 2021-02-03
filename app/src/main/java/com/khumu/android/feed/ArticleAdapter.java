@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
@@ -24,7 +26,10 @@ import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.usecase.ArticleUseCase;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
@@ -60,19 +65,29 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutArticleItemBinding binding = DataBindingUtil.
                 inflate(LayoutInflater.from(parent.getContext()),R.layout.layout_article_item,  parent, false);
-        return new ArticleAdapter.ArticleViewHolder(binding);
+        return new ArticleAdapter.ArticleViewHolder(binding, this.context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         Article article = articleList.get(position);
         holder.bind(article);
+
+        if (!article.getImages().isEmpty()) {
+            Glide.with(this.context)
+                    .load("https://storage.khumu.jinsu.me/" + "thumbnail/" + article.getImages().get(0))
+                    .centerCrop()
+                    .into(holder.binding.articleItemThumbnailIv);
+        }
+
+
+        // 밑에 다 리팩토링 좀 해야할 듯 data binding 잘 쓰는 쪽으로
         if(articleUseCase.amIAuthor(article)){
             holder.binding.articleItemAuthorNicknameTv.setTextColor(context.getColor(R.color.red_300));
         } else{
             holder.binding.articleItemAuthorNicknameTv.setTextColor(context.getColor(R.color.gray_500));
         }
-//
+
         holder.binding.articleItemLikeIcon.setImageResource(getArticleLikedImage(article));
         holder.binding.articleItemBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
 
@@ -169,15 +184,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         return articleList == null ? 0 : articleList.size();
     }
 
-    public void remove(int position){
-        try{
-            articleList.remove(position);
-            notifyItemRemoved(position);
-        } catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-    }
-
     private int getArticleLikedImage(Article article){
         if(article.getLiked()){
             return R.drawable.ic_filled_heart;
@@ -193,16 +199,50 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
-        public LayoutArticleItemBinding binding;
-        // 이 view는 아마도 recycler view?
-        private TextView articleAuthorNicknameTV;
-        public ArticleViewHolder(LayoutArticleItemBinding binding) {
+        private LayoutArticleItemBinding binding;
+        private Context context;
+        public ArticleViewHolder(LayoutArticleItemBinding binding, Context context) {
             super(binding.getRoot());
             this.binding = binding;
+            this.context = context;
         }
 
         public void bind(Article article){
             this.binding.setArticle(article);
+            this.binding.setViewHolder(this);
+        }
+
+        public int getThumbnailImageVisibility(){
+            Article article = this.binding.getArticle();
+            if (article.getImages().isEmpty()) {
+                return View.GONE;
+            } else if (article.getImages().size() == 1){
+                return View.VISIBLE;
+            } else{
+                return View.VISIBLE;
+            }
+        }
+        public int getThumbnailCountVisibility(){
+            Article article = this.binding.getArticle();
+            if (article.getImages().isEmpty()) {
+                return View.GONE;
+            } else if (article.getImages().size() == 1){
+                return View.GONE;
+            } else{
+                return View.VISIBLE;
+            }
+        }
+
+        public float getThumbnailImageAlpha(){
+            Log.d(TAG, "getThumbnailImageAlpha: " + this.binding.getArticle().getImages().size());
+            if(this.binding.getArticle().getImages().size() >= 2){
+                return (float) 0.5;
+            }
+            return (float) 1;
+        }
+
+        public String getThumbnailCountText(){
+            return "+" + (this.binding.getArticle().getImages().size()-1);
         }
     }
 }
