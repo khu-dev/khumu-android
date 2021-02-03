@@ -16,6 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
@@ -30,15 +31,21 @@ public class CommentViewModel extends ViewModel {
     private final static String TAG = "CommentViewModel";
     private CommentRepository commentRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
+    private MutableLiveData<Article> article;
     private String articleID;
-    public CommentViewModel(CommentRepository commentRepository, String articleID) {
+    public CommentViewModel(CommentRepository commentRepository, Article article, String articleID) {
         comments = new MutableLiveData<>();
         comments.setValue(new ArrayList<Comment>());
         this.commentRepository = commentRepository;
         this.articleID = articleID;
+
+        this.article = new MutableLiveData<>(article);
         ListComment();
     }
 
+    public MutableLiveData<Article> getLiveDataArticle(){
+        return article;
+    }
     public MutableLiveData<ArrayList<Comment>> getLiveDataComments(){
         return comments;
     }

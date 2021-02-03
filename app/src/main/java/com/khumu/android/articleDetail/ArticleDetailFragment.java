@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +29,8 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
 import com.khumu.android.data.Article;
+import com.khumu.android.databinding.FragmentArticleDetailBinding;
+import com.khumu.android.databinding.FragmentTabFeedBinding;
 import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
@@ -47,6 +50,9 @@ public class ArticleDetailFragment extends Fragment {
     public ArticleRepository articleRepository;
     @Inject
     public CommentRepository commentRepository;
+    private FragmentArticleDetailBinding binding;
+
+
     @Inject
     ArticleUseCase articleUseCase;
 
@@ -58,7 +64,6 @@ public class ArticleDetailFragment extends Fragment {
     private CommentAdapter commentAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private TextView articleDetailTitleTV;
     private TextView articleDetailContentTV;
     private TextView articleCommentCountTV;
     private TextView articleAuthorNicknameTV;
@@ -83,9 +88,8 @@ public class ArticleDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         KhumuApplication.container.inject(this);
         commentViewModel = new ViewModelProvider(this,
-                new CommentViewFactory(commentRepository, Integer.toString(article.getId()))
+                new CommentViewFactory(commentRepository, this.article, Integer.toString(article.getId()))
         ).get(CommentViewModel.class);
-//        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
     }
 
     @Override
@@ -93,7 +97,12 @@ public class ArticleDetailFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
-        View root = inflater.inflate(R.layout.fragment_article_detail, container, false);
+        this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_detail, container, false);
+
+        View root = binding.getRoot();
+        // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
+        binding.setViewModel(this.commentViewModel);
+        binding.setLifecycleOwner(this);
 
         return root;
     }
@@ -102,8 +111,13 @@ public class ArticleDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // onCreateView에서 return된 view를 가지고 있다
         super.onViewCreated(view, savedInstanceState);
-        Intent intent = getActivity().getIntent();
 
+        this.binding.layoutArticleContent.articleDetailImageRecyclerView.setAdapter(new ImageAdapter(this.article.getImages(), this.getContext()));
+
+
+
+
+        Intent intent = getActivity().getIntent();
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
@@ -112,9 +126,9 @@ public class ArticleDetailFragment extends Fragment {
         commentAdapter = new CommentAdapter(new ArrayList<>(), getContext());
         recyclerView.setAdapter(commentAdapter);
 
+
         articleTagRecyclerView = view.findViewById(R.id.article_detail_article_tags_recycler_view);
 
-        articleDetailTitleTV = view.findViewById(R.id.article_detail_title_tv);
         articleDetailContentTV = view.findViewById(R.id.article_detail_content_tv);
         articleCommentCountTV = view.findViewById(R.id.article_detail_comment_count_tv);
         articleAuthorNicknameTV = view.findViewById(R.id.article_detail_author_nickname_tv);
@@ -250,7 +264,6 @@ public class ArticleDetailFragment extends Fragment {
      */
     // this.article의 정보를 view에 적용한다.
     private void loadArticleToView(){
-        articleDetailTitleTV.setText(article.getTitle());
         articleDetailContentTV.setText(article.getContent());
         articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
         // 글쓴이가 본인인 경우
