@@ -92,7 +92,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
                     public void run() {
                         try{
                             System.out.println(replyList);
-                            commentRepository.toggleLikeComment(reply.getID());
+                            commentRepository.toggleLikeComment(reply.getId());
                             boolean liked = reply.isLiked();
                             if(liked) {
                                 reply.setLiked(false);

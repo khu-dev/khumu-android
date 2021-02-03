@@ -136,7 +136,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     @Override
                     public void run() {
                         try {
-                            commentRepository.toggleLikeComment(comment.getID());
+                            commentRepository.toggleLikeComment(comment.getId());
                             boolean liked = comment.isLiked();
                             if (liked) {
                                 comment.setLiked(false);

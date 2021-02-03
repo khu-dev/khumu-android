@@ -59,7 +59,7 @@ public class CommentViewModel extends ViewModel {
                     for (Comment newComment : commentRepository.ListComment(articleID)) {
                         // 기존에 없던 새로운 comment인지 확인
                         List<Comment> duplicatedComments = originalComments.stream().filter(item->{
-                            return (newComment.getID() == item.getID());
+                            return (newComment.getId() == item.getId());
                         }).collect(Collectors.toList());
                         if(duplicatedComments.size() == 0) {
                             originalComments.add(newComment);

@@ -3,48 +3,47 @@ package com.khumu.android.data;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public class Comment {
+    @SerializedName("id")
+    @Expose
     private int id;
+    @SerializedName("article")
+    @Expose
     private int articleID;
+    @SerializedName("author")
+    @Expose
     private SimpleUser author;
+    @SerializedName("content")
+    @Expose
     private String content;
+    @SerializedName("parent")
+    @Expose
     private int parent;
+    @SerializedName("children")
+    @Expose
     private ArrayList<Comment> children;
+    @SerializedName("like_comment_count")
+    @Expose
     private int likeCommentCount;
+    @SerializedName("liked")
+    @Expose
     private boolean liked;
+    @SerializedName("comment_created_at")
+    @Expose
     private String commentCreatedAt;
 
+    public Comment () {}
 
-    @JsonCreator
-    public Comment (
-        @JsonProperty("id") int id,
-        @JsonProperty("articleID") int articleID,
-        @JsonProperty("author") SimpleUser author,
-        @JsonProperty("content") String content,
-        @JsonProperty("parent") int parent,
-        @JsonProperty("children") ArrayList<Comment> children,
-        @JsonProperty("like_comment_count") int likeCommentCount,
-        @JsonProperty("liked") boolean liked,
-        @JsonProperty("created_at") String commentCreatedAt) {
-        this.id = id;
-        this.articleID = articleID;
-        this.author = author;
-        this.content = content;
-        this.parent = parent;
-        this.children = children;
-        this.likeCommentCount = likeCommentCount;
-        this.liked = liked;
-        this.commentCreatedAt = commentCreatedAt;
-    }
-
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public void setID(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,13 +55,11 @@ public class Comment {
         this.articleID = articleID;
     }
 
-    @JsonSetter("author")
     public SimpleUser getAuthor() {
         return author;
     }
 
-    @JsonSetter("author")
-    public void setAuthorUsername(SimpleUser author) {
+    public void setAuthor(SimpleUser author) {
         this.author = author;
     }
 
@@ -74,23 +71,43 @@ public class Comment {
         this.content = content;
     }
 
-    public int getParent() { return parent; }
+    public int getParent() {
+        return parent;
+    }
 
-    public void setParent(int parent) { this.parent = parent; }
+    public void setParent(int parent) {
+        this.parent = parent;
+    }
 
-    public ArrayList<Comment> getChildren() { return children; }
+    public ArrayList<Comment> getChildren() {
+        return children;
+    }
 
-    public void setChildren(ArrayList<Comment> children) { this.children = children; }
+    public void setChildren(ArrayList<Comment> children) {
+        this.children = children;
+    }
 
-    public int getLikeCommentCount() { return likeCommentCount; }
+    public int getLikeCommentCount() {
+        return likeCommentCount;
+    }
 
-    public void setLikeCommentCount(int likeCommentCount) { this.likeCommentCount = likeCommentCount; }
+    public void setLikeCommentCount(int likeCommentCount) {
+        this.likeCommentCount = likeCommentCount;
+    }
 
-    public boolean isLiked() { return liked; }
+    public boolean isLiked() {
+        return liked;
+    }
 
-    public void setLiked(boolean liked) { this.liked = liked; }
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
 
-    public String getCommentCreatedAt() { return commentCreatedAt; }
+    public String getCommentCreatedAt() {
+        return commentCreatedAt;
+    }
 
-    public void setCommentCreatedAt(String commentCreatedAt) { this.commentCreatedAt = commentCreatedAt; }
+    public void setCommentCreatedAt(String commentCreatedAt) {
+        this.commentCreatedAt = commentCreatedAt;
+    }
 }
