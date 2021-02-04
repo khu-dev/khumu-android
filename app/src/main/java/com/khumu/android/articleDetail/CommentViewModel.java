@@ -31,7 +31,8 @@ public class CommentViewModel extends ViewModel {
     private final static String TAG = "CommentViewModel";
     private CommentRepository commentRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
-    private MutableLiveData<Article> article;
+    // article은 변하는 값을 observe할 데이터가 아니라 MutableLiveData로 하지 않아도 된다.
+    private Article article;
     private String articleID;
     public CommentViewModel(CommentRepository commentRepository, Article article, String articleID) {
         comments = new MutableLiveData<>();
@@ -39,11 +40,11 @@ public class CommentViewModel extends ViewModel {
         this.commentRepository = commentRepository;
         this.articleID = articleID;
 
-        this.article = new MutableLiveData<>(article);
+        this.article = article;
         ListComment();
     }
 
-    public MutableLiveData<Article> getLiveDataArticle(){
+    public Article getArticle(){
         return article;
     }
     public MutableLiveData<ArrayList<Comment>> getLiveDataComments(){

@@ -102,6 +102,7 @@ public class ArticleDetailFragment extends Fragment {
         View root = binding.getRoot();
         // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
         binding.setViewModel(this.commentViewModel);
+        binding.setFragment(this);
         binding.setLifecycleOwner(this);
 
         return root;
@@ -282,11 +283,6 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailCreatedAtTV.setText(article.getCreatedAt());
         articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
         articleLikeIcon.setImageResource(getCommentLikedImage(article.getLiked()));
-        if(articleUseCase.amIAuthor(article.getAuthor().getUsername())){
-            articleSettingIcon.setVisibility(View.VISIBLE);
-        } else{
-            articleSettingIcon.setVisibility(View.GONE);
-        }
 
         articleTagRecyclerView.setAdapter(new ArticleTagAdapter(article.getTags()));
 
@@ -354,5 +350,14 @@ public class ArticleDetailFragment extends Fragment {
 
     private void setEventListeners() {
 
+    }
+
+    // 웬만하면 View의 로직은 Fragment에서 처리하도록.
+    public int getSettingVisibility(){
+        if(this.commentViewModel.getArticle().getIsAuthor()){
+            return View.VISIBLE;
+        } else{
+            return View.GONE;
+        }
     }
 }

@@ -3,6 +3,9 @@
 <layout>
     <data>
         <variable
+            name="fragment"
+            type="com.khumu.android.articleDetail.ArticleDetailFragment" />
+        <variable
             name="viewModel"
             type="com.khumu.android.articleDetail.CommentViewModel" />
     </data>
@@ -29,7 +32,7 @@
                 android:textSize="@dimen/big_title_font_size"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@{viewModel.liveDataArticle.title, default=제목}">
+                android:text="@{viewModel.article.title, default=제목}">
             </TextView>
             <ImageView
                 android:id="@+id/article_detail_author_icon"
@@ -136,6 +139,7 @@
                 android:layout_height="@dimen/default_icon_size"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{fragment.settingVisibility}"
                 android:src="@drawable/ic_more_dots"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -3,6 +3,9 @@
 <layout>
     <data>
         <variable
+            name="fragment"
+            type="com.khumu.android.articleDetail.ArticleDetailFragment" />
+        <variable
             name="viewModel"
             type="com.khumu.android.articleDetail.CommentViewModel" />
     </data>
@@ -29,6 +32,7 @@
                 <include
                     android:id="@+id/layout_article_content"
                     layout="@layout/layout_article_content"
+                    app:fragment="@{fragment}"
                     app:viewModel="@{viewModel}"
                     app:layout_constraintBottom_toTopOf="@+id/recycler_view_comment_list"
                     app:layout_constraintTop_toTopOf="parent"
