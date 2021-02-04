@@ -2,7 +2,7 @@
 
 `khumu-android`는 쿠뮤의 서비스를 안드로이드 앱으로 제공하는 프로젝트이다. 유지보수가 힘든 날것의 개발보다는 MVVM pattern과 클린아키텍쳐를 적용함으로써 계층을 분리했고 보다 유지보수가 쉬운 형태로 발전해나가고 있다. Dagger2, Retrofit과 같은 framework과 library들을 적절히 도입하여 반복되는 코드를 줄여 편리하고 가독성 좋게 개발하려고 노력하고 있다.
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3fb61707-3879-4133-a22e-f34674172eb2/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3fb61707-3879-4133-a22e-f34674172eb2/Untitled.png)
+![preview.png](preview.png)
 
 ## MVVM
 
@@ -22,7 +22,7 @@ MVVM은 Model, View, ViewModel의 줄임말이다. 간단히 하자면 Model은 
 
 이 세가지 계층으로 나뉜다.
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ec586b85-6ecb-4386-bd03-4bccbae3f170/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ec586b85-6ecb-4386-bd03-4bccbae3f170/Untitled.png)
+![android_clean_architecture.png](android_clean_architecture.png)
 
 우리는 이 계층을 가지고 우리 프로젝트에 다음과 같이 적용하였다.
 
