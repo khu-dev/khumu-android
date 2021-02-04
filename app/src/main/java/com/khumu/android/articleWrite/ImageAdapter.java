@@ -18,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.khumu.android.R;
 
@@ -27,11 +30,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final int TYPE_IMAGE_ADDER = 0;
     private final int TYPE_ITEM = 1;
 
-    private List<Bitmap> bitmaps;
+    private List<ImagePath> imagePaths;
     private Context context;
 
-    public ImageAdapter(List<Bitmap> bitmaps) {
-        this.bitmaps = bitmaps;
+    public ImageAdapter(List<ImagePath> imagePaths) {
+        this.imagePaths = imagePaths;
     }
 
     @NonNull
@@ -59,6 +62,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                         new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 1);
                     }
                     else {
+                        // ImagePicker 관련 몇 가지 옵션들
                         ImagePicker.create((AppCompatActivity)context) // Activity or Fragment
 //                            .returnMode(ReturnMode.ALL) // set whether pick and / or camera action should return immediate result or not.
                                 .folderMode(true) // folder mode (false by default)
@@ -83,8 +87,17 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             });
         } else if (holder instanceof Item){
             Item imageItem = (Item) holder;
+            ImagePath p = imagePaths.get(position-1);
             // position 0은 adder이지만 images엔 adder가 존재하지 않음.
-            imageItem.imageIV.setImageBitmap(bitmaps.get(position-1));
+            // 이미 업로드 된 녀석은 url에서, 이번에 업로드 하는 녀석은 uri에서 glide load
+            RequestManager glideRM = Glide.with(context);
+            RequestBuilder glideRB;
+            if (p.isUriPath()){
+                glideRB = glideRM.load(p.getUriPath());
+            } else{
+                glideRB = glideRM.load(p.getUrlPath());
+            }
+            glideRB.into(imageItem.imageIV);
         }
     }
 
@@ -99,11 +112,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return bitmaps.size() + 1;
+        return imagePaths.size() + 1;
     }
 
-    public List<Bitmap> getBitmaps() {
-        return bitmaps;
+    public List<ImagePath> getImagePaths() {
+        return imagePaths;
     }
 
     /**

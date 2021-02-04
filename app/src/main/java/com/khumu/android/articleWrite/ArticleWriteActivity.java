@@ -90,16 +90,16 @@ public class ArticleWriteActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     ArticleTagAdapter articleTagAdapter;
 
-    @BindingAdapter("article_image_list")
-    public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<Bitmap>> uploadingBitmaps){
-        Log.d(TAG, "bindItem: " + uploadingBitmaps.getValue().size());
+    @BindingAdapter("article_image_path_list")
+    public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<ImagePath>> imagePaths){
+        Log.d(TAG, "bindItem: " + imagePaths.getValue().size());
         if (recyclerView.getAdapter() == null){
             recyclerView.setAdapter(new ImageAdapter(new ArrayList<>()));
         }
-        if (recyclerView.getAdapter() != null && uploadingBitmaps != null){
+        if (recyclerView.getAdapter() != null && imagePaths != null){
             ImageAdapter adapter = (ImageAdapter) recyclerView.getAdapter();
-            adapter.getBitmaps().clear();
-            adapter.getBitmaps().addAll(uploadingBitmaps.getValue());
+            adapter.getImagePaths().clear();
+            adapter.getImagePaths().addAll(imagePaths.getValue());
             adapter.notifyDataSetChanged();
         }
     }

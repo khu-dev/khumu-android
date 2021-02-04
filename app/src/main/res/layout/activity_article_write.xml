@@ -96,7 +96,7 @@
                 android:id="@+id/article_upload_images_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:article_image_list="@{viewModel.uploadingBitmaps}"
+                app:article_image_path_list="@{viewModel.uploadingImagePaths}"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
             <CheckBox

@@ -11,10 +11,14 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.Bindable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.bumptech.glide.Glide;
 import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Board;
@@ -55,7 +59,7 @@ public class ArticleWriteViewModel extends ViewModel {
      */
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<Article> article;
-    private MutableLiveData<List<Bitmap>> uploadingBitmaps;
+    private MutableLiveData<List<ImagePath>> uploadingImagePaths;
     private ContentResolver contentResolver; // Bitmap 그릴 때 사용
     private Context context;
 
@@ -67,7 +71,7 @@ public class ArticleWriteViewModel extends ViewModel {
 //        this.boards = new MutableLiveData<>(boardRepository.ListBoards());
         this.article = new MutableLiveData<>(generateInitialArticle());
 
-        this.uploadingBitmaps = new MutableLiveData<>(new ArrayList<>());
+        this.uploadingImagePaths = new MutableLiveData<>(new ArrayList<>());
         this.contentResolver = contentResolver;
     }
 
@@ -75,8 +79,8 @@ public class ArticleWriteViewModel extends ViewModel {
         return article;
     }
 
-    public MutableLiveData<List<Bitmap>> getUploadingBitmaps() {
-        return uploadingBitmaps;
+    public MutableLiveData<List<ImagePath>> getUploadingImagePaths() {
+        return uploadingImagePaths;
     }
 
     // 내가 게시물을 적을 게시판을 선택한다. 그 내용을 MutableLiveData인 article에 반영
@@ -121,41 +125,78 @@ public class ArticleWriteViewModel extends ViewModel {
         });
     }
     public void uploadImages(List<Image> images) throws IOException {
-        for(Image img: images) {
-            uploadImage(img);
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                for (Image img : images) {
+                    uploadImage(img);
+                }
+            }
+        }.start();
     }
 
     /**
-     * 갤러리에서 선택한 이미지를 바로 업로드 한 뒤 그 url을 this.article의 images에 append한다.
+     * 갤러리에서 이미지를 선택한 뒤 바로 업로드. 그 upload한 뒤 얻은 url을 this.article의 images에 append한다.
+     * local uri를 이용해 Glide로 미리 보기 제공
      * @param img
      * @throws IOException
      */
-    public void uploadImage(Image img) throws IOException {
-        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, img.getUri());
-        uploadingBitmaps.getValue().add(imageBitmap);
-        uploadingBitmaps.postValue(uploadingBitmaps.getValue());
+    public void uploadImage(Image img) {
         File file = new File(img.getPath());
 
         Call<ImageUploadResponse> call = imageService.uploadImage(
                 "Bearer " + KhumuApplication.getToken(),
                 MultipartBody.Part.createFormData("image", img.getUri().getLastPathSegment(),
                 RequestBody.create(MediaType.parse("multipart/form-data"), file)));
-        call.enqueue(new Callback<ImageUploadResponse>() {
-            @Override
-            public void onResponse(Call<ImageUploadResponse> call, Response<ImageUploadResponse> response) {
-                String uploadedFileName = response.body().getData().get("file_name");
-                List tmpImgSrcs = article.getValue().getImages();
-                tmpImgSrcs.add(uploadedFileName);
-//                article.getValue().setImages(tmpImgSrcs);
-//                article.postValue(article.getValue());
-            }
 
-            @Override
-            public void onFailure(Call<ImageUploadResponse> call, Throwable t) {
-                System.out.println(t);
+        Response<ImageUploadResponse> resp = null;
+        try {
+            resp = call.execute();
+            if (resp.isSuccessful()){
+                ImagePath p = new ImagePath(img.getUri());
+                String hashedFileName = resp.body().getData().get("file_name");
+                Log.d(TAG, "uploadImage: " + p.getUriPath());
+                // recycler view가 uri로 이미지를 보여주기 위함.
+                uploadingImagePaths.getValue().add(p);
+                uploadingImagePaths.postValue(uploadingImagePaths.getValue());
+                // 현재 article에 url을 추가하기 위함.
+                article.getValue().getImages().add(hashedFileName);
+                ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context, "업로드 성공!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else{
+                ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context, "업로드 실패!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        });
+        } catch (IOException e) {
+            ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(context, "IOException으로 업로드 실패!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            e.printStackTrace();
+        }
+
+//        new Callback<ImageUploadResponse>() {
+//            @Override
+//            public void onResponse(Call<ImageUploadResponse> call, Response<ImageUploadResponse> response) {
+//                String uploadedFileName = response.body().getData().get("file_name");
+//                List tmpImgSrcs = article.getValue().getImages();
+//                tmpImgSrcs.add(uploadedFileName);
+////                article.getValue().setImages(tmpImgSrcs);
+////                article.postValue(article.getValue());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ImageUploadResponse> call, Throwable t) {
+//                System.out.println(t);
+//            }
+//        });
     }
 
     private Article generateInitialArticle(){
