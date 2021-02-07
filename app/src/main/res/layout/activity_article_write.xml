@@ -29,13 +29,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/article_write_submit_btn"
                 android:layout_width="0dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:onClick="onClickBoardListPopup">
                 <ImageView
                     android:id="@+id/article_write_popup_boards_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
                 <TextView
                     android:id="@+id/article_write_selected_board_display_name_tv"
                     android:layout_width="wrap_content"

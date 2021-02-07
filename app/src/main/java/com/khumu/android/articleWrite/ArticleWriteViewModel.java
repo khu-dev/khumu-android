@@ -23,10 +23,12 @@ import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.Article;
+import com.khumu.android.data.rest.BoardListResponse;
 import com.khumu.android.data.rest.ImageUploadResponse;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.retrofitInterface.BoardService;
 import com.khumu.android.retrofitInterface.ImageService;
 
 import org.json.JSONArray;
@@ -51,7 +53,7 @@ import retrofit2.Response;
 public class ArticleWriteViewModel extends ViewModel {
     private final static String TAG = "ArticleWriteViewModel";
     private final String INITIAL_BOARD_DISPLAY_NAME = "게시판을 선택해주세요.";
-    public BoardRepository boardRepository;
+    public BoardService boardService;
     public ArticleService articleService;
     public ImageService imageService;
     /**
@@ -61,23 +63,41 @@ public class ArticleWriteViewModel extends ViewModel {
     // 작성 중인 게시물
     private MutableLiveData<Article> article;
     // 업로드 중인 이미지를 표시하는 recycler view가 사용하는 data
+    // 문제점: article의 images 만으로는 recylcer view를 제대로 이용할 수가 없어서 uploadingImagePaths를 또 정의해서 이용 중인데
+    // 이러면 article.images와 자동으로 동기화가 안됨.
     private MutableLiveData<List<ImagePath>> uploadingImagePaths;
     private Context context;
 
-    public ArticleWriteViewModel(Context context, BoardRepository boardRepository, ArticleService articleService, ImageService imageService){
+    public ArticleWriteViewModel(Context context, BoardService boardService, ArticleService articleService, ImageService imageService){
         this.context = context;
-        this.boardRepository = boardRepository;
+        this.boardService = boardService;
         this.articleService = articleService;
         this.imageService = imageService;
-//        this.boards = new MutableLiveData<>(boardRepository.ListBoards());
+        this.boards = new MutableLiveData<>();
         this.article = new MutableLiveData<>(generateInitialArticle());
-
         this.uploadingImagePaths = new MutableLiveData<>(new ArrayList<>());
+
+        listBoards();
     }
 
     public LiveData<Article> getArticle(){
         return article;
     }
+
+    // article 데이터를 가져옴.
+    // 동시에 uploading ImagePaths에도 article.images를 적용해야함.
+    public void setArticle(Article a) {
+        article.setValue(a);
+        List<ImagePath> uploadedImagePaths = new ArrayList<>();
+        for (String img : a.getImages()) {
+            uploadedImagePaths.add(new ImagePath(img));
+        }
+        uploadingImagePaths.postValue(uploadedImagePaths);
+        Log.d(TAG, "setArticle: " + article.getValue().getBoardDisplayName() + article.getValue().getBoardName());
+    }
+
+    public MutableLiveData<List<Board>> getLiveBoards(){
+        return boards;}
 
     public MutableLiveData<List<ImagePath>> getUploadingImagePaths() {
         return uploadingImagePaths;
@@ -95,7 +115,6 @@ public class ArticleWriteViewModel extends ViewModel {
     // boolean이 아닌 Boolean임을 유의.
     // camel case를 맞춤으로서 isAnonymous라는 field로 mutual data binding을 가능하게 함.
     public Boolean getIsAnonymous(){
-
         return this.article.getValue().getKind().equals("anonymous");
     }
     public void setIsAnonymous(Boolean isAnonymous){
@@ -108,21 +127,10 @@ public class ArticleWriteViewModel extends ViewModel {
         this.article.setValue(a);
     }
 
-    public void writeArticle(){
-        Call<Article> call = articleService.createArticle("application/json", this.article.getValue());
-        call.enqueue(new Callback<Article>() {
-            @Override
-            public void onResponse(Call<Article> call, Response<Article> response) {
-                Toast.makeText(context, "게시물을 작성했습니당!", Toast.LENGTH_SHORT).show();
-                ((ArticleWriteActivity)context).finish();
-            }
+    public void writeArticle(Callback<Article> callback){
 
-            @Override
-            public void onFailure(Call<Article> call, Throwable t) {
-                Log.d(TAG, "onFailure: ", t);
-                Toast.makeText(context, "게시물을 작성 실패 ㅜㅜ", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Call<Article> call = articleService.createArticle("application/json", this.article.getValue());
+        call.enqueue(callback);
     }
     public void uploadImages(List<Image> images) throws IOException {
         new Thread() {
@@ -202,6 +210,21 @@ public class ArticleWriteViewModel extends ViewModel {
         initial.setKind("anonymous");
         initial.setTitle("tmp");
         return initial;
+    }
+
+    private void listBoards(){
+        Call<BoardListResponse> call = boardService.getBoards();
+        call.enqueue(new Callback<BoardListResponse>() {
+            @Override
+            public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
+                boards.postValue(response.body().getData());
+            }
+
+            @Override
+            public void onFailure(Call<BoardListResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t);
+            }
+        });
     }
 
 }

@@ -103,7 +103,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (p.isRenderedByUri()){
                 glideRB = glideRM.load(p.getUriPath());
             } else{
-                glideRB = glideRM.load(p.getHashedFileName());
+                glideRB = glideRM.load("https://storage.khumu.jinsu.me/" + "thumbnail/" + p.getHashedFileName());
             }
             glideRB.into(imageItem.imageIV);
         }

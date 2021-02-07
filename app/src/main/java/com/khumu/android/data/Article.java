@@ -16,7 +16,9 @@ public class Article implements Serializable {
     @SerializedName("url")
     @Expose
     private String url;
-    @SerializedName("board")
+    // Article로 deserialize 될 때에는 alternate도 사용하지만
+    // json으로 serialize 할 때에는 value를 이용한다..!
+    @SerializedName(value="board", alternate = "board_name")
     @Expose
     private String boardName;
     @SerializedName("board_display_name")

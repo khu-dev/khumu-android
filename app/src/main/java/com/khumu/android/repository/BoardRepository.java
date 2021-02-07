@@ -33,11 +33,11 @@ public class BoardRepository {
 
         BoardListResponse respString = new BoardListResponse();
         if (category!=null && !category.equals("")){
-            Call<BoardListResponse> call = service.getBoardsCategory("Bearer " + KhumuApplication.getToken(), category);
+            Call<BoardListResponse> call = service.getBoardsByCategory("Bearer " + KhumuApplication.getToken(), category);
             respString = call.execute().body();
         }
         if (followed!=null){
-            Call<BoardListResponse> call = service.getBoardsFollowed("Bearer " + KhumuApplication.getToken(), String.valueOf(followed));
+            Call<BoardListResponse> call = service.getFollowingBoards("Bearer " + KhumuApplication.getToken(), String.valueOf(followed));
             respString = call.execute().body();
         }
 

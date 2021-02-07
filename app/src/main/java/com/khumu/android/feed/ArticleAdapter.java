@@ -69,6 +69,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         Article article = articleList.get(position);
+        Log.d(TAG, "onBindViewHolder: " + article.getBoardName() + article.getBoardDisplayName());
         holder.bind(article);
 
         if (!article.getImages().isEmpty()) {
