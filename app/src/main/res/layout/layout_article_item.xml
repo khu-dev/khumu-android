@@ -26,54 +26,58 @@
         android:layout_marginTop="0dp"
         android:layout_marginBottom="@dimen/default_icon_size"
         >
-        <TextView
-            android:id="@+id/article_item_board_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{article.boardDisplayName, default=boardDisplayName}"
-            android:ellipsize="end"
-            android:textColor="@color/gray_500"
-            android:textSize="@dimen/small_font_size"
-            android:maxLines="1"
-            />
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/article_item_body_layout"
-            android:paddingRight="6dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/article_item_title_tv"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/article_item_created_at_tv"
+                android:id="@+id/article_item_board_name_tv"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/article_item_created_at_tv"
                 android:layout_width="0dp"
-                android:paddingRight="@dimen/layout_default_space"
-                android:textColor="@color/black"
-                android:maxLines="2"
+                android:layout_height="wrap_content"
+                android:text="@{article.boardDisplayName, default=boardDisplayName}"
                 android:ellipsize="end"
-                android:text="@{article.title, default=title}"
-                android:textSize="@dimen/title_font_size">
-            </TextView>
+                android:textColor="@color/gray_500"
+                android:textSize="@dimen/small_font_size"
+                android:maxLines="1"
+                />
             <TextView
                 android:id="@+id/article_item_created_at_tv"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-
                 android:textColor="@color/gray_500"
                 android:text="@{article.createdAt, default=createdAt}"
-                android:textSize="@dimen/meta_font_size">
+                android:textSize="@dimen/meta_font_size"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/article_item_body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/article_item_title_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="@{article.title, default=title}"
+                android:textSize="@dimen/title_font_size">
             </TextView>
 
             <TextView
                 android:id="@+id/article_item_content_tv"
                 app:layout_constraintTop_toBottomOf="@+id/article_item_title_tv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/article_item_thumbnail_iv"
+                app:layout_constraintEnd_toStartOf="@+id/article_item_thumbnail_iv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/layout_default_space"
@@ -107,6 +111,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="@{viewHolder.thumbnailImageVisibility, default=visible}"
                 android:alpha="@{viewHolder.thumbnailImageAlpha, default=0.5}"
+                android:layout_marginLeft="@dimen/layout_default_space"
+                android:layout_marginTop="@dimen/layout_default_space"
                 android:layout_width="@dimen/default_thumbnail_width"
                 android:layout_height="@dimen/default_thumbnail_height" />
 
