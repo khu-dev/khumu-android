@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.khumu.android.articleWrite.ArticleWriteViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/thumbnail_image_view"
+            android:layout_width="@dimen/default_thumbnail_width"
+            android:layout_height="@dimen/default_thumbnail_height"/>
+        <ImageView
+            android:id="@+id/delete_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_cancel"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

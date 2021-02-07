@@ -8,7 +8,6 @@ package com.khumu.android.articleWrite;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +31,10 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private List<ImagePath> imagePaths;
     private Context context;
+    private ArticleWriteViewModel viewModel; // viewModel은 upload image delete 문제로 인해 필요함.
 
-    public ImageAdapter(List<ImagePath> imagePaths) {
+    public ImageAdapter(ArticleWriteViewModel viewModel, List<ImagePath> imagePaths) {
+        this.viewModel = viewModel;
         this.imagePaths = imagePaths;
     }
 
@@ -45,7 +46,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == TYPE_IMAGE_ADDER){
             view = new ImageAdder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_image_adder, parent, false));
         } else if (viewType == TYPE_ITEM){
-            view = new Item(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_thumbnail_item, parent, false));
+            view = new Item(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_uploading_thumbnail_item, parent, false));
         }
         return view;
     }
@@ -87,15 +88,22 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             });
         } else if (holder instanceof Item){
             Item imageItem = (Item) holder;
+            imageItem.deleteIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewModel.deleteUploadingImage(imagePaths.get(position - 1));
+                }
+            });
             ImagePath p = imagePaths.get(position-1);
+
             // position 0은 adder이지만 images엔 adder가 존재하지 않음.
             // 이미 업로드 된 녀석은 url에서, 이번에 업로드 하는 녀석은 uri에서 glide load
             RequestManager glideRM = Glide.with(context);
             RequestBuilder glideRB;
-            if (p.isUriPath()){
+            if (p.isRenderedByUri()){
                 glideRB = glideRM.load(p.getUriPath());
             } else{
-                glideRB = glideRM.load(p.getUrlPath());
+                glideRB = glideRM.load(p.getHashedFileName());
             }
             glideRB.into(imageItem.imageIV);
         }
@@ -133,9 +141,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
      */
     public class Item extends RecyclerView.ViewHolder{
         public ImageView imageIV;
+        public ImageView deleteIV;
         public Item(@NonNull View itemView) {
             super(itemView);
             imageIV = (ImageView) itemView.findViewById(R.id.thumbnail_image_view);
+            deleteIV = (ImageView) itemView.findViewById(R.id.delete_image_view);
         }
     }
 }

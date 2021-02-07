@@ -23,7 +23,7 @@ import com.khumu.android.data.LikeArticle;
 import com.khumu.android.databinding.LayoutArticleItemBinding;
 import com.khumu.android.repository.BookmarkArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
-import com.khumu.android.usecase.ArticleUseCase;
+
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;

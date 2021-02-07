@@ -9,23 +9,29 @@ package com.khumu.android.articleWrite;
 import android.net.Uri;
 
 public class ImagePath {
-    private String urlPath;
+    private String hashedFileName;
     private Uri uriPath;
 
-    public ImagePath(String urlPath) {
-        this.urlPath = urlPath;
+    // 새로 업로드하는 것이 아니라 원래 업로드 했던 이미지에 대한 Path
+    // uri는 null이고 url만 존재
+    public ImagePath(String hashedFileName) {
+        this.hashedFileName = hashedFileName;
     }
 
-    public ImagePath(Uri uriPath) {
+    // 새로 업로드 할 때의 이미지 Path
+    // uri와 url모두 갖게되지만 url은 아직 렌더링 되기 이전이라
+    // uri로 렌더링 해야함.
+    public ImagePath(String hashedFileName, Uri uriPath) {
+        this.hashedFileName = hashedFileName;
         this.uriPath = uriPath;
     }
 
-    public String getUrlPath() {
-        return urlPath;
+    public String getHashedFileName() {
+        return hashedFileName;
     }
 
-    public void setUrlPath(String urlPath) {
-        this.urlPath = urlPath;
+    public void setHashedFileName(String hashedFileName) {
+        this.hashedFileName = hashedFileName;
     }
 
     public Uri getUriPath() {
@@ -36,7 +42,7 @@ public class ImagePath {
         this.uriPath = uriPath;
     }
 
-    public boolean isUriPath(){
+    public boolean isRenderedByUri(){
         return this.uriPath != null;
     }
 }

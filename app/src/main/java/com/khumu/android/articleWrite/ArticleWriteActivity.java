@@ -90,11 +90,12 @@ public class ArticleWriteActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     ArticleTagAdapter articleTagAdapter;
 
-    @BindingAdapter("article_image_path_list")
-    public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<ImagePath>> imagePaths){
+    @BindingAdapter({"article_image_path_list", "viewModel"})
+    public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<ImagePath>> imagePaths, ArticleWriteViewModel viewModel){
         Log.d(TAG, "bindItem: " + imagePaths.getValue().size());
         if (recyclerView.getAdapter() == null){
-            recyclerView.setAdapter(new ImageAdapter(new ArrayList<>()));
+            //https://recipes4dev.tistory.com/168 이거 참고해서 삭제 작
+            recyclerView.setAdapter(new ImageAdapter(viewModel, new ArrayList<>()));
         }
         if (recyclerView.getAdapter() != null && imagePaths != null){
             ImageAdapter adapter = (ImageAdapter) recyclerView.getAdapter();

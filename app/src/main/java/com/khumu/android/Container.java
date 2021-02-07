@@ -17,7 +17,6 @@ import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.repository.TokenRepository;
-import com.khumu.android.usecase.ArticleUseCase;
 import com.khumu.android.util.RetrofitModule;
 
 import javax.inject.Singleton;
@@ -42,7 +41,6 @@ public interface Container {
     ArticleRepository getArticleRepository();
     LikeArticleRepository getLikeArticleRepository();
     CommentRepository getCommentRepository();
-    ArticleUseCase getArticleUseCase();
     Retrofit getRetrofit();
 
 
@@ -51,8 +49,6 @@ public interface Container {
     void inject(CommentRepository commentRepository);
     void inject(TokenRepository tokenRepository);
     void inject(BoardRepository boardRepository);
-
-    void inject(ArticleUseCase articleUseCase);
 
     void inject(ReplyAdapter replyAdapter);
     void inject(CommentAdapter commentAdapter);

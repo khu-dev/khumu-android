@@ -36,7 +36,6 @@ import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
-import com.khumu.android.usecase.ArticleUseCase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -51,10 +50,6 @@ public class ArticleDetailFragment extends Fragment {
     @Inject
     public CommentRepository commentRepository;
     private FragmentArticleDetailBinding binding;
-
-
-    @Inject
-    ArticleUseCase articleUseCase;
 
     private Intent intent;
     private CommentViewModel commentViewModel;

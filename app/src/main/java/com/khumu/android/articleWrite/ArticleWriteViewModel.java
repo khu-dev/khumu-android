@@ -58,12 +58,13 @@ public class ArticleWriteViewModel extends ViewModel {
      * boards는 아직 리팩토링 못해따.
      */
     private MutableLiveData<List<Board>> boards;
+    // 작성 중인 게시물
     private MutableLiveData<Article> article;
+    // 업로드 중인 이미지를 표시하는 recycler view가 사용하는 data
     private MutableLiveData<List<ImagePath>> uploadingImagePaths;
-    private ContentResolver contentResolver; // Bitmap 그릴 때 사용
     private Context context;
 
-    public ArticleWriteViewModel(Context context, BoardRepository boardRepository, ArticleService articleService, ImageService imageService, ContentResolver contentResolver){
+    public ArticleWriteViewModel(Context context, BoardRepository boardRepository, ArticleService articleService, ImageService imageService){
         this.context = context;
         this.boardRepository = boardRepository;
         this.articleService = articleService;
@@ -72,7 +73,6 @@ public class ArticleWriteViewModel extends ViewModel {
         this.article = new MutableLiveData<>(generateInitialArticle());
 
         this.uploadingImagePaths = new MutableLiveData<>(new ArrayList<>());
-        this.contentResolver = contentResolver;
     }
 
     public LiveData<Article> getArticle(){
@@ -138,6 +138,7 @@ public class ArticleWriteViewModel extends ViewModel {
     /**
      * 갤러리에서 이미지를 선택한 뒤 바로 업로드. 그 upload한 뒤 얻은 url을 this.article의 images에 append한다.
      * local uri를 이용해 Glide로 미리 보기 제공
+     * 사실 Callback을 인자로 받아서 Callback 시의 UI 로직은 외부에서 받고 싶음.
      * @param img
      * @throws IOException
      */
@@ -153,8 +154,8 @@ public class ArticleWriteViewModel extends ViewModel {
         try {
             resp = call.execute();
             if (resp.isSuccessful()){
-                ImagePath p = new ImagePath(img.getUri());
                 String hashedFileName = resp.body().getData().get("file_name");
+                ImagePath p = new ImagePath(hashedFileName, img.getUri());
                 Log.d(TAG, "uploadImage: " + p.getUriPath());
                 // recycler view가 uri로 이미지를 보여주기 위함.
                 uploadingImagePaths.getValue().add(p);
@@ -181,22 +182,17 @@ public class ArticleWriteViewModel extends ViewModel {
             });
             e.printStackTrace();
         }
+    }
 
-//        new Callback<ImageUploadResponse>() {
-//            @Override
-//            public void onResponse(Call<ImageUploadResponse> call, Response<ImageUploadResponse> response) {
-//                String uploadedFileName = response.body().getData().get("file_name");
-//                List tmpImgSrcs = article.getValue().getImages();
-//                tmpImgSrcs.add(uploadedFileName);
-////                article.getValue().setImages(tmpImgSrcs);
-////                article.postValue(article.getValue());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ImageUploadResponse> call, Throwable t) {
-//                System.out.println(t);
-//            }
-//        });
+    public boolean deleteUploadingImage(ImagePath imagePath){
+        // 보여지는 image path에서 삭제
+        boolean isSuccessful = uploadingImagePaths.getValue().remove(imagePath);
+        uploadingImagePaths.postValue(uploadingImagePaths.getValue());
+        // article의 images에서 file name 삭제
+        isSuccessful = isSuccessful && article.getValue().getImages().remove(imagePath.getHashedFileName());
+        article.setValue(article.getValue());
+        Log.d(TAG, "deleteUploadingImage: " + article.getValue().getImages());
+        return isSuccessful;
     }
 
     private Article generateInitialArticle(){
