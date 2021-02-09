@@ -140,6 +140,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="@{fragment.settingVisibility}"
+                android:onClick="@{fragment.onClickArticleSettingMenu}"
                 android:src="@drawable/ic_more_dots"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

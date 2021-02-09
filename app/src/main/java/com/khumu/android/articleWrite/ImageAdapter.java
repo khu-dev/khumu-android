@@ -91,7 +91,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             imageItem.deleteIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    viewModel.deleteUploadingImage(imagePaths.get(position - 1));
+                    viewModel.deleteImage(imagePaths.get(position - 1));
                 }
             });
             ImagePath p = imagePaths.get(position-1);

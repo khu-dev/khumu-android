@@ -8,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -23,12 +24,10 @@ public interface ArticleService {
     @POST("articles")
     Call<Article> createArticle(@Header("Content-Type") String contentType, @Body Article article);
 
-    @PUT("articles/{id}")
-    Call<Article> updateArticle(@Header("Content-Type") String contentType, @Path("id") String id, @Body Article article);
+    @PATCH("articles/{id}")
+    Call<Article> updateArticle(@Header("Content-Type") String contentType, @Path("id") int id, @Body Article article);
 
     @DELETE("articles/{id}")
-    Call<Article> deleteArticle(@Header("Content-Type") String contentType, @Path("id") String id);
-
-
+    Call<Void> deleteArticle(@Header("Content-Type") String contentType, @Path("id") int id);
 }
 

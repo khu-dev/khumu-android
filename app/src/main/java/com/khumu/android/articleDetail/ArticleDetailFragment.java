@@ -36,17 +36,22 @@ import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
+import com.khumu.android.retrofitInterface.ArticleService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ArticleDetailFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
     private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
-    public ArticleRepository articleRepository;
+    public ArticleService articleService;
     @Inject
     public CommentRepository commentRepository;
     private FragmentArticleDetailBinding binding;
@@ -186,48 +191,39 @@ public class ArticleDetailFragment extends Fragment {
 //                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
+    }
 
-        articleSettingIcon.setOnClickListener(new View.OnClickListener() {
+    public void onClickArticleSettingMenu(View v){
+        articleSettingPopupMenu = new PopupMenu(ArticleDetailFragment.this.getActivity(), v);
+        articleSettingPopupMenu.inflate(R.menu.menu_article_detail_more);
+        articleSettingPopupMenu.show();
+        articleSettingPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                articleSettingPopupMenu = new PopupMenu(ArticleDetailFragment.this.getActivity(), v);
-                articleSettingPopupMenu.inflate(R.menu.menu_article_detail_more);
-                articleSettingPopupMenu.show();
-                articleSettingPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        new Thread(){
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.article_detail_modify_item:
+                        Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
+                        // intent에서 해당 article에 대한 정보들을 저장
+                        intent.putExtra("article", (Serializable) article);
+                        ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
+                        break;
+                    case R.id.article_detail_delete_item:
+                        Call<Void> call = articleService.deleteArticle("application/json", article.getId());
+                        call.enqueue(new Callback<Void>() {
                             @Override
-                            public void run() {
-                                switch (item.getItemId()){
-                                    case R.id.article_detail_modify_item:
-                                        Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
-                                        // intent에서 해당 article에 대한 정보들을 저장
-                                        intent.putExtra("article", (Serializable) article);
-                                        ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
-//                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "modify", Toast.LENGTH_LONG).show();
-                                        break;
-                                    case R.id.article_detail_delete_item:
-                                        boolean isDeleted = articleRepository.DeleteArticle(article.getId());
-                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (isDeleted){
-                                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제했습니다.", Toast.LENGTH_LONG).show();
-                                                    ArticleDetailFragment.this.getActivity().finish();
-                                                } else{
-                                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제를 실패했습니다.", Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                                        break;
-
-                                }
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제했습니다.", Toast.LENGTH_LONG).show();
+                                ArticleDetailFragment.this.getActivity().finish();
                             }
-                        }.start();
-                        return true;
-                    }
-                });
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제를 실패했습니다.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                }
+                return true;
             }
         });
     }

@@ -56,9 +56,6 @@ public class ArticleWriteViewModel extends ViewModel {
     public BoardService boardService;
     public ArticleService articleService;
     public ImageService imageService;
-    /**
-     * boards는 아직 리팩토링 못해따.
-     */
     private MutableLiveData<List<Board>> boards;
     // 작성 중인 게시물
     private MutableLiveData<Article> article;
@@ -80,12 +77,22 @@ public class ArticleWriteViewModel extends ViewModel {
         listBoards();
     }
 
-    public LiveData<Article> getArticle(){
+    public LiveData<Article> getLiveArticle(){
         return article;
     }
 
-    // article 데이터를 가져옴.
-    // 동시에 uploading ImagePaths에도 article.images를 적용해야함.
+    public MutableLiveData<List<Board>> getLiveBoards(){
+        return boards;}
+
+    public MutableLiveData<List<ImagePath>> getUploadingImagePaths() {
+        return uploadingImagePaths;
+    }
+
+    /**
+     * article 데이터를 가져옴.
+     * 동시에 uploading ImagePaths에도 article.images를 적용해야함.
+     * @param a
+     */
     public void setArticle(Article a) {
         article.setValue(a);
         List<ImagePath> uploadedImagePaths = new ArrayList<>();
@@ -96,12 +103,6 @@ public class ArticleWriteViewModel extends ViewModel {
         Log.d(TAG, "setArticle: " + article.getValue().getBoardDisplayName() + article.getValue().getBoardName());
     }
 
-    public MutableLiveData<List<Board>> getLiveBoards(){
-        return boards;}
-
-    public MutableLiveData<List<ImagePath>> getUploadingImagePaths() {
-        return uploadingImagePaths;
-    }
 
     // 내가 게시물을 적을 게시판을 선택한다. 그 내용을 MutableLiveData인 article에 반영
     // 따로 MutableLiveData Board를 관리하지는 않는 중.
@@ -128,10 +129,15 @@ public class ArticleWriteViewModel extends ViewModel {
     }
 
     public void writeArticle(Callback<Article> callback){
-
         Call<Article> call = articleService.createArticle("application/json", this.article.getValue());
         call.enqueue(callback);
     }
+
+    public void modifyArticle(Callback<Article> callback){
+        Call<Article> call = articleService.updateArticle("application/json", this.article.getValue().getId(), this.article.getValue());
+        call.enqueue(callback);
+    }
+
     public void uploadImages(List<Image> images) throws IOException {
         new Thread() {
             @Override
@@ -192,7 +198,12 @@ public class ArticleWriteViewModel extends ViewModel {
         }
     }
 
-    public boolean deleteUploadingImage(ImagePath imagePath){
+    /**
+     * 이미지를 삭제한다. article.images와 uploadingImagePaths 모두를 삭제해야한다.
+     * @param imagePath
+     * @return
+     */
+    public boolean deleteImage(ImagePath imagePath){
         // 보여지는 image path에서 삭제
         boolean isSuccessful = uploadingImagePaths.getValue().remove(imagePath);
         uploadingImagePaths.postValue(uploadingImagePaths.getValue());
@@ -203,6 +214,9 @@ public class ArticleWriteViewModel extends ViewModel {
         return isSuccessful;
     }
 
+    /**
+     * @return 초기 데이터로 사용할 Article
+     */
     private Article generateInitialArticle(){
         Article initial = new Article();
         // Inject initial Data
@@ -212,6 +226,9 @@ public class ArticleWriteViewModel extends ViewModel {
         return initial;
     }
 
+    /**
+     * board를 선택하기 위한 list를 로드
+     */
     private void listBoards(){
         Call<BoardListResponse> call = boardService.getBoards();
         call.enqueue(new Callback<BoardListResponse>() {
