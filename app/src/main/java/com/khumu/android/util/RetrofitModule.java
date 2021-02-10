@@ -5,6 +5,7 @@ import android.util.Log;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.BoardService;
 import com.khumu.android.retrofitInterface.ImageService;
+import com.khumu.android.retrofitInterface.TokenService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -66,8 +67,14 @@ public class RetrofitModule {
 
     @Singleton
     @Provides
-    public static ImageService providesImageService (Retrofit r){
+    public static ImageService providesImageService (Retrofit retrofit){
         Log.d(TAG, "providesImageService: ");
-        return r.create(ImageService.class);
+        return retrofit.create(ImageService.class);
+    }
+
+    @Singleton
+    @Provides
+    public static TokenService providesTokenService (Retrofit retrofit) {
+        return retrofit.create(TokenService.class);
     }
 }

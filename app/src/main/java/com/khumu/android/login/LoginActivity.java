@@ -33,10 +33,8 @@
 package com.khumu.android.login;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -44,30 +42,27 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.MainActivity;
 import com.khumu.android.R;
 import com.khumu.android.data.KhumuJWT;
-import com.khumu.android.repository.TokenRepository;
+import com.khumu.android.data.rest.JWTRequest;
+import com.khumu.android.data.rest.JWTResponse;
+import com.khumu.android.retrofitInterface.TokenService;
 import com.khumu.android.signUp.SignUpActivity;
-import com.khumu.android.util.Util;
-
-import org.json.JSONException;
-
-import java.io.IOException;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
+    final static String TAG = "LoginActivity";
 
     @Inject
-    TokenRepository tokenRepository;
+    TokenService tokenService;
     Button loginBTN;
     Button signUpBTN;
     EditText usernameET;
@@ -92,26 +87,27 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             String username = usernameET.getText().toString();
                             String password = passwordET.getText().toString();
-                            KhumuJWT jwt = tokenRepository.GetToken(username, password);
-                            KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString());
-                            KhumuApplication.loadKhumuConfig();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            LoginActivity.this.startActivity(intent);
-                            finish();
-                        } catch (TokenRepository.WrongCredentialException e) {
-                            System.out.println("잘못된 계정 정보입니다.\n올바른 정보를 입력해주세요.");
-                            // 기타 스레드에서는 Toast를 할 수 없다.
-                            runOnUiThread(new Runnable() {
+                            Call<JWTResponse> call = tokenService.postToken("application/json", new JWTRequest(username, password));
+                            call.enqueue(new Callback<JWTResponse>() {
                                 @Override
-                                public void run() {
-                                    Toast.makeText(LoginActivity.this, "잘못된 계정 정보입니다.\n올바른 정보를 입력해주세요.", Toast.LENGTH_LONG).show();
+                                public void onResponse(Call<JWTResponse> call, Response<JWTResponse> response) {
+                                    Log.d(TAG, "onResponse: " + response.raw());
+                                    Log.d(TAG, "onResponse: " + response.body().getAccess());
+                                    KhumuJWT jwt = new KhumuJWT(response.body().getAccess());
+                                    KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString());
+                                    KhumuApplication.loadKhumuConfig();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    LoginActivity.this.startActivity(intent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure(Call<JWTResponse> call, Throwable t) {
+                                    Log.d(TAG, "onFailure: ", t);
+                                    Toast.makeText(getApplicationContext(), "잘못된 계정 정보입니다.", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }  catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         } catch (Exception e){
                             e.printStackTrace();
                             runOnUiThread(new Runnable() {

@@ -6,6 +6,7 @@ public class KhumuJWT {
     private JWT jwt;
     private String username;
     private String nickname;
+
     public KhumuJWT(String tokenStr) {
         this.jwt = new JWT(tokenStr);
         this.username = this.jwt.getClaim("user_id").asString();

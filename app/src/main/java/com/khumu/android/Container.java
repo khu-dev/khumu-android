@@ -16,7 +16,6 @@ import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
-import com.khumu.android.repository.TokenRepository;
 import com.khumu.android.util.RetrofitModule;
 
 import javax.inject.Singleton;
@@ -36,7 +35,6 @@ public interface Container {
     // 여기에 의존성 주입을 원하는 클래스들을 명시
 
     // provision method
-    TokenRepository getTokenRepository();
     BoardRepository getBoardRepository();
     ArticleRepository getArticleRepository();
     LikeArticleRepository getLikeArticleRepository();
@@ -47,7 +45,6 @@ public interface Container {
     // Members-injection methods
     void inject(LikeArticleRepository likeArticleRepository);
     void inject(CommentRepository commentRepository);
-    void inject(TokenRepository tokenRepository);
     void inject(BoardRepository boardRepository);
 
     void inject(ReplyAdapter replyAdapter);
