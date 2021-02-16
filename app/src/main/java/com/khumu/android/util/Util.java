@@ -19,12 +19,12 @@ import java.util.Scanner;
 import okhttp3.HttpUrl;
 
 public class Util {
-    public static String APIScheme = "http";
+    public static String APIScheme = "https";
     public static String APIHost = "api.khumu.jinsu.me";
-    public static int APIPort = 80;
+    public static int APIPort = 443;
 //    static String APIScheme = "http";
 //    static String APIHost = "192.168.219.254";
-//    static int APIPort = 8000;
+//    static int APIPort = 9001;
     public static String APISubPathForRoot = "api";
     public static String APIRootEndpoint;
     public static String DEFAULT_USERNAME = "admin";
