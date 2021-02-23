@@ -1,6 +1,7 @@
 package com.khumu.android;
 
 import com.khumu.android.articleDetail.ArticleDetailFragment;
+import com.khumu.android.articleDetail.CommentViewModel;
 import com.khumu.android.articleDetail.CommentAdapter;
 import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
@@ -43,6 +44,7 @@ public interface Container {
 
 
     // Members-injection methods
+    void inject(CommentViewModel commentViewModel);
     void inject(LikeArticleRepository likeArticleRepository);
     void inject(CommentRepository commentRepository);
     void inject(BoardRepository boardRepository);
