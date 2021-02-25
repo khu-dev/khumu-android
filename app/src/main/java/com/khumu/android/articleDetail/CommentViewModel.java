@@ -132,10 +132,12 @@ public class CommentViewModel extends ViewModel {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 Log.d(TAG, "onResponse: " + response.code());
+                Toast.makeText(context, "댓글이 삭제되었습니다", Toast.LENGTH_LONG).show();
             }
             @Override
             public void onFailure(Call<Comment> call, Throwable t) {
                 t.printStackTrace();
+                Toast.makeText(context, "알 수 없는 이유로 삭제에 실패했습니다", Toast.LENGTH_LONG).show();
             }
         });
     }
