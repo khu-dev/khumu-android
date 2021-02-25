@@ -36,6 +36,9 @@ public class Comment {
     @SerializedName("comment_created_at")
     @Expose
     private String commentCreatedAt;
+    @SerializedName("is_author")
+    @Expose
+    private boolean isAuthor;
 
     public Comment () {}
 
@@ -109,5 +112,13 @@ public class Comment {
 
     public void setCommentCreatedAt(String commentCreatedAt) {
         this.commentCreatedAt = commentCreatedAt;
+    }
+
+    public boolean isAuthor() {
+        return isAuthor;
+    }
+
+    public void setIsAuthor(boolean isAuthor) {
+        this.isAuthor = isAuthor;
     }
 }

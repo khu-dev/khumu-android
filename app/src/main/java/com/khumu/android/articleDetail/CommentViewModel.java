@@ -1,6 +1,8 @@
 package com.khumu.android.articleDetail;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -32,13 +34,13 @@ public class CommentViewModel extends ViewModel {
     //article은 변하는 값을 observe할 데이터가 아니라 MutableLiveData로 하지 않아도 된다.
     private Article article;
     private String articleID;
-    public CommentViewModel(CommentService commentService, Article article, String articleID) {
+    private Context context;
+    public CommentViewModel(Context context, CommentService commentService, Article article, String articleID) {
+        this.context = context;
         this.commentService = commentService;
         comments = new MutableLiveData<>();
         comments.setValue(new ArrayList<Comment>());
-        //this.commentRepository = commentRepository;
         this.articleID = articleID;
-
         this.article = article;
         ListComment();
     }
@@ -52,18 +54,16 @@ public class CommentViewModel extends ViewModel {
     }
 
     public void ListComment() {
-        ArrayList<Comment> originalComments = comments.getValue();
-        System.out.println(comments);
         Call<CommentListResponse> call = commentService.getComments(Integer.valueOf(articleID));
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
-                Log.d(TAG, String.valueOf(response.code()));
+                //Log.d(TAG, String.valueOf(response.code()));
                 List<Comment> tempList = response.body().getData();
                 ArrayList<Comment> commentsList = new ArrayList<>();
                 commentsList.addAll(tempList);
-                System.out.println(commentsList);
-                comments.postValue(commentsList);
+                //System.out.println(commentsList);
+                comments.setValue(commentsList);
             }
 
             @Override
@@ -91,10 +91,12 @@ public class CommentViewModel extends ViewModel {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 Log.d(TAG, "onResponse: " + response.code());
+                Toast.makeText(context, "댓글을 작성했습니다", Toast.LENGTH_LONG).show();
             }
             @Override
             public void onFailure(Call<Comment> call, Throwable t) {
                 t.printStackTrace();
+                Toast.makeText(context, "댓글을 작성하지 못했습니다", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -124,8 +126,8 @@ public class CommentViewModel extends ViewModel {
 //        System.out.println("createRespStr: " + createRespStr);
     }
 
-    public void DeleteComment() {
-        Call<Comment> call = commentService.deleteComment("application/json", Integer.valueOf(articleID));
+    public void DeleteComment(int commentId) {
+        Call<Comment> call = commentService.deleteComment("application/json", Integer.valueOf(commentId));
         call.enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
@@ -138,4 +140,7 @@ public class CommentViewModel extends ViewModel {
         });
     }
 
+    public void ListReply(int commentId) {
+
+    }
 }

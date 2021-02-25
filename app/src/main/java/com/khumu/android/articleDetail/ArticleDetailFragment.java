@@ -100,7 +100,7 @@ public class ArticleDetailFragment extends Fragment {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new CommentViewModel(commentService, article, String.valueOf(article.getId()));
+                return (T) new CommentViewModel(getContext(), commentService, article, String.valueOf(article.getId()));
             }
         }).get(CommentViewModel.class);
     }
@@ -128,18 +128,14 @@ public class ArticleDetailFragment extends Fragment {
 
         this.binding.layoutArticleContent.articleDetailImageRecyclerView.setAdapter(new ImageAdapter(this.article.getImages(), this.getContext()));
 
-
-
-
         Intent intent = getActivity().getIntent();
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
         recyclerView.setLayoutManager(linearLayoutManager);
-        commentAdapter = new CommentAdapter(new ArrayList<>(), getContext());
+        commentAdapter = new CommentAdapter(new ArrayList<>(), getContext(), commentViewModel);
         recyclerView.setAdapter(commentAdapter);
-
 
         articleTagRecyclerView = view.findViewById(R.id.article_detail_article_tags_recycler_view);
 
@@ -156,37 +152,16 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        SimpleComment simpleComment = new SimpleComment(
-                                article.getId(),
-                                writeCommentContentET.getText().toString()
-                        );
-                        try {
-                            commentViewModel.CreateComment(simpleComment);
-//                            if (!isCommentCreated) {
-//                                throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
-//                            } else {
-//                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        commentViewModel.ListComment();
-//                                        Toast.makeText(getContext(), "댓글을 작성했습니다.", Toast.LENGTH_LONG).show();
-//                                    }
-//                                });
-//                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getContext(), "알 수 없는 이유로 댓글을 생성하지 못했습니다.", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    }
-                }.start();
+                SimpleComment simpleComment = new SimpleComment(
+                        article.getId(),
+                        writeCommentContentET.getText().toString()
+                );
+                try {
+                    commentViewModel.CreateComment(simpleComment);
+                    commentViewModel.ListComment();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
