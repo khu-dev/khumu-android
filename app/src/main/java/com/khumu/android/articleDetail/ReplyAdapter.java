@@ -34,6 +34,11 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
     public CommentViewModel commentViewModel;
     public List<Comment> replyList;
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
     private Context context;
     public class ReplyViewHolder extends RecyclerView.ViewHolder {
         public TextView replyAuthorNicknameTV;

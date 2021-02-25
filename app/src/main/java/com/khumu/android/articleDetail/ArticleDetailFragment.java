@@ -170,13 +170,21 @@ public class ArticleDetailFragment extends Fragment {
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
-                int originalLength = commentAdapter.commentList.size();
+                //int originalLength = commentAdapter.commentList.size();
                 int newLength = changedSet.size();
-                for (int i = originalLength; i<newLength; i++) {
+                commentAdapter.commentList.clear();
+                for (int i = 0; i < newLength; i++){
                     commentAdapter.commentList.add(changedSet.get(i));
                 }
-                commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
-//                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
+                commentAdapter.notifyDataSetChanged();
+
+//                int originalLength = commentAdapter.commentList.size();
+//                int newLength = changedSet.size();
+//                for (int i = originalLength; i<newLength; i++) {
+//                    commentAdapter.commentList.add(changedSet.get(i));
+//                }
+//                commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
+                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
     }

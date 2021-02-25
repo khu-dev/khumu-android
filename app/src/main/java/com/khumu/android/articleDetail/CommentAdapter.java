@@ -136,6 +136,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             commentViewModel.DeleteComment(comment.getId());
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            commentViewModel.ListComment();
                         }
                     }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         @Override

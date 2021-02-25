@@ -63,7 +63,7 @@ public class CommentViewModel extends ViewModel {
                 ArrayList<Comment> commentsList = new ArrayList<>();
                 commentsList.addAll(tempList);
                 //System.out.println(commentsList);
-                comments.setValue(commentsList);
+                comments.postValue(commentsList);
             }
 
             @Override
