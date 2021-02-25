@@ -113,7 +113,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        remove(position);
+                        return;
+                        //remove(position);
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
@@ -129,23 +130,27 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                System.out.println(comment.isAuthor());
                 if(comment.isAuthor()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            remove(comment.getId());
-                        }
-                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            return;
-                        }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    remove(holder.getAdapterPosition());
+                    try {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                commentViewModel.DeleteComment(comment.getId());
+                                commentViewModel.ListComment();
+                            }
+                        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        //remove(holder.getAdapterPosition());
+                    } catch(IndexOutOfBoundsException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 else {
                     Toast.makeText(context, "댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();

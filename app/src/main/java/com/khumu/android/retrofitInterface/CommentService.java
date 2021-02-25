@@ -21,6 +21,6 @@ public interface CommentService {
     @POST("comments")
     Call<Comment> createComment(@Header("Content-Type") String contentType, @Body SimpleComment simpleComment);
 
-    @DELETE("comment/{id}")
+    @DELETE("comments/{id}")
     Call<Comment> deleteComment(@Header("Content-Type") String contentType, @Path("id") int id);
 }
