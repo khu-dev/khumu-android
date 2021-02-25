@@ -1,32 +1,50 @@
-import com.khumu.android.data.SimpleComment;
+package com.khumu.android.articleDetail;
 
-import org.w3c.dom.Comment;
+import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import com.khumu.android.KhumuApplication;
+import com.khumu.android.data.Article;
+import com.khumu.android.data.Comment;
+import com.khumu.android.data.SimpleComment;
+import com.khumu.android.data.rest.CommentListResponse;
+import com.khumu.android.repository.CommentRepository;
+import com.khumu.android.retrofitInterface.CommentService;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CommentViewModel extends ViewModel {
 
     private final static String TAG = "CommentViewModel";
-
-    @Inject
     public CommentService commentService;
-    private CommentRepository commentRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
     //article은 변하는 값을 observe할 데이터가 아니라 MutableLiveData로 하지 않아도 된다.
     private Article article;
     private String articleID;
-    public CommentViewModel(CommentRepository commentRepository, Article article, String articleID) {
-        KhumuApplication.container.inject(this);
+    public CommentViewModel(CommentService commentService, Article article, String articleID) {
+        this.commentService = commentService;
         comments = new MutableLiveData<>();
         comments.setValue(new ArrayList<Comment>());
-        this.commentRepository = commentRepository;
+        //this.commentRepository = commentRepository;
         this.articleID = articleID;
 
         this.article = article;
         ListComment();
+    }
+
+    public Article getArticle() {
+        return article;
     }
 
     public MutableLiveData<ArrayList<Comment>> getLiveDataComments(){
@@ -34,14 +52,25 @@ public class CommentViewModel extends ViewModel {
     }
 
     public void ListComment() {
-        new Thread() {
+        ArrayList<Comment> originalComments = comments.getValue();
+        System.out.println(comments);
+        Call<CommentListResponse> call = commentService.getComments(Integer.valueOf(articleID));
+        call.enqueue(new Callback<CommentListResponse>() {
             @Override
-            public void run() {
-                try {
-                    ArrayList<Comment> originalComments = comments.getValue();
-                    System.out.println(comments);
-                    Call<CommentListResponse> call = commentService.getComments(Integer.valueOf(articleID));
-                    Log.d(TAG, call.toString());
+            public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
+                Log.d(TAG, String.valueOf(response.code()));
+                List<Comment> tempList = response.body().getData();
+                ArrayList<Comment> commentsList = new ArrayList<>();
+                commentsList.addAll(tempList);
+                System.out.println(commentsList);
+                comments.postValue(commentsList);
+            }
+
+            @Override
+            public void onFailure(Call<CommentListResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
 //                    for (Comment newComment : commentRepository.ListComment(articleID)) {
 //                        // 기존에 없던 새로운 comment인지 확인
 //                        List<Comment> duplicatedComments = originalComments.stream().filter(item->{
@@ -54,16 +83,20 @@ public class CommentViewModel extends ViewModel {
 //                        }
 //                    }
 //                    comments.postValue(originalComments);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
     }
-
 
     public void CreateComment(SimpleComment comment) throws Exception{
         Call<Comment> call = commentService.createComment("application/json", comment);
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                Log.d(TAG, "onResponse: " + response.code());
+            }
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
 
 //        OkHttpClient client = new OkHttpClient();
 //        ObjectMapper mapper = new ObjectMapper();
@@ -90,4 +123,19 @@ public class CommentViewModel extends ViewModel {
 //        String createRespStr = createResp.body().string();
 //        System.out.println("createRespStr: " + createRespStr);
     }
+
+    public void DeleteComment() {
+        Call<Comment> call = commentService.deleteComment("application/json", Integer.valueOf(articleID));
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                Log.d(TAG, "onResponse: " + response.code());
+            }
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
 }

@@ -1,8 +1,9 @@
 package com.khumu.android.retrofitInterface;
 
+import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
+import com.khumu.android.data.rest.CommentListResponse;
 
-import org.w3c.dom.Comment;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,5 +22,5 @@ public interface CommentService {
     Call<Comment> createComment(@Header("Content-Type") String contentType, @Body SimpleComment simpleComment);
 
     @DELETE("comment/{id}")
-    Call<Comment> deleteComment(@Header("Content-Type") String contentType, @Path("id") int id, @Body Comment comment);
+    Call<Comment> deleteComment(@Header("Content-Type") String contentType, @Path("id") int id);
 }

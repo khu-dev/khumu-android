@@ -29,6 +29,7 @@ import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
+import com.khumu.android.retrofitInterface.CommentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Inject
     public CommentRepository commentRepository;
+    @Inject
+    public CommentService commentService;
 
     public List<Comment> commentList;
 

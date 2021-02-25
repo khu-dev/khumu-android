@@ -44,7 +44,6 @@ public interface Container {
 
 
     // Members-injection methods
-    void inject(CommentViewModel commentViewModel);
     void inject(LikeArticleRepository likeArticleRepository);
     void inject(CommentRepository commentRepository);
     void inject(BoardRepository boardRepository);
