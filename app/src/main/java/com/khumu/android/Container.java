@@ -1,6 +1,7 @@
 package com.khumu.android;
 
 import com.khumu.android.articleDetail.ArticleDetailFragment;
+import com.khumu.android.articleDetail.CommentViewModel;
 import com.khumu.android.articleDetail.CommentAdapter;
 import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;

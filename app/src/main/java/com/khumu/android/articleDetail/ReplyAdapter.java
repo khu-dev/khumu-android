@@ -29,7 +29,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
 
     @Inject
     public CommentRepository commentRepository;
-
+    public CommentViewModel commentViewModel;
     public List<Comment> replyList;
 
     private Context context;
@@ -50,8 +50,9 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         }
     }
 
-    public ReplyAdapter(ArrayList<Comment> ReplyList, Context context)    {
+    public ReplyAdapter(ArrayList<Comment> ReplyList, Context context, CommentViewModel commentViewModel) {
         KhumuApplication.container.inject(this);
+        this.commentViewModel = commentViewModel;
         this.context = context;
         this.replyList = ReplyList;
     }
