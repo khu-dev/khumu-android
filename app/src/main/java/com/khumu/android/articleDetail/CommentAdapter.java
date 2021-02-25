@@ -131,26 +131,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             @Override
             public boolean onLongClick(View v) {
                 if(comment.isAuthor()) {
-                    try {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                commentViewModel.DeleteComment(comment.getId());
-                                commentViewModel.ListComment();
-                            }
-                        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                        //remove(holder.getAdapterPosition());
-                    } catch(IndexOutOfBoundsException ex) {
-                        ex.printStackTrace();
-                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            commentViewModel.DeleteComment(comment.getId());
+                        }
+                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                             return;
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
                 else {
                     Toast.makeText(context, "댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
@@ -199,17 +193,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return commentList == null ? 0 : commentList.size();
     }
 
-    public void remove(int commentId) {
-        try {
-            commentViewModel.DeleteComment(commentId);
-            //commentList.remove(position);
-            // 새로고침
-            //notifyItemRemoved(position);
 
-        } catch(IndexOutOfBoundsException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     private int getCommentLikedImage(Comment comment) {
         if(comment.isLiked()) {
