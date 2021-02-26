@@ -1,6 +1,8 @@
 package com.khumu.android.articleDetail;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -29,8 +31,13 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
 
     @Inject
     public CommentRepository commentRepository;
-
+    public CommentViewModel commentViewModel;
     public List<Comment> replyList;
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
     private Context context;
     public class ReplyViewHolder extends RecyclerView.ViewHolder {
@@ -50,8 +57,9 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         }
     }
 
-    public ReplyAdapter(ArrayList<Comment> ReplyList, Context context)    {
+    public ReplyAdapter(ArrayList<Comment> ReplyList, Context context, CommentViewModel commentViewModel) {
         KhumuApplication.container.inject(this);
+        this.commentViewModel = commentViewModel;
         this.context = context;
         this.replyList = ReplyList;
     }
@@ -79,7 +87,25 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                remove(holder.getAdapterPosition());
+                if(reply.isAuthor()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            commentViewModel.DeleteComment(reply.getId());
+                        }
+                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                else {
+                    Toast.makeText(context, "댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });

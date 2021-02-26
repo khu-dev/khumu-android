@@ -2,15 +2,19 @@ package com.khumu.android.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.Expose;
 
 public class SimpleComment {
+    @Expose
     private int article;
+    @Expose
     private String content;
+    @Expose
+    private String kind;
 
-    @JsonCreator
     public SimpleComment (
-        @JsonProperty("article") int article,
-        @JsonProperty("content") String content) {
+            int article,
+            String content) {
         this.article = article;
         this.content = content;
     }
@@ -22,4 +26,12 @@ public class SimpleComment {
     public String getContent() { return content; }
 
     public void setContent(String content) { this.content = content; }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 }

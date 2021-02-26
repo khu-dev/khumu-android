@@ -5,6 +5,7 @@ import android.util.Log;
 import com.khumu.android.data.Notification;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.BoardService;
+import com.khumu.android.retrofitInterface.CommentService;
 import com.khumu.android.retrofitInterface.ImageService;
 import com.khumu.android.retrofitInterface.NotificationService;
 import com.khumu.android.retrofitInterface.TokenService;
@@ -78,6 +79,12 @@ public class RetrofitModule {
     @Provides
     public static TokenService providesTokenService (Retrofit retrofit) {
         return retrofit.create(TokenService.class);
+    }
+
+    @Singleton
+    @Provides
+    public static CommentService providesCommentService (Retrofit retrofit) {
+        return retrofit.create(CommentService.class);
     }
 
     @Singleton

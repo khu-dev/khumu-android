@@ -9,33 +9,32 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class Comment {
-    @SerializedName("id")
     @Expose
     private int id;
     @SerializedName("article")
     @Expose
     private int articleID;
-    @SerializedName("author")
     @Expose
     private SimpleUser author;
-    @SerializedName("content")
     @Expose
     private String content;
-    @SerializedName("parent")
     @Expose
     private int parent;
-    @SerializedName("children")
+    @Expose
+    private String kind;
     @Expose
     private ArrayList<Comment> children;
     @SerializedName("like_comment_count")
     @Expose
     private int likeCommentCount;
-    @SerializedName("liked")
     @Expose
     private boolean liked;
     @SerializedName("comment_created_at")
     @Expose
     private String commentCreatedAt;
+    @SerializedName("is_author")
+    @Expose
+    private boolean isAuthor;
 
     public Comment () {}
 
@@ -79,6 +78,14 @@ public class Comment {
         this.parent = parent;
     }
 
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
     public ArrayList<Comment> getChildren() {
         return children;
     }
@@ -109,5 +116,13 @@ public class Comment {
 
     public void setCommentCreatedAt(String commentCreatedAt) {
         this.commentCreatedAt = commentCreatedAt;
+    }
+
+    public boolean isAuthor() {
+        return isAuthor;
+    }
+
+    public void setIsAuthor(boolean isAuthor) {
+        this.isAuthor = isAuthor;
     }
 }

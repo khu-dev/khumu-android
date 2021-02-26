@@ -29,6 +29,7 @@ import com.khumu.android.data.LikeComment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
+import com.khumu.android.retrofitInterface.CommentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Inject
     public CommentRepository commentRepository;
+    @Inject
+    public CommentService commentService;
 
     public List<Comment> commentList;
+
+    public CommentViewModel commentViewModel;
 
     private Context context;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -68,8 +73,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    public CommentAdapter(ArrayList<Comment> commentList, Context context) {
+    public CommentAdapter(ArrayList<Comment> commentList, Context context, CommentViewModel commentViewModel) {
         KhumuApplication.container.inject(this);
+        this.commentViewModel = commentViewModel;
         this.context = context;
         this.commentList = commentList;
     }
@@ -91,7 +97,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.replyArrayList = new ArrayList<>();
         if(!comment.getChildren().isEmpty())
             holder.replyArrayList.addAll(comment.getChildren());
-        holder.replyAdapter = new ReplyAdapter(holder.replyArrayList, context);
+        holder.replyAdapter = new ReplyAdapter(holder.replyArrayList, context, commentViewModel);
         holder.replyRecyclerView.setAdapter(holder.replyAdapter);
         holder.replyRecyclerView.setLayoutManager(holder.linearLayoutManager);
         holder.commentAuthorNicknameTV.setText(comment.getAuthor().getNickname());
@@ -107,7 +113,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        return;
+                        //remove(position);
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
@@ -123,7 +130,31 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                remove(holder.getAdapterPosition());
+                if(comment.isAuthor()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            commentViewModel.DeleteComment(comment.getId());
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            commentViewModel.ListComment();
+                        }
+                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                             return;
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                else {
+                    Toast.makeText(context, "댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
@@ -168,15 +199,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return commentList == null ? 0 : commentList.size();
     }
 
-    public void remove(int position) {
-        try {
-            commentList.remove(position);
-            // 새로고침
-            notifyItemRemoved(position);
-        } catch(IndexOutOfBoundsException ex) {
-            ex.printStackTrace();
-        }
-    }
+
 
     private int getCommentLikedImage(Comment comment) {
         if(comment.isLiked()) {
@@ -184,7 +207,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
         return R.drawable.ic_empty_heart;
     }
-
 }
 
 

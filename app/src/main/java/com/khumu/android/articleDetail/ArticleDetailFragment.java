@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -21,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +30,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
+import com.khumu.android.articleWrite.ArticleWriteActivity;
+import com.khumu.android.articleWrite.ArticleWriteViewModel;
 import com.khumu.android.data.Article;
 import com.khumu.android.databinding.FragmentArticleDetailBinding;
 import com.khumu.android.databinding.FragmentTabFeedBinding;
@@ -37,6 +41,7 @@ import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.retrofitInterface.CommentService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,11 +52,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.khumu.android.KhumuApplication.container;
+
 public class ArticleDetailFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
     private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
     public ArticleService articleService;
+    @Inject
+    public CommentService commentService;
     @Inject
     public CommentRepository commentRepository;
     private FragmentArticleDetailBinding binding;
@@ -74,6 +83,7 @@ public class ArticleDetailFragment extends Fragment {
     private Button writeCommentContentBTN;
     private ImageView articleSettingIcon;
     private PopupMenu articleSettingPopupMenu;
+    private CheckBox commentAnonymousCKB;
 
     private RecyclerView articleTagRecyclerView;
     private ArticleTagAdapter articleTagAdapter;
@@ -81,15 +91,20 @@ public class ArticleDetailFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        container.inject(this);
         this.intent = getActivity().getIntent();
         this.article = (Article) intent.getSerializableExtra("article");
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        KhumuApplication.container.inject(this);
-        commentViewModel = new ViewModelProvider(this,
-                new CommentViewFactory(commentRepository, this.article, Integer.toString(article.getId()))
-        ).get(CommentViewModel.class);
+        container.inject(this);
+        commentViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory(){
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new CommentViewModel(getContext(), commentService, article, String.valueOf(article.getId()));
+            }
+        }).get(CommentViewModel.class);
     }
 
     @Override
@@ -115,18 +130,14 @@ public class ArticleDetailFragment extends Fragment {
 
         this.binding.layoutArticleContent.articleDetailImageRecyclerView.setAdapter(new ImageAdapter(this.article.getImages(), this.getContext()));
 
-
-
-
         Intent intent = getActivity().getIntent();
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
         recyclerView.setLayoutManager(linearLayoutManager);
-        commentAdapter = new CommentAdapter(new ArrayList<>(), getContext());
+        commentAdapter = new CommentAdapter(new ArrayList<>(), getContext(), commentViewModel);
         recyclerView.setAdapter(commentAdapter);
-
 
         articleTagRecyclerView = view.findViewById(R.id.article_detail_article_tags_recycler_view);
 
@@ -139,41 +150,26 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
         articleSettingIcon = view.findViewById(R.id.article_detail_setting_icon);
+        commentAnonymousCKB = view.findViewById(R.id.comment_anonymous_ckb);
 
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        SimpleComment simpleComment = new SimpleComment(
-                                article.getId(),
-                                writeCommentContentET.getText().toString()
-                        );
-                        try {
-                            boolean isCommentCreated = commentRepository.CreateComment(simpleComment, String.valueOf(article.getId()));
-                            if (!isCommentCreated) {
-                                throw new Exception("요청은 갔으나 게시물이 생성되지 않았음.");
-                            } else {
-                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        commentViewModel.ListComment();
-                                        Toast.makeText(getContext(), "댓글을 작성했습니다.", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getContext(), "알 수 없는 이유로 댓글을 생성하지 못했습니다.", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    }
-                }.start();
+                SimpleComment simpleComment = new SimpleComment(
+                        article.getId(),
+                        writeCommentContentET.getText().toString()
+                );
+                if (commentAnonymousCKB.isChecked()){
+                    simpleComment.setKind("anonymous");
+                }
+                else {
+                    simpleComment.setKind("named");
+                }
+                try {
+                    commentViewModel.CreateComment(simpleComment);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -182,13 +178,21 @@ public class ArticleDetailFragment extends Fragment {
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
-                int originalLength = commentAdapter.commentList.size();
+                //int originalLength = commentAdapter.commentList.size();
                 int newLength = changedSet.size();
-                for (int i = originalLength; i<newLength; i++) {
+                commentAdapter.commentList.clear();
+                for (int i = 0; i < newLength; i++){
                     commentAdapter.commentList.add(changedSet.get(i));
                 }
-                commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
-//                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
+                commentAdapter.notifyDataSetChanged();
+
+//                int originalLength = commentAdapter.commentList.size();
+//                int newLength = changedSet.size();
+//                for (int i = originalLength; i<newLength; i++) {
+//                    commentAdapter.commentList.add(changedSet.get(i));
+//                }
+//                commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
+                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
     }
