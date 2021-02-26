@@ -92,6 +92,13 @@ public class CommentViewModel extends ViewModel {
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 Log.d(TAG, "onResponse: " + response.code());
                 Toast.makeText(context, "댓글을 작성했습니다", Toast.LENGTH_LONG).show();
+                // 비동기적으로 event를 실행하므로 쓰레드에 텀을 주어 Comment를 생성하기 전에 ListComment()하는 것을 막아준다.
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ListComment();
             }
             @Override
             public void onFailure(Call<Comment> call, Throwable t) {
@@ -100,30 +107,6 @@ public class CommentViewModel extends ViewModel {
             }
         });
 
-//        OkHttpClient client = new OkHttpClient();
-//        ObjectMapper mapper = new ObjectMapper();
-//        String commentString = mapper.writeValueAsString(comment);
-//        JSONObject commentJSON = new JSONObject(commentString);
-//        RequestBody authBody = RequestBody.create(MediaType.parse("application/json"),
-//                String.format("{\"username\":\"%s\",\"password\":\"%s\"}", Util.DEFAULT_USERNAME, Util.DEFAULT_PASSWORD)
-//        );
-//        Request authReq = new Request.Builder()
-//                .post(authBody)
-//                .url(Util.APIRootEndpoint + "token")
-//                .build();
-//        Response authResp = client.newCall(authReq).execute();
-//        String authRespStr = authResp.body().string();
-//        String token = new JSONObject(authRespStr).getString("access");
-//
-//        Request createReq = new Request.Builder()
-//                .header("Authorization", "Bearer "+token)
-//                .post(RequestBody.create(MediaType.parse("application/json"), commentString))
-//                // 임시
-//                .url(Util.APIRootEndpoint + "comments" + "?articles=1")
-//                .build();
-//        Response createResp = client.newCall(createReq).execute();
-//        String createRespStr = createResp.body().string();
-//        System.out.println("createRespStr: " + createRespStr);
     }
 
     public void DeleteComment(int commentId) {

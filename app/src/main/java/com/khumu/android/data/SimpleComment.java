@@ -9,6 +9,8 @@ public class SimpleComment {
     private int article;
     @Expose
     private String content;
+    @Expose
+    private String kind;
 
     public SimpleComment (
             int article,
@@ -24,4 +26,12 @@ public class SimpleComment {
     public String getContent() { return content; }
 
     public void setContent(String content) { this.content = content; }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 }

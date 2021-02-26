@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -82,6 +83,7 @@ public class ArticleDetailFragment extends Fragment {
     private Button writeCommentContentBTN;
     private ImageView articleSettingIcon;
     private PopupMenu articleSettingPopupMenu;
+    private CheckBox commentAnonymousCKB;
 
     private RecyclerView articleTagRecyclerView;
     private ArticleTagAdapter articleTagAdapter;
@@ -148,6 +150,7 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
         articleSettingIcon = view.findViewById(R.id.article_detail_setting_icon);
+        commentAnonymousCKB = view.findViewById(R.id.comment_anonymous_ckb);
 
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,9 +159,14 @@ public class ArticleDetailFragment extends Fragment {
                         article.getId(),
                         writeCommentContentET.getText().toString()
                 );
+                if (commentAnonymousCKB.isChecked()){
+                    simpleComment.setKind("anonymous");
+                }
+                else {
+                    simpleComment.setKind("named");
+                }
                 try {
                     commentViewModel.CreateComment(simpleComment);
-                    commentViewModel.ListComment();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
