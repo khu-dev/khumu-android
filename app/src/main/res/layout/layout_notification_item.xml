@@ -5,6 +5,8 @@
     <data>
 <!--        <import type="androidx.core.content.ContextCompat" />-->
         <!--필요에 따라 variable은 나를 include하는 부모에게서 주입받아야 할 수 있다.-->
+        <import type="com.khumu.android.R"/>
+        <import type="androidx.core.content.ContextCompat" />
         <variable
             name="notification"
             type="com.khumu.android.data.Notification" />
@@ -13,7 +15,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/layout_default_space">
+        android:padding="@dimen/layout_default_space"
+        android:background="@{notification.read ? ContextCompat.getColor(context, R.color.white) : ContextCompat.getColor(context, R.color.red_100), default=`@color/red_100`}"
+        >
         <ImageView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{notification.content, default=content}"/>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

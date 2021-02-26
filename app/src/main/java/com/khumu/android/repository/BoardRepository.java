@@ -40,38 +40,24 @@ public class BoardRepository {
             Call<BoardListResponse> call = service.getFollowingBoards("Bearer " + KhumuApplication.getToken(), String.valueOf(followed));
             respString = call.execute().body();
         }
-
-        List<Board> BoardList = respString.getData();
-        Log.d(TAG, "BoardList: " + BoardList.toString());
-
-//        Request.Builder reqBuilder = new Request.Builder();
-//        if(KhumuApplication.getToken() != null){
-//            reqBuilder.header("Authorization", "Bearer "+ KhumuApplication.getToken());
-//        }
-//        reqBuilder.url(urlBuilder.build());
-//
-//        Response fetchResp = client.newCall(reqBuilder.build()).execute();
-//        String respString = fetchResp.body().string();
-//        // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
-//        String data = new JSONObject(respString).getString("data");
-//        JSONArray articleJSONArray = new JSONArray(data);
-//
-//        ObjectMapper mapper  = new ObjectMapper();
-//        // 이걸 해야 정의하지 않은 property가 있어도 에러가 안남.
-//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        List<Board> tmp = mapper.readValue(data, new TypeReference<List<Board>>(){});
         List<Board> boards = new ArrayList<>();
-        //logical board부터 담음
-        for (Board b: BoardList){
-            if (b.getCategory().equals("logical")){
-                boards.add(b);
-            }
-        }
+        if (respString != null) {
+            List<Board> BoardList = respString.getData();
+            Log.d(TAG, "BoardList: " + BoardList.toString());
 
-        for (Board b: BoardList){
-            if (!b.getCategory().equals("logical")){
-                boards.add(b);
+            //logical board부터 담음
+            for (Board b: BoardList){
+                if (b.getCategory().equals("logical")){
+                    boards.add(b);
+                }
             }
+
+            for (Board b: BoardList){
+                if (!b.getCategory().equals("logical")){
+                    boards.add(b);
+                }
+            }
+
         }
 
         return boards;

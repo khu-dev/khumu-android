@@ -44,18 +44,34 @@
                 android:layout_marginLeft="6dp"
                 ></TextView>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:id="@+id/toolbar_notification_wrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
+
             <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_notification"/>
+
+            <TextView
+                android:id="@+id/notification_count_tv"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/ic_notification"/>
-        </LinearLayout>
+                android:layout_alignParentTop="true"
+                android:fontFamily="monospace"
+                android:layout_alignParentRight="true"
+                android:text="0"
+                android:textColor="@color/white"
+                android:background="@drawable/background_primary_circle"
+                android:textSize="12dp"
+                android:textAlignment="center"
+                android:textStyle="bold"></TextView>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.appbar.MaterialToolbar>

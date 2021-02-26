@@ -60,6 +60,7 @@ public interface Container {
     void inject(HomeFragment homeFragment);
     void inject(MyPageFragment myPageFragment);
 
+    void inject(KhumuApplication application);
     void inject(LoginActivity loginActivity);
     void inject(ArticleWriteActivity articleWriteActivity);
     void inject(SingleBoardFeedActivity singleBoardFeedActivity);
