@@ -1,5 +1,6 @@
 package com.khumu.android.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.MainActivity;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
+import com.khumu.android.generated.callback.OnClickListener;
+import com.khumu.android.login.LoginActivity;
+import com.khumu.android.notifications.NotificationActivity;
 import com.khumu.android.repository.BoardRepository;
 
 import java.util.ArrayList;
@@ -36,9 +41,7 @@ public class HomeFragment extends Fragment {
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         KhumuApplication.container.inject(this);
         super.onCreate(savedInstanceState);
-
         homeViewModel = new ViewModelProvider(this, new HomeViewModelFactory(br)).get(HomeViewModel.class);
-
         recentArticleAdapter = new RecentArticleAdapter(
                 getContext(),
                 R.layout.layout_home_recent_article_item,
@@ -70,6 +73,15 @@ public class HomeFragment extends Fragment {
                 }
                 recentArticleAdapter.notifyDataSetChanged();
             }
+        });
+
+        setEventListeners();
+    }
+
+    public void setEventListeners() {
+        toolbar.setOnClickListener(l->{
+            Intent intent = new Intent(HomeFragment.this.getActivity(), NotificationActivity.class);
+            startActivity(intent);
         });
     }
 }

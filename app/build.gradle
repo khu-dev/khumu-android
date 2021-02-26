@@ -54,6 +54,7 @@ dependencies {
     //Dagger 2
     implementation 'com.google.dagger:dagger:2.29'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.29'
 
     // backend 에서 전달받은 jwt를 decode 하기 위함
@@ -79,4 +80,7 @@ dependencies {
     implementation 'com.github.esafirm.android-image-picker:rximagepicker:2.4.1'
     // If you have a problem with Glide, please use the same Glide version or simply open an issue
     implementation 'com.github.bumptech.glide:glide:4.5.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
 }

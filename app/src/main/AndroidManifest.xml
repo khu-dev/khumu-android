@@ -44,6 +44,12 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
+
+        <activity
+            android:name=".notifications.NotificationActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
         <activity
             android:name=".articleWrite.ArticleModifyActivity"
             android:label="@string/app_name"

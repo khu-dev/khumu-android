@@ -12,6 +12,7 @@ import com.khumu.android.feed.TabFeedFragment;
 import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.myPage.MyPageFragment;
+import com.khumu.android.notifications.NotificationActivity;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
@@ -61,6 +62,7 @@ public interface Container {
     void inject(LoginActivity loginActivity);
     void inject(ArticleWriteActivity articleWriteActivity);
     void inject(SingleBoardFeedActivity singleBoardFeedActivity);
+    void inject(NotificationActivity notificationActivity);
 
 }
 

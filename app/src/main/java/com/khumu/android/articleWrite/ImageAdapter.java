@@ -41,7 +41,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
+        context = parent.getContext(); // 이게 여기서 주입되는 게 조금 이상하다.
         RecyclerView.ViewHolder view = null;
         if (viewType == TYPE_IMAGE_ADDER){
             view = new ImageAdder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_article_image_adder, parent, false));
