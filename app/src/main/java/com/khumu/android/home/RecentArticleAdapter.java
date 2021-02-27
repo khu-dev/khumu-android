@@ -32,7 +32,6 @@ public class RecentArticleAdapter extends ArrayAdapter<Article> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getView: here");
         View view = convertView;
         if(convertView == null){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_home_recent_article_item, parent, false);

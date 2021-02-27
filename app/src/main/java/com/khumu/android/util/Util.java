@@ -27,8 +27,6 @@ public class Util {
 //    static int APIPort = 9001;
     public static String APISubPathForRoot = "api";
     public static String APIRootEndpoint;
-    public static String DEFAULT_USERNAME = "admin";
-    public static String DEFAULT_PASSWORD = "123123";
 
     public static void init(){
         APIRootEndpoint = APIScheme + "://" +  APIHost +  ":" + APIPort + "/" + APISubPathForRoot + "/";;

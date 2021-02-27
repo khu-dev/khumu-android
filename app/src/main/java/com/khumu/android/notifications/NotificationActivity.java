@@ -115,19 +115,6 @@ public class NotificationActivity extends AppCompatActivity {
         }).get(NotificationsViewModel.class);
         binding.setViewModel(this.viewModel);
         this.viewModel.listNotifications();
-
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                    NotificationAdapter adapter = (NotificationAdapter) binding.notificationRecyclerView.getAdapter();
-                            adapter.show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
     }
 
 }
