@@ -1,6 +1,8 @@
 package com.khumu.android.articleDetail;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,20 +56,19 @@ import retrofit2.Response;
 
 import static com.khumu.android.KhumuApplication.container;
 
-public class ArticleDetailFragment extends Fragment {
+public class ArticleDetailFragment extends Fragment implements ArticleDetailActivity.onKeyBackPressedListener {
     private static final String TAG = "ArticleDetailFragment";
     private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
     public ArticleService articleService;
     @Inject
     public CommentService commentService;
-    @Inject
-    public CommentRepository commentRepository;
     private FragmentArticleDetailBinding binding;
 
     private Intent intent;
     private CommentViewModel commentViewModel;
     private Article article;
+    private Comment commentToWrite;
 
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
@@ -84,7 +85,6 @@ public class ArticleDetailFragment extends Fragment {
     private ImageView articleSettingIcon;
     private PopupMenu articleSettingPopupMenu;
     private CheckBox commentAnonymousCKB;
-
     private RecyclerView articleTagRecyclerView;
     private ArticleTagAdapter articleTagAdapter;
 
@@ -94,6 +94,7 @@ public class ArticleDetailFragment extends Fragment {
         container.inject(this);
         this.intent = getActivity().getIntent();
         this.article = (Article) intent.getSerializableExtra("article");
+        this.commentToWrite = null;
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
@@ -166,7 +167,10 @@ public class ArticleDetailFragment extends Fragment {
                     simpleComment.setKind("named");
                 }
                 try {
+                    simpleComment.setParent(null);
                     commentViewModel.CreateComment(simpleComment);
+                    // 댓글 작성 후 작성창 비우기
+                    writeCommentContentET.setText("");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -195,6 +199,33 @@ public class ArticleDetailFragment extends Fragment {
                 if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
             }
         });
+    }
+
+    @Override
+    public void onBack() {
+        if (commentToWrite == null) {
+            ArticleDetailActivity articleDetailActivity = (ArticleDetailActivity) getActivity();
+            articleDetailActivity.setOnKeyBackPressedListener(null);
+            articleDetailActivity.onBackPressed();
+        }
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("대댓글을 작성을 취소하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    commentToWrite = null;
+                    writeCommentContentET.setHint("댓글");
+                    return;
+                }
+            }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     public void onClickArticleSettingMenu(View v){
@@ -232,32 +263,6 @@ public class ArticleDetailFragment extends Fragment {
         });
     }
 
-    /*
-    public class FetchCommentsAsyncTask extends AsyncTask {
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            try {
-                commentViewModel.CreateComment(new Comment(
-                        null,
-                        null,
-                        0,
-                        0
-                ));
-            } catch (Exception e) {
-                e.printStackTrace();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        e.printStackTrace();
-                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-            return null;
-        }
-    }
-     */
     // this.article의 정보를 view에 적용한다.
     private void loadArticleToView(){
         articleDetailContentTV.setText(article.getContent());
@@ -356,3 +361,5 @@ public class ArticleDetailFragment extends Fragment {
         }
     }
 }
+
+

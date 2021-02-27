@@ -15,16 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
-import com.khumu.android.repository.ArticleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 public abstract class BaseFeedFragment extends Fragment {
     private final static String TAG = "BaseFeedFragment";
-    @Inject public ArticleRepository articleRepository;
     protected LinearLayoutManager linearLayoutManager;
     protected RecyclerView articleRecyclerView;
     protected FeedViewModel feedViewModel;

@@ -48,6 +48,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public CommentViewModel commentViewModel;
 
+    public Comment commentToWrite;
+
     private Context context;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorNicknameTV;
@@ -78,6 +80,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.commentViewModel = commentViewModel;
         this.context = context;
         this.commentList = commentList;
+        this.commentToWrite = null;
     }
 
     @NonNull
@@ -105,27 +108,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
         holder.commentCreatedAtTV.setText(comment.getCommentCreatedAt());
-        holder.writeReplyIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                        //remove(position);
-                    }
-                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
         holder.itemView.setTag(position);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -158,7 +140,26 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 return false;
             }
         });
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        commentToWrite = comment;
+                        return;
+                    }
+                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
         holder.commentLikeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,13 +200,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return commentList == null ? 0 : commentList.size();
     }
 
-
-
     private int getCommentLikedImage(Comment comment) {
         if(comment.isLiked()) {
             return R.drawable.ic_filled_heart;
         }
         return R.drawable.ic_empty_heart;
+    }
+
+    public Comment getCommentToWrite() {
+        return commentToWrite;
+    }
+
+    public void setCommentToWrite(Comment comment) {
+        this.commentToWrite = comment;
     }
 }
 

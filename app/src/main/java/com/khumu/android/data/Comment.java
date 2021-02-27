@@ -19,7 +19,7 @@ public class Comment {
     @Expose
     private String content;
     @Expose
-    private int parent;
+    private Integer parent;
     @Expose
     private String kind;
     @Expose
@@ -70,11 +70,11 @@ public class Comment {
         this.content = content;
     }
 
-    public int getParent() {
+    public Integer getParent() {
         return parent;
     }
 
-    public void setParent(int parent) {
+    public void setParent(Integer parent) {
         this.parent = parent;
     }
 

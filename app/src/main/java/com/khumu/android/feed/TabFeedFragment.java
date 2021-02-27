@@ -31,8 +31,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.tabs.TabLayout;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentTabFeedBinding;
+import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.R;
 
@@ -43,6 +45,7 @@ import javax.inject.Inject;
 public class TabFeedFragment extends BaseFeedFragment {
     private final static String TAG = "TabFeedFragment";
     @Inject public BoardRepository boardRepository;
+    @Inject public ArticleRepository articleRepository;
 
     protected TabLayout tabLayout;
     protected Button articleWriteBTN;

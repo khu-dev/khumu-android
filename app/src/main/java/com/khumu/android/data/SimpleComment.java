@@ -11,6 +11,8 @@ public class SimpleComment {
     private String content;
     @Expose
     private String kind;
+    @Expose
+    private Integer parent;
 
     public SimpleComment (
             int article,
@@ -33,5 +35,13 @@ public class SimpleComment {
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public Integer getParent() {
+        return parent;
+    }
+
+    public void setParent(Integer parent) {
+        this.parent = parent;
     }
 }
