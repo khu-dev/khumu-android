@@ -50,6 +50,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public Comment commentToWrite;
 
+    public ArticleDetailFragment articleDetailFragment;
+
     private Context context;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorNicknameTV;
@@ -75,12 +77,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    public CommentAdapter(ArrayList<Comment> commentList, Context context, CommentViewModel commentViewModel) {
+    public CommentAdapter(ArrayList<Comment> commentList, Context context, CommentViewModel commentViewModel, ArticleDetailFragment articleDetailFragment) {
         KhumuApplication.container.inject(this);
         this.commentViewModel = commentViewModel;
         this.context = context;
         this.commentList = commentList;
         this.commentToWrite = null;
+        this.articleDetailFragment = articleDetailFragment;
     }
 
     @NonNull
@@ -147,8 +150,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        commentToWrite = comment;
-                        return;
+                        articleDetailFragment.setCommentToWrite(comment);
+                        articleDetailFragment.setCommentHint("대댓글");
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override

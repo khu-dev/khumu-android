@@ -137,7 +137,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
         recyclerView.setLayoutManager(linearLayoutManager);
-        commentAdapter = new CommentAdapter(new ArrayList<>(), getContext(), commentViewModel);
+        commentAdapter = new CommentAdapter(new ArrayList<>(), getContext(), commentViewModel, ArticleDetailFragment.this);
         recyclerView.setAdapter(commentAdapter);
 
         articleTagRecyclerView = view.findViewById(R.id.article_detail_article_tags_recycler_view);
@@ -167,7 +167,12 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
                     simpleComment.setKind("named");
                 }
                 try {
-                    simpleComment.setParent(null);
+                    if (commentToWrite == null)
+                        simpleComment.setParent(null);
+                    else {
+                        simpleComment.setParent(commentToWrite.getId());
+                        System.out.printf("commentToWrite : " + commentToWrite.getId());
+                    }
                     commentViewModel.CreateComment(simpleComment);
                     // 댓글 작성 후 작성창 비우기
                     writeCommentContentET.setText("");
@@ -203,6 +208,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
 
     @Override
     public void onBack() {
+        System.out.println("Back버튼 시 commentToWrite : " + commentToWrite);
         if (commentToWrite == null) {
             ArticleDetailActivity articleDetailActivity = (ArticleDetailActivity) getActivity();
             articleDetailActivity.setOnKeyBackPressedListener(null);
@@ -341,6 +347,10 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         }
     }
 
+    public void setCommentHint(String string) {
+        writeCommentContentET.setHint(string);
+    }
+
     private int getCommentLikedImage(boolean isLiked) {
         if(isLiked) {
             return R.drawable.ic_filled_heart;
@@ -359,6 +369,10 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         } else{
             return View.GONE;
         }
+    }
+
+    public void setCommentToWrite(Comment comment) {
+        commentToWrite = comment;
     }
 }
 
