@@ -44,13 +44,12 @@ public class KhumuApplication extends Application {
         Util.init();
         container = DaggerContainer.create();
         container.inject(this);
-
         sharedPref = getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         // sharedPreferences를 이용해 필요한 데이터 초기화.
         loadKhumuConfig();
-
+        Log.w(TAG, "onCreate: Token" + getToken());
         // FCM Push를 위해 초기화함.
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         FirebaseMessaging.getInstance().getToken()
@@ -66,7 +65,11 @@ public class KhumuApplication extends Application {
                                 if (response.isSuccessful()) {
                                     Log.i(TAG, "onResponse: " + response.body().getData());
                                 } else{
-                                    Log.e(TAG, "onResponse: " + response.errorBody());
+                                    try {
+                                        Log.e(TAG, "onResponse: " + response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
 

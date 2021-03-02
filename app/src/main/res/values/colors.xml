@@ -10,7 +10,7 @@
 
     <color name="red_100">#fff8f8</color>
     <color name="red_300">#ffb8b8</color>
-    <color name="red_500">#ff4f38</color>
+    <color name="red_500">#ff4d40</color>
 
     <color name="blue_100">#fff8f8</color>
     <color name="blue_300">#8ec7ff</color>
@@ -21,12 +21,12 @@
     <color name="green_500">#4bdf88</color>
 
     <color name="gray_100">#fafafa</color>
-    <color name="gray_300">#DCDCDC</color>
-    <color name="gray_500">#aaaaaa</color>
+    <color name="gray_300">#e4e4e4</color>
+    <color name="gray_500">#6c6c6c</color>
     <color name="gray_700">#4a4a4a</color>
 
     <color name="colorNegative">#5e8cab</color>
-    <color name="colorAccent">#bf3519</color>
+    <color name="colorAccent">#ff4d40</color>
 
 
 </resources>

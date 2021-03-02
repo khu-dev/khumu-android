@@ -33,6 +33,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
+import java.util.EventListener;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -79,8 +80,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                     .into(holder.binding.articleItemThumbnailIv);
         }
 
-        holder.binding.articleItemLikeIcon.setImageResource(getArticleLikedImage(article));
-        holder.binding.articleItemBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
 
         holder.itemView.setTag(position); // ?
         holder.binding.articleItemBodyLayout.setOnClickListener(new View.OnClickListener() {
@@ -92,80 +91,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 v.getContext().startActivity(intent);
             }
         });
-
-        holder.binding.articleItemLikeWrapperLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try{
-                            likeArticleRepository.toggleLikeArticle(new LikeArticle(article.getId()));
-                            boolean liked = article.getLiked();
-                            if(liked){
-                                article.setLiked(false);
-                                article.setLikeArticleCount(article.getLikeArticleCount() - 1);
-                            } else{
-                                article.setLiked(true);
-                                article.setLikeArticleCount(article.getLikeArticleCount() + 1);
-                            }
-                            // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.binding.articleItemLikeIcon.setImageResource(getArticleLikedImage(article));
-                                }
-                            });
-                        } catch (LikeArticleRepository.BadRequestException e){
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-            }
-        });
-
         holder.binding.articleItemBookmarkWrapperLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try{
-                            bookmarkArticleRepository.toggleBookmarkArticle(new BookmarkArticle(article.getId()));
-                            boolean bookmarked = article.getBookmarked();
-                            if(bookmarked){
-                                article.setBookmarked(false);
-                                article.setBookmarkArticleCount(article.getBookmarkArticleCount() - 1);
-                            } else{
-                                article.setBookmarked(true);
-                                article.setBookmarkArticleCount(article.getBookmarkArticleCount() + 1);
-                            }
-                            // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.binding.articleItemBookmarkIcon.setImageResource(getArticleBookmarkedImage(article));
-                                }
-                            });
-                        } catch (BookmarkArticleRepository.BadRequestException e){
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+
             }
         });
     }
@@ -173,20 +102,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @Override
     public int getItemCount() {
         return articleList == null ? 0 : articleList.size();
-    }
-
-    private int getArticleLikedImage(Article article){
-        if(article.getLiked()){
-            return R.drawable.ic_filled_heart;
-        }
-        return R.drawable.ic_empty_heart;
-    }
-
-    private int getArticleBookmarkedImage(Article article){
-        if(article.getBookmarked()){
-            return R.drawable.ic_filled_bookmark;
-        }
-        return R.drawable.ic_empty_bookmark;
     }
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
@@ -241,6 +156,97 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 return R.color.red_300;
             }
             return R.color.gray_500;
+        }
+
+        public int getLikeImageSrc(){
+            if (this.binding.getArticle().getLiked()) {
+                return R.drawable.ic_filled_heart_white;
+            }
+            else {
+                return R.drawable.ic_empty_heart_white;
+            }
+        }
+
+        public int getBookmarkImageSrc() {
+            if (this.binding.getArticle().getBookmarked()) {
+                return R.drawable.ic_filled_bookmark;
+            }
+            else {
+                return R.drawable.ic_empty_bookmark_white;
+            }
+        }
+
+        public void onClickLikeIcon(View v){
+            new Thread(){
+                @Override
+                public void run() {
+                    Article article = ArticleViewHolder.this.binding.getArticle();
+                    try{
+                        likeArticleRepository.toggleLikeArticle(new LikeArticle(article.getId()));
+                        boolean liked = article.getLiked();
+                        if(liked){
+                            article.setLiked(false);
+                            article.setLikeArticleCount(article.getLikeArticleCount() - 1);
+                        } else{
+                            article.setLiked(true);
+                            article.setLikeArticleCount(article.getLikeArticleCount() + 1);
+                        }
+                        // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.articleItemLikeIcon.setImageResource(getLikeImageSrc());
+                            }
+                        });
+                    } catch (LikeArticleRepository.BadRequestException e){
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        }
+
+        public void onClickBookmarkIcon(View v){
+            new Thread(){
+                @Override
+                public void run() {
+                    Article article = ArticleViewHolder.this.binding.getArticle();
+
+                    try{
+                        bookmarkArticleRepository.toggleBookmarkArticle(new BookmarkArticle(article.getId()));
+                        boolean bookmarked = article.getBookmarked();
+                        if(bookmarked){
+                            article.setBookmarked(false);
+                            article.setBookmarkArticleCount(article.getBookmarkArticleCount() - 1);
+                        } else{
+                            article.setBookmarked(true);
+                            article.setBookmarkArticleCount(article.getBookmarkArticleCount() + 1);
+                        }
+                        // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.articleItemBookmarkIcon.setImageResource(getBookmarkImageSrc());
+                            }
+                        });
+                    } catch (BookmarkArticleRepository.BadRequestException e){
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
         }
     }
 }

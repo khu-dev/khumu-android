@@ -3,6 +3,7 @@ package com.khumu.android.feed;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
     private SingleBoardFeedFragment feedFragment;
     private Board board;
     private Toolbar toolbar;
+    private ImageView backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,12 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         toolbar = findViewById(R.id.toolbar);
-        ((TextView)toolbar.findViewById(R.id.toolbar_subtitle))
+        ((TextView)toolbar.findViewById(R.id.toolbar_title))
                 .setText(board.getDisplayName());
+
+        backButton = findViewById(R.id.back_iv);
+        backButton.setOnClickListener(v -> {
+            SingleBoardFeedActivity.this.finish();
+        });
     }
 }
