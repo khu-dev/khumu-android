@@ -46,11 +46,9 @@ public class SingleBoardFeedFragment extends BaseFeedFragment {
     @Inject
     public ArticleRepository articleRepository;
     private LayoutFeedBinding layoutFeedBinding;
-    private Board board;
 
-    public SingleBoardFeedFragment(Board board){
-        KhumuApplication.container.inject(this);
-        this.board = board;
+    public SingleBoardFeedFragment() {
+
     }
 
     @Override
@@ -60,19 +58,13 @@ public class SingleBoardFeedFragment extends BaseFeedFragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         KhumuApplication.container.inject(this);
-        generateFeedViewModel();
-        this.feedViewModel.ListArticles();
+        provideFeedViewModel();
+        feedViewModel.ListArticles();
     }
 
     @Override
-    protected void generateFeedViewModel() {
-        this.feedViewModel = new ViewModelProvider(this.getActivity(), new ViewModelProvider.Factory(){
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new FeedViewModel(articleRepository, board);
-            }
-        }).get(FeedViewModel.class);
+    protected void provideFeedViewModel() {
+        this.feedViewModel = new ViewModelProvider(this.getActivity()).get(FeedViewModel.class);
     }
 
     @Override

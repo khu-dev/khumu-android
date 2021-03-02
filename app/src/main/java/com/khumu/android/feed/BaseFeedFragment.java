@@ -32,7 +32,7 @@ public abstract class BaseFeedFragment extends Fragment {
     }
 
     // 자식들은 꼭 feedViewModel을 초기화해야한다.
-    abstract protected void generateFeedViewModel();
+    abstract protected void provideFeedViewModel();
 
     @BindingAdapter("article_list")
     public static void bindItem(RecyclerView recyclerView, LiveData articleList){

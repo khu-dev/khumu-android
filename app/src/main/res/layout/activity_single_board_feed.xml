@@ -20,14 +20,24 @@
     </include>
 
 <!-- 이 곳에 feed fragment가 위치하게 되는데, 인자를 전달해야하기 때문에 xml에서 직접 생성하지는 않는다.-->
-    <androidx.fragment.app.FragmentContainerView
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:paddingTop="12dp"-->
+<!--        android:id="@+id/single_board_articles_fragment_container"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        />-->
+    <fragment
+        android:name="com.khumu.android.feed.SingleBoardFeedFragment"
         android:paddingTop="12dp"
-        android:id="@+id/single_board_articles_fragment_container"
+        android:id="@+id/single_board_articles_fragment"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="0dp"></fragment>
+    </androidx.constraintlayout.widget.ConstraintLayout>

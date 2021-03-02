@@ -57,12 +57,12 @@ public class TabFeedFragment extends BaseFeedFragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         KhumuApplication.container.inject(this);
-        generateFeedViewModel();
+        provideFeedViewModel();
         this.feedViewModel.ListBoards(null, true);
     }
 
     @Override
-    protected void generateFeedViewModel() {
+    protected void provideFeedViewModel() {
         this.feedViewModel = new ViewModelProvider(getActivity(), new ViewModelProvider.Factory(){
             @NonNull
             @Override
