@@ -1,95 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--article detail activity에서 대댓글에 대한 RecyclerView 에서
 이용되는 대댓글 item-->
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/wrapper_comment_item_content"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/wrapper_comment_item"
-    android:orientation="horizontal"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:layout_marginTop="0dp"
+    android:orientation="vertical"
+    android:layout_marginTop="7dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
-        android:id="@+id/reply_arrow"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:src="@drawable/ic_reply_arrow"/>
-
+        android:id="@+id/reply_item_like_icon"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/ic_empty_heart"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/wrapper_reply_item_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/wrapper_reply_item_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="22dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="6dp"
+        android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/round_filled_light_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/reply_item_like_icon"
+        android:orientation="vertical"
+        android:background="@drawable/background_reply_body"
         >
-        <TextView
+        <ImageView
+            android:id="@+id/reply_more_option_icon"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/reply_item_created_at_tv"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:id="@+id/reply_item_author_nickname_tv"
-            android:textColor="@color/gray_500"
-            android:text="이것은 대댓글 작성자"
-            android:textSize="12dp"/>
+            android:src="@drawable/ic_more_options"
+            android:layout_width="10dp"
+            android:layout_height="10dp"/>
         <TextView
             android:id="@+id/reply_item_created_at_tv"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/reply_more_option_icon"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:textColor="@color/gray_500"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/red_500"
             android:text="방금 전"
-            android:textSize="12dp"/>
+            android:textSize="9dp"/>
+        <TextView
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:id="@+id/reply_item_author_nickname_tv"
+            android:textColor="@color/red_500"
+            android:text="이것은 대댓글 작성자"
+            android:textSize="10dp"/>
         <TextView
             android:id="@+id/reply_item_content_tv"
             app:layout_constraintTop_toBottomOf="@+id/reply_item_author_nickname_tv"
-            app:layout_constraintRight_toLeftOf="@+id/reply_more_option_icon"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="3dp"
+            android:paddingTop="7dp"
             android:paddingBottom="3dp"
-            android:paddingRight="3dp"
-            android:textColor="@color/gray_700"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
+            android:gravity="right"
+            android:textColor="@color/red_500"
             android:text="이것은 코멘트 내용"
-            android:textSize="@dimen/default_font_size"/>
+            android:textSize="14dp"/>
         <ImageView
-            android:id="@+id/reply_more_option_icon"
-            app:layout_constraintTop_toBottomOf="@id/reply_item_author_nickname_tv"
-            app:layout_constraintRight_toRightOf="parent"
-            android:src="@drawable/ic_more_options"
-            android:layout_width="20dp"
-            android:layout_height="20dp"/>
-        <ImageView
-            android:id="@+id/reply_item_like_icon"
+            android:id="@+id/reply_item_like_count_icon"
             app:layout_constraintTop_toBottomOf="@id/reply_item_content_tv"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="@dimen/default_icon_size"
-            android:layout_height="@dimen/default_icon_size"
+            app:layout_constraintRight_toLeftOf="@+id/comment_item_like_count_tv"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:src="@drawable/ic_empty_heart"
             android:layout_marginRight="3dp"/>
         <TextView
             android:id="@+id/reply_item_like_count_tv"
             app:layout_constraintTop_toBottomOf="@+id/reply_item_content_tv"
-            app:layout_constraintLeft_toRightOf="@+id/reply_item_like_icon"
+            app:layout_constraintLeft_toRightOf="@+id/reply_item_like_count_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_marginLeft="3dp"
-            android:textSize="12dp"
+            android:textSize="9dp"
+            android:textColor="@color/red_500"
             android:text="6"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
