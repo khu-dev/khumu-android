@@ -16,10 +16,10 @@ import retrofit2.http.Query;
 
 public interface ArticleService {
     @GET("articles")
-    Call<ArticleListResponse> getArticles(@Query("page") String page);
+    Call<ArticleListResponse> getArticles(@Query("page") int page);
 
     @GET("articles")
-    Call<ArticleListResponse> getArticles(@Query("page") String page, @Query("board") String board);
+    Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("page") int page);
 
     @POST("articles")
     Call<Article> createArticle(@Header("Content-Type") String contentType, @Body Article article);

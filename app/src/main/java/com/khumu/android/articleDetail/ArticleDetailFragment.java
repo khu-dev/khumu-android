@@ -36,7 +36,6 @@ import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.articleWrite.ArticleWriteViewModel;
 import com.khumu.android.data.Article;
 import com.khumu.android.databinding.FragmentArticleDetailBinding;
-import com.khumu.android.databinding.FragmentTabFeedBinding;
 import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;

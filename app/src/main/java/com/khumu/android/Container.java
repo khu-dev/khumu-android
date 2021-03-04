@@ -1,15 +1,15 @@
 package com.khumu.android;
 
 import com.khumu.android.articleDetail.ArticleDetailFragment;
-import com.khumu.android.articleDetail.CommentViewModel;
 import com.khumu.android.articleDetail.CommentAdapter;
 import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.feed.ArticleAdapter;
 import com.khumu.android.feed.BaseFeedFragment;
+import com.khumu.android.feed.FollowingBoardAdapter;
+import com.khumu.android.feed.MyFeedFragment;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedFragment;
-import com.khumu.android.feed.TabFeedFragment;
 import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.myPage.MyPageFragment;
@@ -52,9 +52,10 @@ public interface Container {
     void inject(ReplyAdapter replyAdapter);
     void inject(CommentAdapter commentAdapter);
     void inject(ArticleAdapter articleAdapter);
+    void inject(FollowingBoardAdapter followingBoardAdapter);
 
     void inject(BaseFeedFragment feedFragment);
-    void inject(TabFeedFragment feedFragment);
+    void inject(MyFeedFragment feedFragment);
     void inject(SingleBoardFeedFragment feedFragment);
     void inject(ArticleDetailFragment articleDetailFragment);
     void inject(HomeFragment homeFragment);

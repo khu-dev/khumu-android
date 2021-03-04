@@ -42,10 +42,10 @@ public class ArticleRepository {
         // ArticleService에서 Articles들을 가져올 것이므로 getArticles와 파라미터로 토큰과 현재 페이지의 쿼리를 넘긴다.
         ArticleListResponse respString = new ArticleListResponse();
         if (board == null) {
-            Call<ArticleListResponse> call = service.getArticles(String.valueOf(page));
+            Call<ArticleListResponse> call = service.getArticles(page);
             respString = call.execute().body();
         } else {
-            Call<ArticleListResponse> call = service.getArticles(String.valueOf(page), board);
+            Call<ArticleListResponse> call = service.getArticles(board, page);
             respString = call.execute().body();
         }
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다

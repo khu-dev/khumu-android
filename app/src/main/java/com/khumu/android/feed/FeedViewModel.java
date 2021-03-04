@@ -15,22 +15,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dagger.Module;
+import lombok.Getter;
+import lombok.Setter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
+import com.khumu.android.data.rest.ArticleListResponse;
+import com.khumu.android.data.rest.BoardListResponse;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
+import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.retrofitInterface.BoardService;
 
 import org.json.JSONException;
 
+@Getter
+@Setter
 @Module
 public class FeedViewModel extends ViewModel {
     private final static String TAG = "FeedViewModel";
     public String debuggingMessage = "debug";
-    private BoardRepository boardRepository;
-    private ArticleRepository articleRepository;
+    private BoardService boardService;
+    private ArticleService articleService;
 
-    private Board recentMyBoard;
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
     private MutableLiveData<Board> currentBoard;
@@ -40,28 +50,23 @@ public class FeedViewModel extends ViewModel {
      *
      * 후에는 특정 게시판에 대한 피드도 제공해야하고, Board뿐만 아니라 특정 Tag에 대한 피드 기능도 추가되어야할 것이다.
     */
-    public FeedViewModel(ArticleRepository articleRepository, Board board){
+    public FeedViewModel(ArticleService articleService, Board board){
         Log.d(TAG, "FeedViewModel: (ArticleRepository articleRepository, Board board)");
-        this.articleRepository = articleRepository;
+        this.articleService = articleService;
         this.currentBoard = new MutableLiveData<>(board);
-
         articles = new MutableLiveData<>(new ArrayList<Article>());
     }
 
     /**
      * 여러 Board에 대한 feed를 이용하는 경우 board를 null로 둔다. TabFeedFragment에서 Board List를 하기에 사용된다.
-     * (WIP) 내가 Follow한 게시판을 조회하고, 전체 게시물도 조회하도록한다. (? 전에 써놓은 건데 무슨 소리지)
      */
-    public FeedViewModel(BoardRepository boardRepository, ArticleRepository articleRepository) {
+    public FeedViewModel(BoardService boardService, ArticleService articleService) {
         Log.d(TAG, "FeedViewModel: (BoardRepository boardRepository, ArticleRepository articleRepository)");
-        this.boardRepository = boardRepository;
-        this.articleRepository = articleRepository;
-        recentMyBoard = new Board("following", null,"Following","내가 팔로우한 게시판들로 이루어진 피드입니다.", false, null, null);
-        currentBoard = new MutableLiveData<>(recentMyBoard);
-        List<Board> tmpBoards = new ArrayList<Board>();
-        tmpBoards.add(recentMyBoard);
-        boards = new MutableLiveData<>(tmpBoards);
+        this.boardService = boardService;
+        this.articleService = articleService;
 
+        boards = new MutableLiveData<>(new ArrayList<Board>());
+        currentBoard = new MutableLiveData<>(null);
         articles = new MutableLiveData<>(new ArrayList<Article>());
     }
 
@@ -69,108 +74,58 @@ public class FeedViewModel extends ViewModel {
         this.articles.getValue().clear();
     }
 
-    public LiveData<List<Article>> getLiveDataArticles(){
-        return articles;
-    }
-
-    public LiveData<List<Board>> getLiveDataBoards(){
-        return boards;
-    }
-
-    public LiveData<Board> getLiveDataCurrentBoard(){
-        return currentBoard;
-    }
-
-    public Board getCurrentBoard() {
-        return currentBoard.getValue();
-    }
-
-    public void setCurrentBoard(Board board) {
-        // post로 하면 setCurrentBoard 후에 List 할 때 currentBoard가 최신화가 안되어있을 수 있음.
-        currentBoard.setValue(board);
-    }
-
-    // board가 변경되면 그에 맞게 article도 list
-    public void setCurrentBoard(String boardDisplayName) {
-        for(Board b: boards.getValue()){
-            if(b.getDisplayName().equals(boardDisplayName)){
-                currentBoard.setValue(b);
-            }
-        }
-
-        ListArticles();
-    }
-
     // 특정 카테고리 혹은 follow 중인 board를 조회할 수 있음.
-    public void ListBoards(String category, Boolean followed){
+    public void listBoards(String category, Boolean followed) {
         Log.d(TAG, "ListBoards: ");
-        new Thread(){
+        Call<BoardListResponse> call = boardService.getFollowingBoards(true);
+        call.enqueue(new Callback<BoardListResponse>() {
             @Override
-            public void run() {
-                super.run();
-                try {
-                    List<Board> _boards = new ArrayList<>();
-                    // ListBoards API에서는 최근 내가 팔로우한 피드를 보여주지 않는다.
-                    // 따라서 수동으로 추가해준다.
-                    _boards.add(recentMyBoard);
-                    _boards.addAll(boardRepository.ListBoards(category, followed));
-                    boards.postValue(_boards);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
+                if (response.isSuccessful()) {
+                    boards.postValue(response.body().getData());
+                } else {
+                    Log.e(TAG, "onResponse: " + response.errorBody());
                 }
             }
-        }.start();
+
+            @Override
+            public void onFailure(Call<BoardListResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    // 모든 Boards를 list 하여 저장
-    public void ListBoards() {
-        ListBoards(null, null);
+    // DB 상의 모든 Boards를 list 하여 저장
+    public void listBoards() {
+        listBoards(null, null);
     }
 
     // Articles를 list하여 저장
-    public void ListArticles(){
-        Log.d(TAG, "ListArticles: " + currentBoard.getValue().getName());
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    List<Article> _articles = articleRepository.ListArticle(currentBoard.getValue().getName(), 1);
-                    articles.postValue(_articles);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (JSONException jsonException) {
-                    jsonException.printStackTrace();
-                }
-            }
-        }.start();
-    }
+    public void listArticles(){
+        String boardName = "following";
 
-    // 기존에 존재하던 Articles에 추가. 미완성.
-    public void ListExtraArticles(String board, int page){
-        new Thread(){
+        // following이란느 논리적 게시판이 아니라 특정 게시판을 지칭.
+        if (currentBoard.getValue() != null) {
+            boardName = currentBoard.getValue().getName();
+        }
+
+        Call<ArticleListResponse> call = articleService.getArticles(boardName, 1);
+
+        call.enqueue(new Callback<ArticleListResponse>() {
             @Override
-            public void run() {
-                try {
-                    List<Article> originalArticles = articles.getValue();
-                    for (Article newArticle: articleRepository.ListArticle(board, page)){
-                        // 기존에 없던 새로운 article인지 확인
-                        List<Article> duplicatedArticles = originalArticles.stream().filter(item->{
-                            return (newArticle.getId()==(item.getId()));
-                        }).collect(Collectors.toList());
-                        if(duplicatedArticles.size() == 0){
-                            originalArticles.add(newArticle);
-                        }
-                        else{
-                        }
-                    }
-                    articles.postValue(originalArticles);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
+                if (response.isSuccessful()) {
+                    articles.postValue(response.body().getData());
+                } else {
+                    Log.e(TAG, "onResponse: " + response.errorBody());
                 }
             }
-        }.start();
+
+            @Override
+            public void onFailure(Call<ArticleListResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
 }

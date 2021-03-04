@@ -10,10 +10,10 @@ import retrofit2.http.Query;
 public interface BoardService {
 
     @GET("boards")
-    Call<BoardListResponse> getBoardsByCategory (@Header("Authorization") String authorization, @Query("category") String category);
+    Call<BoardListResponse> getBoardsByCategory (@Query("category") String category);
 
     @GET("boards")
-    Call<BoardListResponse> getFollowingBoards (@Header("Authorization") String authorization, @Query("followed") String followed);
+    Call<BoardListResponse> getFollowingBoards (@Query("followed") boolean followed);
 
     @GET("boards")
     Call<BoardListResponse> getBoards();

@@ -9,6 +9,9 @@ import com.khumu.android.data.Article;
 import java.io.Serializable;
 import java.util.List;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class Board implements Serializable {
     public String name;
     public String category;

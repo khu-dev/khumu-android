@@ -4,40 +4,21 @@
  */
 package com.khumu.android.feed;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.articleWrite.ArticleWriteActivity;
-import com.khumu.android.data.Article;
-import com.khumu.android.data.Board;
-import com.khumu.android.databinding.FragmentTabFeedBinding;
 import com.khumu.android.databinding.LayoutFeedBinding;
 import com.khumu.android.repository.ArticleRepository;
-import com.khumu.android.repository.BoardRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -59,7 +40,7 @@ public class SingleBoardFeedFragment extends BaseFeedFragment {
         Log.d(TAG, "onCreate: ");
         KhumuApplication.container.inject(this);
         provideFeedViewModel();
-        feedViewModel.ListArticles();
+        feedViewModel.listArticles();
     }
 
     @Override

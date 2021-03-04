@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_boards"
-        android:name="com.khumu.android.feed.TabFeedFragment"
+        android:name="com.khumu.android.feed.MyFeedFragment"
         android:label="Board"
         tools:layout="@layout/layout_feed" >
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_feed"
-        android:name="com.khumu.android.feed.TabFeedFragment"
+        android:name="com.khumu.android.feed.MyFeedFragment"
         android:label="Board"
         tools:layout="@layout/layout_feed" >
         <action

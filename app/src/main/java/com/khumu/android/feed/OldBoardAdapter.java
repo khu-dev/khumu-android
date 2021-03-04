@@ -1,20 +1,14 @@
-//지금은 필요 없어졌는데, 나중에 Board 관련 작업을 하면 참고하게 될 지도 모름.
-
 //package com.khumu.android.feed;
 //
-//import android.content.Context;
 //import android.view.LayoutInflater;
 //import android.view.View;
 //import android.view.ViewGroup;
 //import android.widget.ArrayAdapter;
 //import android.widget.TextView;
 //
-//import androidx.annotation.NonNull;
-//
-//import com.khumu.android.KhumuApplication;
 //import com.khumu.android.R;
 //import com.khumu.android.data.Board;
-//import com.khumu.android.repository.ArticleRepository;
+//import com.khumu.android.repository.BoardRepository;
 //
 //import java.util.List;
 //
@@ -23,20 +17,25 @@
 //// Adapter는 외부의 UI는 최대한 모르고싶다.
 //// data 조작을 하고싶은 경우 ViewModel의 데이터만을 조작하며
 //// 그 내용을 View 계층에서 이용해 보여준다.
-//public class BoardAdapter extends ArrayAdapter<Board> {
-//    private final static String TAG = "BoardAdapter";
-//    public List<Board> boards;
+//public class OldBoardAdapter extends ArrayAdapter<Board> {
+////    private final static String TAG = "BoardAdapter";
+//    public List<Board> boardList;
 //
-//    @Inject public ArticleRepository articleRepository;
-//    private FeedViewModel feedViewModel;
+//    @Inject
+//    public BoardRepository boardRepository;
 //
-//    public BoardAdapter(@NonNull Context context, int resource, List<Board> boards, FeedViewModel feedViewModel) {
-//        // 세 번째 인자가 이 adpater의 collection을 의미
-//        super(context, resource, boards);
-//        KhumuApplication.container.inject(this);
-//        this.boards = boards;
-//        this.feedViewModel = feedViewModel;
+//    public OldBoardAdapter(List<Board> boardList) {
+//        this.boardList = boardList;
 //    }
+//    // private FeedViewModel feedViewModel;
+//
+////    public BoardAdapter(@NonNull Context context, int resource, List<Board> boards) {
+////        // 세 번째 인자가 이 adpater의 collection을 의미
+////        super(context, resource, boards);
+////        KhumuApplication.container.inject(this);
+////        this.boards = boards;
+////        this.feedViewModel = feedViewModel;
+////    }
 //
 //    @Override
 //    public long getItemId(int position) {
@@ -78,10 +77,10 @@
 //            new Thread(){
 //                @Override
 //                public void run() {
-//                    BoardAdapter.this.feedViewModel.ListArticles();
+//                    OldBoardAdapter.this.feedViewModel.ListArticles();
 //                }
 //            }.start();
-//            BoardAdapter.this.feedViewModel.setCurrentBoard(board);
+//            OldBoardAdapter.this.feedViewModel.setCurrentBoard(board);
 //        }
 //    }
 //}

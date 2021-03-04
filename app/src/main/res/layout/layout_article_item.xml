@@ -89,7 +89,8 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:text="@{article.title, default=title}"
-                    android:textSize="@dimen/title_font_size">
+                    android:textSize="@dimen/title_font_size"
+                    android:textStyle="bold">
                 </TextView>
 
                 <TextView

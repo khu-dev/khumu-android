@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Feed의 RecyclerView에서 하나의 Article Item을 나타내는 layout-->
+<layout>
+    <data>
+        <variable
+            name="followingBoard"
+            type="com.khumu.android.data.Board" />
+        <variable
+            name="viewHolder"
+            type="com.khumu.android.feed.FollowingBoardAdapter.FollowingBoardViewHolder" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:onClick="@{viewHolder.onClick}"
+        >
+        <TextView
+            android:id="@+id/following_board_name_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/gray_300"
+            android:text="@{followingBoard.displayName, default=`팔로우 중인 게시판 1`}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

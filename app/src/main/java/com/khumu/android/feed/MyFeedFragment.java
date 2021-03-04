@@ -19,37 +19,52 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
-import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
-import com.khumu.android.databinding.FragmentTabFeedBinding;
+import com.khumu.android.databinding.FragmentMyFeedBinding;
 import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.R;
+import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.retrofitInterface.BoardService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class TabFeedFragment extends BaseFeedFragment {
+public class MyFeedFragment extends BaseFeedFragment {
     private final static String TAG = "TabFeedFragment";
-    @Inject public BoardRepository boardRepository;
-    @Inject public ArticleRepository articleRepository;
+    @Inject public BoardService boardService;
+    @Inject public ArticleService articleService;
 
-    protected TabLayout tabLayout;
     protected Button articleWriteBTN;
 
+    private MaterialToolbar toolbar;
+
+    @BindingAdapter("following_boards")
+    public static void bindFollowingBoards(RecyclerView recyclerView, LiveData<List<Board>> followingBoards){
+        if (recyclerView.getAdapter() != null) {
+            FollowingBoardAdapter adapter = (FollowingBoardAdapter) recyclerView.getAdapter();
+            adapter.boardList.clear();
+            adapter.boardList.addAll((List<Board>) followingBoards.getValue());
+            adapter.notifyDataSetChanged();
+        }
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -58,7 +73,8 @@ public class TabFeedFragment extends BaseFeedFragment {
         Log.d(TAG, "onCreate: ");
         KhumuApplication.container.inject(this);
         provideFeedViewModel();
-        this.feedViewModel.ListBoards(null, true);
+        this.feedViewModel.listBoards(null, true);
+        this.feedViewModel.listArticles();
     }
 
     @Override
@@ -67,7 +83,7 @@ public class TabFeedFragment extends BaseFeedFragment {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new FeedViewModel(boardRepository, articleRepository);
+                return (T) new FeedViewModel(boardService, articleService);
             }
         }).get(FeedViewModel.class);
     }
@@ -80,17 +96,24 @@ public class TabFeedFragment extends BaseFeedFragment {
         // homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
-        FragmentTabFeedBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tab_feed, container, false);
+        FragmentMyFeedBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_feed, container, false);
         View root = binding.getRoot();
         // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
         binding.setFeedViewModel(this.feedViewModel);
-        binding.setLifecycleOwner(this);
+        // viewModel owner도 activity로 설정해놨으니
+        // activity를 lifecycler owner로 하면 더 좋을 것 같음.
+        binding.setLifecycleOwner(this.getActivity());
+
+        binding.feedFollowingBoardsRecyclerView.setAdapter(new FollowingBoardAdapter(new ArrayList<Board>(), this.getContext()));
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        toolbar = view.findViewById(R.id.feed_toolbar);
+        TextView toolbarTitleTV = toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitleTV.setText("나의 피드");
     }
 
     @Override
@@ -103,47 +126,46 @@ public class TabFeedFragment extends BaseFeedFragment {
     @Override
     protected void findViews(View root){
         super.findViews(root);
-        tabLayout = root.findViewById(R.id.tab_feed_tab_layout);
         articleWriteBTN = root.findViewById(R.id.tab_feed_article_write_btn);
     }
 
     @Override
     protected void setEventListeners(View root){
         super.setEventListeners(root);
-        feedViewModel.getLiveDataBoards().observe(getViewLifecycleOwner(), new Observer<List<Board>>() {
-            @Override
-            public void onChanged(List<Board> changedSet) {
-                // 처음엔 나의 피드만 있다가 내가 follow한 게시물들이 추가됨.
-                // changedSet과 tab list를 동일하게 하려면 한 번 remove해줘야함.
-                tabLayout.removeAllTabs();
-                for(Board b: changedSet){
-                    tabLayout.addTab(
-                            tabLayout.newTab().setText(b.getDisplayName())
-                    );
-                }
-            }
-        });
-
-        // 지금은 초기에 Following 탭이 여러번 선택되어서 깜빡깜빡거리는 게 심하고 그게 아니어도 깜빡거리기는 하는 듯...?
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                // TODO : tab의 상태가 선택 상태로 변경.
-                Log.d(TAG, "onTabSelected: " + tab.getText());
-                articleRecyclerView.smoothScrollToPosition(0);
-                feedViewModel.setCurrentBoard(String.valueOf(tab.getText()));
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // TODO : tab의 상태가 선택되지 않음으로 변경.
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                // TODO : 이미 선택된 tab이 다시
-            }
-        });
+//        feedViewModel.getLiveDataBoards().observe(getViewLifecycleOwner(), new Observer<List<Board>>() {
+//            @Override
+//            public void onChanged(List<Board> changedSet) {
+//                // 처음엔 나의 피드만 있다가 내가 follow한 게시물들이 추가됨.
+//                // changedSet과 tab list를 동일하게 하려면 한 번 remove해줘야함.
+//                tabLayout.removeAllTabs();
+//                for(Board b: changedSet){
+//                    tabLayout.addTab(
+//                            tabLayout.newTab().setText(b.getDisplayName())
+//                    );
+//                }
+//            }
+//        });
+//
+//        // 지금은 초기에 Following 탭이 여러번 선택되어서 깜빡깜빡거리는 게 심하고 그게 아니어도 깜빡거리기는 하는 듯...?
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                // TODO : tab의 상태가 선택 상태로 변경.
+//                Log.d(TAG, "onTabSelected: " + tab.getText());
+//                articleRecyclerView.smoothScrollToPosition(0);
+//                feedViewModel.setCurrentBoard(String.valueOf(tab.getText()));
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//                // TODO : tab의 상태가 선택되지 않음으로 변경.
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//                // TODO : 이미 선택된 tab이 다시
+//            }
+//        });
         articleWriteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
