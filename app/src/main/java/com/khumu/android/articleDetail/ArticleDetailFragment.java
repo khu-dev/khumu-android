@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.text.TextUtils.isEmpty;
 import static com.khumu.android.KhumuApplication.container;
 
 public class ArticleDetailFragment extends Fragment implements ArticleDetailActivity.onKeyBackPressedListener {
@@ -57,7 +60,6 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
     @Inject
     public CommentService commentService;
     private FragmentArticleDetailBinding binding;
-
     private Intent intent;
     private CommentViewModel commentViewModel;
     private Article article;
@@ -157,7 +159,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             public void onClick(View v) {
                 SimpleComment simpleComment = new SimpleComment(
                         article.getId(),
-                        writeCommentContentET.getText().toString()
+                        writeCommentContentET.getText().toString().trim()
                 );
                 if (commentAnonymousCKB.isChecked()){
                     simpleComment.setKind("anonymous");
@@ -170,13 +172,17 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
                         simpleComment.setParent(null);
                     else {
                         simpleComment.setParent(commentToWrite.getId());
-                        System.out.printf("commentToWrite : " + commentToWrite.getId());
+                        //System.out.printf("commentToWrite : " + commentToWrite.getId());
+                    }
+                    if (TextUtils.isEmpty(simpleComment.getContent())) {
+                        throw new Exception("내용을 입력하세요");
                     }
                     commentViewModel.CreateComment(simpleComment);
                     // 댓글 작성 후 작성창 비우기
                     writeCommentContentET.setText("");
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

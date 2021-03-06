@@ -3,13 +3,13 @@ package com.khumu.android.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class Comment {
-    @Expose
     private int id;
     @SerializedName("article")
-    @Expose
     private int articleID;
     @Expose
     private SimpleUser author;
@@ -17,20 +17,15 @@ public class Comment {
     private String content;
     @Expose
     private Integer parent;
-    @Expose
     private String kind;
     @Expose
     private ArrayList<Comment> children;
     @SerializedName("like_comment_count")
-    @Expose
     private int likeCommentCount;
-    @Expose
     private boolean liked;
     @SerializedName("comment_created_at")
-    @Expose
     private String commentCreatedAt;
     @SerializedName("is_author")
-    @Expose
     private boolean isAuthor;
 
     public Comment () {}
