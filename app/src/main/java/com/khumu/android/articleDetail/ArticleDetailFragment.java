@@ -125,7 +125,13 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         this.binding.layoutArticleContent.articleDetailImageRecyclerView.setAdapter(new ImageAdapter(this.article.getImages(), this.getContext()));
 
         Intent intent = getActivity().getIntent();
-        linearLayoutManager = new LinearLayoutManager(view.getContext());
+        linearLayoutManager = new LinearLayoutManager(view.getContext()) {
+            // 댓글만 스크롤되는 것을 막는다
+            @Override
+            public boolean canScrollHorizontally() {
+                return super.canScrollHorizontally();
+            }
+        };
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);

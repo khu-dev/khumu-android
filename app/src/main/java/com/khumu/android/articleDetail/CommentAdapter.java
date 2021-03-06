@@ -111,6 +111,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            // 삭제되기 전에 ListComment되는 것을 막기 위해 쓰레드를 잠시 멈춘다음에 ListComment를 해준다.
                             commentViewModel.DeleteComment(comment.getId());
                             try {
                                 Thread.sleep(1000);
@@ -142,7 +143,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         articleDetailFragment.setCommentToWrite(comment);
-                        articleDetailFragment.setCommentHint("대댓글");
+                        articleDetailFragment.setCommentHint("대댓글을 입력하세요");
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override

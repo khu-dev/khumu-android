@@ -66,18 +66,6 @@ public class CommentViewModel extends ViewModel {
                 t.printStackTrace();
             }
         });
-//                    for (Comment newComment : commentRepository.ListComment(articleID)) {
-//                        // 기존에 없던 새로운 comment인지 확인
-//                        List<Comment> duplicatedComments = originalComments.stream().filter(item->{
-//                            return (newComment.getId() == item.getId());
-//                        }).collect(Collectors.toList());
-//                        if(duplicatedComments.size() == 0) {
-//                            originalComments.add(newComment);
-//                        }
-//                        else{
-//                        }
-//                    }
-//                    comments.postValue(originalComments);
     }
 
     public void CreateComment(SimpleComment comment) throws Exception{
