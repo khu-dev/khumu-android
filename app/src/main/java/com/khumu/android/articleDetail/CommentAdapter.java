@@ -132,7 +132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 else {
                     Toast.makeText(context, "댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
                 }
-                return false;
+                return true;
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +185,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         }
                     }
                 }.start();
-
             }
         });
     }
