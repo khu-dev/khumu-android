@@ -1,20 +1,10 @@
 package com.khumu.android.util;
 //import com.khumu.android.util.Helper;
-import android.content.ContentResolver;
-import android.net.Uri;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-
-import com.khumu.android.retrofitInterface.ArticleService;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.MessageFormat;
-import java.util.Scanner;
 
 import okhttp3.HttpUrl;
 

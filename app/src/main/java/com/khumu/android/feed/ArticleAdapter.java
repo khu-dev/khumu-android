@@ -4,16 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
@@ -24,16 +25,6 @@ import com.khumu.android.databinding.LayoutArticleItemBinding;
 import com.khumu.android.repository.BookmarkArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 
-
-import androidx.annotation.NonNull;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.io.Serializable;
-import java.util.EventListener;
 import java.util.List;
 
 import javax.inject.Inject;

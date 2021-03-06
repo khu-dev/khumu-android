@@ -1,14 +1,8 @@
 package com.khumu.android.repository;
 
-import android.util.Log;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.util.AuthenticationInterceptor;
-import com.khumu.android.util.Util;
 
 import org.json.JSONException;
 
@@ -18,20 +12,18 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import okhttp3.HttpUrl;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import retrofit2.Call;
+
 public class ArticleRepository {
-    private final static String TAG="ArticleRepository";
+    private final static String TAG = "ArticleRepository";
 
     @Inject
     public ArticleService service;
+
     @Inject
-    public ArticleRepository(){}
+    public ArticleRepository() {
+    }
+
     public List<Article> ListArticle() throws IOException, JSONException {
         return ListArticle(null, 1);
     }
@@ -51,9 +43,10 @@ public class ArticleRepository {
         // String으로 받아온 것중 articles에 해당하는 "data" 값만 가져온다
 
         List<Article> articles = new ArrayList<>();
-        if ( respString != null && respString.getData() != null){
+        if (respString != null && respString.getData() != null) {
             articles = respString.getData();
-        };
+        }
+        ;
 
         return articles;
     }

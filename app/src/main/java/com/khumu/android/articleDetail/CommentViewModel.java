@@ -7,19 +7,14 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.CommentListResponse;
-import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.retrofitInterface.CommentService;
-
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;

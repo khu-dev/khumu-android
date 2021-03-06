@@ -4,7 +4,6 @@ import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.CommentListResponse;
 
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

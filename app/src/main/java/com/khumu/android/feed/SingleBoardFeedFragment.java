@@ -24,8 +24,7 @@ import javax.inject.Inject;
 
 public class SingleBoardFeedFragment extends BaseFeedFragment {
     private final static String TAG = "SingleBoardFeedFragment";
-    @Inject
-    public ArticleRepository articleRepository;
+
     private LayoutFeedBinding layoutFeedBinding;
 
     public SingleBoardFeedFragment() {

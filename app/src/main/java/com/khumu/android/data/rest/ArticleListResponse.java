@@ -1,9 +1,10 @@
 package com.khumu.android.data.rest;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.khumu.android.data.Article;
+
+import java.util.List;
 
 public class ArticleListResponse {
 

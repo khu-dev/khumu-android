@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
-import com.khumu.android.data.LikeComment;
 import com.khumu.android.repository.CommentRepository;
 
 import java.util.ArrayList;

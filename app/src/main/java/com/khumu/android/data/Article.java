@@ -1,17 +1,15 @@
 package com.khumu.android.data;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.khumu.android.data.SimpleUser;
-import com.khumu.android.data.Tag;
 
 public class Article implements Serializable {
 
     @SerializedName("id")
-    @Expose
     private Integer id;
     @SerializedName("url")
     @Expose
@@ -24,25 +22,15 @@ public class Article implements Serializable {
     @SerializedName("board_display_name")
     @Expose
     private String boardDisplayName;
-    @SerializedName("title")
-    @Expose
     private String title;
-    @SerializedName("author")
-    @Expose
     private SimpleUser author;
     @SerializedName("is_author")
-    @Expose
     private boolean isAuthor;
-    @SerializedName("kind")
-    @Expose
     private String kind;
-    @SerializedName("content")
-    @Expose
     private String content;
     @SerializedName("tags")
     @Expose
     private List<Tag> tags = null;
-    @SerializedName("images")
     @Expose
     private List<String> images;
     @SerializedName("comment_count")
@@ -51,13 +39,11 @@ public class Article implements Serializable {
     @SerializedName("created_at")
     @Expose
     private String createdAt;
-    @SerializedName("liked")
     @Expose
     private Boolean liked;
     @SerializedName("like_article_count")
     @Expose
     private Integer likeArticleCount;
-    @SerializedName("bookmarked")
     @Expose
     private Boolean bookmarked;
     @SerializedName("bookmark_article_count")

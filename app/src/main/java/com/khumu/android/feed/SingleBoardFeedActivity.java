@@ -7,17 +7,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.LayoutFeedBinding;
-import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.retrofitInterface.ArticleService;
 
 import javax.inject.Inject;
