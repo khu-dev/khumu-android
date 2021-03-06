@@ -59,6 +59,7 @@ public class CommentViewModel extends ViewModel {
                 commentsList.addAll(tempList);
                 //System.out.println(commentsList);
                 comments.postValue(commentsList);
+
             }
 
             @Override

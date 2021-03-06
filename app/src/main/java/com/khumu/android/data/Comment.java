@@ -23,7 +23,7 @@ public class Comment {
     @SerializedName("like_comment_count")
     private int likeCommentCount;
     private boolean liked;
-    @SerializedName("comment_created_at")
+    @SerializedName("created_at")
     private String commentCreatedAt;
     @SerializedName("is_author")
     private boolean isAuthor;
