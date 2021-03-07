@@ -1,19 +1,14 @@
 package com.khumu.android.articleDetail;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Looper;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.data.Comment;
-import com.khumu.android.data.LikeComment;
-import com.khumu.android.data.SimpleComment;
 import com.khumu.android.repository.CommentRepository;
-import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.retrofitInterface.CommentService;
 
 import java.util.ArrayList;
@@ -110,6 +101,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentContentTV.setText(comment.getContent());
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
+        System.out.println("CommentCreatedAt : " + comment.getCommentCreatedAt());
         holder.commentCreatedAtTV.setText(comment.getCommentCreatedAt());
         holder.itemView.setTag(position);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -120,6 +112,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            // 삭제되기 전에 ListComment되는 것을 막기 위해 쓰레드를 잠시 멈춘다음에 ListComment를 해준다.
                             commentViewModel.DeleteComment(comment.getId());
                             try {
                                 Thread.sleep(1000);
@@ -140,7 +133,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 else {
                     Toast.makeText(context, "댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
                 }
-                return false;
+                return true;
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +144,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         articleDetailFragment.setCommentToWrite(comment);
-                        articleDetailFragment.setCommentHint("대댓글");
+                        articleDetailFragment.setCommentHint("대댓글을 입력하세요");
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
@@ -193,7 +186,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         }
                     }
                 }.start();
-
             }
         });
     }

@@ -14,10 +14,10 @@ import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.myPage.MyPageFragment;
 import com.khumu.android.notifications.NotificationActivity;
-import com.khumu.android.repository.ArticleRepository;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
+import com.khumu.android.util.FcmManager;
 import com.khumu.android.util.RetrofitModule;
 
 import javax.inject.Singleton;
@@ -38,7 +38,6 @@ public interface Container {
 
     // provision method
     BoardRepository getBoardRepository();
-    ArticleRepository getArticleRepository();
     LikeArticleRepository getLikeArticleRepository();
     CommentRepository getCommentRepository();
     Retrofit getRetrofit();

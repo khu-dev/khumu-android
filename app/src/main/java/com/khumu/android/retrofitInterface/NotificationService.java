@@ -1,7 +1,6 @@
 package com.khumu.android.retrofitInterface;
 
 import com.khumu.android.data.PushSubscription;
-import com.khumu.android.data.rest.BoardListResponse;
 import com.khumu.android.data.rest.NotificationListResponse;
 import com.khumu.android.data.rest.NotificationReadRequest;
 import com.khumu.android.data.rest.PushSubscriptionResponse;

@@ -9,139 +9,167 @@
             name="viewModel"
             type="com.khumu.android.articleDetail.CommentViewModel" />
     </data>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@drawable/bottom_bordered_white_background"
-        android:paddingTop="@dimen/layout_large_space"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/layout_large_space"
+        android:paddingTop="@dimen/layout_large_space"
         android:paddingRight="@dimen/layout_large_space"
         android:paddingBottom="@dimen/layout_large_space">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="9dp">
+
             <TextView
-                android:id="@+id/article_detail_title_tv"
-                android:layout_width="0dp"
+                android:id="@+id/article_detail_created_at_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="방금 전"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toTopOf="@id/article_detail_author_icon"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:textSize="@dimen/big_title_font_size"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="@{viewModel.article.title, default=제목}">
-            </TextView>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/article_detail_author_icon"
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
-                app:layout_constraintTop_toBottomOf="@id/article_detail_title_tv"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="@dimen/layout_default_space"
                 android:layout_marginBottom="@dimen/layout_default_space"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/ic_my_page"/>
+                android:src="@drawable/ic_my_page"
+                app:layout_constraintBottom_toTopOf="@id/article_detail_title_tv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/article_detail_author_nickname_tv"
+                app:layout_constraintTop_toBottomOf="@id/article_detail_created_at_tv" />
+
             <TextView
                 android:id="@+id/article_detail_author_nickname_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@+id/article_detail_author_icon"
-                app:layout_constraintTop_toBottomOf="@id/article_detail_title_tv"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="@dimen/layout_default_space"
-                android:text="작성자"/>
+
+                android:text="작성자"
+                app:layout_constraintBottom_toTopOf="@id/article_detail_title_tv"
+                app:layout_constraintLeft_toRightOf="@+id/article_detail_author_icon"
+                app:layout_constraintTop_toBottomOf="@id/article_detail_created_at_tv" />
+
+            <TextView
+                android:id="@+id/article_detail_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.article.title, default=제목}"
+                android:textColor="@color/red_500"
+                android:textSize="@dimen/big_title_font_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/article_detail_author_icon"></TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_400"/>
+
         <TextView
             android:id="@+id/article_detail_content_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_large_space"
+            android:layout_marginTop="9dp"
             android:layout_marginBottom="@dimen/layout_large_space"
-            android:text="게시물 내용"/>
+            android:text="게시물 내용"
+            android:textSize="16dp"
+            android:textColor="@color/red_500"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/article_detail_image_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/article_detail_article_tags_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/layout_default_space"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:id="@+id/article_detail_bottom_info_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toTopOf="parent">
+
                 <ImageView
                     android:id="@+id/article_detail_like_icon"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
-                    android:src="@drawable/ic_empty_heart"
                     android:layout_marginRight="3dp"
-                    ></ImageView>
+                    android:src="@drawable/ic_empty_heart"></ImageView>
+
                 <TextView
                     android:id="@+id/article_detail_like_article_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:textSize="@dimen/meta_font_size"
-                    android:text="100"/>
+                    android:text="100"
+                    android:textSize="@dimen/meta_font_size" />
+
                 <ImageView
                     android:id="@+id/article_detail_comment_icon"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
                     android:layout_marginRight="3dp"
-                    android:src="@drawable/ic_message"
-                    ></ImageView>
+                    android:src="@drawable/ic_message"></ImageView>
+
                 <TextView
                     android:id="@+id/article_detail_comment_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:textSize="@dimen/meta_font_size"
-                    android:text="100"/>
+                    android:text="100"
+                    android:textSize="@dimen/meta_font_size" />
+
                 <ImageView
                     android:id="@+id/article_detail_bookmark_icon"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
                     android:layout_marginRight="3dp"
-                    android:src="@drawable/ic_empty_bookmark"
-                    ></ImageView>
+                    android:src="@drawable/ic_empty_bookmark"></ImageView>
+
                 <TextView
                     android:id="@+id/article_detail_bookmark_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:textSize="@dimen/meta_font_size"
-                    android:text="100"/>
-                <TextView
-                    android:id="@+id/article_detail_created_at_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/meta_font_size"
-                    android:text="방금 전"/>
+                    android:text="100"
+                    android:textSize="@dimen/meta_font_size" />
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/article_detail_setting_icon"
                 android:layout_width="@dimen/default_icon_size"
                 android:layout_height="@dimen/default_icon_size"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{fragment::onClickArticleSettingMenu}"
+                android:src="@drawable/ic_more_dots"
                 android:visibility="@{fragment.settingVisibility}"
-                android:onClick="@{fragment.onClickArticleSettingMenu}"
-                android:src="@drawable/ic_more_dots"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

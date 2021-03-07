@@ -30,15 +30,12 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyFeedBinding;
-import com.khumu.android.repository.ArticleRepository;
-import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.R;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.BoardService;
 

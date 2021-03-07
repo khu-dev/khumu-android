@@ -2,7 +2,6 @@ package com.khumu.android.util;
 
 import android.util.Log;
 
-import com.khumu.android.data.Notification;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.BoardService;
 import com.khumu.android.retrofitInterface.CommentService;
@@ -10,10 +9,8 @@ import com.khumu.android.retrofitInterface.ImageService;
 import com.khumu.android.retrofitInterface.NotificationService;
 import com.khumu.android.retrofitInterface.TokenService;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;

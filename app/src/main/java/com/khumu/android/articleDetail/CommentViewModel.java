@@ -7,19 +7,14 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.CommentListResponse;
-import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.retrofitInterface.CommentService;
-
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +59,7 @@ public class CommentViewModel extends ViewModel {
                 commentsList.addAll(tempList);
                 //System.out.println(commentsList);
                 comments.postValue(commentsList);
+
             }
 
             @Override
@@ -71,18 +67,6 @@ public class CommentViewModel extends ViewModel {
                 t.printStackTrace();
             }
         });
-//                    for (Comment newComment : commentRepository.ListComment(articleID)) {
-//                        // 기존에 없던 새로운 comment인지 확인
-//                        List<Comment> duplicatedComments = originalComments.stream().filter(item->{
-//                            return (newComment.getId() == item.getId());
-//                        }).collect(Collectors.toList());
-//                        if(duplicatedComments.size() == 0) {
-//                            originalComments.add(newComment);
-//                        }
-//                        else{
-//                        }
-//                    }
-//                    comments.postValue(originalComments);
     }
 
     public void CreateComment(SimpleComment comment) throws Exception{

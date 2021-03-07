@@ -32,49 +32,28 @@
 
 package com.khumu.android.notifications;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.MainActivity;
 import com.khumu.android.R;
-import com.khumu.android.data.KhumuJWT;
 import com.khumu.android.data.Notification;
-import com.khumu.android.data.Tag;
-import com.khumu.android.data.rest.JWTRequest;
-import com.khumu.android.data.rest.JWTResponse;
 import com.khumu.android.databinding.ActivityNotificationsBinding;
-import com.khumu.android.myPage.ArticleTagAdapter;
-import com.khumu.android.myPage.MyPageViewModel;
 import com.khumu.android.retrofitInterface.NotificationService;
-import com.khumu.android.retrofitInterface.TokenService;
-import com.khumu.android.signUp.SignUpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NotificationActivity extends AppCompatActivity {
     final static String TAG = "NotificationActivity";

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="12dp"
         android:paddingVertical="6dp"
-        android:onClick="@{viewHolder.onClick}"
+        android:onClick="@{viewHolder::onClick}"
         >
         <TextView
             android:id="@+id/following_board_name_tv"

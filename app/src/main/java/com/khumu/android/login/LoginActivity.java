@@ -51,6 +51,7 @@ import com.khumu.android.data.rest.JWTRequest;
 import com.khumu.android.data.rest.JWTResponse;
 import com.khumu.android.retrofitInterface.TokenService;
 import com.khumu.android.signUp.SignUpActivity;
+import com.khumu.android.util.FcmManager;
 
 import javax.inject.Inject;
 
@@ -63,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     TokenService tokenService;
+    @Inject
+    FcmManager fcmManager;
     Button loginBTN;
     Button signUpBTN;
     EditText usernameET;
@@ -94,8 +97,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d(TAG, "onResponse: " + response.raw());
                                     Log.d(TAG, "onResponse: " + response.body().getAccess());
                                     KhumuJWT jwt = new KhumuJWT(response.body().getAccess());
-                                    KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString());
+                                    KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString(), KhumuApplication.getPushToken());
                                     KhumuApplication.loadKhumuConfig();
+                                    fcmManager.createOrUpdatePushSubscription();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     LoginActivity.this.startActivity(intent);

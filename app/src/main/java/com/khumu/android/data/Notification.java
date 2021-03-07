@@ -12,7 +12,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class Notification implements Serializable {
     private Long id;
     private String title;

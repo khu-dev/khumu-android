@@ -1,10 +1,5 @@
 package com.khumu.android.data;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class SimpleUser implements Serializable {

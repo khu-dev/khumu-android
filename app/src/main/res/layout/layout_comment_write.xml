@@ -2,14 +2,12 @@
 <!--article detail activity에서 이용할 댓글 쓰는 layout-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="45dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="5dp"
     android:layout_marginRight="20dp"
     android:layout_marginLeft="20dp"
-    android:background="@color/white"
+    android:background="@drawable/background_comment_write_body"
     android:layout_gravity="bottom">
 
     <CheckBox
@@ -17,37 +15,50 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:hint="익명"
+        android:textColorHint="@color/gray_400"
         android:textSize="10dp"
+        android:paddingRight="5dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/comment_write_content"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <View
+        android:background="@color/white"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/comment_anonymous_ckb"
+        app:layout_constraintRight_toLeftOf="@id/comment_write_content"/>
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/comment_write_content"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp"
-        android:hint="댓글"
+        android:hint="댓글을 입력하세요"
+        android:textColorHint="@color/gray_400"
         android:inputType="text"
-        android:textFontWeight="10"
-        android:textSize="@dimen/default_icon_size"
+        android:textSize="12dp"
+        android:textColor="@color/gray_400"
+        android:paddingLeft="9dp"
+        android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@id/comment_anonymous_ckb"
-        app:layout_constraintRight_toRightOf="@+id/comment_write_btn"
+        app:layout_constraintRight_toLeftOf="@+id/comment_write_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        app:layout_constraintTop_toTopOf="@+id/comment_write_content"
-        app:layout_constraintBottom_toBottomOf="@+id/comment_write_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/comment_write_content"
         android:id="@+id/comment_write_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:padding="10dp"
-        android:minWidth="0dp"
-        android:textSize="14dp"
-        android:text="작성"/>
+        android:layout_width="50dp"
+        android:layout_height="32dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="7dp"
+        android:textSize="10dp"
+        android:paddingHorizontal="0dp"
+        android:background="@drawable/background_comment_write_button"
+        android:text="확인"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

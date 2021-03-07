@@ -9,9 +9,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @ToString
+@AllArgsConstructor
 public class PushSubscription {
     @SerializedName("device_token")
     private String deviceToken;
+
 }

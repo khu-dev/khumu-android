@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +23,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.data.PushSubscription;
 import com.khumu.android.data.Tag;
 import com.khumu.android.data.Board;
+import com.khumu.android.data.rest.PushSubscriptionResponse;
 import com.khumu.android.databinding.FragmentMyPageBinding;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.R;
+import com.khumu.android.retrofitInterface.NotificationService;
+import com.khumu.android.util.FcmManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyPageFragment extends Fragment {
     private final static String TAG = "MyPageFragment";
@@ -38,6 +51,9 @@ public class MyPageFragment extends Fragment {
     private MyPageViewModel myPageViewModel;
     private FlexboxLayoutManager followingArticleTagsLayoutManager;
     private ArticleTagAdapter followingArticleTagAdapter;
+    private NotificationService notificationService;
+    @Inject
+    public FcmManager fcmManager;
 
     // namespace는 안 적어줘도 되는건가? 안 적어야 동작하네
     @BindingAdapter("article_tag_list")
@@ -51,9 +67,7 @@ public class MyPageFragment extends Fragment {
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        if(KhumuApplication.isAuthenticated()){
-            KhumuApplication.container.inject(this);
-        }
+        KhumuApplication.container.inject(this);
 
         myPageViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
             @NonNull
@@ -145,6 +159,9 @@ public class MyPageFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 KhumuApplication.clearKhumuAuthenticationConfig();
                 KhumuApplication.loadKhumuConfig(); // refresh 과정
+                // token 없이 요청
+                // 처음 요청할 때와 같음. 다만 이제 device token에 해당하는 user가 null이 되는 것 뿐.
+                fcmManager.createOrUpdatePushSubscription();
                 MyPageFragment.this.getActivity().finishAffinity();
             }
         }).setNegativeButton("취소", new DialogInterface.OnClickListener() {

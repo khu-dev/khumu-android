@@ -1,24 +1,11 @@
 package com.khumu.android.articleWrite;
 
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,8 +14,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.InverseBindingAdapter;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,25 +23,15 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.data.SimpleUser;
-import com.khumu.android.databinding.ActivityArticleWriteBinding;
-import com.khumu.android.feed.ArticleAdapter;
-import com.khumu.android.feed.FeedViewModel;
-import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Article;
-import com.khumu.android.data.Tag;
 import com.khumu.android.data.Board;
-import com.khumu.android.repository.ArticleRepository;
-import com.khumu.android.repository.BoardRepository;
+import com.khumu.android.databinding.ActivityArticleWriteBinding;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.BoardService;
 import com.khumu.android.retrofitInterface.ImageService;
 
-import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;

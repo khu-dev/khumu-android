@@ -6,13 +6,18 @@ package com.khumu.android.feed;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import java.io.IOException;
+
+import com.khumu.android.data.Article;
+import com.khumu.android.data.Board;
+import com.khumu.android.data.rest.ArticleListResponse;
+import com.khumu.android.data.rest.BoardListResponse;
+import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.retrofitInterface.BoardService;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import dagger.Module;
 import lombok.Getter;
@@ -20,17 +25,6 @@ import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.khumu.android.data.Article;
-import com.khumu.android.data.Board;
-import com.khumu.android.data.rest.ArticleListResponse;
-import com.khumu.android.data.rest.BoardListResponse;
-import com.khumu.android.repository.ArticleRepository;
-import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.retrofitInterface.BoardService;
-
-import org.json.JSONException;
 
 @Getter
 @Setter

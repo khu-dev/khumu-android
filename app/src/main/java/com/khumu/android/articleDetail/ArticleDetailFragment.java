@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,15 +32,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
-import com.khumu.android.articleWrite.ArticleWriteActivity;
-import com.khumu.android.articleWrite.ArticleWriteViewModel;
 import com.khumu.android.data.Article;
-import com.khumu.android.databinding.FragmentArticleDetailBinding;
-import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
-import com.khumu.android.repository.ArticleRepository;
-import com.khumu.android.repository.CommentRepository;
+import com.khumu.android.databinding.FragmentArticleDetailBinding;
+import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.retrofitInterface.ArticleService;
 import com.khumu.android.retrofitInterface.CommentService;
 
@@ -53,6 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.text.TextUtils.isEmpty;
 import static com.khumu.android.KhumuApplication.container;
 
 public class ArticleDetailFragment extends Fragment implements ArticleDetailActivity.onKeyBackPressedListener {
@@ -63,7 +60,6 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
     @Inject
     public CommentService commentService;
     private FragmentArticleDetailBinding binding;
-
     private Intent intent;
     private CommentViewModel commentViewModel;
     private Article article;
@@ -131,7 +127,13 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         this.binding.layoutArticleContent.articleDetailImageRecyclerView.setAdapter(new ImageAdapter(this.article.getImages(), this.getContext()));
 
         Intent intent = getActivity().getIntent();
-        linearLayoutManager = new LinearLayoutManager(view.getContext());
+        linearLayoutManager = new LinearLayoutManager(view.getContext()) {
+            // 댓글만 scroll 되는 것을 막는다
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
@@ -157,7 +159,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             public void onClick(View v) {
                 SimpleComment simpleComment = new SimpleComment(
                         article.getId(),
-                        writeCommentContentET.getText().toString()
+                        writeCommentContentET.getText().toString().trim()
                 );
                 if (commentAnonymousCKB.isChecked()){
                     simpleComment.setKind("anonymous");
@@ -170,13 +172,17 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
                         simpleComment.setParent(null);
                     else {
                         simpleComment.setParent(commentToWrite.getId());
-                        System.out.printf("commentToWrite : " + commentToWrite.getId());
+                        //System.out.printf("commentToWrite : " + commentToWrite.getId());
+                    }
+                    if (TextUtils.isEmpty(simpleComment.getContent())) {
+                        throw new Exception("내용을 입력하세요");
                     }
                     commentViewModel.CreateComment(simpleComment);
                     // 댓글 작성 후 작성창 비우기
                     writeCommentContentET.setText("");
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

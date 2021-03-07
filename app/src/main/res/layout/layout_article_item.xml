@@ -153,7 +153,7 @@
                 android:id="@+id/article_item_like_wrapper_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{viewHolder.onClickLikeIcon}">
+                android:onClick="@{viewHolder::onClickLikeIcon}">
                 <ImageView
                     android:id="@+id/article_item_like_icon"
                     android:layout_width="@dimen/default_icon_size"
@@ -194,7 +194,7 @@
                 android:id="@+id/article_item_bookmark_wrapper_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{viewHolder.onClickBookmarkIcon}">
+                android:onClick="@{viewHolder::onClickBookmarkIcon}">
                 <ImageView
                     android:id="@+id/article_item_bookmark_icon"
                     android:layout_width="@dimen/default_icon_size"

@@ -18,8 +18,10 @@ public class AuthenticationInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
         Log.w(TAG, "intercept: " + chain.call().request().url());
-        Request.Builder builder = original.newBuilder()
-                .header("Authorization", "Bearer " + KhumuApplication.getToken());
+        Request.Builder builder = original.newBuilder();
+        if (KhumuApplication.getToken() != null) {
+            builder.header("Authorization", "Bearer " + KhumuApplication.getToken());
+        }
 
         Request request = builder.build();
         return chain.proceed(request);
