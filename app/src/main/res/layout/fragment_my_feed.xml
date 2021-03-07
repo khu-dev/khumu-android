@@ -8,11 +8,24 @@
             type="com.khumu.android.feed.FeedViewModel" />
     </data>
     <!--Bottom Nav의 Feed에서 이용할 TabLayout이 적용된 Feed
-    자신이 Follow중인 태그, 게시판의 게시물을 보여줌.
-    BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
+자신이 Follow중인 태그, 게시판의 게시물을 보여줌.
+BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
+<!--    최상위 레이아웃 - 탭, 분류 제목, 게시글들을 위한 레이아웃과
+ 작성버튼을 위한 레이아웃을 배치하기 위함-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<!--        탭, 분류 제목, 게시글등을 위한 레이아웃-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/feed_body_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <include
             android:id="@+id/feed_toolbar"
@@ -90,22 +103,25 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             layout="@layout/layout_feed"
             app:feedViewModel="@{feedViewModel}"/>
 
-        <Button
-            android:id="@+id/tab_feed_article_write_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/layout_large_space"
-            android:textColor="@color/red_500"
-            android:backgroundTint="#ffffff"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+    <Button
+        android:id="@+id/tab_feed_article_write_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/layout_large_space"
+        android:textColor="@color/red_500"
+        android:backgroundTint="#ffffff"
 
-            android:text="작성"/>
+        android:text="작성"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
