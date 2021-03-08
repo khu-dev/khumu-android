@@ -1,4 +1,4 @@
-package com.khumu.android.retrofitInterface;
+package com.khumu.android.repository;
 
 import com.khumu.android.data.rest.ImageUploadResponse;
 

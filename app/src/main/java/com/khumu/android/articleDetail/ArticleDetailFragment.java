@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -37,8 +36,8 @@ import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.databinding.FragmentArticleDetailBinding;
 import com.khumu.android.myPage.ArticleTagAdapter;
-import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.retrofitInterface.CommentService;
+import com.khumu.android.repository.ArticleService;
+import com.khumu.android.repository.CommentService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,8 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.text.TextUtils.isEmpty;
-import static com.khumu.android.KhumuApplication.container;
+import static com.khumu.android.KhumuApplication.applicationComponent;
 
 public class ArticleDetailFragment extends Fragment implements ArticleDetailActivity.onKeyBackPressedListener {
     private static final String TAG = "ArticleDetailFragment";
@@ -86,14 +84,13 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        container.inject(this);
+        applicationComponent.inject(this);
         this.intent = getActivity().getIntent();
         this.article = (Article) intent.getSerializableExtra("article");
         this.commentToWrite = null;
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        container.inject(this);
         commentViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory(){
             @NonNull
             @Override

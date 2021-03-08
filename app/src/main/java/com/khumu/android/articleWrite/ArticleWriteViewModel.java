@@ -15,9 +15,9 @@ import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.BoardListResponse;
 import com.khumu.android.data.rest.ImageUploadResponse;
-import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.retrofitInterface.BoardService;
-import com.khumu.android.retrofitInterface.ImageService;
+import com.khumu.android.repository.ArticleService;
+import com.khumu.android.repository.BoardService;
+import com.khumu.android.repository.ImageService;
 
 import java.io.File;
 import java.io.IOException;

@@ -20,7 +20,7 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
 import com.khumu.android.repository.CommentRepository;
-import com.khumu.android.retrofitInterface.CommentService;
+import com.khumu.android.repository.CommentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public CommentAdapter(ArrayList<Comment> commentList, Context context, CommentViewModel commentViewModel, ArticleDetailFragment articleDetailFragment) {
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         this.commentViewModel = commentViewModel;
         this.context = context;
         this.commentList = commentList;
@@ -164,7 +164,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     @Override
                     public void run() {
                         try {
-                            commentRepository.toggleLikeComment(comment.getId());
+                            if (comment.isAuthor()) {
+                                throw new Exception("자신의 댓글에는 좋아요를 누를 수 없습니다");
+                            }
+                            commentViewModel.LikeComment(comment.getId());
                             boolean liked = comment.isLiked();
                             if (liked) {
                                 comment.setLiked(false);
@@ -174,15 +177,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                 comment.setLikeCommentCount(comment.getLikeCommentCount() + 1);
                             }
                             // Network 쓰레드에서 작업 수행 후 MainThread에서 UI 작업을 post
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
-                                    holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
-                                }
-                            });
+                            holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
+                            holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
                         } catch (Exception e) {
                             e.printStackTrace();
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }.start();

@@ -48,7 +48,7 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Notification;
 import com.khumu.android.databinding.ActivityNotificationsBinding;
-import com.khumu.android.retrofitInterface.NotificationService;
+import com.khumu.android.repository.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class NotificationActivity extends AppCompatActivity {
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         ActivityNotificationsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_notifications);
         List<Notification> tmp = new ArrayList<>();
         tmp.add(new Notification(1L));

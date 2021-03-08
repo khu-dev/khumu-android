@@ -11,7 +11,7 @@ import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.CommentListResponse;
-import com.khumu.android.retrofitInterface.CommentService;
+import com.khumu.android.repository.CommentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +110,19 @@ public class CommentViewModel extends ViewModel {
         });
     }
 
-    public void ListReply(int commentId) {
+    public void LikeComment(int commentId) throws Exception{
+        Call<Comment> call = commentService.likeComment("application/json", commentId);
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                Log.d(TAG, "onResponse: " + response.code());
+            }
 
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(context, "알 수 없는 이유로 좋아요 처리를 못했습니다", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

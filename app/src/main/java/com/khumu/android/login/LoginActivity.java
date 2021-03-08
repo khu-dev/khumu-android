@@ -49,7 +49,7 @@ import com.khumu.android.R;
 import com.khumu.android.data.KhumuJWT;
 import com.khumu.android.data.rest.JWTRequest;
 import com.khumu.android.data.rest.JWTResponse;
-import com.khumu.android.retrofitInterface.TokenService;
+import com.khumu.android.repository.TokenService;
 import com.khumu.android.signUp.SignUpActivity;
 import com.khumu.android.util.FcmManager;
 
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         setContentView(R.layout.activity_login);
         loginBTN = findViewById(R.id.login_btn);
         signUpBTN = findViewById(R.id.sign_up_btn);

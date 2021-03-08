@@ -11,7 +11,7 @@ import com.khumu.android.data.Board;
 import com.khumu.android.data.Notification;
 import com.khumu.android.data.rest.NotificationListResponse;
 import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.retrofitInterface.NotificationService;
+import com.khumu.android.repository.NotificationService;
 
 import org.json.JSONException;
 

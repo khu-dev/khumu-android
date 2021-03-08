@@ -26,9 +26,9 @@ import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.ActivityArticleWriteBinding;
-import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.retrofitInterface.BoardService;
-import com.khumu.android.retrofitInterface.ImageService;
+import com.khumu.android.repository.ArticleService;
+import com.khumu.android.repository.BoardService;
+import com.khumu.android.repository.ImageService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         this.viewModel = new ViewModelProvider(ArticleWriteActivity.this, new ViewModelProvider.Factory(){
             @NonNull
             @Override

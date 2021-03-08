@@ -36,8 +36,8 @@ import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyFeedBinding;
-import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.retrofitInterface.BoardService;
+import com.khumu.android.repository.ArticleService;
+import com.khumu.android.repository.BoardService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class MyFeedFragment extends BaseFeedFragment {
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         provideFeedViewModel();
         this.feedViewModel.listBoards(null, true);
         this.feedViewModel.listArticles();
