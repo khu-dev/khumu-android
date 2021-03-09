@@ -1,22 +1,27 @@
 package com.khumu.android.articleWrite;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.esafirm.imagepicker.features.ImagePicker;
@@ -55,6 +60,8 @@ public class ArticleWriteActivity extends AppCompatActivity {
     RecyclerView imageRecyclerView;
     Board selectedBoard;
 
+    TextView isAnonymousTV;
+
     @BindingAdapter({"article_image_path_list", "viewModel"})
     public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<ImagePath>> imagePaths, ArticleWriteViewModel viewModel){
         Log.d(TAG, "bindItem: " + imagePaths.getValue().size());
@@ -87,6 +94,24 @@ public class ArticleWriteActivity extends AppCompatActivity {
         // LifeCycle을 설정해주지 않으면 MutableLiveData을 제대로 Observe할 수 없어서 값이 변경이 안됨!
         binding.setLifecycleOwner(this);
         imageRecyclerView = findViewById(R.id.article_upload_images_recycler_view);
+        DividerItemDecoration imageItemDivider = new DividerItemDecoration(imageRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
+        imageItemDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_image_item));
+        imageRecyclerView.addItemDecoration(imageItemDivider);
+
+        isAnonymousTV = findViewById(R.id.article_is_anonymous_tv);
+        // color만 갖고 mutable live data를 만들기는 쫌 그러니까 간단하게 옵저버 직접 달기.
+        this.viewModel.getLiveArticle().observe(this, (article) -> {
+            int color = this.getColor(R.color.red_500);
+            switch (article.getKind()) {
+                case "named":
+                    color = this.getColor(R.color.gray_300);
+                    break;
+                case "anonymous":
+                    color = this.getColor(R.color.red_500);
+                    break;
+            }
+            isAnonymousTV.setTextColor(color);
+        });
     }
 
     @Override
@@ -146,5 +171,20 @@ public class ArticleWriteActivity extends AppCompatActivity {
             }
         });
         builderSingle.show();
+    }
+
+    public void onClickIsAnonymousTV(View v) {
+        Article article = viewModel.getLiveArticle().getValue();
+        String kind = "anonymous";
+        switch (article.getKind()) {
+            case "named":
+                kind = "anonymous";
+                break;
+            case "anonymous":
+                kind = "named";
+                break;
+        }
+        article.setKind(kind);
+        viewModel.setArticle(article);
     }
 }

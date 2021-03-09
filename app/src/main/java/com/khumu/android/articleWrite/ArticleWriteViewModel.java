@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.BoardListResponse;
@@ -203,7 +204,6 @@ public class ArticleWriteViewModel extends ViewModel {
         // Inject initial Data
         initial.setBoardDisplayName(INITIAL_BOARD_DISPLAY_NAME);
         initial.setKind("anonymous");
-        initial.setTitle("tmp");
         return initial;
     }
 
@@ -224,5 +224,4 @@ public class ArticleWriteViewModel extends ViewModel {
             }
         });
     }
-
 }
