@@ -40,7 +40,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     private Context context;
 
     public ArticleAdapter(List<Article> articleList, Context context) {
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         this.context = context;
         this.articleList = articleList;
     }

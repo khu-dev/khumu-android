@@ -21,7 +21,7 @@ import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.notifications.NotificationActivity;
 import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.retrofitInterface.NotificationService;
+import com.khumu.android.repository.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         super.onCreate(savedInstanceState);
         homeViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
             @NonNull

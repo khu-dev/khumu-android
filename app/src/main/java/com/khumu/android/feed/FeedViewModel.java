@@ -13,8 +13,8 @@ import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.data.rest.BoardListResponse;
-import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.retrofitInterface.BoardService;
+import com.khumu.android.repository.ArticleService;
+import com.khumu.android.repository.BoardService;
 
 import java.util.ArrayList;
 import java.util.List;

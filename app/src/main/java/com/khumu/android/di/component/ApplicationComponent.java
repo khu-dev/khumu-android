@@ -1,5 +1,6 @@
-package com.khumu.android;
+package com.khumu.android.di.component;
 
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.articleDetail.ArticleDetailFragment;
 import com.khumu.android.articleDetail.CommentAdapter;
 import com.khumu.android.articleDetail.ReplyAdapter;
@@ -17,8 +18,7 @@ import com.khumu.android.notifications.NotificationActivity;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
-import com.khumu.android.util.FcmManager;
-import com.khumu.android.util.RetrofitModule;
+import com.khumu.android.di.module.RetrofitModule;
 
 import javax.inject.Singleton;
 
@@ -27,7 +27,7 @@ import retrofit2.Retrofit;
 
 @Singleton
 @Component(modules= RetrofitModule.class)
-public interface Container {
+public interface ApplicationComponent {
     // 여기에 의존성으로 주입될 수 있는 주입할 클래스들 명시
     // component에는 최소 한개의 abstract 메서드가 있어야 한다.
     // 그 메소드를 통해 의존성 주입을 하므로, injection을 시킬 객체를 리턴(provision method)하거나

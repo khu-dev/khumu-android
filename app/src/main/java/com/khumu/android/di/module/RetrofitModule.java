@@ -1,13 +1,15 @@
-package com.khumu.android.util;
+package com.khumu.android.di.module;
 
 import android.util.Log;
 
-import com.khumu.android.retrofitInterface.ArticleService;
-import com.khumu.android.retrofitInterface.BoardService;
-import com.khumu.android.retrofitInterface.CommentService;
-import com.khumu.android.retrofitInterface.ImageService;
-import com.khumu.android.retrofitInterface.NotificationService;
-import com.khumu.android.retrofitInterface.TokenService;
+import com.khumu.android.di.util.AuthenticationInterceptor;
+import com.khumu.android.repository.ArticleService;
+import com.khumu.android.repository.BoardService;
+import com.khumu.android.repository.CommentService;
+import com.khumu.android.repository.ImageService;
+import com.khumu.android.repository.NotificationService;
+import com.khumu.android.repository.TokenService;
+import com.khumu.android.util.Util;
 
 import javax.inject.Singleton;
 

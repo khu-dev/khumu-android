@@ -15,7 +15,7 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.LayoutFeedBinding;
-import com.khumu.android.retrofitInterface.ArticleService;
+import com.khumu.android.repository.ArticleService;
 
 import javax.inject.Inject;
 
@@ -34,7 +34,7 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
 
         // board를 선언하고 싶은데 viewModel factory에서 inner class에서 변수 사용으로 final을 강제하기때문에
         // tmpBoard 이용.

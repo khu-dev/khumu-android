@@ -8,7 +8,9 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.khumu.android.data.PushSubscription;
 import com.khumu.android.data.rest.PushSubscriptionResponse;
-import com.khumu.android.retrofitInterface.NotificationService;
+import com.khumu.android.di.component.ApplicationComponent;
+import com.khumu.android.di.component.DaggerApplicationComponent;
+import com.khumu.android.repository.NotificationService;
 import com.khumu.android.util.FcmManager;
 import com.khumu.android.util.Util;
 
@@ -26,7 +28,7 @@ public class KhumuApplication extends Application {
     private static String nickname = null;
     private static String token = null;
     private static String pushToken = null;
-    public static Container container;
+    public static ApplicationComponent applicationComponent;
     public static SharedPreferences sharedPref;
     @Inject
     public NotificationService notificationService;
@@ -39,8 +41,8 @@ public class KhumuApplication extends Application {
         Log.i(TAG, "onCreate: 애플리케이션 시작");
         // 우리의 필요한 의존성들을 이 container에 Singleton으로 관리
         Util.init();
-        container = DaggerContainer.create();
-        container.inject(this);
+        applicationComponent = DaggerApplicationComponent.create();
+        applicationComponent.inject(this);
         sharedPref = getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         // sharedPreferences를 이용해 필요한 데이터 초기화.
@@ -94,8 +96,8 @@ public class KhumuApplication extends Application {
         return pushToken;
     }
 
-    public static Container getContainer() {
-        return container;
+    public static ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
     }
 
     private void registerPushSubscribe() {

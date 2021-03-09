@@ -2,7 +2,6 @@ package com.khumu.android.repository;
 
 import com.khumu.android.data.Article;
 import com.khumu.android.data.rest.ArticleListResponse;
-import com.khumu.android.retrofitInterface.ArticleService;
 
 import org.json.JSONException;
 

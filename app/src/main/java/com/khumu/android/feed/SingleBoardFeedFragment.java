@@ -37,7 +37,7 @@ public class SingleBoardFeedFragment extends BaseFeedFragment {
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
         provideFeedViewModel();
         feedViewModel.listArticles();
     }

@@ -9,7 +9,7 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Notification;
 import com.khumu.android.data.rest.NotificationListResponse;
 import com.khumu.android.data.rest.NotificationReadRequest;
-import com.khumu.android.retrofitInterface.NotificationService;
+import com.khumu.android.repository.NotificationService;
 
 import java.io.IOException;
 import java.util.List;

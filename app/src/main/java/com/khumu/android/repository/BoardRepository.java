@@ -5,7 +5,6 @@ import android.util.Log;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.BoardListResponse;
-import com.khumu.android.retrofitInterface.BoardService;
 
 import org.json.JSONException;
 
@@ -25,7 +24,7 @@ public class BoardRepository {
 
     @Inject
     public BoardRepository(){
-        KhumuApplication.container.inject(this);
+        KhumuApplication.applicationComponent.inject(this);
 //        this.client = RetrofitClient.getClient(Util.APIRootEndpoint);
 //        this.service = client.create(BoardService.class);
     }

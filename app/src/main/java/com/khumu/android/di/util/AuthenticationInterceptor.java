@@ -1,4 +1,4 @@
-package com.khumu.android.util;
+package com.khumu.android.di.util;
 
 import android.util.Log;
 

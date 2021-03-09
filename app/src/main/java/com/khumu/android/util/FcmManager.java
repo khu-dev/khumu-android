@@ -5,17 +5,13 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.khumu.android.data.PushSubscription;
 import com.khumu.android.data.rest.PushSubscriptionResponse;
-import com.khumu.android.retrofitInterface.NotificationService;
+import com.khumu.android.repository.NotificationService;
 
 import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import dagger.Component;
-import dagger.Module;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
