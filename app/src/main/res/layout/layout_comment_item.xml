@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/wrapper_article_item"
     android:orientation="vertical"
-    android:background="@drawable/bordered_white_background"
+    android:background="@drawable/background_bordered_gray_100_white"
     android:paddingLeft="18dp"
     android:paddingRight="22dp"
     android:paddingTop="5dp"

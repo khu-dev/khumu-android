@@ -15,47 +15,61 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<!--        탭, 분류 제목, 게시글등을 위한 레이아웃-->
+
+<!--        피드 내에서 툴바같은 역할을 하는 Views.
+스크롤 시 이동하지 않는다.-->
+        <LinearLayout
+            android:id="@+id/feed_top_fixed_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+            <include
+                android:id="@+id/feed_toolbar"
+                layout="@layout/toolbar_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feed_following_boards_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="48dp"
+                android:orientation="horizontal"
+                app:following_boards="@{feedViewModel.boards}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/feed_toolbar" />
+        </LinearLayout>
+<!--        공지사항, 피드 게시물등을 위한 레이아웃-->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/feed_body_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/feed_top_fixed_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <include
-            android:id="@+id/feed_toolbar"
-            layout="@layout/toolbar_feed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/feed_following_boards_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="48dp"
-            android:orientation="horizontal"
-            app:following_boards="@{feedViewModel.boards}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feed_toolbar" />
         <LinearLayout
             android:id="@+id/announcements_header_wrapper"
-            app:layout_constraintTop_toBottomOf="@+id/feed_following_boards_recycler_view"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp"
             android:paddingVertical="@dimen/layout_default_space"
             android:paddingHorizontal="36dp">
             <TextView

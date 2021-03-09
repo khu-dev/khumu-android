@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bordered_white_background"
+    android:background="@drawable/background_bordered_gray_100_white"
     android:padding="@dimen/layout_default_space"
     android:layout_marginTop="0dp"
     android:layout_marginBottom="@dimen/layout_semi_large_space"
