@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -32,20 +35,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Getter
+@Setter
 public class ArticleWriteViewModel extends ViewModel {
-    private final static String TAG = "ArticleWriteViewModel";
-    private final String INITIAL_BOARD_DISPLAY_NAME = "게시판을 선택해주세요.";
-    public BoardService boardService;
-    public ArticleService articleService;
-    public ImageService imageService;
-    private MutableLiveData<List<Board>> boards;
+    final static String TAG = "ArticleWriteViewModel";
+    final String INITIAL_BOARD_DISPLAY_NAME = "게시판을 선택해주세요.";
+    BoardService boardService;
+    ArticleService articleService;
+    ImageService imageService;
+    MutableLiveData<List<Board>> boards;
     // 작성 중인 게시물
-    private MutableLiveData<Article> article;
+    MutableLiveData<Article> article;
     // 업로드 중인 이미지를 표시하는 recycler view가 사용하는 data
     // 문제점: article의 images 만으로는 recylcer view를 제대로 이용할 수가 없어서 uploadingImagePaths를 또 정의해서 이용 중인데
     // 이러면 article.images와 자동으로 동기화가 안됨.
-    private MutableLiveData<List<ImagePath>> uploadingImagePaths;
-    private Context context;
+    MutableLiveData<List<ImagePath>> uploadingImagePaths;
+    Context context;
 
     public ArticleWriteViewModel(Context context, BoardService boardService, ArticleService articleService, ImageService imageService){
         this.context = context;
@@ -71,7 +76,7 @@ public class ArticleWriteViewModel extends ViewModel {
     }
 
     /**
-     * article 데이터를 가져옴.
+     * article write이 아니라 수정인 경우 초기 article 정보를 가져와 저장시킴.
      * 동시에 uploading ImagePaths에도 article.images를 적용해야함.
      * @param a
      */
@@ -86,27 +91,13 @@ public class ArticleWriteViewModel extends ViewModel {
     }
 
 
-    // 내가 게시물을 적을 게시판을 선택한다. 그 내용을 MutableLiveData인 article에 반영
-    // 따로 MutableLiveData Board를 관리하지는 않는 중.
+    /**
+     * 내가 게시물을 적을 게시판을 선택한다. 그 내용을 MutableLiveData인 article에 반영
+      */
     public void setBoardToWrite(Board b){
         Article a = this.article.getValue();
         a.setBoardName(b.getName());
         a.setBoardDisplayName(b.getDisplayName());
-        this.article.setValue(a);
-    }
-
-    // boolean이 아닌 Boolean임을 유의.
-    // camel case를 맞춤으로서 isAnonymous라는 field로 mutual data binding을 가능하게 함.
-    public Boolean getIsAnonymous(){
-        return this.article.getValue().getKind().equals("anonymous");
-    }
-    public void setIsAnonymous(Boolean isAnonymous){
-        Article a = this.article.getValue();
-        if (isAnonymous){
-            a.setKind("anonymous");
-        } else{
-            a.setKind("named");
-        }
         this.article.setValue(a);
     }
 

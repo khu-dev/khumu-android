@@ -5,6 +5,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
+            name="activity"
+            type="com.khumu.android.articleWrite.ArticleWriteActivity" />
+        <variable
             name="viewModel"
             type="com.khumu.android.articleWrite.ArticleWriteViewModel" />
     </data>
@@ -147,22 +150,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{activity.getIsAnonymousTVBackground(viewModel.article.kind), default=@drawable/background_round_filled_red_500}"
+                >
             <TextView
                 android:id="@+id/article_is_anonymous_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/layout_default_space"
+                android:paddingVertical="@dimen/layout_default_space"
+                android:paddingHorizontal="16dp"
                 android:minWidth="0dp"
-                android:textColor="@color/gray_300"
+                android:textColor="@{activity.getIsAnonymousTVTextColor(viewModel.article.kind), default=@color/white}"
                 android:text="익명"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:onClick="onClickIsAnonymousTV"/>
-            <Button
+            </LinearLayout>
+            <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:background="@drawable/background_round_red_500_bordered_white"
+                android:paddingVertical="@dimen/layout_default_space"
+                android:paddingHorizontal="16dp"
+                android:background="@drawable/background_round_filled_red_500"
+                android:textColor="@color/white"
                 android:text="등록"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

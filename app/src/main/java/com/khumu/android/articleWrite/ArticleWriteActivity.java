@@ -3,6 +3,7 @@ package com.khumu.android.articleWrite;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -91,6 +92,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_article_write);
         binding.setViewModel(this.viewModel);
+        binding.setActivity(this);
         // LifeCycle을 설정해주지 않으면 MutableLiveData을 제대로 Observe할 수 없어서 값이 변경이 안됨!
         binding.setLifecycleOwner(this);
         imageRecyclerView = findViewById(R.id.article_upload_images_recycler_view);
@@ -101,16 +103,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
         isAnonymousTV = findViewById(R.id.article_is_anonymous_tv);
         // color만 갖고 mutable live data를 만들기는 쫌 그러니까 간단하게 옵저버 직접 달기.
         this.viewModel.getLiveArticle().observe(this, (article) -> {
-            int color = this.getColor(R.color.red_500);
-            switch (article.getKind()) {
-                case "named":
-                    color = this.getColor(R.color.gray_300);
-                    break;
-                case "anonymous":
-                    color = this.getColor(R.color.red_500);
-                    break;
-            }
-            isAnonymousTV.setTextColor(color);
+
         });
     }
 
@@ -186,5 +179,25 @@ public class ArticleWriteActivity extends AppCompatActivity {
         }
         article.setKind(kind);
         viewModel.setArticle(article);
+    }
+
+    // 직접 Observer를 달지 않고, DataBinding, AAC를 이용하기 위해선
+    // layout xml에서 live data의 필드를 전달해줘야한다.
+    // 근데 kind를 받아서 anonymous인지 판단하는 로직이 결국 UI 단에서 수행되고 있기 때문에
+    // 베스트 방법은 아닌 듯.
+    public Drawable getIsAnonymousTVBackground(String kind) {
+        Drawable background = this.getDrawable(R.drawable.background_round_filled_red_500);
+        if (!kind.equals("anonymous")) {
+            background = this.getDrawable(R.drawable.background_round_red_500_bordered_white);
+        }
+        return background;
+    }
+
+    public int getIsAnonymousTVTextColor(String kind) {
+        int color = this.getColor(R.color.gray_300);
+        if (!kind.equals("anonymous")) {
+            color = this.getColor(R.color.red_500);
+        }
+        return color;
     }
 }
