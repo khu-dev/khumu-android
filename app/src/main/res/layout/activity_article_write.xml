@@ -70,21 +70,18 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_width="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginBottom="@dimen/layout_default_space"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:onClick="onClickBoardListPopup">
-                        <ImageView
-                            android:id="@+id/article_write_popup_boards_icon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
                         <TextView
                             android:id="@+id/article_write_selected_board_display_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/gray_500"
+                            android:background="@drawable/bottom_line_gray_500"
                             android:text="@{viewModel.liveArticle.boardDisplayName, default=`게시판 표시 이름`}"
                             />
                     </LinearLayout>
