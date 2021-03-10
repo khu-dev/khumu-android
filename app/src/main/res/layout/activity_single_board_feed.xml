@@ -30,14 +30,30 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="0dp"-->
 <!--        />-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
     <fragment
         android:name="com.khumu.android.feed.SingleBoardFeedFragment"
         android:paddingTop="12dp"
         android:id="@+id/single_board_articles_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    </androidx.core.widget.NestedScrollView>
+    <Button
+        android:id="@+id/single_board_feed_article_write_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"></fragment>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/layout_large_space"
+        android:textColor="@color/red_500"
+        android:backgroundTint="#ffffff"
+        android:text="작성"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

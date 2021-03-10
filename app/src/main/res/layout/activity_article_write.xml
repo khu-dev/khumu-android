@@ -82,7 +82,7 @@
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/gray_500"
                             android:background="@drawable/bottom_line_gray_500"
-                            android:text="@{viewModel.liveArticle.boardDisplayName, default=`게시판 표시 이름`}"
+                            android:text="@{viewModel.currentBoard.displayName, default=`게시판 표시 이름`}"
                             />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

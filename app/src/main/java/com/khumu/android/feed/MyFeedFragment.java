@@ -129,40 +129,6 @@ public class MyFeedFragment extends BaseFeedFragment {
     @Override
     protected void setEventListeners(View root){
         super.setEventListeners(root);
-//        feedViewModel.getLiveDataBoards().observe(getViewLifecycleOwner(), new Observer<List<Board>>() {
-//            @Override
-//            public void onChanged(List<Board> changedSet) {
-//                // 처음엔 나의 피드만 있다가 내가 follow한 게시물들이 추가됨.
-//                // changedSet과 tab list를 동일하게 하려면 한 번 remove해줘야함.
-//                tabLayout.removeAllTabs();
-//                for(Board b: changedSet){
-//                    tabLayout.addTab(
-//                            tabLayout.newTab().setText(b.getDisplayName())
-//                    );
-//                }
-//            }
-//        });
-//
-//        // 지금은 초기에 Following 탭이 여러번 선택되어서 깜빡깜빡거리는 게 심하고 그게 아니어도 깜빡거리기는 하는 듯...?
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                // TODO : tab의 상태가 선택 상태로 변경.
-//                Log.d(TAG, "onTabSelected: " + tab.getText());
-//                articleRecyclerView.smoothScrollToPosition(0);
-//                feedViewModel.setCurrentBoard(String.valueOf(tab.getText()));
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//                // TODO : tab의 상태가 선택되지 않음으로 변경.
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//                // TODO : 이미 선택된 tab이 다시
-//            }
-//        });
         articleWriteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -22,8 +22,6 @@ public class ArticleModifyActivity extends ArticleWriteActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Article original = (Article) this.getIntent().getSerializableExtra("article");
-        viewModel.setArticle(original);
     }
 
     public void onClickSubmitButton(View v){

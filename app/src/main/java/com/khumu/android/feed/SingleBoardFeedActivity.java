@@ -1,7 +1,10 @@
 package com.khumu.android.feed;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.LayoutFeedBinding;
 import com.khumu.android.repository.ArticleService;
@@ -20,15 +24,19 @@ import com.khumu.android.repository.ArticleService;
 import javax.inject.Inject;
 
 public class SingleBoardFeedActivity extends AppCompatActivity {
-
     private final static String TAG = "SingleBoardActivity";
-    private SingleBoardFeedFragment feedFragment;
+    private LayoutFeedBinding layoutFeedBinding;
     private FeedViewModel feedViewModel;
-    private MaterialToolbar toolbar;
-    private ImageView backButton;
+
     @Inject
     public ArticleService articleService;
-    private LayoutFeedBinding layoutFeedBinding;
+    // 이건 그냥 간단하게 의존성 주입 안 씀.
+    // Module + Provide 말고는 어떻게 주입하지..?
+    public WritableBoardPolicy writableBoardPolicy = new WithLogicalBoardWritableBoardPolicy();
+    private SingleBoardFeedFragment feedFragment;
+    private MaterialToolbar toolbar;
+    private ImageView backButton;
+    private Button articleWriteBTN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +73,22 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             SingleBoardFeedActivity.this.finish();
         });
+        articleWriteBTN = findViewById(R.id.single_board_feed_article_write_btn);
+        if (!writableBoardPolicy.isWritableBoard(tmpBoard)) {
+            articleWriteBTN.setVisibility(View.GONE);
+        } else {
+            articleWriteBTN.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent writeIntent = new Intent(SingleBoardFeedActivity.this, ArticleWriteActivity.class);
+                    writeIntent.putExtra("board", feedViewModel.getCurrentBoard().getValue());
+                    v.getContext().startActivity(writeIntent);
+                }
+            });
+        }
     }
 
+    // 혹시 모를 Null pointer exception 방지용의 기본 게시판.
     private Board getDefaultBoard() {
         Board b = new Board();
         b.setDisplayName("자유게시판");

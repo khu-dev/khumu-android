@@ -11,6 +11,8 @@ import com.khumu.android.feed.FollowingBoardAdapter;
 import com.khumu.android.feed.MyFeedFragment;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedFragment;
+import com.khumu.android.feed.WithLogicalBoardWritableBoardPolicy;
+import com.khumu.android.feed.WritableBoardPolicy;
 import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.myPage.MyPageFragment;
@@ -26,7 +28,7 @@ import dagger.Component;
 import retrofit2.Retrofit;
 
 @Singleton
-@Component(modules= RetrofitModule.class)
+@Component(modules= {RetrofitModule.class})
 public interface ApplicationComponent {
     // 여기에 의존성으로 주입될 수 있는 주입할 클래스들 명시
     // component에는 최소 한개의 abstract 메서드가 있어야 한다.
@@ -41,7 +43,6 @@ public interface ApplicationComponent {
     LikeArticleRepository getLikeArticleRepository();
     CommentRepository getCommentRepository();
     Retrofit getRetrofit();
-
 
     // Members-injection methods
     void inject(LikeArticleRepository likeArticleRepository);

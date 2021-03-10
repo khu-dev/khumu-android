@@ -44,6 +44,7 @@ public class ArticleWriteViewModel extends ViewModel {
     ArticleService articleService;
     ImageService imageService;
     MutableLiveData<List<Board>> boards;
+    MutableLiveData<Board> currentBoard;
     // 작성 중인 게시물
     MutableLiveData<Article> article;
     // 업로드 중인 이미지를 표시하는 recycler view가 사용하는 data
@@ -52,13 +53,17 @@ public class ArticleWriteViewModel extends ViewModel {
     MutableLiveData<List<ImagePath>> uploadingImagePaths;
     Context context;
 
+    // 원래는 필요한 값들 다 주입 받는 게 좋은데...
+    // 얜 좀 번거로워서 그냥 여기서 설정..
     public ArticleWriteViewModel(Context context, BoardService boardService, ArticleService articleService, ImageService imageService){
         this.context = context;
         this.boardService = boardService;
         this.articleService = articleService;
         this.imageService = imageService;
-        this.boards = new MutableLiveData<>();
-        this.article = new MutableLiveData<>(generateInitialArticle());
+        this.boards = new MutableLiveData<>(new ArrayList<>());
+
+        this.currentBoard = new MutableLiveData<>(provideInitialCurrentBoard());
+        this.article = new MutableLiveData<>(provideInitialArticle());
         this.uploadingImagePaths = new MutableLiveData<>(new ArrayList<>());
 
         listBoards();
@@ -98,6 +103,7 @@ public class ArticleWriteViewModel extends ViewModel {
         Article a = this.article.getValue();
         a.setBoardName(b.getName());
         a.setBoardDisplayName(b.getDisplayName());
+        this.currentBoard.setValue(b);
         this.article.setValue(a);
     }
 
@@ -190,12 +196,17 @@ public class ArticleWriteViewModel extends ViewModel {
     /**
      * @return 초기 데이터로 사용할 Article
      */
-    private Article generateInitialArticle(){
+    private Article provideInitialArticle(){
         Article initial = new Article();
         // Inject initial Data
-        initial.setBoardDisplayName(INITIAL_BOARD_DISPLAY_NAME);
         initial.setKind("anonymous");
         return initial;
+    }
+
+    private Board provideInitialCurrentBoard() {
+        Board board = new Board();
+        board.setDisplayName(INITIAL_BOARD_DISPLAY_NAME);
+        return board;
     }
 
     /**

@@ -95,6 +95,16 @@ public class ArticleWriteActivity extends AppCompatActivity {
         binding.setActivity(this);
         // LifeCycle을 설정해주지 않으면 MutableLiveData을 제대로 Observe할 수 없어서 값이 변경이 안됨!
         binding.setLifecycleOwner(this);
+
+        if (this.getIntent().hasExtra("article")) {
+            Article original = (Article) this.getIntent().getSerializableExtra("article");
+            viewModel.setArticle(original);
+        }
+        if (this.getIntent().hasExtra("board")) {
+            Board currentBoard = (Board) this.getIntent().getSerializableExtra("board");
+            viewModel.setBoardToWrite(currentBoard);
+        }
+
         imageRecyclerView = findViewById(R.id.article_upload_images_recycler_view);
         DividerItemDecoration imageItemDivider = new DividerItemDecoration(imageRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
         imageItemDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_image_item));

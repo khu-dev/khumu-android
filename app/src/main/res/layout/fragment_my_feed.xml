@@ -134,7 +134,6 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
         android:layout_marginBottom="@dimen/layout_large_space"
         android:textColor="@color/red_500"
         android:backgroundTint="#ffffff"
-
         android:text="작성"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
