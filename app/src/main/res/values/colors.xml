@@ -9,7 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="red_100">#fff8f8</color>
-    <color name="red_300">#ffb8b8</color>
+    <color name="red_300">#ffb3b3</color>
+    <color name="red_400">#ff9999</color>
     <color name="red_500">#ff4d40</color>
 
     <color name="blue_100">#fff8f8</color>

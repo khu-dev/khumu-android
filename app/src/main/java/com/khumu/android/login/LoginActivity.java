@@ -39,6 +39,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     @Inject
     FcmManager fcmManager;
     Button loginBTN;
-    Button signUpBTN;
+    TextView signUpTV;
     EditText usernameET;
     EditText passwordET;
 
@@ -77,13 +78,14 @@ public class LoginActivity extends AppCompatActivity {
         KhumuApplication.applicationComponent.inject(this);
         setContentView(R.layout.activity_login);
         loginBTN = findViewById(R.id.login_btn);
-        signUpBTN = findViewById(R.id.sign_up_btn);
-        usernameET = findViewById(R.id.login_username_et);
-        passwordET = findViewById(R.id.login_password_et);
+        signUpTV = findViewById(R.id.sign_up_tv);
+        usernameET = findViewById(R.id.username_et);
+        passwordET = findViewById(R.id.password_et);
 
         loginBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(LoginActivity.this, "로그인 중입니다.", Toast.LENGTH_SHORT).show();
                 new Thread(){
                     @Override
                     public void run() {
@@ -126,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signUpBTN.setOnClickListener(new View.OnClickListener() {
+        signUpTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
