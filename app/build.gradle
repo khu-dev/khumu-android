@@ -56,6 +56,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'org.jetbrains:annotations:15.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.29'
 
     // backend 에서 전달받은 jwt를 decode 하기 위함
