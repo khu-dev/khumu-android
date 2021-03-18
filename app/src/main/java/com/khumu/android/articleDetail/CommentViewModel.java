@@ -11,6 +11,7 @@ import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.CommentListResponse;
+import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
 
 import java.util.ArrayList;
@@ -25,27 +26,46 @@ public class CommentViewModel extends ViewModel {
 
     private final static String TAG = "CommentViewModel";
     public CommentService commentService;
+    public ArticleService articleService;
     private MutableLiveData<ArrayList<Comment>> comments;
+    private MutableLiveData<Article> article;
     //article은 변하는 값을 observe할 데이터가 아니라 MutableLiveData로 하지 않아도 된다.
-    private Article article;
     private String articleID;
     private Context context;
-    public CommentViewModel(Context context, CommentService commentService, Article article, String articleID) {
+    public CommentViewModel(Context context, ArticleService articleService, CommentService commentService, String articleID) {
         this.context = context;
+        this.articleService = articleService;
         this.commentService = commentService;
         comments = new MutableLiveData<>();
         comments.setValue(new ArrayList<Comment>());
+        article = new MutableLiveData<>();
+        article.setValue(new Article());
         this.articleID = articleID;
-        this.article = article;
         ListComment();
     }
 
-    public Article getArticle() {
+    public MutableLiveData<Article> getLiveDataArticle() {
         return article;
     }
 
     public MutableLiveData<ArrayList<Comment>> getLiveDataComments(){
         return comments;
+    }
+
+    public void getArticle() {
+        Call<Article> call = articleService.getArticle(Integer.valueOf(articleID));
+        call.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                Article tempArticle = response.body();
+                article.postValue(tempArticle);
+            }
+
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     public void ListComment() {

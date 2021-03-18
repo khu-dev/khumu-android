@@ -20,6 +20,9 @@ public interface ArticleService {
     @GET("articles")
     Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("page") int page);
 
+    @GET("articles/{id}")
+    Call<Article> getArticle(@Path("id") int id);
+
     @POST("articles")
     Call<Article> createArticle(@Header("Content-Type") String contentType, @Body Article article);
 

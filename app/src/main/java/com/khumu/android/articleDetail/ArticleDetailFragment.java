@@ -95,7 +95,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new CommentViewModel(getContext(), commentService, article, String.valueOf(article.getId()));
+                return (T) new CommentViewModel(getContext(), articleService, commentService, String.valueOf(article.getId()));
             }
         }).get(CommentViewModel.class);
     }
@@ -124,13 +124,14 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         this.binding.layoutArticleContent.articleDetailImageRecyclerView.setAdapter(new ImageAdapter(this.article.getImages(), this.getContext()));
 
         Intent intent = getActivity().getIntent();
-        linearLayoutManager = new LinearLayoutManager(view.getContext()) {
-            // 댓글만 scroll 되는 것을 막는다
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
+        linearLayoutManager = new LinearLayoutManager(view.getContext());
+//        linearLayoutManager = new LinearLayoutManager(view.getContext()) {
+//            // 댓글만 scroll 되는 것을 막는다
+//            @Override
+//            public boolean canScrollVertically() {
+//                return false;
+//            }
+//        };
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
