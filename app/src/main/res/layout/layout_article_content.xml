@@ -63,7 +63,7 @@
                 android:id="@+id/article_detail_title_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.article.title, default=제목}"
+                android:text="@{viewModel.liveDataArticle.title, default=제목}"
                 android:textColor="@color/red_500"
                 android:textSize="@dimen/big_title_font_size"
                 android:textStyle="bold"

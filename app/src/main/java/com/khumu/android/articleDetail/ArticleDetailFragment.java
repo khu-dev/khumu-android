@@ -367,7 +367,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
 
     // 웬만하면 View의 로직은 Fragment에서 처리하도록.
     public int getSettingVisibility(){
-        if(this.commentViewModel.getArticle().getIsAuthor()){
+        if(this.commentViewModel.getLiveDataArticle().getValue().getIsAuthor()){
             return View.VISIBLE;
         } else{
             return View.GONE;
