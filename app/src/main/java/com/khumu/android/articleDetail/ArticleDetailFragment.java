@@ -106,9 +106,9 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_detail, container, false);
-
         View root = binding.getRoot();
         // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
+        binding.recyclerViewCommentList.setAdapter(commentAdapter);
         binding.setViewModel(this.commentViewModel);
         binding.setFragment(this);
         binding.setLifecycleOwner(this);
