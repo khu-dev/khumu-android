@@ -29,6 +29,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
@@ -50,12 +51,13 @@ public class MyFeedFragment extends BaseFeedFragment {
     @Inject public ArticleService articleService;
 
     protected Button articleWriteBTN;
-
+    FragmentMyFeedBinding binding;
     private MaterialToolbar toolbar;
 
     @BindingAdapter("following_boards")
     public static void bindFollowingBoards(RecyclerView recyclerView, LiveData<List<Board>> followingBoards){
         if (recyclerView.getAdapter() != null) {
+//            Log.w(TAG, "bindFollowingBoards: " +  followingBoards.getValue().get(0));
             FollowingBoardAdapter adapter = (FollowingBoardAdapter) recyclerView.getAdapter();
             adapter.boardList.clear();
             adapter.boardList.addAll((List<Board>) followingBoards.getValue());
@@ -93,7 +95,7 @@ public class MyFeedFragment extends BaseFeedFragment {
         // homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
-        FragmentMyFeedBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_feed, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_feed, container, false);
         View root = binding.getRoot();
         // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
         binding.setFeedViewModel(this.feedViewModel);
@@ -135,6 +137,11 @@ public class MyFeedFragment extends BaseFeedFragment {
                 Intent writeIntent = new Intent(getContext(), ArticleWriteActivity.class);
                 v.getContext().startActivity(writeIntent);
             }
+        });
+
+        binding.feedBodySwipeRefreshLayout.setOnRefreshListener(()->{
+            feedViewModel.listArticles();
+            binding.feedBodySwipeRefreshLayout.setRefreshing(false);
         });
     }
 }

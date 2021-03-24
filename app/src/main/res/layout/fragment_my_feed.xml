@@ -56,7 +56,8 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
         app:layout_constraintTop_toBottomOf="@id/feed_top_fixed_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        >
         <androidx.core.widget.NestedScrollView
             android:id="@+id/feed_body_nested_scroll_view"
             android:layout_width="match_parent"
