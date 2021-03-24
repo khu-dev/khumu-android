@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
             android:layout_marginBottom="@dimen/layout_large_space"
-            android:text="@{viewModel.liveDataArticle.content, default=내용"
+            android:text="@{viewModel.liveDataArticle.content, default=내용}"
             android:textSize="16dp"
             android:textColor="@color/red_500"/>
 
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:text="@{viewModel.liveDataArticle.likeArticleCount, default=0"
+                    android:text="@{String.valueOf(viewModel.liveDataArticle.likeArticleCount), default='0'}"
                     android:textSize="@dimen/meta_font_size" />
 
                 <ImageView
@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:text="@{viewModel.liveDataArticle.commentCount, default=0"
+                    android:text="@{String.valueOf(viewModel.liveDataArticle.commentCount), default='0'}"
                     android:textSize="@dimen/meta_font_size" />
 
                 <ImageView
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:text="@{viewModel.liveDataArticle.bookmarkArticleCount, default=0"
+                    android:text="@{String.valueOf(viewModel.liveDataArticle.bookmarkArticleCount), default='0'}"
                     android:textSize="@dimen/meta_font_size" />
             </LinearLayout>
 

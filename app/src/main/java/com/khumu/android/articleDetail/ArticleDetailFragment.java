@@ -185,7 +185,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             }
         });
 
-        loadArticleToView();
+        //loadArticleToView();
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
