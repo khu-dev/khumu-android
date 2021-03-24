@@ -11,12 +11,11 @@ import com.khumu.android.feed.FollowingBoardAdapter;
 import com.khumu.android.feed.MyFeedFragment;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedFragment;
-import com.khumu.android.feed.WithLogicalBoardWritableBoardPolicy;
-import com.khumu.android.feed.WritableBoardPolicy;
 import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.myPage.MyPageFragment;
 import com.khumu.android.notifications.NotificationActivity;
+import com.khumu.android.qrCode.QrCodeActivity;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
@@ -66,6 +65,6 @@ public interface ApplicationComponent {
     void inject(ArticleWriteActivity articleWriteActivity);
     void inject(SingleBoardFeedActivity singleBoardFeedActivity);
     void inject(NotificationActivity notificationActivity);
-
+    void inject(QrCodeActivity qrCodeActivity);
 }
 
