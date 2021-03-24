@@ -10,6 +10,7 @@ import com.khumu.android.repository.ImageService;
 import com.khumu.android.repository.NotificationService;
 import com.khumu.android.repository.QrCodeService;
 import com.khumu.android.repository.TokenService;
+import com.khumu.android.repository.UserService;
 import com.khumu.android.util.Util;
 
 import javax.inject.Singleton;
@@ -52,6 +53,13 @@ public class RetrofitModule {
     public static AuthenticationInterceptor providesAuthenticationInterceptor() {
         Log.d(TAG, "providesAuthenticationInterceptor");
         return new AuthenticationInterceptor();
+    }
+
+    @Singleton
+    @Provides
+    public static UserService providesUserService (Retrofit retrofit){
+        Log.d(TAG, "providesUserService: ");
+        return retrofit.create(UserService.class);
     }
 
     @Singleton

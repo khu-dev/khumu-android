@@ -2,7 +2,9 @@
 <!--로그인 페이지에서 연결되어 회원가입을 할 때 이용하는 액티비티-->
 <layout>
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.khumu.android.signUp.SignUpViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -80,14 +82,15 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
+                    android:paddingVertical="8dp"
                     android:paddingHorizontal="24dp"
                     android:background="@drawable/background_round_white"
                     android:textColorHint="@color/red_300"
                     android:textColor="@color/red_500"
                     android:textSize="14dp"
                     android:maxLines="1"
-                    android:hint="인포21 아이디를 입력해주세요."/>
+                    android:hint="인포21 아이디를 입력해주세요."
+                    android:text="@={viewModel.user.username}"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,14 +106,16 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
+                    android:paddingVertical="8dp"
                     android:paddingHorizontal="24dp"
                     android:background="@drawable/background_round_white"
                     android:textColorHint="@color/red_300"
                     android:textColor="@color/red_500"
                     android:textSize="14dp"
                     android:maxLines="1"
-                    android:hint="인포21 비밀번호를 입력해주세요."/>
+                    android:hint="인포21 비밀번호를 입력해주세요."
+                    android:text="@={viewModel.user.password}"
+                    android:inputType="textPassword"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,18 +131,20 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
+                    android:paddingVertical="8dp"
                     android:paddingHorizontal="24dp"
                     android:background="@drawable/background_round_white"
                     android:textColorHint="@color/red_300"
                     android:textColor="@color/red_500"
                     android:textSize="14dp"
                     android:maxLines="1"
-                    android:hint="사용하실 닉네임 입력해주세요."/>
+                    android:hint="사용하실 닉네임 입력해주세요."
+                    android:text="@={viewModel.user.nickname}"/>
             </LinearLayout>
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sign_up_btn"
             app:layout_constraintTop_toBottomOf="@id/form_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -149,8 +156,11 @@
             android:minWidth="0dp"
             android:paddingHorizontal="24dp"
             android:textColor="@color/red_500"
+            android:textSize="18dp"
+            android:textStyle="bold"
             android:background="@drawable/background_round_white"
-            android:text="가입하기"/>
+            android:text="가입하기"
+            android:onClick="onClickSignUpBTN"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

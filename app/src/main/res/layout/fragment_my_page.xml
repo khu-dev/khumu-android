@@ -11,226 +11,230 @@
             name="fragment"
             type="com.khumu.android.myPage.MyPageFragment" />
     </data>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:divider="@drawable/divider_background"
-    android:dividerPadding="@dimen/layout_large_space"
-    android:showDividers="middle"
-    >
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
-        android:id="@+id/my_page_profile_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        android:paddingHorizontal="48dp"
-        android:paddingVertical="@dimen/layout_large_space">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+        android:divider="@drawable/divider_background"
+        android:dividerPadding="@dimen/layout_large_space"
+        android:showDividers="middle"
+        >
+        <LinearLayout
+            android:id="@+id/my_page_profile_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:id="@+id/my_page_profile_profile_iv"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/ic_my_page"
-                android:padding="@dimen/layout_default_space"/>
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:paddingHorizontal="48dp"
+            android:paddingVertical="@dimen/layout_large_space">
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/my_page_profile_name_layout"
-                app:layout_constraintStart_toEndOf="@+id/my_page_profile_profile_iv"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_default_space"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:id="@+id/my_page_profile_username_tv"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/my_page_profile_profile_iv"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/ic_my_page"
+                    android:padding="@dimen/layout_default_space"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/my_page_profile_name_layout"
+                    app:layout_constraintStart_toEndOf="@+id/my_page_profile_profile_iv"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/my_page_profile_nickname_tv"
-                    android:textColor="@color/gray_700"
-                    android:textSize="@dimen/default_font_size"
-                    android:text="@{viewModel.user.username, default=USERNAME}"/>
+                    android:layout_marginLeft="@dimen/layout_default_space"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/my_page_profile_username_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/my_page_profile_nickname_tv"
+                        android:textColor="@color/gray_700"
+                        android:textSize="@dimen/default_font_size"
+                        android:text="@{viewModel.user.username, default=USERNAME}"/>
+                    <TextView
+                        android:id="@+id/my_page_profile_nickname_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="@color/gray_500"
+                        android:textSize="@dimen/default_font_size"
+                        android:text="@{viewModel.user.nickname}"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <Space
+                android:layout_width="@dimen/layout_default_space"
+                android:layout_height="@dimen/layout_default_space"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="회원정보 변경하기"
+                android:textSize="@dimen/default_font_size"
+                android:padding="@dimen/layout_default_space"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/my_page_following_article_tags_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/layout_large_space"
+            android:paddingHorizontal="@dimen/layout_large_space"
+            >
+    <!--        <com.khumu.android.component.BaseTag-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"/>-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_default_space">
                 <TextView
-                    android:id="@+id/my_page_profile_nickname_tv"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/my_page_following_article_tags_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:textColor="@color/gray_500"
-                    android:textSize="@dimen/default_font_size"
-                    android:text="@{viewModel.user.nickname}"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/my_page_following_article_tags_edit_icon"
+                    android:textColor="@color/gray_700"
+                    android:textSize="@dimen/title_font_size"
+                    android:text="팔로우 중인 게시판 태그"/>
+                <ImageView
+                    android:id="@+id/my_page_following_article_tags_edit_icon"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
 
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_write_article"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <Space
-            android:layout_width="@dimen/layout_default_space"
-            android:layout_height="@dimen/layout_default_space"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="회원정보 변경하기"
-            android:textSize="@dimen/default_font_size"
-            android:padding="@dimen/layout_default_space"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/my_page_following_article_tags_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingVertical="@dimen/layout_large_space"
-        android:paddingHorizontal="@dimen/layout_large_space"
-        >
-<!--        <com.khumu.android.component.BaseTag-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"/>-->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_default_space">
-            <TextView
-                android:id="@+id/my_page_following_article_tags_title"
-                android:layout_width="match_parent"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_page_following_article_tags_recycler_view"
+                app:article_tag_list="@{viewModel.liveDataFollowingArticleTags}"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/my_page_following_article_tags_edit_icon"
-                android:textColor="@color/gray_700"
-                android:textSize="@dimen/title_font_size"
-                android:text="팔로우 중인 게시판 태그"/>
-            <ImageView
-                android:id="@+id/my_page_following_article_tags_edit_icon"
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
+                android:layout_marginBottom="@dimen/layout_default_space"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"/>
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_write_article"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_page_following_article_tags_recycler_view"
-            app:article_tag_list="@{viewModel.liveDataFollowingArticleTags}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_default_space"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/my_page_following_announcement_tags_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingVertical="@dimen/layout_large_space"
-        android:paddingHorizontal="@dimen/layout_large_space"
-        >
-        <!--        <com.khumu.android.component.BaseTag-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"/>-->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/my_page_following_announcement_tags_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/my_page_following_announcement_tags_edit_icon"
-                android:textColor="@color/gray_700"
-                android:textSize="@dimen/title_font_size"
-                android:text="팔로우 중인 공지사항 태그"/>
-            <ImageView
-                android:id="@+id/my_page_following_announcement_tags_edit_icon"
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_write_article"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.flexbox.FlexboxLayout
-            app:flexWrap="wrap"
+        <LinearLayout
+            android:id="@+id/my_page_following_announcement_tags_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="@dimen/layout_default_space"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/layout_large_space"
+            android:paddingHorizontal="@dimen/layout_large_space"
             >
-        </com.google.android.flexbox.FlexboxLayout>
+            <!--        <com.khumu.android.component.BaseTag-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"/>-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/my_page_following_announcement_tags_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/my_page_following_announcement_tags_edit_icon"
+                    android:textColor="@color/gray_700"
+                    android:textSize="@dimen/title_font_size"
+                    android:text="팔로우 중인 공지사항 태그"/>
+                <ImageView
+                    android:id="@+id/my_page_following_announcement_tags_edit_icon"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
 
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/my_page_my_boards"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingVertical="@dimen/layout_large_space"
-        android:paddingHorizontal="@dimen/layout_large_space"
-        >
-        <!--        <com.khumu.android.component.BaseTag-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"/>-->
-        <TextView
-            android:id="@+id/my_page_articles_written_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray_700"
-            android:textSize="@dimen/title_font_size"
-            android:text="작성한 게시물"
-            android:onClick="@{(v)->fragment.onClickArticlesWrittenByMeTV(v)}"
-            android:paddingBottom="@dimen/layout_default_space"/>
-        <TextView
-            android:id="@+id/my_page_articles_liked_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray_700"
-            android:textSize="@dimen/title_font_size"
-            android:text="좋아요한 게시물"
-            android:onClick="@{(v)->fragment.onClickArticlesLikedTV(v)}"
-            android:paddingBottom="@dimen/layout_default_space"/>
-        <TextView
-            android:id="@+id/my_page_articles_bookmarked_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray_700"
-            android:textSize="@dimen/title_font_size"
-            android:text="북마크한 게시물"
-            android:onClick="@{(v)->fragment.onClickArticlesBookmarkedTV(v)}"
-            android:paddingBottom="@dimen/layout_default_space"/>
-        <TextView
-            android:id="@+id/my_page_articles_commented_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray_700"
-            android:textSize="@dimen/title_font_size"
-            android:text="댓글단 게시물"
-            android:onClick="@{(v)->fragment.onClickArticlesCommentedTV(v)}"
-            android:paddingBottom="@dimen/layout_default_space"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_write_article"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.flexbox.FlexboxLayout
+                app:flexWrap="wrap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/layout_default_space"
+                >
+            </com.google.android.flexbox.FlexboxLayout>
 
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/my_page_my_boards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/layout_large_space"
+            android:paddingHorizontal="@dimen/layout_large_space"
+            >
+            <!--        <com.khumu.android.component.BaseTag-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"/>-->
+            <TextView
+                android:id="@+id/my_page_articles_written_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_700"
+                android:textSize="@dimen/title_font_size"
+                android:text="작성한 게시물"
+                android:onClick="@{(v)->fragment.onClickArticlesWrittenByMeTV(v)}"
+                android:paddingBottom="@dimen/layout_default_space"/>
+            <TextView
+                android:id="@+id/my_page_articles_liked_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_700"
+                android:textSize="@dimen/title_font_size"
+                android:text="좋아요한 게시물"
+                android:onClick="@{(v)->fragment.onClickArticlesLikedTV(v)}"
+                android:paddingBottom="@dimen/layout_default_space"/>
+            <TextView
+                android:id="@+id/my_page_articles_bookmarked_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_700"
+                android:textSize="@dimen/title_font_size"
+                android:text="북마크한 게시물"
+                android:onClick="@{(v)->fragment.onClickArticlesBookmarkedTV(v)}"
+                android:paddingBottom="@dimen/layout_default_space"/>
+            <TextView
+                android:id="@+id/my_page_articles_commented_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_700"
+                android:textSize="@dimen/title_font_size"
+                android:text="댓글단 게시물"
+                android:onClick="@{(v)->fragment.onClickArticlesCommentedTV(v)}"
+                android:paddingBottom="@dimen/layout_default_space"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/my_page_logout_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_500"
+            android:textSize="@dimen/title_font_size"
+            android:text="로그아웃하기"
+            android:onClick="@{v -> fragment.onClickLogoutTV(v)}"
+            android:paddingHorizontal="@dimen/layout_large_space"
+            android:paddingVertical="@dimen/layout_large_space"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/my_page_logout_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray_500"
-        android:textSize="@dimen/title_font_size"
-        android:text="로그아웃하기"
-        android:onClick="@{v -> fragment.onClickLogoutTV(v)}"
-        android:paddingHorizontal="@dimen/layout_large_space"
-        android:paddingVertical="@dimen/layout_large_space"/>
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

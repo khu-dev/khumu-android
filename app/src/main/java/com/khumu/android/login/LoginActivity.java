@@ -52,6 +52,7 @@ import com.khumu.android.data.rest.JWTRequest;
 import com.khumu.android.data.rest.JWTResponse;
 import com.khumu.android.repository.TokenService;
 import com.khumu.android.signUp.SignUpActivity;
+import com.khumu.android.signUp.SignUpLandingActivity;
 import com.khumu.android.util.FcmManager;
 
 import javax.inject.Inject;
@@ -131,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         signUpTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
+                Intent signUpIntent = new Intent(LoginActivity.this, SignUpLandingActivity.class);
                 LoginActivity.this.startActivity(signUpIntent);
             }
         });
