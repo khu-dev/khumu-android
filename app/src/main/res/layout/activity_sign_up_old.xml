@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--로그인 페이지에서 연결되어 회원가입을 할 때 이용하는 액티비티-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/sign_up_logo_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/layout_large_space"
+            android:text="KHUMU"
+            android:textAlignment="center"
+            android:textColor="@color/red_500"
+            android:textSize="36dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/sign_up_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_logo_tv">
+            <EditText
+                android:id="@+id/sign_up_username_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/background_round_red_500_bordered_white"
+                android:hint="Username"
+                android:text=""
+                android:textSize="@dimen/default_font_size"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/layout_default_space"
+                android:textColor="@color/gray_500"
+                android:text="username은 로그인 시에 이용됩니다."/>
+
+            <EditText
+                android:id="@+id/sign_up_password_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/background_round_red_500_bordered_white"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:text=""
+                android:textSize="@dimen/default_font_size"
+                android:maxLines="1"/>
+
+            <EditText
+                android:id="@+id/sign_up_password_confirm_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/background_round_red_500_bordered_white"
+                android:inputType="textPassword"
+                android:hint="Password confirm"
+                android:text=""
+                android:textSize="@dimen/default_font_size"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/layout_default_space"
+                android:textColor="@color/gray_500"
+                android:text="동일한 패스워드를 입력해주세요."/>
+
+            <EditText
+                android:id="@+id/sign_up_nickname_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/background_round_red_500_bordered_white"
+                android:hint="Nickname"
+                android:text=""
+                android:textSize="@dimen/default_font_size"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/layout_default_space"
+                android:textColor="@color/gray_500"
+                android:text="닉네임은 게시글, 댓글 등에서 보여지는 이름이며, 작성 시에 익명으로 설정할 수 있습니다."/>
+
+            <EditText
+                android:id="@+id/sign_up_email_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/background_round_red_500_bordered_white"
+                android:hint="Email"
+                android:text=""
+                android:textSize="@dimen/default_font_size"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/layout_default_space"
+                android:textColor="@color/gray_500"
+                android:text="경희대학교 웹메일(@khu.ac.kr)을 입력해주세요."/>
+
+            <EditText
+                android:id="@+id/sign_up_student_number_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/background_round_red_500_bordered_white"
+                android:hint="학번"
+                android:text=""
+                android:textSize="@dimen/default_font_size"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/layout_default_space"
+                android:textColor="@color/gray_500"
+                android:text="2016123123 형식의 학번을 입력해주세요. 까먹으셨다면 생략하셔도 됩니다."/>
+
+            <EditText
+                android:id="@+id/sign_up_department_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_default_space"
+                android:padding="@dimen/layout_default_space"
+                android:background="@drawable/background_round_red_500_bordered_white"
+                android:hint="학과"
+                android:text=""
+                android:textSize="@dimen/default_font_size"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/layout_default_space"
+                android:textColor="@color/gray_500"
+                android:text="띄어쓰기 없이 학과를 입력해주세요. e.g. 컴퓨터공학과"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_large_space"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_input_layout"
+            >
+
+            <Button
+                android:id="@+id/sign_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원가입"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_font_size"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/login_btn"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
