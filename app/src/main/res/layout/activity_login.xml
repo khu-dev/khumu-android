@@ -115,7 +115,7 @@
                     android:hint="아이디를 입력해주세요."
                     android:text=""
                     android:textSize="@dimen/default_font_size"
-                    android:maxLines="1"/>
+                    android:inputType="text"/>
             </LinearLayout>
 
 
@@ -154,8 +154,7 @@
                     android:hint="비밀번호를 입력해주세요."
                     android:text=""
                     android:textSize="@dimen/default_font_size"
-                    android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    android:inputType="textPassword" />
             </LinearLayout>
         </LinearLayout>
     <androidx.constraintlayout.widget.ConstraintLayout

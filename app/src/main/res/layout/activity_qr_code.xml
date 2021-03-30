@@ -70,7 +70,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    bind:imageBitmap="@{activity.getQRCodeBitmap(viewModel.qrCodeResponse.data.qrCodeStr)}"
+                    bind:imageBitmap="@{activity.getQRCodeBitmap(viewModel.qrCodeInfo.qrCodeStr)}"
                     android:src="@color/white"
                     />
                 <ImageView
@@ -114,7 +114,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAlignment="viewEnd"
-                            android:text="이름"
+                            android:text="@{viewModel.qrCodeInfo.name}"
                             android:maxLines="1"
                             android:textColor="@color/white"
                             android:textSize="16dp"/>
@@ -136,7 +136,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAlignment="viewEnd"
-                            android:text="학번"
+                            android:text="@{viewModel.qrCodeInfo.studentNumber}"
                             android:maxLines="1"
                             android:textColor="@color/white"
                             android:textSize="16dp"/>
@@ -158,7 +158,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAlignment="viewEnd"
-                            android:text="학과"
+                            android:text="@{viewModel.qrCodeInfo.department}"
                             android:maxLines="1"
                             android:textColor="@color/white"
                             android:textSize="16dp"/>

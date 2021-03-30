@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Article;
 import com.khumu.android.notifications.NotificationActivity;
+import com.khumu.android.qrCode.QrCodeActivity;
 import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.NotificationService;
 
@@ -38,6 +40,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private Toolbar toolbar;
     private TextView notificationCountTV;
+    ImageView qrIconIV;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -92,6 +95,8 @@ public class HomeFragment extends Fragment {
                             n->!n.isRead()
                     ).count()));
         });
+        qrIconIV = view.findViewById(R.id.qr_icon_iv);
+        qrIconIV.setImageResource(R.drawable.ic_qr);
 
         setEventListeners();
     }
@@ -99,6 +104,11 @@ public class HomeFragment extends Fragment {
     public void setEventListeners() {
         toolbar.setOnClickListener(l->{
             Intent intent = new Intent(HomeFragment.this.getActivity(), NotificationActivity.class);
+            startActivity(intent);
+        });
+
+        qrIconIV.setOnClickListener(v->{
+            Intent intent = new Intent(this.getActivity(), QrCodeActivity.class);
             startActivity(intent);
         });
     }

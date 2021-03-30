@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Notification;
+import com.khumu.android.data.QrCodeInfo;
 import com.khumu.android.data.rest.NotificationListResponse;
 import com.khumu.android.data.rest.NotificationReadRequest;
 import com.khumu.android.data.rest.QrCodeGetResponse;
@@ -27,12 +28,12 @@ import retrofit2.Response;
 public class QrCodeViewModel extends ViewModel {
     final String TAG = "QrCodeViewModel";
     QrCodeService qrCodeService;
-    MutableLiveData<QrCodeGetResponse> qrCodeResponse;
+    MutableLiveData<QrCodeInfo> qrCodeInfo;
 
 
     public QrCodeViewModel(QrCodeService qrCodeService) {
         this.qrCodeService = qrCodeService;
-        qrCodeResponse = new MutableLiveData<>();
+        qrCodeInfo = new MutableLiveData<>();
     }
 
     public void getQrCode() {
@@ -40,7 +41,7 @@ public class QrCodeViewModel extends ViewModel {
             @Override
             public void onResponse(Call<QrCodeGetResponse> call, Response<QrCodeGetResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    qrCodeResponse.postValue(response.body());
+                    qrCodeInfo.postValue(response.body().getData());
                     System.out.println(response.body().getData());
                     System.out.println(response.body().getData().getQrCodeStr());
                 } else {

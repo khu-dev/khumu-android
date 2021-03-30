@@ -88,7 +88,7 @@
                     android:textColorHint="@color/red_300"
                     android:textColor="@color/red_500"
                     android:textSize="14dp"
-                    android:maxLines="1"
+                    android:inputType="text"
                     android:hint="인포21 아이디를 입력해주세요."
                     android:text="@={viewModel.user.username}"/>
             </LinearLayout>
@@ -137,7 +137,7 @@
                     android:textColorHint="@color/red_300"
                     android:textColor="@color/red_500"
                     android:textSize="14dp"
-                    android:maxLines="1"
+                    android:inputType="text"
                     android:hint="사용하실 닉네임 입력해주세요."
                     android:text="@={viewModel.user.nickname}"/>
             </LinearLayout>
