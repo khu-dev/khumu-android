@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
+import lombok.NoArgsConstructor;
+
 // 현재는 Sign up 할 때에만 사용하기때문에 json => Java instance로의 변환은 구현하지않음.
+@NoArgsConstructor
 public class KhumuUser implements Serializable {
     private String username;
     private String nickname;

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.khumu.android.qrCode.QrCodeViewModel" />
+
+        <variable
+            name="activity"
+            type="com.khumu.android.qrCode.QrCodeActivity" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp">
+            <ImageView
+                android:layout_height="32dp"
+                android:layout_width="32dp"
+                android:src="@drawable/ic_left_arrow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingLeft="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="모바일 이용증"
+                android:textColor="@color/red_500"
+                android:textStyle="bold"
+                android:textSize="@dimen/big_title_font_size"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/background_top_round_filled_red_500"
+            >
+            <!--        적절히 공간을 띄우기 위한 레이아웃-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/body_inner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <ImageView
+                    android:id="@+id/qr_code_iv"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    bind:imageBitmap="@{activity.getQRCodeBitmap(viewModel.qrCodeInfo.qrCodeStr)}"
+                    android:src="@color/white"
+                    />
+                <ImageView
+                    android:layout_marginTop="32dp"
+                    android:id="@+id/refresh_btn"
+                    android:layout_width="64dp"
+                    android:layout_height="48dp"
+                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="16dp"
+                    android:src="@drawable/ic_cancel"
+                    android:background="@drawable/background_round_white"
+
+                    app:layout_constraintTop_toBottomOf="@id/qr_code_iv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="TODO" />
+                <LinearLayout
+                    android:layout_marginTop="24dp"
+                    android:id="@+id/data_table_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/refresh_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="96dp">
+
+                        <TextView
+                            android:id="@+id/name_header_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="이름  |  "
+                            android:textColor="@color/white"
+                            android:maxLines="1"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="viewEnd"
+                            android:text="@{viewModel.qrCodeInfo.name}"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/student_number_header_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="96dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="학번  |  "
+                            android:textColor="@color/white"
+                            android:maxLines="1"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="viewEnd"
+                            android:text="@{viewModel.qrCodeInfo.studentNumber}"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="96dp">
+
+                        <TextView
+                            android:id="@+id/dept_header_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="학과  |  "
+                            android:textColor="@color/white"
+                            android:maxLines="1"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="viewEnd"
+                            android:text="@{viewModel.qrCodeInfo.department}"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatButton
+
+                    android:id="@+id/admission_register_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="출입증 등록하기"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_font_size"
+                    android:background="@drawable/background_round_white_bordered_red_500"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingHorizontal="48dp"
+                    android:paddingVertical="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/data_table_layout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="32dp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -38,10 +38,6 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
             android:name=".articleWrite.ArticleWriteActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".feed.SingleBoardFeedActivity"
@@ -65,8 +61,23 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
             android:label="@string/app_name">
 
         </activity>
+        <activity
+            android:name=".signUp.SignUpLandingActivity"
+            android:label="@string/app_name">
+        </activity>
 
-
+        <activity
+            android:name=".signUp.Info21SignUpActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".qrCode.QrCodeActivity"
+            android:label="@string/app_name">
+<!--                <intent-filter>-->
+<!--                    <action android:name="android.intent.action.MAIN" />-->
+<!--                    <category android:name="android.intent.category.LAUNCHER" />-->
+<!--                </intent-filter>-->
+        </activity>
     </application>
 
 </manifest>

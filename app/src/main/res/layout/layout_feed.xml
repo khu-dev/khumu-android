@@ -10,7 +10,7 @@ fragment로서 사용하며 조금씩 다르게 이용할 수 있다.-->
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/white"
         android:orientation="vertical">
