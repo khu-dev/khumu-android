@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -184,7 +185,8 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
                 }
             }
         });
-
+        commentViewModel.getArticle();
+        Log.d(TAG, String.valueOf(commentViewModel.getLiveDataArticle().getValue().getTitle()));
         //loadArticleToView();
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
@@ -192,7 +194,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
                 //int originalLength = commentAdapter.commentList.size();
                 int newLength = changedSet.size();
                 commentAdapter.commentList.clear();
-                for (int i = 0; i < newLength; i++){
+                for (int i = 0; i < newLength; i++) {
                     commentAdapter.commentList.add(changedSet.get(i));
                 }
                 commentAdapter.notifyDataSetChanged();
@@ -203,7 +205,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
 //                    commentAdapter.commentList.add(changedSet.get(i));
 //                }
 //                commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
-                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
+                if (newLength > 0) recyclerView.smoothScrollToPosition(newLength - 1);
             }
         });
     }

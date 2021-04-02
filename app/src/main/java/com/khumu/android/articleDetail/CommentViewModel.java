@@ -58,6 +58,7 @@ public class CommentViewModel extends ViewModel {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
                 Article tempArticle = response.body();
+                Log.d(TAG, "Article : " + response.body().getCreatedAt());
                 article.postValue(tempArticle);
             }
 
