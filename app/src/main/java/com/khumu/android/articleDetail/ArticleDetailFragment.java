@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,7 +96,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new CommentViewModel(getContext(), commentService, article, String.valueOf(article.getId()));
+                return (T) new CommentViewModel(getContext(), articleService, commentService, String.valueOf(article.getId()));
             }
         }).get(CommentViewModel.class);
     }
@@ -106,9 +107,9 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_detail, container, false);
-
         View root = binding.getRoot();
         // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
+        binding.recyclerViewCommentList.setAdapter(commentAdapter);
         binding.setViewModel(this.commentViewModel);
         binding.setFragment(this);
         binding.setLifecycleOwner(this);
@@ -124,13 +125,14 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         this.binding.layoutArticleContent.articleDetailImageRecyclerView.setAdapter(new ImageAdapter(this.article.getImages(), this.getContext()));
 
         Intent intent = getActivity().getIntent();
-        linearLayoutManager = new LinearLayoutManager(view.getContext()) {
-            // 댓글만 scroll 되는 것을 막는다
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
+        linearLayoutManager = new LinearLayoutManager(view.getContext());
+//        linearLayoutManager = new LinearLayoutManager(view.getContext()) {
+//            // 댓글만 scroll 되는 것을 막는다
+//            @Override
+//            public boolean canScrollVertically() {
+//                return false;
+//            }
+//        };
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
@@ -183,16 +185,14 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
                 }
             }
         });
-
-        loadArticleToView();
-
+        commentViewModel.getArticle();
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
                 //int originalLength = commentAdapter.commentList.size();
                 int newLength = changedSet.size();
                 commentAdapter.commentList.clear();
-                for (int i = 0; i < newLength; i++){
+                for (int i = 0; i < newLength; i++) {
                     commentAdapter.commentList.add(changedSet.get(i));
                 }
                 commentAdapter.notifyDataSetChanged();
@@ -203,7 +203,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
 //                    commentAdapter.commentList.add(changedSet.get(i));
 //                }
 //                commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
-                if(newLength > 0) recyclerView.smoothScrollToPosition(newLength-1);
+                if (newLength > 0) recyclerView.smoothScrollToPosition(newLength - 1);
             }
         });
     }
@@ -272,6 +272,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
     }
 
     // this.article의 정보를 view에 적용한다.
+/*
     private void loadArticleToView(){
         articleDetailContentTV.setText(article.getContent());
         articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
@@ -293,47 +294,8 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         articleLikeIcon.setImageResource(getCommentLikedImage(article.getLiked()));
 
         articleTagRecyclerView.setAdapter(new ArticleTagAdapter(article.getTags()));
-
-        /*
-        articleLikeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try{
-                            likeArticleRepository.toggleLikeArticle(new LikeArticle(articleID));
-                            boolean liked = isLikedBooloean;
-                            if(liked){
-                                article.setLiked(false);
-                                article.setLikeArticleCount(article.getLikeArticleCount() - 1);
-                            } else{
-                                article.setLiked(true);
-                                article.setLikeArticleCount(article.getLikeArticleCount() + 1);
-                            }
-                            // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
-                                    holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
-                                }
-                            });
-                        } catch (LikeArticleRepository.BadRequestException e){
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-            }
-        });*/
     }
+*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -343,7 +305,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             case ArticleDetailFragment.MODIFY_ARTICLE_ACTIVITY:{
                 if(resultCode == Activity.RESULT_OK){
                     this.article = (Article) data.getSerializableExtra("article");
-                    this.loadArticleToView();
+                    this.commentViewModel.getArticle();
                 }
             }
         }
@@ -366,7 +328,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
 
     // 웬만하면 View의 로직은 Fragment에서 처리하도록.
     public int getSettingVisibility(){
-        if(this.commentViewModel.getArticle().getIsAuthor()){
+        if(this.commentViewModel.getLiveDataArticle().getValue().getIsAuthor()){
             return View.VISIBLE;
         } else{
             return View.GONE;

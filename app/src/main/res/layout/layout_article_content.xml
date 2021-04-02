@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_default_space"
 
-                android:text="작성자"
+                android:text="@{viewModel.liveDataArticle.author.nickname, default=USERNAME}"
                 app:layout_constraintBottom_toTopOf="@id/article_detail_title_tv"
                 app:layout_constraintLeft_toRightOf="@+id/article_detail_author_icon"
                 app:layout_constraintTop_toBottomOf="@id/article_detail_created_at_tv" />
@@ -63,7 +63,7 @@
                 android:id="@+id/article_detail_title_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.article.title, default=제목}"
+                android:text="@{viewModel.liveDataArticle.title, default=제목}"
                 android:textColor="@color/red_500"
                 android:textSize="@dimen/big_title_font_size"
                 android:textStyle="bold"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
             android:layout_marginBottom="@dimen/layout_large_space"
-            android:text="게시물 내용"
+            android:text="@{viewModel.liveDataArticle.content, default=내용}"
             android:textSize="16dp"
             android:textColor="@color/red_500"/>
 
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:text="100"
+                    android:text="@{String.valueOf(viewModel.liveDataArticle.likeArticleCount), default='0'}"
                     android:textSize="@dimen/meta_font_size" />
 
                 <ImageView
@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:text="100"
+                    android:text="@{String.valueOf(viewModel.liveDataArticle.commentCount), default='0'}"
                     android:textSize="@dimen/meta_font_size" />
 
                 <ImageView
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:text="100"
+                    android:text="@{String.valueOf(viewModel.liveDataArticle.bookmarkArticleCount), default='0'}"
                     android:textSize="@dimen/meta_font_size" />
             </LinearLayout>
 

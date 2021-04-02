@@ -45,7 +45,6 @@ public class ArticleRepository {
         if (respString != null && respString.getData() != null) {
             articles = respString.getData();
         }
-        ;
 
         return articles;
     }
