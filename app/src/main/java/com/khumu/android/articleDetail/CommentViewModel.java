@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
+import com.khumu.android.data.rest.ArticleResponse;
 import com.khumu.android.data.rest.CommentListResponse;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
@@ -41,6 +42,7 @@ public class CommentViewModel extends ViewModel {
         article = new MutableLiveData<>();
         article.setValue(new Article());
         this.articleID = articleID;
+        getArticle();
         ListComment();
     }
 
@@ -53,17 +55,18 @@ public class CommentViewModel extends ViewModel {
     }
 
     public void getArticle() {
-        Call<Article> call = articleService.getArticle(Integer.valueOf(articleID));
-        call.enqueue(new Callback<Article>() {
+        Call<ArticleResponse> call = articleService.getArticle(Integer.valueOf(articleID));
+        call.enqueue(new Callback<ArticleResponse>() {
             @Override
-            public void onResponse(Call<Article> call, Response<Article> response) {
-                Article tempArticle = response.body();
-                Log.d(TAG, "Article : " + response.body().getCreatedAt());
+            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                Log.d(TAG, "Article : " + String.valueOf(response.body().getArticle().getContent()));
+                Log.d(TAG, "Article : " + response.raw().toString());
+                Article tempArticle = response.body().getArticle();
                 article.postValue(tempArticle);
             }
 
             @Override
-            public void onFailure(Call<Article> call, Throwable t) {
+            public void onFailure(Call<ArticleResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });

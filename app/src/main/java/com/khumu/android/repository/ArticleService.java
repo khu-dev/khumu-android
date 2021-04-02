@@ -2,6 +2,7 @@ package com.khumu.android.repository;
 
 import com.khumu.android.data.Article;
 import com.khumu.android.data.rest.ArticleListResponse;
+import com.khumu.android.data.rest.ArticleResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,7 +22,7 @@ public interface ArticleService {
     Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("page") int page);
 
     @GET("articles/{id}")
-    Call<Article> getArticle(@Path("id") int id);
+    Call<ArticleResponse> getArticle(@Path("id") int id);
 
     @POST("articles")
     Call<Article> createArticle(@Header("Content-Type") String contentType, @Body Article article);

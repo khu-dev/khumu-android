@@ -186,8 +186,6 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             }
         });
         commentViewModel.getArticle();
-        Log.d(TAG, String.valueOf(commentViewModel.getLiveDataArticle().getValue().getTitle()));
-        //loadArticleToView();
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
@@ -274,6 +272,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
     }
 
     // this.article의 정보를 view에 적용한다.
+/*
     private void loadArticleToView(){
         articleDetailContentTV.setText(article.getContent());
         articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
@@ -295,47 +294,8 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         articleLikeIcon.setImageResource(getCommentLikedImage(article.getLiked()));
 
         articleTagRecyclerView.setAdapter(new ArticleTagAdapter(article.getTags()));
-
-        /*
-        articleLikeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try{
-                            likeArticleRepository.toggleLikeArticle(new LikeArticle(articleID));
-                            boolean liked = isLikedBooloean;
-                            if(liked){
-                                article.setLiked(false);
-                                article.setLikeArticleCount(article.getLikeArticleCount() - 1);
-                            } else{
-                                article.setLiked(true);
-                                article.setLikeArticleCount(article.getLikeArticleCount() + 1);
-                            }
-                            // Network thread 에서 작업 수행 후 MainThread에 UI 작업을 Post
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.articleLikeIcon.setImageResource(getArticleLikedImage(article));
-                                    holder.articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
-                                }
-                            });
-                        } catch (LikeArticleRepository.BadRequestException e){
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-            }
-        });*/
     }
+*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -345,7 +305,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             case ArticleDetailFragment.MODIFY_ARTICLE_ACTIVITY:{
                 if(resultCode == Activity.RESULT_OK){
                     this.article = (Article) data.getSerializableExtra("article");
-                    this.loadArticleToView();
+                    this.commentViewModel.getArticle();
                 }
             }
         }
