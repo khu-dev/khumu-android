@@ -51,7 +51,7 @@ import retrofit2.Response;
 
 import static com.khumu.android.KhumuApplication.applicationComponent;
 
-public class ArticleDetailFragment extends Fragment implements ArticleDetailActivity.onKeyBackPressedListener {
+public class ArticleDetailFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
     private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
@@ -197,43 +197,41 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
                 }
                 commentAdapter.notifyDataSetChanged();
 
-//                int originalLength = commentAdapter.commentList.size();
-//                int newLength = changedSet.size();
-//                for (int i = originalLength; i<newLength; i++) {
-//                    commentAdapter.commentList.add(changedSet.get(i));
-//                }
-//                commentAdapter.notifyItemRangeInserted(originalLength, newLength-originalLength);
                 if (newLength > 0) recyclerView.smoothScrollToPosition(newLength - 1);
             }
         });
     }
 
-    @Override
-    public void onBack() {
+    public boolean allowBackPressed() {
+        if (commentToWrite == null) return false;
+        return true;
+    }
+
+    public void onBackPressed() {
         System.out.println("Back버튼 시 commentToWrite : " + commentToWrite);
-        if (commentToWrite == null) {
+/*        if (commentToWrite == null) {
             ArticleDetailActivity articleDetailActivity = (ArticleDetailActivity) getActivity();
-            articleDetailActivity.setOnKeyBackPressedListener(null);
+            articleDetailActivity.setOnKeyBackPressedListener();
             articleDetailActivity.onBackPressed();
-        }
-        else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("대댓글을 작성을 취소하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    commentToWrite = null;
-                    writeCommentContentET.setHint("댓글");
-                    return;
-                }
-            }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    return;
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
+        }*/
+        //else {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("대댓글을 작성을 취소하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                commentToWrite = null;
+                writeCommentContentET.setHint("댓글");
+                return;
+            }
+        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+        //}
     }
 
     public void onClickArticleSettingMenu(View v){
@@ -271,32 +269,6 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
         });
     }
 
-    // this.article의 정보를 view에 적용한다.
-/*
-    private void loadArticleToView(){
-        articleDetailContentTV.setText(article.getContent());
-        articleCommentCountTV.setText(String.valueOf(article.getCommentCount()));
-        // 글쓴이가 본인인 경우
-        if (article.getAuthor().getUsername().equals(KhumuApplication.getUsername())){
-            articleAuthorNicknameTV.setTextColor(getContext().getColor(R.color.red_300));
-            if (article.getKind().equals("anonymous")){
-                articleAuthorNicknameTV.setText("익명");
-            } else{
-                articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
-            }
-        } else{
-            // 글쓴이가 본인이 아닌 경우
-            articleAuthorNicknameTV.setText(article.getAuthor().getNickname());
-        }
-
-        articleDetailCreatedAtTV.setText(article.getCreatedAt());
-        articleLikeCountTV.setText(String.valueOf(article.getLikeArticleCount()));
-        articleLikeIcon.setImageResource(getCommentLikedImage(article.getLiked()));
-
-        articleTagRecyclerView.setAdapter(new ArticleTagAdapter(article.getTags()));
-    }
-*/
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -320,10 +292,6 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailActi
             return R.drawable.ic_filled_heart;
         }
         return R.drawable.ic_empty_heart;
-    }
-
-    private void setEventListeners() {
-
     }
 
     // 웬만하면 View의 로직은 Fragment에서 처리하도록.
