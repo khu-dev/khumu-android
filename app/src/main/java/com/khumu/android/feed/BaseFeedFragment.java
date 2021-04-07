@@ -65,13 +65,13 @@ public abstract class BaseFeedFragment extends Fragment {
 
     protected void findViews(View root){
         linearLayoutManager = new LinearLayoutManager(root.getContext());
-        linearLayoutManager.setReverseLayout(false);
         linearLayoutManager.setStackFromEnd(false);
         articleRecyclerView = root.findViewById(R.id.feed_articles_list);
     }
 
     protected void setAdapters(){
         ArticleAdapter articleAdapter = new ArticleAdapter(new ArrayList<>(), getContext());
+        articleAdapter.setHasStableIds(true);
         articleRecyclerView.setLayoutManager(linearLayoutManager);
         articleRecyclerView.setAdapter(articleAdapter);
     }

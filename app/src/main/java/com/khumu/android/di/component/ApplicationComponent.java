@@ -12,6 +12,7 @@ import com.khumu.android.feed.MyFeedFragment;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedFragment;
 import com.khumu.android.home.HomeFragment;
+import com.khumu.android.home.OldHomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.myPage.MyPageFragment;
 import com.khumu.android.notifications.NotificationActivity;
@@ -59,6 +60,7 @@ public interface ApplicationComponent {
     void inject(SingleBoardFeedFragment feedFragment);
     void inject(ArticleDetailFragment articleDetailFragment);
     void inject(HomeFragment homeFragment);
+    void inject(OldHomeFragment homeFragment);
     void inject(MyPageFragment myPageFragment);
 
     void inject(KhumuApplication application);

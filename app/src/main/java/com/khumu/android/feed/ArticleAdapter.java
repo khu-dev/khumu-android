@@ -29,7 +29,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
+public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
     private final static String TAG = "ArticleAdapter";
     public List<Article> articleList;
     @Inject
