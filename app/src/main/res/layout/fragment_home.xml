@@ -6,141 +6,18 @@
             name="viewModel"
             type="com.khumu.android.home.HomeViewModel" />
     </data>
+
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-        <include layout="@layout/toolbar"
-            android:id="@+id/toolbar"/>
-        <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/plugins_card"
+        <WebView
+            android:id="@+id/home_web_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            app:cardElevation="4dp"
-            app:cardCornerRadius="6dp"
-            android:layout_margin="@dimen/layout_default_space"
-            android:background="@color/white">
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stretchColumns="*">
-                <TableRow>
-                    <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/white"
-                        android:textColor="@color/red_500"
-                        android:text="공지사항"/>
-
-                    <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/white"
-                        android:textColor="@color/red_500"
-                        android:text="학사일정"/>
-
-                    <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/white"
-                        android:textColor="@color/red_500"
-                        android:text="현장실습"/>
-                </TableRow>
-                <TableRow>
-                    <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/white"
-                        android:textColor="@color/red_500"
-                        android:text="수강신청"/>
-                    <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/white"
-                        android:textColor="@color/red_500"
-                        android:text="동아리"/>
-                    <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/white"
-                        android:textColor="@color/red_500"
-                        android:text="학식"/>
-
-
-                </TableRow>
-            </TableLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/khu_notifications_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="10dp"
-            android:layout_margin="@dimen/layout_default_space"
-            android:background="@color/white">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="@dimen/layout_default_space">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/layout_default_space"
-                    android:text="경희소식"
-                    android:textColor="@color/red_500"
-                    android:textSize="@dimen/big_title_font_size"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/layout_default_space"
-                    android:text="- 다음 주 수요일부터는 수강신청 기간이므로 시간표를 확인해주세요!"
-                    android:textColor="@color/gray_700"
-                    android:textSize="@dimen/default_font_size" />
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/recent_posts_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="10dp"
-            android:layout_margin="@dimen/layout_default_space"
-            android:background="@color/white">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="@dimen/layout_default_space">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/layout_default_space"
-                    android:text="팔로우 중인 게시판"
-                    android:textColor="@color/red_500"
-                    android:textSize="@dimen/big_title_font_size"
-                    android:textStyle="bold"/>
-                <ListView
-                    android:id="@+id/recent_articles_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/layout_default_space" />
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </layout>
