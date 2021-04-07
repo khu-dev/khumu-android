@@ -2,6 +2,12 @@ plugins {
     id 'com.android.application'
 }
 
+allprojects {
+    repositories {
+        google()
+    }
+}
+
 android {
     defaultConfig {
         targetSdkVersion 30
@@ -55,6 +61,7 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.29'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'org.jetbrains:annotations:15.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.29'

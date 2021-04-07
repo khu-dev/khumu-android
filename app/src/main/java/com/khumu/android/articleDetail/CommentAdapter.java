@@ -101,7 +101,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentContentTV.setText(comment.getContent());
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
-        System.out.println("CommentCreatedAt : " + comment.getCommentCreatedAt());
         holder.commentCreatedAtTV.setText(comment.getCommentCreatedAt());
         holder.itemView.setTag(position);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

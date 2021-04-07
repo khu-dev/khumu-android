@@ -48,19 +48,13 @@ public class ArticleDetailActivity extends AppCompatActivity {
         this.toolbar = findViewById(R.id.toolbar);
     }
 
-    // 뒤로가기 버튼 눌렀는지를 확인하는 listener를 fragment에 implement하기 위해 interface로 생성
-    public interface onKeyBackPressedListener {
-        public void onBack();
-    }
-
-    private onKeyBackPressedListener mOnKeyBackPressedListener;
-
-    public void setOnKeyBackPressedListener (onKeyBackPressedListener listener) {
-        mOnKeyBackPressedListener = listener;
-    }
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        ArticleDetailFragment fragment = (ArticleDetailFragment) getSupportFragmentManager().findFragmentByTag("ArticleDetailFragment");
+        if (fragment.allowBackPressed()) {
+            super.onBackPressed();
+        }
+        else {
+            fragment.onBackPressed();
     }
-}
+};
