@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/fragment_article_detail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -42,12 +42,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/red_100"
-                    android:overScrollMode="never"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_article_content"></androidx.recyclerview.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/layout_article_content" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:id="@+id/comment_write_line"
