@@ -19,6 +19,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -52,7 +53,7 @@ import retrofit2.Response;
 
 import static com.khumu.android.KhumuApplication.applicationComponent;
 
-public class ArticleDetailFragment extends Fragment implements OnBackPressListener{
+public class ArticleDetailFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
     private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
@@ -100,6 +101,31 @@ public class ArticleDetailFragment extends Fragment implements OnBackPressListen
                 return (T) new CommentViewModel(getContext(), articleService, commentService, String.valueOf(article.getId()));
             }
         }).get(CommentViewModel.class);
+
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (commentToWrite != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("대댓글 입력을 취소하겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            commentToWrite = null;
+                            writeCommentContentET.setHint("댓글을 입력하세요");
+                        }
+                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
+
     }
 
     @Override
@@ -204,27 +230,6 @@ public class ArticleDetailFragment extends Fragment implements OnBackPressListen
             }
         });
     }
-
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        if (commentToWrite != null) {
-            builder.setMessage("대댓글 입력을 취소하겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    return;
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-    }
-
 
     public void onClickArticleSettingMenu(View v){
         articleSettingPopupMenu = new PopupMenu(ArticleDetailFragment.this.getActivity(), v);
