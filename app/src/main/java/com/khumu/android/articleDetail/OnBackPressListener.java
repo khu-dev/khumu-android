@@ -1,5 +1,5 @@
 package com.khumu.android.articleDetail;
 
-public interface onBackPressedListener {
+public interface OnBackPressListener {
     void onBackPressed();
 }

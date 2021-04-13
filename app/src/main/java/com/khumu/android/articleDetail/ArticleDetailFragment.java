@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.MainActivity;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
 import com.khumu.android.data.Article;
@@ -51,7 +52,7 @@ import retrofit2.Response;
 
 import static com.khumu.android.KhumuApplication.applicationComponent;
 
-public class ArticleDetailFragment extends Fragment {
+public class ArticleDetailFragment extends Fragment implements OnBackPressListener{
     private static final String TAG = "ArticleDetailFragment";
     private static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
@@ -136,6 +137,8 @@ public class ArticleDetailFragment extends Fragment {
 //        linearLayoutManager.setReverseLayout(true);
 //        linearLayoutManager.setStackFromEnd(true);
         recyclerView = view.findViewById(R.id.recycler_view_comment_list);
+        // 댓글창과 게시글이 하나로 이어져야하는데 댓글창이 따로 스크롤되는 경우를 막아줌
+        //recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentAdapter = new CommentAdapter(new ArrayList<>(), getContext(), commentViewModel, ArticleDetailFragment.this);
         recyclerView.setAdapter(commentAdapter);
@@ -202,37 +205,26 @@ public class ArticleDetailFragment extends Fragment {
         });
     }
 
-    public boolean allowBackPressed() {
-        if (commentToWrite == null) return false;
-        return true;
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        if (commentToWrite != null) {
+            builder.setMessage("대댓글 입력을 취소하겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
-    public void onBackPressed() {
-        System.out.println("Back버튼 시 commentToWrite : " + commentToWrite);
-/*        if (commentToWrite == null) {
-            ArticleDetailActivity articleDetailActivity = (ArticleDetailActivity) getActivity();
-            articleDetailActivity.setOnKeyBackPressedListener();
-            articleDetailActivity.onBackPressed();
-        }*/
-        //else {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("대댓글을 작성을 취소하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                commentToWrite = null;
-                writeCommentContentET.setHint("댓글");
-                return;
-            }
-        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return;
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
-        //}
-    }
 
     public void onClickArticleSettingMenu(View v){
         articleSettingPopupMenu = new PopupMenu(ArticleDetailFragment.this.getActivity(), v);
