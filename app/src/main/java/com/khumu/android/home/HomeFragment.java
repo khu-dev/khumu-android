@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         webView = view.findViewById(R.id.home_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://umi0410.github.io");
+        webView.loadUrl("https://khumu-frontend.netlify.app/");
         // client가 없으면 그냥 기본 브라우저 사용.
         webView.setWebViewClient(new WebViewClient());
     }
