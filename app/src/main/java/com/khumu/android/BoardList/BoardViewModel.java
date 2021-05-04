@@ -1,5 +1,6 @@
 package com.khumu.android.BoardList;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -22,7 +23,7 @@ public class BoardViewModel {
     private MutableLiveData<List<Board>> followedBoards;
     private MutableLiveData<List<Board>> unFollowedboards;
 
-    public BoardViewModel(BoardService boardService) {
+    public BoardViewModel(Context context, BoardService boardService) {
         this.boardService = boardService;
         followedBoards = new MutableLiveData<>();
         unFollowedboards = new MutableLiveData<>();
@@ -51,7 +52,7 @@ public class BoardViewModel {
     }
 
     public void listBoards(String category) {
-        Call<BoardListResponse> call = boardService.getUnFollowingBoardsByCategory(true);
+        Call<BoardListResponse> call = boardService.getUnFollowingBoardsByCategory(category,false);
         call.enqueue(new Callback<BoardListResponse>() {
             @Override
             public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
@@ -61,7 +62,6 @@ public class BoardViewModel {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
             }
-
             @Override
             public void onFailure(Call<BoardListResponse> call, Throwable t) {
                 t.printStackTrace();

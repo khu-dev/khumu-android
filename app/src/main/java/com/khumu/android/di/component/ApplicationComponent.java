@@ -1,5 +1,6 @@
 package com.khumu.android.di.component;
 
+import com.khumu.android.BoardList.BoardListFragment;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.articleDetail.ArticleDetailFragment;
 import com.khumu.android.articleDetail.CommentAdapter;
@@ -62,6 +63,7 @@ public interface ApplicationComponent {
     void inject(HomeFragment homeFragment);
     void inject(OldHomeFragment homeFragment);
     void inject(MyPageFragment myPageFragment);
+    void inject(BoardListFragment boardListFragment)
 
     void inject(KhumuApplication application);
     void inject(LoginActivity loginActivity);
