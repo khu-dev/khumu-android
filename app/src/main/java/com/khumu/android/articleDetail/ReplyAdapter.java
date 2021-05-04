@@ -88,7 +88,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
             public boolean onLongClick(View v) {
                 if(reply.isAuthor()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    builder.setMessage("대댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             commentViewModel.DeleteComment(reply.getId());
@@ -103,7 +103,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
                     alert.show();
                 }
                 else {
-                    Toast.makeText(context, "댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "대댓글은 작성자만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }

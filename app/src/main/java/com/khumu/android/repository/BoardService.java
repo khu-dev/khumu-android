@@ -9,6 +9,9 @@ import retrofit2.http.Query;
 public interface BoardService {
 
     @GET("boards")
+    Call<BoardListResponse> getUnFollowingBoardsByCategory (@Query("category") String category, @Query("followed") boolean followed);
+
+    @GET("boards")
     Call<BoardListResponse> getBoardsByCategory (@Query("category") String category);
 
     @GET("boards")
