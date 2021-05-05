@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_feed">
+    app:startDestination="@+id/navigation_home">
 
 <!--    android:title="@string/title_home" 생략, 이름 보여주고싶으면 fragment마다 넣기-->
     <fragment

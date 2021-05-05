@@ -66,7 +66,7 @@ public class OldHomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         // 나의 부모인 컨테이너에서 내가 그리고자 하는 녀석을 얻어옴. 사실상 루트로 사용할 애를 객체와.
         // inflate란 xml => java 객체
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_old_home, container, false);
 
         return root;
     }

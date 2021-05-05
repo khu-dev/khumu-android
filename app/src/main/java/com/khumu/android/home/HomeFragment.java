@@ -29,12 +29,15 @@ import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.NotificationService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 public class HomeFragment extends Fragment {
     WebView webView;
+    Map<String, String> webViewHeaders = new HashMap<>();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -63,7 +66,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         webView = view.findViewById(R.id.home_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://khumu-frontend.netlify.app/");
+        webViewHeaders.put("Authorization", "Bearer " + KhumuApplication.getToken());
+        webView.loadUrl("https://khumu-frontend.netlify.app/", webViewHeaders);
         // client가 없으면 그냥 기본 브라우저 사용.
         webView.setWebViewClient(new WebViewClient());
     }
@@ -74,22 +78,4 @@ public class HomeFragment extends Fragment {
         this.getActivity().getWindow().setStatusBarColor(this.getActivity().getColor(R.color.white));
         this.getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
     }
-    //    public void setEventListeners() {
-//        toolbar.setOnClickListener(l->{
-//            Intent intent = new Intent(HomeFragment.this.getActivity(), NotificationActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        qrIconIV.setOnClickListener(v->{
-//            Intent intent = new Intent(this.getActivity(), QrCodeActivity.class);
-//            startActivity(intent);
-//        });
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        // notification 읽은 뒤 다시 list해서 is_read 처리가 변경된 list를 얻어오게 list
-//        homeViewModel.listNotifications();
-//    }
 }
