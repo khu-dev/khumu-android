@@ -20,8 +20,8 @@ public class BoardViewModel {
 
     private final static String TAG = "BoardListViewModel";
     public BoardService boardService;
-    private MutableLiveData<List<Board>> followedBoards;
-    private MutableLiveData<List<Board>> unFollowedboards;
+    public MutableLiveData<List<Board>> followedBoards;
+    public MutableLiveData<List<Board>> unFollowedboards;
 
     public BoardViewModel(Context context, BoardService boardService) {
         this.boardService = boardService;

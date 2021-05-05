@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="6dp"
+    tools:showIn="@layout/fragment_board_list">
+    <TextView
+        android:id="@+id/board_name_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/board_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/default_font_size"
+        android:textStyle="bold"
+        android:textColor="@color/red_500"
+        android:text="화학공학과"/>
+    <TextView
+        android:id="@+id/board_content_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/board_name_tv"
+        app:layout_constraintEnd_toStartOf="@id/follow_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/small_font_size"
+        android:textStyle="bold"
+        android:textColor="@color/gray_400"
+        android:text="안녕하세요"/>
+    <ImageView
+        android:id="@+id/follow_bt"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/board_content_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="@dimen/default_icon_size"
+        android:layout_height="@dimen/default_icon_size"
+        android:src="@drawable/ic_minus"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

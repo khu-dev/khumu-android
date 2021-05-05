@@ -25,7 +25,7 @@
         android:id="@+id/navigation_boards"
         android:name="com.khumu.android.feed.MyFeedFragment"
         android:label="Board"
-        tools:layout="@layout/layout_feed" >
+        tools:layout="@layout/fragment_board_list" >
         <action
             android:id="@+id/action_navigation_boards_to_navigation_feed"
             app:destination="@id/navigation_feed" />

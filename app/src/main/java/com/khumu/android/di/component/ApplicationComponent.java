@@ -63,7 +63,7 @@ public interface ApplicationComponent {
     void inject(HomeFragment homeFragment);
     void inject(OldHomeFragment homeFragment);
     void inject(MyPageFragment myPageFragment);
-    void inject(BoardListFragment boardListFragment)
+    void inject(BoardListFragment boardListFragment);
 
     void inject(KhumuApplication application);
     void inject(LoginActivity loginActivity);
