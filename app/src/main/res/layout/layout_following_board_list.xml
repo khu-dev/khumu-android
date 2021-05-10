@@ -12,7 +12,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@drawable/background_round_white"
+
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -32,6 +32,7 @@
             android:id="@+id/feed_articles_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/background_round_white"
             app:following_board_list="@{boardViewModel.followedBoards}" />
     </LinearLayout>
 </layout>
