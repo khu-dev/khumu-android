@@ -1,4 +1,4 @@
-package com.khumu.android.BoardList;
+package com.khumu.android.boardList;
 
 import android.os.Bundle;
 

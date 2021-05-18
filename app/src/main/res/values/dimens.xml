@@ -15,5 +15,6 @@
     <dimen name="default_thumbnail_height">64dp</dimen>
     <dimen name="default_image_width">256dp</dimen>
     <dimen name="default_image_height">256dp</dimen>
+    <dimen name="board_category_font_size">18dp</dimen>
 
 </resources>

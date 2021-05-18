@@ -1,9 +1,10 @@
-package com.khumu.android.BoardList;
+package com.khumu.android.boardList;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.BoardListResponse;
@@ -16,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BoardViewModel {
+public class BoardViewModel extends ViewModel {
 
     private final static String TAG = "BoardListViewModel";
     public BoardService boardService;
@@ -29,6 +30,9 @@ public class BoardViewModel {
         unFollowedboards = new MutableLiveData<>();
         followedBoards.setValue(new ArrayList<Board>());
         unFollowedboards.setValue(new ArrayList<Board>());
+        listFollowedBoards();
+        listCategoryBoards("free");
+        Log.d(TAG, String.valueOf(followedBoards.getValue()));
     }
 
     public void listFollowedBoards() {
@@ -39,6 +43,7 @@ public class BoardViewModel {
             public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
                 if (response.isSuccessful()) {
                     followedBoards.postValue(response.body().getData());
+                    Log.d(TAG, "Article : " + response.raw().toString());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -51,7 +56,7 @@ public class BoardViewModel {
         });
     }
 
-    public void listBoards(String category) {
+    public void listCategoryBoards(String category) {
         Call<BoardListResponse> call = boardService.getUnFollowingBoardsByCategory(category,false);
         call.enqueue(new Callback<BoardListResponse>() {
             @Override

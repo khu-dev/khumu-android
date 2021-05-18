@@ -1,4 +1,4 @@
-package com.khumu.android.BoardList;
+package com.khumu.android.boardList;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableArrayList;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,12 +19,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
+import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentArticleDetailBinding;
 import com.khumu.android.databinding.FragmentBoardListBinding;
 import com.khumu.android.repository.BoardService;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
+import static com.khumu.android.BR.board;
 import static com.khumu.android.KhumuApplication.applicationComponent;
 
 public class BoardListFragment extends Fragment {
@@ -34,8 +39,10 @@ public class BoardListFragment extends Fragment {
     private FragmentBoardListBinding binding;
     private BoardViewModel boardViewModel;
 
-    private RecyclerView recyclerView;
-    private BoardAdapter boardAdapter;
+    private RecyclerView followingBoardRecyclerView;
+    private RecyclerView entireBoardRecyclerView;
+    private BoardAdapter followingBoardAdapter;
+    private BoardAdapter entireBoardAdapter;
     private LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -50,6 +57,7 @@ public class BoardListFragment extends Fragment {
                 return (T) new BoardViewModel(getContext(), boardService);
             }
         }).get(BoardViewModel.class);
+
     }
 
     @Nullable
@@ -57,19 +65,27 @@ public class BoardListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board_list, container, false);
         View root = binding.getRoot();
-        binding.recyclerViewFollowingBoardList.setAdapter(boardAdapter);
+
+        binding.followingBoardsRecyclerView.setAdapter(followingBoardAdapter);
+        binding.entireBoardsRecyclerView.setAdapter(entireBoardAdapter);
         binding.setBoardViewModel(this.boardViewModel);
         binding.setLifecycleOwner(this);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @BindingAdapter("following_board_list")
-    public static void bindItem(RecyclerView recyclerView, LiveData followingBoardList) {
+        Intent intent = getActivity().getIntent();
+        linearLayoutManager = new LinearLayoutManager(view.getContext());
 
     }
+
+//    @BindingAdapter("bind:followingBoard")
+//    public static void bindItem(RecyclerView recyclerView, ObservableArrayList<Board>) {
+//        BoardAdapter adapter = (BoardAdapter)recyclerView.getAdapter();
+//        if (adapter != null) {
+//
+//        }
+//    }
 }

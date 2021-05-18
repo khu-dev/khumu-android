@@ -1,24 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--나중에 Nav에서 Board용 탭을 만들면 사용할 Fragment-->
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
     <data>
+        <import type="android.databinding.ObservableArrayList" />
+        <import type="com.khumu.android.data.Board" />
+
+        <variable
+            name="followingBoardList"
+            type="ObservableArrayList&lt;Board&gt;" />
+        <variable
+            name="entireBoardList"
+            type="ObservableArrayList&lt;Board&gt;" />
         <variable
             name="boardViewModel"
-            type="com.khumu.android.BoardList.BoardViewModel" />
+            type="com.khumu.android.boardList.BoardViewModel" />
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
         android:background="@color/gray_400"
         android:orientation="vertical">
         <include
             layout="@layout/toolbar_board" />
-        <include
-            layout="@layout/layout_following_board_list"
-            app:boardViewModel="@{boardViewModel}" />
-        <include
-            layout="@layout/layout_entire_board_list"
-            app:boardViewModel="@{boardViewModel}"/>
+<!--        <include-->
+<!--            layout="@layout/layout_following_board_list"-->
+<!--            app:boardViewModel="@{boardViewModel}" />-->
+<!--        <include-->
+<!--            layout="@layout/layout_entire_board_list"-->
+<!--            app:boardViewModel="@{boardViewModel}"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/following_board_list_layout"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp" android:layout_marginLeft="10dp"
+                android:background="@drawable/background_round_filled_red_500"
+                android:text="following"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
+                android:paddingRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/following_boards_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_round_white"
+                bind:item="@{followingBoardList}" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/board_category_font_size"
+                    android:background="@drawable/background_top_round_filled_red_500"
+                    android:text="공식"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/board_category_font_size"
+                    android:background="@drawable/background_top_round_filled_red_500"
+                    android:text="학과"
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/board_category_font_size"
+                    android:background="@drawable/background_top_round_filled_red_500"
+                    android:text="강의"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/board_category_font_size"
+                    android:background="@drawable/background_top_round_filled_red_500"
+                    android:text="자율"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
+                android:paddingRight="10dp"
+                android:id="@+id/entire_boards_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_round_white"
+                bind:item="@{entireBoardList}" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

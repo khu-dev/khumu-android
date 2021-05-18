@@ -1,6 +1,6 @@
 package com.khumu.android.di.component;
 
-import com.khumu.android.BoardList.BoardListFragment;
+import com.khumu.android.boardList.BoardListFragment;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.articleDetail.ArticleDetailFragment;
 import com.khumu.android.articleDetail.CommentAdapter;
