@@ -4,15 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
     <data>
-        <import type="android.databinding.ObservableArrayList" />
         <import type="com.khumu.android.data.Board" />
-
-        <variable
-            name="followingBoardList"
-            type="ObservableArrayList&lt;Board&gt;" />
-        <variable
-            name="entireBoardList"
-            type="ObservableArrayList&lt;Board&gt;" />
         <variable
             name="boardViewModel"
             type="com.khumu.android.boardList.BoardViewModel" />
@@ -54,11 +46,12 @@
                 android:paddingBottom="20dp"
                 android:paddingRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/following_boards_recycler_view"
+                android:id="@+id/following_board_list_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_round_white"
-                bind:item="@{followingBoardList}" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:following_board_list="@{boardViewModel.followingBoards}" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,11 +124,12 @@
                 android:paddingLeft="10dp"
                 android:paddingBottom="20dp"
                 android:paddingRight="10dp"
-                android:id="@+id/entire_boards_recycler_view"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:id="@+id/category_board_list_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_round_white"
-                bind:item="@{entireBoardList}" />
+                app:category_board_list="@{boardViewModel.categoryBoards}" />
         </LinearLayout>
     </LinearLayout>
 </layout>

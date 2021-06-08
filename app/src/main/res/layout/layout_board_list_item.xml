@@ -16,8 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:paddingHorizontal="12dp"
         android:paddingVertical="6dp"
-        android:id="@+id/board_list_item_layout"
-        tools:showIn="@layout/fragment_board_list">
+        android:id="@+id/board_list_item_layout">
         <TextView
             android:id="@+id/board_name_tv"
             app:layout_constraintTop_toTopOf="parent"

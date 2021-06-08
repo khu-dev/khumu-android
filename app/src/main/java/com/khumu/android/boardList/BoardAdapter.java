@@ -14,7 +14,6 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.LayoutBoardListItemBinding;
-import com.khumu.android.databinding.LayoutEntireBoardListBinding;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.repository.BoardService;
 
@@ -28,8 +27,58 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
     private Context context;
     @Inject
     public BoardService boardService;
-
     public BoardViewModel boardViewModel;
+
+    public BoardAdapter(List<Board> boardList, Context context, BoardViewModel boardViewModel) {
+        KhumuApplication.applicationComponent.inject(this);
+        this.context = context;
+        this.boardList = boardList;
+        this.boardViewModel = boardViewModel;
+    }
+
+    @NonNull
+    @Override
+    public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutBoardListItemBinding binding = DataBindingUtil.
+                inflate(LayoutInflater.from(parent.getContext()), R.layout.layout_board_list_item, parent, false);
+        return new BoardAdapter.BoardViewHolder(binding, this.context);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BoardViewHolder holder, int position) {
+        Board board = boardList.get(position);
+        holder.bind(board);
+
+        holder.binding.boardListItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SingleBoardFeedActivity.class);
+                intent.putExtra("board", board);
+                v.getContext().startActivity(intent);
+            }
+        });
+        holder.binding.followBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (board.getFollowed() == false) {
+                    boardViewModel.followBoard(board.getDisplayName());
+                } else {
+                    boardViewModel.unfollowBoard(board.getDisplayName());
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return boardList == null ? 0 : boardList.size();
+    }
 
     public class BoardViewHolder extends RecyclerView.ViewHolder {
         private LayoutBoardListItemBinding binding;
@@ -60,48 +109,5 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
 //        }
     }
 
-    public BoardAdapter(List<Board> boardList, BoardViewModel boardViewModel, Context context) {
-        this.context = context;
-        this.boardList = boardList;
-        this.boardViewModel = boardViewModel;
-    }
 
-    @NonNull
-    @Override
-    public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutBoardListItemBinding binding = DataBindingUtil.
-                inflate(LayoutInflater.from(parent.getContext()), R.layout.layout_board_list_item, parent, false);
-        return new BoardAdapter.BoardViewHolder(binding, this.context);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull BoardViewHolder holder, int position) {
-        Board board = boardList.get(position);
-        holder.bind(board);
-        holder.binding.boardListItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SingleBoardFeedActivity.class);
-                intent.putExtra("board", board);
-                v.getContext().startActivity(intent);
-            }
-        });
-        holder.binding.followBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return boardList == null ? 0 : boardList.size();
-    }
 }
