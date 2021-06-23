@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
         webView = view.findViewById(R.id.home_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webViewHeaders.put("Authorization", "Bearer " + KhumuApplication.getToken());
-        webView.loadUrl("https://khumu-frontend.netlify.app/", webViewHeaders);
+        webView.loadUrl("https://khumu-frontend.vercel.app/", webViewHeaders);
         // client가 없으면 그냥 기본 브라우저 사용.
         webView.setWebViewClient(new WebViewClient());
     }
