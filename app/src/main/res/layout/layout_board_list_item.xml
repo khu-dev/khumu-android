@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="board"
+            type="com.khumu.android.data.Board" />
+        <variable
+            name="viewHolder"
+            type="com.khumu.android.boardList.BoardAdapter.BoardViewHolder"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:id="@+id/board_list_item_layout">
+        <TextView
+            android:id="@+id/board_name_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/board_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/default_font_size"
+            android:textStyle="bold"
+            android:textColor="@color/red_500"
+            android:text="@{board.displayName, default=displayName}"/>
+        <TextView
+            android:id="@+id/board_description_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/board_name_tv"
+            app:layout_constraintEnd_toStartOf="@id/follow_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font_size"
+            android:textStyle="bold"
+            android:textColor="@color/gray_400"
+            android:text="@{board.description, default=description}"/>
+        <ImageView
+            android:id="@+id/follow_bt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/board_description_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
+            android:src="@{board.followed ? @drawable/ic_minus : @drawable/ic_plus}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

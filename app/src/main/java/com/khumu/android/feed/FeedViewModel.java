@@ -71,7 +71,7 @@ public class FeedViewModel extends ViewModel {
     // 특정 카테고리 혹은 follow 중인 board를 조회할 수 있음.
     public void listBoards(String category, Boolean followed) {
         Log.d(TAG, "ListBoards: ");
-        Call<BoardListResponse> call = boardService.getFollowingBoards(true);
+        Call<BoardListResponse> call = boardService.getFollowingBoards("application/json", true);
         call.enqueue(new Callback<BoardListResponse>() {
             @Override
             public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
