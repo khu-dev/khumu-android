@@ -83,7 +83,7 @@ public class ArticleDetailFragment extends Fragment {
     private CheckBox commentAnonymousCKB;
     private RecyclerView articleTagRecyclerView;
     private ArticleTagAdapter articleTagAdapter;
-
+    private OnBackPressedCallback onBackPressedCallback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,9 +102,10 @@ public class ArticleDetailFragment extends Fragment {
             }
         }).get(CommentViewModel.class);
 
-        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+        onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                System.out.println("commentToWrite : " + commentToWrite);
                 if (commentToWrite != null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("대댓글 입력을 취소하겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -112,6 +113,7 @@ public class ArticleDetailFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             commentToWrite = null;
                             writeCommentContentET.setHint("댓글을 입력하세요");
+                            setEnabled(false);
                         }
                     }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         @Override
@@ -125,7 +127,6 @@ public class ArticleDetailFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
-
     }
 
     @Override
@@ -181,7 +182,6 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
         articleSettingIcon = view.findViewById(R.id.article_detail_setting_icon);
         commentAnonymousCKB = view.findViewById(R.id.comment_anonymous_ckb);
-
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,6 +302,7 @@ public class ArticleDetailFragment extends Fragment {
 
     public void setCommentToWrite(Comment comment) {
         commentToWrite = comment;
+        onBackPressedCallback.setEnabled(true);
     }
 }
 
