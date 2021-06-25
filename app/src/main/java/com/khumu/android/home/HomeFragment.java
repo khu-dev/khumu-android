@@ -2,6 +2,7 @@ package com.khumu.android.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 public class HomeFragment extends Fragment {
-    WebView webView;
+    public WebView webView;
     Map<String, String> webViewHeaders = new HashMap<>();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,15 +68,21 @@ public class HomeFragment extends Fragment {
         webView = view.findViewById(R.id.home_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webViewHeaders.put("Authorization", "Bearer " + KhumuApplication.getToken());
+        System.out.println("open  webview");
         webView.loadUrl("https://khumu-frontend.vercel.app/", webViewHeaders);
         // client가 없으면 그냥 기본 브라우저 사용.
         webView.setWebViewClient(new WebViewClient());
+
     }
 
+    // 설정했던 StatusBar 색을 원래대로 돌려 놓음.
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         this.getActivity().getWindow().setStatusBarColor(this.getActivity().getColor(R.color.white));
         this.getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
     }
+
+
+
 }
