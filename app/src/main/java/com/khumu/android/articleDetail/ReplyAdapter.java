@@ -91,7 +91,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
                     builder.setMessage("대댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            commentViewModel.DeleteComment(reply.getId());
+                            commentViewModel.deleteComment(reply.getId());
                         }
                     }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         @Override

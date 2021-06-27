@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +29,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.khumu.android.KhumuApplication;
-import com.khumu.android.MainActivity;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
 import com.khumu.android.data.Article;
@@ -41,6 +38,7 @@ import com.khumu.android.databinding.FragmentArticleDetailBinding;
 import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
+import com.khumu.android.repository.NotificationService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,6 +58,8 @@ public class ArticleDetailFragment extends Fragment {
     public ArticleService articleService;
     @Inject
     public CommentService commentService;
+    @Inject
+    public NotificationService notificationService;
     private FragmentArticleDetailBinding binding;
     private Intent intent;
     private CommentViewModel commentViewModel;
@@ -98,14 +98,16 @@ public class ArticleDetailFragment extends Fragment {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new CommentViewModel(getContext(), articleService, commentService, String.valueOf(article.getId()));
+                return (T) new CommentViewModel(getContext(), articleService, commentService, notificationService, String.valueOf(article.getId()));
             }
         }).get(CommentViewModel.class);
 
+        // 뒤로가기 시 하는 작업을 Callback을 통해 커스터마이징함
         onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 System.out.println("commentToWrite : " + commentToWrite);
+                // 현재 대댓글 작성 중인 댓글이 있다면
                 if (commentToWrite != null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("대댓글 입력을 취소하겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -113,6 +115,7 @@ public class ArticleDetailFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             commentToWrite = null;
                             writeCommentContentET.setHint("댓글을 입력하세요");
+                            // 해당 Callback 비활성화한 후 나중에 다시 대댓글 입력 시 활성화
                             setEnabled(false);
                         }
                     }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -205,7 +208,7 @@ public class ArticleDetailFragment extends Fragment {
                     if (TextUtils.isEmpty(simpleComment.getContent())) {
                         throw new Exception("내용을 입력하세요");
                     }
-                    commentViewModel.CreateComment(simpleComment);
+                    commentViewModel.createComment(simpleComment);
                     // 댓글 작성 후 작성창 비우기
                     writeCommentContentET.setText("");
                 } catch (Exception e) {
@@ -302,6 +305,7 @@ public class ArticleDetailFragment extends Fragment {
 
     public void setCommentToWrite(Comment comment) {
         commentToWrite = comment;
+        // 대댓글 입력 시 뒤로가기 누를 때 Callback이 작동하도록 활성화
         onBackPressedCallback.setEnabled(true);
     }
 }

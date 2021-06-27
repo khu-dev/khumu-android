@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--게시물의 body 역할을 하는 layout-->
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="fragment"
@@ -10,8 +11,7 @@
             type="com.khumu.android.articleDetail.CommentViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_bordered_white_background"
@@ -31,9 +31,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="방금 전"
-                android:textSize="10dp"
+                android:textSize="14dp"
                 app:layout_constraintBottom_toTopOf="@id/article_detail_author_icon"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="알림"
+                app:layout_constraintRight_toLeftOf="@id/article_detail_subscribe_bt"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/article_detail_subscribe_bt"
+                android:layout_width="27dp"
+                android:layout_height="30dp"
+                android:backgroundTint="@{viewModel.articleSubscribed ? @color/red_500 : @color/gray_500}"
+                android:text="@{viewModel.articleSubscribed ? `ON` : `OFF` }"
+                android:textSize="13dp"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -53,8 +71,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_default_space"
-
                 android:text="@{viewModel.liveDataArticle.author.nickname, default=USERNAME}"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toTopOf="@id/article_detail_title_tv"
                 app:layout_constraintLeft_toRightOf="@+id/article_detail_author_icon"
                 app:layout_constraintTop_toBottomOf="@id/article_detail_created_at_tv" />
@@ -65,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.liveDataArticle.title, default=제목}"
                 android:textColor="@color/red_500"
-                android:textSize="@dimen/big_title_font_size"
+                android:textSize="@dimen/article_title_font_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -75,7 +93,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_400"/>
+            android:background="@color/gray_400" />
 
         <TextView
             android:id="@+id/article_detail_content_tv"
@@ -84,8 +102,8 @@
             android:layout_marginTop="9dp"
             android:layout_marginBottom="@dimen/layout_large_space"
             android:text="@{viewModel.liveDataArticle.content, default=내용}"
-            android:textSize="16dp"
-            android:textColor="@color/red_500"/>
+            android:textColor="@color/red_500"
+            android:textSize="16dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/article_detail_image_recycler_view"

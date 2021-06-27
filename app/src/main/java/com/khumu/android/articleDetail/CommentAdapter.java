@@ -3,8 +3,6 @@ package com.khumu.android.articleDetail;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,13 +110,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // 삭제되기 전에 ListComment되는 것을 막기 위해 쓰레드를 잠시 멈춘다음에 ListComment를 해준다.
-                            commentViewModel.DeleteComment(comment.getId());
+                            commentViewModel.deleteComment(comment.getId());
                             try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            commentViewModel.ListComment();
+                            commentViewModel.listComment();
                         }
                     }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         @Override
@@ -166,7 +164,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                             if (comment.isAuthor()) {
                                 throw new Exception("자신의 댓글에는 좋아요를 누를 수 없습니다");
                             }
-                            commentViewModel.LikeComment(comment.getId());
+                            commentViewModel.likeComment(comment.getId());
                             boolean liked = comment.isLiked();
                             if (liked) {
                                 comment.setLiked(false);
