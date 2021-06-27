@@ -2,17 +2,24 @@ package com.khumu.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentController;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
+    // nav_host_fragment를 이용해 current fragment를 참조하기 위함
+    Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +34,35 @@ public class MainActivity extends AppCompatActivity {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(navView, navController);
+            fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         } else{
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
+    }
 
+    @Override
+    // onKeyDown은 안 먹히더라.
+    // 아무래도 fragment가 focus를 갖고 있기 때문일까?
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+        {
+            // nav_host_fragment 에서 current fragment를 구하기 위함
+            // => webview를 이용하는 fragment의 경우 이전 키를 누를 수 있으면 fragment 단에서 이전 키를 처리하려고.
+            // https://stackoverflow.com/questions/50689206/how-i-can-retrieve-current-fragment-in-navhostfragment
+            Fragment currentFragment = fragment.getChildFragmentManager().getFragments().get(0);
+            // HomeFragment 를 이용 중일 떄
+            if (currentFragment instanceof HomeFragment) {
+                HomeFragment homeFragment = (HomeFragment) currentFragment;
+                if (homeFragment.webView.canGoBack()) {
+                    System.out.println("웹뷰에서 뒤로 갈 수 있기 때문에 MainActivity에서 뒤로 가기를 수행하지 않고 웹뷰가 뒤로 가기를 수행합니다.");
+                    homeFragment.webView.goBack();
+                    return true;
+                }
+            }
+        }
+
+        return super.dispatchKeyEvent(event);
     }
 }

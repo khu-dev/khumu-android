@@ -30,7 +30,7 @@ NotificationService {
     @PATCH("notifications/{id}")
     Call<Object> patchRead(@Header("Content-Type") String contentType, @Path("id") Long id, @Body NotificationReadRequest body);
 
-    @PATCH("push-subscriptions")
+    @POST("push/subscribe")
     Call<PushSubscriptionResponse> subscribe(@Header("Content-Type") String contentType, @Body PushSubscription subscription);
 
     @POST("subscribe")
