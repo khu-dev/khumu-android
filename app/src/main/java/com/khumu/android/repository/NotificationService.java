@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -20,6 +21,6 @@ public interface NotificationService {
     @PATCH("notifications/{id}")
     Call<Object> patchRead(@Header("Content-Type") String contentType, @Path("id") Long id, @Body NotificationReadRequest body);
 
-    @PATCH("push-subscriptions")
+    @POST("push/subscribe")
     Call<PushSubscriptionResponse> subscribe(@Header("Content-Type") String contentType, @Body PushSubscription subscription);
 }
