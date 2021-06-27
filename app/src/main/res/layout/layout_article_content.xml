@@ -41,11 +41,11 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:text="알림"
-                app:layout_constraintRight_toLeftOf="@id/article_detail_subscribe_bt"
+                app:layout_constraintRight_toLeftOf="@id/article_detail_subscribe_btn"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/article_detail_subscribe_bt"
+                android:id="@+id/article_detail_subscribe_btn"
                 android:layout_width="27dp"
                 android:layout_height="30dp"
                 android:backgroundTint="@{viewModel.articleSubscribed ? @color/red_500 : @color/gray_500}"

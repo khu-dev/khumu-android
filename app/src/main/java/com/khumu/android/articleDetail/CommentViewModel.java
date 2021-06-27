@@ -84,13 +84,13 @@ public class CommentViewModel extends ViewModel {
         });
     }
 
-    public void subscribeArticle(int articleId) {
-        ResourceSubscription subscription = new ResourceSubscription("article", articleId);
-        Call<Object> call = notificationService.subscribeResource("application-json", subscription);
+    public void subscribeArticle() {
+        ResourceSubscription subscription = new ResourceSubscription("article", Integer.valueOf(articleID));
+        Call<Object> call = notificationService.subscribeResource("application/json", subscription);
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                Log.d(TAG, "Article " + String.valueOf(articleId) + " Subscribed" );
+                Log.d(TAG, "Article " + articleID + " Subscribed" );
                 Toast.makeText(context, "게시물을 구독했습니다", Toast.LENGTH_LONG);
                 isArticleSubscribed.postValue(true);
             }
@@ -103,13 +103,13 @@ public class CommentViewModel extends ViewModel {
         });
     }
 
-    public void unsubscribeArticle(int articleId) {
-        ResourceSubscription subscription = new ResourceSubscription("article", articleId);
-        Call<Object> call = notificationService.unsubscribeResource("application-json", subscription);
+    public void unsubscribeArticle() {
+        ResourceSubscription subscription = new ResourceSubscription("article", Integer.valueOf(articleID));
+        Call<Object> call = notificationService.unsubscribeResource("application/json", subscription);
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                Log.d(TAG, "Article " + String.valueOf(articleId) + " Unsubscribed" );
+                Log.d(TAG, "Article " + articleID + " Unsubscribed" );
                 Toast.makeText(context, "게시물을 구독 취소했습니다", Toast.LENGTH_LONG);
                 isArticleSubscribed.postValue(false);
             }
@@ -119,7 +119,7 @@ public class CommentViewModel extends ViewModel {
                 Toast.makeText(context, "알 수 없는 이유로 게시물을 구독 취소하지 못했습니다", Toast.LENGTH_LONG);
                 t.printStackTrace();
             }
-        })
+        });
     }
 
     public void getIsArticleSubscribed() {

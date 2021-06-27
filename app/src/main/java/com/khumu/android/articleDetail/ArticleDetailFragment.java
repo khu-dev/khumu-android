@@ -76,6 +76,7 @@ public class ArticleDetailFragment extends Fragment {
     private TextView articleLikeCountTV;
     private ImageView articleLikeIcon;
     private TextView articleDetailCreatedAtTV;
+    private Button articleDetailSubscribeBTN;
     private EditText writeCommentContentET;
     private Button writeCommentContentBTN;
     private ImageView articleSettingIcon;
@@ -179,12 +180,24 @@ public class ArticleDetailFragment extends Fragment {
         articleCommentCountTV = view.findViewById(R.id.article_detail_comment_count_tv);
         articleAuthorNicknameTV = view.findViewById(R.id.article_detail_author_nickname_tv);
         articleDetailCreatedAtTV= view.findViewById(R.id.article_detail_created_at_tv);
+        articleDetailSubscribeBTN = view.findViewById(R.id.article_detail_subscribe_btn);
         articleLikeCountTV = view.findViewById(R.id.article_detail_like_article_count_tv);
         articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
         articleSettingIcon = view.findViewById(R.id.article_detail_setting_icon);
         commentAnonymousCKB = view.findViewById(R.id.comment_anonymous_ckb);
+        articleDetailSubscribeBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (commentViewModel.getArticleSubscribed().getValue()) {
+                    commentViewModel.unsubscribeArticle();
+                }
+                else {
+                    commentViewModel.subscribeArticle();
+                }
+            }
+        });
         writeCommentContentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

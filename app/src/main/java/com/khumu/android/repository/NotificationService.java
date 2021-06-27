@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -35,8 +36,8 @@ NotificationService {
 
     @POST("subscribe")
     Call<Object> subscribeResource(@Header("Content-Type") String contentType, @Body ResourceSubscription subscription);
-
-    @DELETE("subscribe")
+    
+    @HTTP(method = "DELETE", path = "subscribe", hasBody = true)
     Call<Object> unsubscribeResource(@Header("Content-Type") String contentType, @Body ResourceSubscription subscription);
 
     @GET("subscriptions/{username}/article/{id}")
