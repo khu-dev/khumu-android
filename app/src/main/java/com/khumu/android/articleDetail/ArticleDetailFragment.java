@@ -104,7 +104,7 @@ public class ArticleDetailFragment extends Fragment {
         }).get(CommentViewModel.class);
 
         // 뒤로가기 시 하는 작업을 Callback을 통해 커스터마이징함
-        onBackPressedCallback = new OnBackPressedCallback(true) {
+        onBackPressedCallback = new OnBackPressedCallback(false) {
             @Override
             public void handleOnBackPressed() {
                 System.out.println("commentToWrite : " + commentToWrite);

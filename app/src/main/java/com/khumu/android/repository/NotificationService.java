@@ -36,7 +36,8 @@ NotificationService {
 
     @POST("subscribe")
     Call<Object> subscribeResource(@Header("Content-Type") String contentType, @Body ResourceSubscription subscription);
-    
+
+    // DELETE로는 Body를 보낼 수 없어 따로 메소드를 커스텀하였다.
     @HTTP(method = "DELETE", path = "subscribe", hasBody = true)
     Call<Object> unsubscribeResource(@Header("Content-Type") String contentType, @Body ResourceSubscription subscription);
 
