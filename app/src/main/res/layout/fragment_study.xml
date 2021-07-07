@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.khumu.android.data.StudyArticle"/>
+        <variable
+            name="studyViewModel"
+            type="com.khumu.android.study.StudyViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_400"
+        android:orientation="vertical">
+        <include
+            layout="@layout/toolbar_board" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_study_room"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/study_room_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/red_500"
+                android:textSize="@dimen/big_title_font_size"
+                android:text="스터디 방잡기" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/study_room_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/study_room_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/study_list_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:study_list="{@studyViewModel.studyList}"/>
+
+
+    </LinearLayout>
+</layout>

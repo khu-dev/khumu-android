@@ -59,8 +59,6 @@ public class BoardListFragment extends Fragment {
                 return (T) new BoardViewModel(getContext(), boardService);
             }
         }).get(BoardViewModel.class);
-        Log.d(TAG, "FollowingBoards: " + boardViewModel.followingBoards);
-
     }
 
     @Nullable

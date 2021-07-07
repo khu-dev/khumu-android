@@ -94,19 +94,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             this.binding.setViewHolder(this);
         }
 
-        public int getFollowIcon() {
-            Board board = this.binding.getBoard();
-            if (board.getFollowed()) {
-                return R.drawable.ic_minus;
-            } else {
-                return R.drawable.ic_plus;
-            }
-
-        }
-
-//        public void onClickFollowBt(View v) {
-//            boardViewModel.
-//        }
     }
 
 
