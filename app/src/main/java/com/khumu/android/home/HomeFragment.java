@@ -1,12 +1,21 @@
 package com.khumu.android.home;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JsResult;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -62,16 +71,37 @@ public class HomeFragment extends Fragment {
 
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         webView = view.findViewById(R.id.home_web_view);
-        webView.getSettings().setJavaScriptEnabled(true);
+        /**
+         * 웹에서는 아래와 같은 코드로 이용 가능
+         * <script type="text/javascript">
+         *     function setTokenByAndroid(toast) {
+         *         token = Android.getToken(toast);
+         *     }
+         * </script>
+         */
         webViewHeaders.put("Authorization", "Bearer " + KhumuApplication.getToken());
         System.out.println("open  webview");
-        webView.loadUrl("https://khumu-frontend.vercel.app/", webViewHeaders);
-        // client가 없으면 그냥 기본 브라우저 사용.
+
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
         webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                return super.onJsAlert(view, url, message, result);
+            }
+        });
+
+        webView.addJavascriptInterface(new JavaScriptInterface(this.getContext(), KhumuApplication.getToken()), "Android");
+        webView.loadUrl("https://khumu-frontend.vercel.app/");
+//        webView.loadUrl("javascript:alert(Android.getToken())");
 
     }
 
@@ -82,6 +112,7 @@ public class HomeFragment extends Fragment {
         this.getActivity().getWindow().setStatusBarColor(this.getActivity().getColor(R.color.white));
         this.getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
     }
+
 
 
 
