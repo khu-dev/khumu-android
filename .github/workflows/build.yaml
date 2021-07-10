@@ -24,19 +24,11 @@ jobs:
           apt-get update && apt-get install -y tree
           tree
 
-      - name: 슬랙에 업로드
-        uses: rtCamp/action-slack-notify@master
-        env:
-          SLACK_CHANNEL: android-build
-          SLACK_COLOR: '#DD0000'
-          SLACK_MESSAGE: ${{ github.event.head_commit.message }}
-          SLACK_TITLE: '새로운 안드로이드 APK가 빌드되었습니다.'
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-      - uses: MeilCli/slack-upload-file@v1
+      - uses: 슬랙에 APK 업로드
         with:
           slack_token: ${{ secrets.SLACKBOT_TOKEN }}
-          channels: ${{ secrets.SLACKBOT_CHANNELS }}
+          channels: khumu
           file_path: 'app/build/outputs/apk/release/app-release-unsigned.apk'
           file_name: 'app-release-unsigned.apk'
           file_type: 'apk'
-          initial_comment: ${{ github.event.head_commit.message }}
+          initial_comment: '새로운 안드로이드 APK가 빌드되었습니다 - ${{ github.event.head_commit.message }}'
