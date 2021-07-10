@@ -24,7 +24,8 @@ jobs:
           apt-get update && apt-get install -y tree
           tree
 
-      - uses: 슬랙에 APK 업로드
+      - name: 슬랙에 APK 업로드
+        uses: MeilCli/slack-upload-file@v1
         with:
           slack_token: ${{ secrets.SLACKBOT_TOKEN }}
           channels: khumu

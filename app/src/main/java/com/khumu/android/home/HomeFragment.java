@@ -91,13 +91,12 @@ public class HomeFragment extends Fragment {
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        webView.setBackgroundColor(Color.GREEN);
         webView.setWebViewClient(new WebViewClient());
-        webView.setWebChromeClient(new WebChromeClient(){
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-                return super.onJsAlert(view, url, message, result);
-            }
-        });
+        // webview chrome client도 있어야 alert를 이용할 수 있더라
+        webView.setWebChromeClient(new WebChromeClient());
 
         webView.addJavascriptInterface(new JavaScriptInterface(this.getContext(), KhumuApplication.getToken()), "Android");
         webView.loadUrl("https://khumu-frontend.vercel.app/");
