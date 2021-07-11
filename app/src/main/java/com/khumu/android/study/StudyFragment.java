@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -23,6 +24,7 @@ import com.khumu.android.repository.StudyService;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +38,10 @@ public class StudyFragment extends Fragment {
     private Intent intent;
     private FragmentStudyBinding binding;
     private StudyViewModel studyViewModel;
+
+    private RecyclerView studyListRecylcerView;
+    private StudyAdapter studyAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,23 +63,24 @@ public class StudyFragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_study, container, false);
         View root = binding.getRoot();
+        binding.studyListRecyclerView.setAdapter(new StudyAdapter(new ArrayList<StudyArticle>(), this.getContext(), studyViewModel));
         binding.setStudyViewModel(this.studyViewModel);
         binding.setLifecycleOwner(this);
         return root;
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Intent intent = getActivity().getIntent();
     }
 
-    @Override("study_list")
-    public static void bindStudyList(RecyclerView recyclerView, LiveData<List<StudyArticle>> studyList) {
+    @BindingAdapter("study_list")
+    public static void bindStudyList(RecyclerView recyclerView, LiveData<List<StudyArticle>> studies) {
         if (recyclerView.getAdapter() != null) {
             StudyAdapter adapter = (StudyAdapter) recyclerView.getAdapter();
             adapter.studyList.clear();
-            adapter.studyList.addAll((List<StudyArticle>) studyList.getValue());
+            adapter.studyList.addAll((List<StudyArticle>) studies.getValue());
             adapter.notifyDataSetChanged();
         }
     }

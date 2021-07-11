@@ -37,7 +37,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="7dp"
-                android:paddingBottom="7dp" android:layout_marginLeft="10dp"
+                android:paddingBottom="7dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/background_round_filled_red_500"
                 android:text="following"/>
             <androidx.recyclerview.widget.RecyclerView
@@ -78,6 +79,7 @@
                     android:textSize="@dimen/board_category_font_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/autonomous_board_btn"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@drawable/background_top_round_filled_red_500"
                     android:text="공식"/>
                 <Button
@@ -94,6 +96,7 @@
                     android:textSize="@dimen/board_category_font_size"
                     app:layout_constraintStart_toEndOf="@id/official_board_btn"
                     app:layout_constraintEnd_toStartOf="@id/major_board_btn"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@drawable/background_top_round_filled_red_500"
                     android:text="자율"/>
                 <Button
@@ -110,6 +113,7 @@
                     android:textSize="@dimen/board_category_font_size"
                     app:layout_constraintStart_toEndOf="@id/autonomous_board_btn"
                     app:layout_constraintEnd_toStartOf="@id/lecture_board_btn"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@drawable/background_top_round_filled_red_500"
                     android:text="학과"
                     />
@@ -127,6 +131,7 @@
                     android:textSize="@dimen/board_category_font_size"
                     app:layout_constraintStart_toEndOf="@id/major_board_btn"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@drawable/background_top_round_filled_red_500"
                     android:text="강의"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>

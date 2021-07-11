@@ -46,7 +46,7 @@ public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull StudyAdapter.StudyViewHolder holder, int position, @NonNull @NotNull List<Object> payloads) {
+    public void onBindViewHolder(@NonNull @NotNull StudyAdapter.StudyViewHolder holder, int position) {
         StudyArticle study = studyList.get(position);
         holder.bind(study);
 

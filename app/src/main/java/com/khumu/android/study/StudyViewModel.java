@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.khumu.android.data.StudyArticle;
 import com.khumu.android.data.rest.StudyListResponse;
@@ -16,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StudyViewModel {
+public class StudyViewModel extends ViewModel {
 
     private final static String TAG = "StudyViewModel";
     public StudyService studyService;
@@ -28,6 +29,7 @@ public class StudyViewModel {
         this.studyService = studyService;
         studies = new MutableLiveData<>();
         studies.setValue(new ArrayList<StudyArticle>());
+        listStudies();
         Log.d(TAG, "Created");
     }
 
@@ -44,7 +46,6 @@ public class StudyViewModel {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
             }
-
             @Override
             public void onFailure(Call<StudyListResponse> call, Throwable t) {
                 t.printStackTrace();

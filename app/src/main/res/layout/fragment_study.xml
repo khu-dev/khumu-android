@@ -44,7 +44,7 @@
             android:id="@+id/study_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:study_list="{@studyViewModel.studyList}"/>
+            app:study_list="@{studyViewModel.studies}"/>
 
 
     </LinearLayout>
