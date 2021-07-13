@@ -20,6 +20,11 @@ import com.khumu.android.data.Article;
 import java.util.ArrayList;
 import java.util.List;
 
+// viewModel을 어떻게 초기화할 지 정해지지 않은 Feed
+// 상속받아 viewModel 초기화 방법을 override해야한다.
+// 실제 단일 게시판에 대한 게시글 리스트일 수도 있고
+// 논리적 단일 게시판(내가 좋아요 한 게시글 등등)에 대한 게시글 리스트일 수도 있고,
+// 다수의 게시판에 대한 게시글 리스트인 "나의 피드"일 수도 있다.
 public abstract class BaseFeedFragment extends Fragment {
     private final static String TAG = "BaseFeedFragment";
     protected LinearLayoutManager linearLayoutManager;

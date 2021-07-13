@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
-        webView.setBackgroundColor(Color.GREEN);
+
         webView.setWebViewClient(new WebViewClient());
         // webview chrome client도 있어야 alert를 이용할 수 있더라
         webView.setWebChromeClient(new WebChromeClient());
