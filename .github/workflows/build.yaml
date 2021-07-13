@@ -8,28 +8,39 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout the code
         uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+
+#      - name: Copy gradle properties file
+#        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
-      - name: Build APK
-        run: bash ./gradlew assembleRelease --stacktrace
+      - name: Build the app
+        run: ./gradlew assembleDebug
 
-      - name: 파일 리스트 디버깅
+      - name: Debug) file tree
         run: |
           apt-get update && apt-get install -y tree
           tree
+
 
       - name: 슬랙에 APK 업로드
         uses: MeilCli/slack-upload-file@v1
         with:
           slack_token: ${{ secrets.SLACKBOT_TOKEN }}
           channels: khumu
-          file_path: 'app/build/outputs/apk/release/app-release-unsigned.apk'
-          file_name: 'app-release-unsigned.apk'
+          file_path: 'app/build/outputs/apk/debug/app-debug.apk'
+          file_name: 'app-debug.apk'
           file_type: 'apk'
           initial_comment: '새로운 안드로이드 APK가 빌드되었습니다 - ${{ github.event.head_commit.message }}'
