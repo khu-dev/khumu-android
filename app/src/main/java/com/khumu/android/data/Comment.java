@@ -11,6 +11,8 @@ public class Comment {
     private int id;
     @SerializedName("article")
     private int articleID;
+    @SerializedName("study_article")
+    private int studyArticleID;
     @Expose
     private SimpleUser author;
     @Expose
