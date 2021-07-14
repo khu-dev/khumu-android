@@ -9,6 +9,7 @@ import com.khumu.android.repository.CommentService;
 import com.khumu.android.repository.ImageService;
 import com.khumu.android.repository.NotificationService;
 import com.khumu.android.repository.QrCodeService;
+import com.khumu.android.repository.StudyService;
 import com.khumu.android.repository.TokenService;
 import com.khumu.android.repository.UserService;
 import com.khumu.android.util.Util;
@@ -105,5 +106,11 @@ public class RetrofitModule {
     @Provides
     public static QrCodeService providesQrCodeService (Retrofit retrofit) {
         return retrofit.create(QrCodeService.class);
+    }
+
+    @Singleton
+    @Provides
+    public static StudyService providesStudyService (Retrofit retrofit) {
+        return retrofit.create(StudyService.class);
     }
 }
