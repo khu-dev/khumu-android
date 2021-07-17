@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 public class HomeFragment extends Fragment {
+    private final static String TAG = "HomeFragment";
     public WebView webView;
     Map<String, String> webViewHeaders = new HashMap<>();
     @Override
@@ -96,50 +98,13 @@ public class HomeFragment extends Fragment {
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
+//        settings.setDomStorageEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
 
         webView.setWebViewClient(new WebViewClient(){
             final List<String> RESOURCE_KIND_PLURALS = Arrays.asList("articles");
-
-            @Nullable
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                Uri uri = request.getUrl();
-                List<String> pathSegments = uri.getPathSegments();
-                System.out.println("shouldInterceptRequest");
-                System.out.println("웹뷰 요청 path: " + uri.getPath());
-                System.out.println("웹뷰 요청 pathSegments: " + pathSegments);
-//                if (pathSegments.size() >= 2) {
-//                    String resourceKindPlural = pathSegments.get(0);
-//                    Long resourceId = null;
-//                    try{
-//                        resourceId = Long.valueOf(pathSegments.get(1));
-//                    } catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-//                    if (RESOURCE_KIND_PLURALS.contains(resourceKindPlural)) {
-//                        switch (resourceKindPlural) {
-//                            case "articles":{
-//                                if (resourceId == null) {
-//                                    Toast.makeText(HomeFragment.this.getContext(), "올바른 게시글을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-//                                } else {
-//                                    Intent intent = new Intent(HomeFragment.this.getContext(), ArticleDetailActivity.class);
-//                                    Article tmpArticle = new Article();
-//                                    // 엥 아직 얜 Integer쓰네. 나중에 바꿔야겠다...
-//                                    tmpArticle.setId(resourceId.intValue());
-//                                    intent.putExtra("article", tmpArticle);
-//                                    HomeFragment.this.getContext().startActivity(intent);
-//                                }
-//                                return null;
-//                            }
-//                        }
-//                    }
-//                }
-                return super.shouldInterceptRequest(view, request);
-            }
 
             @Override
             // return true => webview가 해당 url load을 하지않음.
@@ -149,14 +114,40 @@ public class HomeFragment extends Fragment {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
                 List<String> pathSegments = uri.getPathSegments();
-                System.out.println("shouldOverrideUrlLoading");
-                System.out.println("웹뷰 요청 path: " + uri.getPath());
-                System.out.println("웹뷰 요청 pathSegments: " + pathSegments);
-
+                System.out.println("shouldInterceptRequest");
+                Log.d(TAG, "shouldInterceptRequest: " + "웹뷰 요청 path: " + uri.getPath());
+                Log.d(TAG, "shouldInterceptRequest: " + "웹뷰 요청 pathSegments: " + pathSegments);
+                if (pathSegments.size() >= 2) {
+                    String resourceKindPlural = pathSegments.get(0);
+                    Long resourceId = null;
+                    try{
+                        resourceId = Long.valueOf(pathSegments.get(1));
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    if (RESOURCE_KIND_PLURALS.contains(resourceKindPlural)) {
+                        Log.d(TAG, "shouldOverrideUrlLoading: 요청 URL이 override하고자 하는 리소스를 나타냅니다. " + resourceKindPlural);
+                        switch (resourceKindPlural) {
+                            case "articles":{
+                                Log.d(TAG, "shouldOverrideUrlLoading: resourceKindPlural: article이므로 article 관련 activity를 띄웁니다.");
+                                if (resourceId == null) {
+                                    Toast.makeText(HomeFragment.this.getContext(), "올바른 게시글을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Intent intent = new Intent(HomeFragment.this.getContext(), ArticleDetailActivity.class);
+                                    Article tmpArticle = new Article();
+                                    // 엥 아직 얜 Integer쓰네. 나중에 바꿔야겠다...
+                                    tmpArticle.setId(resourceId.intValue());
+                                    intent.putExtra("article", tmpArticle);
+                                    HomeFragment.this.getContext().startActivity(intent);
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                }
                 return super.shouldOverrideUrlLoading(view, request);
             }
         });
-        webView.setWebViewClient(new WebViewClient());
         // webview chrome client도 있어야 alert를 이용할 수 있더라
         webView.setWebChromeClient(new WebChromeClient());
 
