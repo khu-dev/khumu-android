@@ -114,9 +114,8 @@ public class HomeFragment extends Fragment {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
                 List<String> pathSegments = uri.getPathSegments();
-                System.out.println("shouldInterceptRequest");
-                Log.d(TAG, "shouldInterceptRequest: " + "웹뷰 요청 path: " + uri.getPath());
-                Log.d(TAG, "shouldInterceptRequest: " + "웹뷰 요청 pathSegments: " + pathSegments);
+                Log.d(TAG, "shouldOverrideUrlLoading: " + "웹뷰 요청 path: " + uri.getPath());
+                Log.d(TAG, "shouldOverrideUrlLoading: " + "웹뷰 요청 pathSegments: " + pathSegments);
                 if (pathSegments.size() >= 2) {
                     String resourceKindPlural = pathSegments.get(0);
                     Long resourceId = null;

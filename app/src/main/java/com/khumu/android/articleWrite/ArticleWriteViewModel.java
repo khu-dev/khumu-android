@@ -220,7 +220,7 @@ public class ArticleWriteViewModel extends ViewModel {
      * board를 선택하기 위한 list를 로드
      */
     private void listBoards(){
-        Call<BoardListResponse> call = boardService.getBoards();
+        Call<BoardListResponse> call = boardService.getFollowingBoards("application/json", true);
         call.enqueue(new Callback<BoardListResponse>() {
             @Override
             public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
