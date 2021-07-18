@@ -3,6 +3,7 @@ package com.khumu.android.repository;
 import com.khumu.android.data.StudyArticle;
 import com.khumu.android.data.rest.StudyListResponse;
 
+import dagger.Provides;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

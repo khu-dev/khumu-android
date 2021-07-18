@@ -24,8 +24,9 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/background_cylinder_filled_red_500"
             android:text="모집중"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="3dp"/>
+            android:textColor="@color/white"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="5dp"/>
         <TextView
             android:id="@+id/study_title_tv"
             android:layout_width="wrap_content"
