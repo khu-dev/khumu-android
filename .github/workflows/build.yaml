@@ -27,7 +27,7 @@ jobs:
           java-version: 1.8
 
       - name: Build the app
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Debug) file tree
         run: |
