@@ -1,5 +1,7 @@
 package com.khumu.android.repository;
 
+import android.util.Log;
+
 import com.khumu.android.data.Article;
 import com.khumu.android.data.rest.ArticleListResponse;
 
@@ -12,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class ArticleRepository {
     private final static String TAG = "ArticleRepository";

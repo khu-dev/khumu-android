@@ -23,6 +23,7 @@ import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.di.module.RetrofitModule;
+import com.khumu.android.search.CommunitySearchActivity;
 import com.khumu.android.signUp.Info21SignUpActivity;
 
 import javax.inject.Singleton;
@@ -74,5 +75,6 @@ public interface ApplicationComponent {
     void inject(NotificationActivity notificationActivity);
     void inject(QrCodeActivity qrCodeActivity);
     void inject(Info21SignUpActivity info21SignUpActivity);
+    void inject(CommunitySearchActivity activity);
 }
 
