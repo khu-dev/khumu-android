@@ -1,4 +1,4 @@
-package com.khumu.android.feed;
+package com.khumu.android.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +37,7 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
     @Inject
     public BookmarkArticleRepository bookmarkArticleRepository;
     // Adapter는 바깥 UI 상황을 최대한 모르고싶지만, Toast를 위해 context를 주입함.
-    private Context context;
+    protected Context context;
 
     public ArticleAdapter(List<Article> articleList, Context context) {
         KhumuApplication.applicationComponent.inject(this);

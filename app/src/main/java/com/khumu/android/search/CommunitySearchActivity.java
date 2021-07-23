@@ -1,6 +1,5 @@
 package com.khumu.android.search;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,26 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.articleWrite.ArticleWriteActivity;
-import com.khumu.android.articleWrite.ArticleWriteViewModel;
-import com.khumu.android.boardList.BoardAdapter;
+import com.khumu.android.adapter.GrayBackgroundArticleAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.ActivityCommunitySearchBinding;
-import com.khumu.android.di.component.ApplicationComponent;
-import com.khumu.android.feed.ArticleAdapter;
-import com.khumu.android.login.LoginActivity;
+import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.repository.ArticleService;
 
 import java.util.ArrayList;
@@ -58,7 +48,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
         viewModel.searchText.observe(this, text -> {
             viewModel.search(text);
         });
-        binding.resultArticles.setAdapter(new ArticleAdapter(new ArrayList<>(), this));
+        binding.resultArticles.setAdapter(new GrayBackgroundArticleAdapter(new ArrayList<>(), this));
 
     }
 
