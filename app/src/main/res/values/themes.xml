@@ -22,9 +22,10 @@
     </style>
     <style name="NoAppBarTransparentTheme" parent="Theme.Khumu">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">#00000000</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:animation">@anim/fragment_fade_enter</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 </resources>
