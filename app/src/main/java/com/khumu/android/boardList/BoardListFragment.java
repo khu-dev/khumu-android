@@ -77,6 +77,7 @@ public class BoardListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Intent intent = getActivity().getIntent();
+        Log.d(TAG, getActivity().toString());
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 
     }
