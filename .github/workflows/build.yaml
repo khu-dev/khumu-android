@@ -11,8 +11,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      - name: make app dir
-        run: mkdir app
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
         # ID used to access action output
