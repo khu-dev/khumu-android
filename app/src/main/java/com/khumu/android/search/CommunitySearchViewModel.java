@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.ArticleListResponse;
+import com.khumu.android.data.rest.BoardListResponse;
 import com.khumu.android.repository.ArticleService;
+import com.khumu.android.repository.BoardService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ import retrofit2.Response;
 public class CommunitySearchViewModel extends ViewModel {
     private final static String TAG = "CommunitySearchViewModel";
     Context context;
+    BoardService boardService;
     ArticleService articleService;
     // 검색어
     MutableLiveData<String> searchText;
@@ -33,8 +36,9 @@ public class CommunitySearchViewModel extends ViewModel {
     MutableLiveData<List<Article>> resultArticles;
 
 
-    public CommunitySearchViewModel(Context context, ArticleService articleService, String searchText, List<Board> resultBoards, List<Article> resultArticles) {
+    public CommunitySearchViewModel(Context context, BoardService boardService, ArticleService articleService, String searchText, List<Board> resultBoards, List<Article> resultArticles) {
         this.context = context;
+        this.boardService = boardService;
         this.articleService = articleService;
         this.searchText = new MutableLiveData<>(searchText);
         this.resultBoards = new MutableLiveData<>(resultBoards);
@@ -44,11 +48,28 @@ public class CommunitySearchViewModel extends ViewModel {
     public void search(String search) {
         if (search.isEmpty()) {
             Log.d(TAG, "search: 검색어가 비어있어 더 이상 검색하지 않습니다.");
+            this.resultBoards.postValue(new ArrayList<>());
             this.resultArticles.postValue(new ArrayList<>());
             return;
         }
         Log.d(TAG, "search: " + search);
-        Log.d(TAG, "search: 게시판 검색 mock");
+        Log.d(TAG, "search: 게시판 검색 수행");
+        boardService.searchBoards(search).enqueue(new Callback<BoardListResponse>() {
+            @Override
+            public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Board> boards = response.body().getData();
+                    resultBoards.postValue(boards);
+                } else{
+                    Log.e(TAG, "searchBoards: 게시판 검색 도중 오류 발생 " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BoardListResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
         Log.d(TAG, "search: 게시글 검색 수행");
         articleService.searchArticles(search, null).enqueue(new Callback<ArticleListResponse>() {
             @Override

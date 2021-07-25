@@ -101,7 +101,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             } else {
                 return R.drawable.ic_plus;
             }
-
         }
 
 //        public void onClickFollowBt(View v) {
