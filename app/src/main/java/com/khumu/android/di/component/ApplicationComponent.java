@@ -1,5 +1,7 @@
 package com.khumu.android.di.component;
 
+import com.khumu.android.adapter.GrayBackgroundArticleAdapter;
+import com.khumu.android.adapter.SearchedBoardAdapter;
 import com.khumu.android.boardList.BoardAdapter;
 import com.khumu.android.boardList.BoardListFragment;
 import com.khumu.android.KhumuApplication;
@@ -7,7 +9,7 @@ import com.khumu.android.articleDetail.ArticleDetailFragment;
 import com.khumu.android.articleDetail.CommentAdapter;
 import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
-import com.khumu.android.feed.ArticleAdapter;
+import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.feed.BaseFeedFragment;
 import com.khumu.android.feed.FollowingBoardAdapter;
 import com.khumu.android.feed.MyFeedFragment;
@@ -23,6 +25,7 @@ import com.khumu.android.repository.BoardRepository;
 import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.di.module.RetrofitModule;
+import com.khumu.android.search.CommunitySearchActivity;
 import com.khumu.android.signUp.Info21SignUpActivity;
 
 import javax.inject.Singleton;
@@ -53,9 +56,11 @@ public interface ApplicationComponent {
     void inject(BoardRepository boardRepository);
 
     void inject(BoardAdapter boardAdapter);
+    void inject(SearchedBoardAdapter searchedBoardAdapter);
     void inject(ReplyAdapter replyAdapter);
     void inject(CommentAdapter commentAdapter);
     void inject(ArticleAdapter articleAdapter);
+    void inject(GrayBackgroundArticleAdapter adapter);
     void inject(FollowingBoardAdapter followingBoardAdapter);
 
     void inject(BaseFeedFragment feedFragment);
@@ -74,5 +79,6 @@ public interface ApplicationComponent {
     void inject(NotificationActivity notificationActivity);
     void inject(QrCodeActivity qrCodeActivity);
     void inject(Info21SignUpActivity info21SignUpActivity);
+    void inject(CommunitySearchActivity activity);
 }
 

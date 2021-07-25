@@ -1,5 +1,7 @@
 package com.khumu.android.repository;
 
+import androidx.annotation.Nullable;
+
 import com.khumu.android.data.Article;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.data.rest.ArticleResponse;
@@ -21,6 +23,8 @@ public interface ArticleService {
     @GET("articles")
     Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("page") int page);
 
+    @GET("articles")
+    Call<ArticleListResponse> searchArticles(@Query("q") String q, @Nullable @Query("cursor") String cursor);
     @GET("articles/{id}")
     Call<ArticleResponse> getArticle(@Path("id") int id);
 

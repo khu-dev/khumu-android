@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
+import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.data.Article;
 
 import java.util.ArrayList;

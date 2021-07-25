@@ -10,7 +10,7 @@
         <!-- adapter로부터 viewholder를 생성할 때 주입받음 -->
         <variable
             name="viewHolder"
-            type="com.khumu.android.feed.ArticleAdapter.ArticleViewHolder"/>
+            type="com.khumu.android.adapter.ArticleAdapter.ArticleViewHolder"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,7 +29,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/background_feed_article_body"
+            android:background="@drawable/background_feed_article_gray_300"
             android:paddingRight="@dimen/layout_default_space"
             android:paddingLeft="24dp"
             android:paddingTop="12dp"
