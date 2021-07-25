@@ -59,8 +59,6 @@ public class BoardListFragment extends Fragment {
                 return (T) new BoardViewModel(getContext(), boardService);
             }
         }).get(BoardViewModel.class);
-        Log.d(TAG, "FollowingBoards: " + boardViewModel.followingBoards);
-
     }
 
     @Nullable
@@ -79,6 +77,7 @@ public class BoardListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Intent intent = getActivity().getIntent();
+        Log.d(TAG, getActivity().toString());
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 
     }

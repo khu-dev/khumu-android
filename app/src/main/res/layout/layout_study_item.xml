@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="study"
+            type="com.khumu.android.data.StudyArticle" />
+        <variable
+            name="viewHolder"
+            type="com.khumu.android.study.StudyAdapter.StudyViewHolder"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/background_round_white"
+        android:id="@+id/study_item_layout">
+
+        <TextView
+            android:id="@+id/study_recruit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/background_cylinder_filled_red_500"
+            android:text="모집중"
+            android:textColor="@color/white"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="5dp"/>
+        <TextView
+            android:id="@+id/study_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/study_num_of_people_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/big_title_font_size"
+            android:text="같이 스터디 하실 분 모집합니다."/>
+        <TextView
+            android:id="@+id/study_num_of_people_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/study_title_tv"
+            app:layout_constraintBottom_toTopOf="@id/study_term_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="모집인원 : 15"/>
+        <TextView
+            android:id="@+id/study_term_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/study_num_of_people_tv"
+            app:layout_constraintBottom_toTopOf="@id/study_category_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            android:text="기간 : 2021.06.07~2021.08.30"/>
+        <TextView
+            android:id="@+id/study_category_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/study_term_tv"
+            app:layout_constraintBottom_toTopOf="@id/study_field_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            android:text="분야 : 토익"/>
+        <TextView
+            android:id="@+id/study_field_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/study_category_tv"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            android:text="지역 : 서울 강서구"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

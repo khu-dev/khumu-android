@@ -9,127 +9,146 @@
             name="boardViewModel"
             type="com.khumu.android.boardList.BoardViewModel" />
     </data>
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:layout_height="match_parent"
         android:background="@color/gray_400"
         android:orientation="vertical">
-        <include
-            layout="@layout/toolbar_board" />
-<!--        <include-->
-<!--            layout="@layout/layout_following_board_list"-->
-<!--            app:boardViewModel="@{boardViewModel}" />-->
-<!--        <include-->
-<!--            layout="@layout/layout_entire_board_list"-->
-<!--            app:boardViewModel="@{boardViewModel}"/>-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:id="@+id/following_board_list_layout"
-            android:orientation="vertical">
-            <TextView
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_marginTop="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_left_arrow"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintStart_toEndOf="@id/back_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/layout_community_board"
+            app:tabIndicatorColor="@color/zxing_transparent"
+            app:tabSelectedTextColor="@color/white"
+            android:background="@color/zxing_transparent"
+            app:tabBackground="@drawable/board_tab_button"
+            android:id="@+id/board_main_tab">
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp" android:layout_marginLeft="10dp"
-                android:background="@drawable/background_round_filled_red_500"
-                android:text="following"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:paddingTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="20dp"
-                android:paddingRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/following_board_list_recycler_view"
-                android:layout_width="match_parent"
+                android:text="커뮤니티" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_round_white"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:following_board_list="@{boardViewModel.followingBoards}" />
-        </LinearLayout>
-        <LinearLayout
+                android:text="스터디"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공지사항"/>
+        </com.google.android.material.tabs.TabLayout>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/layout_community_board"
+            app:layout_constraintTop_toBottomOf="@id/board_main_tab"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:orientation="vertical">
-            <LinearLayout
+            android:layout_height="0dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintHeight_percent="0.93">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/community_board_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_marginVertical="10dp"
+                    android:id="@+id/board_search_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="17dp"
+                    android:paddingStart="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/following_board_list_title"
+                    android:background="@drawable/background_round_red_500_bordered_white"
+                    android:hint="|  검색어를 입력해주세요."/>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/following_board_list_title"
+                    app:layout_constraintTop_toBottomOf="@id/board_search_btn"
+                    app:layout_constraintBottom_toTopOf="@+id/following_board_list_recycler_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="42dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_little_round_red"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:textSize="@dimen/board_category_font_size"
-                    android:background="@drawable/background_top_round_filled_red_500"
-                    android:text="공식"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:text="Following" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/following_board_list_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/following_board_list_title"
+                    app:layout_constraintBottom_toBottomOf="@id/community_board_category_tab"
+                    android:background="@drawable/background_round_white"
                     android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
                     android:paddingRight="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/board_category_font_size"
-                    android:background="@drawable/background_top_round_filled_red_500"
-                    android:text="학과"
-                    />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:paddingBottom="20dp"
+                    app:following_board_list="@{boardViewModel.followingBoards}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/community_board_category_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/zxing_transparent"
+                    app:layout_constraintBottom_toTopOf="@id/category_board_list_recycler_view"
+                    app:layout_constraintTop_toTopOf="@id/following_board_list_recycler_view"
+                    app:tabBackground="@drawable/community_board_tab_button"
+                    android:layout_marginHorizontal="5dp"
+                    app:tabSelectedTextColor="@color/white"
+                    app:tabTextColor="@color/red_500">
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="공식" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="자율" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="학과" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="강의" />
+                </com.google.android.material.tabs.TabLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:paddingTop="10dp"
                     android:paddingLeft="10dp"
+                    android:paddingBottom="20dp"
                     android:paddingRight="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/board_category_font_size"
-                    android:background="@drawable/background_top_round_filled_red_500"
-                    android:text="강의"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/board_category_font_size"
-                    android:background="@drawable/background_top_round_filled_red_500"
-                    android:text="자율"/>
-            </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:paddingTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="20dp"
-                android:paddingRight="10dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:id="@+id/category_board_list_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_round_white"
-                app:category_board_list="@{boardViewModel.categoryBoards}" />
-        </LinearLayout>
-    </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@id/community_board_category_tab"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:id="@+id/category_board_list_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_little_round_white"
+                    app:category_board_list="@{boardViewModel.categoryBoards}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

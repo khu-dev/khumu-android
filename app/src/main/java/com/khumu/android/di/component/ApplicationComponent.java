@@ -27,6 +27,8 @@ import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.di.module.RetrofitModule;
 import com.khumu.android.search.CommunitySearchActivity;
 import com.khumu.android.signUp.Info21SignUpActivity;
+import com.khumu.android.study.StudyAdapter;
+import com.khumu.android.study.StudyFragment;
 
 import javax.inject.Singleton;
 
@@ -55,6 +57,7 @@ public interface ApplicationComponent {
     void inject(CommentRepository commentRepository);
     void inject(BoardRepository boardRepository);
 
+    void inject(StudyAdapter studyAdapter);
     void inject(BoardAdapter boardAdapter);
     void inject(SearchedBoardAdapter searchedBoardAdapter);
     void inject(ReplyAdapter replyAdapter);
@@ -63,6 +66,7 @@ public interface ApplicationComponent {
     void inject(GrayBackgroundArticleAdapter adapter);
     void inject(FollowingBoardAdapter followingBoardAdapter);
 
+    void inject(StudyFragment studyFragment);
     void inject(BaseFeedFragment feedFragment);
     void inject(MyFeedFragment feedFragment);
     void inject(SingleBoardFeedFragment feedFragment);

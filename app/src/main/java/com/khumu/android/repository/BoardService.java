@@ -30,6 +30,9 @@ public interface BoardService {
     Call<BoardListResponse> getFollowingBoards (@Header("Content-Type") String contentType, @Query("followed") boolean followed);
 
     @GET("boards")
+    Call<BoardListResponse> getUnFollowingRandomBoard (@Header("Content-Type") String contentType, @Query("random") boolean random, @Query("followed") boolean followed, @Query("category") String category);
+
+    @GET("boards")
     Call<BoardListResponse> getBoards();
 
     @GET("boards")
