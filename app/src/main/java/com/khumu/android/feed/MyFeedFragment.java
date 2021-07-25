@@ -50,9 +50,9 @@ public class MyFeedFragment extends BaseFeedFragment {
     @Inject public BoardService boardService;
     @Inject public ArticleService articleService;
 
-    protected Button articleWriteBTN;
     FragmentMyFeedBinding binding;
     private MaterialToolbar toolbar;
+    protected Button articleWriteBTN;
 
     @BindingAdapter("following_boards")
     public static void bindFollowingBoards(RecyclerView recyclerView, LiveData<List<Board>> followingBoards){

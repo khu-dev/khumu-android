@@ -34,4 +34,7 @@ public interface BoardService {
 
     @GET("boards")
     Call<BoardListResponse> getBoards();
+
+    @GET("boards")
+    Call<BoardListResponse> searchBoards(@Query("q") String search);
 }

@@ -18,14 +18,12 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
-import com.khumu.android.databinding.LayoutFeedBinding;
 import com.khumu.android.repository.ArticleService;
 
 import javax.inject.Inject;
 
 public class SingleBoardFeedActivity extends AppCompatActivity {
     private final static String TAG = "SingleBoardActivity";
-    private LayoutFeedBinding layoutFeedBinding;
     private FeedViewModel feedViewModel;
 
     @Inject

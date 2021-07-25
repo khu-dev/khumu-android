@@ -99,7 +99,7 @@
                     android:hint="제목을 입력해주세요."
                     android:textColor="@color/black"
                     android:textSize="16dp"
-                    android:text="@={viewModel.liveArticle.title, default=제목}"
+                    android:text="@={viewModel.article.title, default=제목}"
                     android:layout_marginVertical="8dp"
                     />
                 <EditText
@@ -150,6 +150,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:background="@{activity.getIsAnonymousTVBackground(viewModel.article.kind), default=@drawable/background_round_filled_red_500}"
                 >
             <TextView
@@ -166,18 +168,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:onClick="onClickIsAnonymousTV"/>
             </LinearLayout>
-            <TextView
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:paddingVertical="@dimen/layout_default_space"
-                android:paddingHorizontal="16dp"
-                android:background="@drawable/background_round_filled_red_500"
-                android:textColor="@color/white"
-                android:text="등록"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:onClick="onClickSubmitButton"/>
+                android:background="@{viewModel.isWritable ? @drawable/background_round_filled_red_500:@drawable/background_round_filled_gray_300, default=@drawable/background_round_filled_gray_300}"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingVertical="@dimen/layout_default_space"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/white"
+                    android:text="등록"
+                    android:onClick="onClickSubmitButton"/>
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
