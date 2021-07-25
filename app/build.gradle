@@ -13,7 +13,7 @@ android {
         targetSdkVersion 30
     }
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
     dataBinding {
         enabled = true
     }
@@ -96,4 +96,8 @@ dependencies {
     // qrcpde
     implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
+
+    // 줌, 이동이 가능한 이미지 뷰
+    // https://github.com/Baseflow/PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }

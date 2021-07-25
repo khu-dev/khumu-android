@@ -52,6 +52,7 @@ public class MyFeedFragment extends BaseFeedFragment {
 
     FragmentMyFeedBinding binding;
     private MaterialToolbar toolbar;
+    protected Button articleWriteBTN;
 
     @BindingAdapter("following_boards")
     public static void bindFollowingBoards(RecyclerView recyclerView, LiveData<List<Board>> followingBoards){
@@ -124,11 +125,20 @@ public class MyFeedFragment extends BaseFeedFragment {
     @Override
     protected void findViews(View root){
         super.findViews(root);
+        articleWriteBTN = root.findViewById(R.id.tab_feed_article_write_btn);
     }
 
     @Override
     protected void setEventListeners(View root){
         super.setEventListeners(root);
+        articleWriteBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent writeIntent = new Intent(getContext(), ArticleWriteActivity.class);
+                v.getContext().startActivity(writeIntent);
+            }
+        });
+
         binding.feedBodySwipeRefreshLayout.setOnRefreshListener(()->{
             feedViewModel.listArticles();
             binding.feedBodySwipeRefreshLayout.setRefreshing(false);

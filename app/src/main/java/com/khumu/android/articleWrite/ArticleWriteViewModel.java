@@ -6,8 +6,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.esafirm.imagepicker.model.Image;
@@ -51,6 +53,7 @@ public class ArticleWriteViewModel extends ViewModel {
     // 문제점: article의 images 만으로는 recylcer view를 제대로 이용할 수가 없어서 uploadingImagePaths를 또 정의해서 이용 중인데
     // 이러면 article.images와 자동으로 동기화가 안됨.
     MutableLiveData<List<ImagePath>> uploadingImagePaths;
+    MutableLiveData<Boolean> isWritable;
     Context context;
 
     // 원래는 필요한 값들 다 주입 받는 게 좋은데...
@@ -61,10 +64,14 @@ public class ArticleWriteViewModel extends ViewModel {
         this.articleService = articleService;
         this.imageService = imageService;
         this.boards = new MutableLiveData<>(new ArrayList<>());
-
         this.currentBoard = new MutableLiveData<>(provideInitialCurrentBoard());
         this.article = new MutableLiveData<>(provideInitialArticle());
         this.uploadingImagePaths = new MutableLiveData<>(new ArrayList<>());
+        this.isWritable = new MutableLiveData<>(Boolean.FALSE);
+
+        // current board의 value가 변경되면 writable한 지도 업데이트.
+        // article은 observe할 수 없는 이유 - article은 article의 값이 변경되는 게 아니라 내부 property인 title이 변경되기 때문
+        this.currentBoard.observe((LifecycleOwner) context, board -> updateIsWritable());
 
         listBoards();
     }
@@ -213,7 +220,7 @@ public class ArticleWriteViewModel extends ViewModel {
      * board를 선택하기 위한 list를 로드
      */
     private void listBoards(){
-        Call<BoardListResponse> call = boardService.getBoards();
+        Call<BoardListResponse> call = boardService.getFollowingBoards("application/json", true);
         call.enqueue(new Callback<BoardListResponse>() {
             @Override
             public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
@@ -225,5 +232,23 @@ public class ArticleWriteViewModel extends ViewModel {
                 Log.d(TAG, "onFailure: " + t);
             }
         });
+    }
+
+    public void updateIsWritable() {
+        // 글쓰기 버튼 활성화 조건
+        if (article.getValue() != null) {
+            Log.d(TAG, "getIsWritable: " + (article.getValue().getTitle() != null));
+            if (article.getValue().getTitle() != null) {
+                Log.d(TAG, "getIsWritable: " + (article.getValue().getTitle().length() > 0));
+            }
+        }
+
+        this.isWritable.postValue(
+                this.currentBoard.getValue() != null &&
+                this.currentBoard.getValue().name != null &&
+                article.getValue() != null &&
+                article.getValue().getTitle() != null &&
+                article.getValue().getTitle().length() > 0
+        );
     }
 }

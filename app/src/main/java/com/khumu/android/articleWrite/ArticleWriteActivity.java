@@ -5,10 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +63,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
     ArticleWriteViewModel viewModel;
     RecyclerView imageRecyclerView;
     Board selectedBoard;
-
+    EditText titleET;
     TextView isAnonymousTV;
 
     @BindingAdapter({"article_image_path_list", "viewModel"})
@@ -112,8 +115,23 @@ public class ArticleWriteActivity extends AppCompatActivity {
 
         isAnonymousTV = findViewById(R.id.article_is_anonymous_tv);
         // color만 갖고 mutable live data를 만들기는 쫌 그러니까 간단하게 옵저버 직접 달기.
-        this.viewModel.getLiveArticle().observe(this, (article) -> {
+        titleET = findViewById(R.id.article_write_title_et);
+        titleET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                titleET.setText(s.toString());
+                viewModel.updateIsWritable();
+            }
         });
     }
 
@@ -135,7 +153,10 @@ public class ArticleWriteActivity extends AppCompatActivity {
     }
 
     public void onClickSubmitButton(View v){
-        viewModel.writeArticle(new Callback<Article>() {
+        if (viewModel.getIsWritable().getValue() == null || !viewModel.getIsWritable().getValue()) {
+            Log.d(TAG, "onClickSubmitButton: 글을 작성할 수 없는 상태입니다.");
+        } else{
+            viewModel.writeArticle(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
                 Toast.makeText(ArticleWriteActivity.this, "게시물을 작성했습니당!", Toast.LENGTH_SHORT).show();
@@ -148,6 +169,8 @@ public class ArticleWriteActivity extends AppCompatActivity {
                 Toast.makeText(ArticleWriteActivity.this, "게시물을 작성 실패 ㅜㅜ", Toast.LENGTH_SHORT).show();
             }
         });
+        }
+
     }
 
     public void onClickBoardListPopup(View v){
@@ -210,4 +233,15 @@ public class ArticleWriteActivity extends AppCompatActivity {
         }
         return color;
     }
+
+    public Drawable getSubmitBTNBackground() {
+        Drawable background = this.getDrawable(R.drawable.background_round_filled_gray_300);
+        if (viewModel.getIsWritable().getValue() == null || !this.viewModel.getIsWritable().getValue()) {
+            background = this.getDrawable(R.drawable.background_round_filled_red_500);
+        }
+        return background;
+    }
+
+
+
 }
