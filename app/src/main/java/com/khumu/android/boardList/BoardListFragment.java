@@ -1,5 +1,6 @@
 package com.khumu.android.boardList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentBoardListBinding;
 import com.khumu.android.feed.FollowingBoardAdapter;
 import com.khumu.android.repository.BoardService;
+import com.khumu.android.search.CommunitySearchActivity;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -69,6 +71,7 @@ public class BoardListFragment extends Fragment {
         binding.followingBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.categoryBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.setBoardViewModel(this.boardViewModel);
+        binding.setBoardListFragment(this);
         binding.setLifecycleOwner(this);
         return root;
     }
@@ -79,7 +82,6 @@ public class BoardListFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         Log.d(TAG, getActivity().toString());
         linearLayoutManager = new LinearLayoutManager(view.getContext());
-
     }
 
     @BindingAdapter("following_board_list")
@@ -101,5 +103,11 @@ public class BoardListFragment extends Fragment {
             adapter.boardList.addAll((List<Board>) categoryBoards.getValue());
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void onClickSearchBtn(View view) {
+        Context context = this.getContext();
+        Intent intent = new Intent(context, CommunitySearchActivity.class);
+        this.getActivity().startActivity(intent);
     }
 }

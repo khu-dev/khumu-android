@@ -7,7 +7,10 @@
         <import type="com.khumu.android.data.Board" />
         <variable
             name="boardViewModel"
-            type="com.khumu.android.boardList.BoardViewModel" />
+            type="com.khumu.android.boardList.BoardViewModel"/>
+        <variable
+            name="boardListFragment"
+            type="com.khumu.android.boardList.BoardListFragment"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -70,6 +73,8 @@
                     android:paddingStart="15dp"
                     android:layout_marginBottom="10dp"
                     android:gravity="center_vertical"
+                    android:focusableInTouchMode="false"
+                    android:onClick="@{boardListFragment.onClickSearchBtn}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/following_board_list_title"
                     android:background="@drawable/background_round_red_500_bordered_white"
