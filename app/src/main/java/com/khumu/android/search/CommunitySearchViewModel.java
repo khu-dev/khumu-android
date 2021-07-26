@@ -59,7 +59,10 @@ public class CommunitySearchViewModel extends ViewModel {
             public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
                 if (response.isSuccessful()) {
                     List<Board> boards = response.body().getData();
-                    resultBoards.postValue(boards);
+                    // 만약 요청을 보낸 뒤 검색어가 변경되었으면 반영하지 않음
+                    if (searchText.getValue().equals(search)) {
+                        resultBoards.postValue(boards);
+                    }
                 } else{
                     Log.e(TAG, "searchBoards: 게시판 검색 도중 오류 발생 " + response.errorBody());
                 }
@@ -76,7 +79,10 @@ public class CommunitySearchViewModel extends ViewModel {
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> resp) {
                 if (resp.isSuccessful()) {
                     List<Article> articles = resp.body().getData();
-                    resultArticles.postValue(articles);
+                    // 만약 요청을 보낸 뒤 검색어가 변경되었으면 반영하지 않음
+                    if (searchText.getValue().equals(search)) {
+                        resultArticles.postValue(articles);
+                    }
                 } else{
                     Log.e(TAG, "searchArticle: 게시글 검색 도중 오류 발생 " + resp.errorBody());
                 }
