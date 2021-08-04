@@ -27,9 +27,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="@dimen/layout_default_space">
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_cancel"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_close_gray_300"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -80,8 +80,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:textColor="@color/gray_500"
-                            android:background="@drawable/bottom_line_gray_500"
+                            android:textColor="@color/gray_400"
+                            android:background="@drawable/bottom_line_gray_400"
                             android:text="@{viewModel.currentBoard.displayName, default=`게시판 표시 이름`}"
                             />
                     </LinearLayout>
@@ -158,7 +158,7 @@
                 android:id="@+id/article_is_anonymous_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/layout_default_space"
+                android:paddingVertical="4dp"
                 android:paddingHorizontal="16dp"
                 android:minWidth="0dp"
                 android:textColor="@{activity.getIsAnonymousTVTextColor(viewModel.article.kind), default=@color/white}"
@@ -179,7 +179,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:paddingVertical="@dimen/layout_default_space"
+                    android:paddingVertical="4dp"
                     android:paddingHorizontal="16dp"
                     android:textColor="@color/white"
                     android:text="등록"

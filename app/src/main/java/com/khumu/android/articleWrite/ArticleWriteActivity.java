@@ -1,5 +1,6 @@
 package com.khumu.android.articleWrite;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -140,13 +141,25 @@ public class ArticleWriteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             // Get a list of picked images
+
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("이미지를 업로드 중입니다.");
+            progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+            progressDialog.show();
             List<Image> images = ImagePicker.getImages(data);
-            try {
-                viewModel.uploadImages(images);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "이미지 업로드가 실패했습니다.", Toast.LENGTH_SHORT).show();
-            }
+            new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        viewModel.uploadImages(images);
+                        progressDialog.dismiss();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+
             // or get a single image only. 하지만 우린 여러 장을 default로 함.
             // Image image = ImagePicker.getFirstImageOrNull(data);
         }
@@ -227,7 +240,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
     }
 
     public int getIsAnonymousTVTextColor(String kind) {
-        int color = this.getColor(R.color.gray_300);
+        int color = this.getColor(R.color.white);
         if (!kind.equals("anonymous")) {
             color = this.getColor(R.color.red_500);
         }

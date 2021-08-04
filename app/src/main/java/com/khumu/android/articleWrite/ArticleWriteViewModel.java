@@ -125,14 +125,9 @@ public class ArticleWriteViewModel extends ViewModel {
     }
 
     public void uploadImages(List<Image> images) throws IOException {
-        new Thread() {
-            @Override
-            public void run() {
-                for (Image img : images) {
-                    uploadImage(img);
-                }
-            }
-        }.start();
+        for (Image img : images) {
+            uploadImage(img);
+        }
     }
 
     /**
@@ -162,17 +157,9 @@ public class ArticleWriteViewModel extends ViewModel {
                 uploadingImagePaths.postValue(uploadingImagePaths.getValue());
                 // 현재 article에 url을 추가하기 위함.
                 article.getValue().getImages().add(hashedFileName);
-                ((AppCompatActivity) context).runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(context, "업로드 성공!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Log.i(TAG, "uploadImage: 성공");
             } else{
-                ((AppCompatActivity) context).runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(context, "업로드 실패!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Log.e(TAG, "uploadImage: 실패");
             }
         } catch (IOException e) {
             ((AppCompatActivity) context).runOnUiThread(new Runnable() {
