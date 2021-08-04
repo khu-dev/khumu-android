@@ -39,12 +39,10 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="monospace"
                 android:text="게시판"
                 android:textColor="@color/red_500"
                 android:textSize="18dp"
-                android:textStyle="bold"
-                ></TextView>
+                android:textStyle="bold" />
         </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.appbar.MaterialToolbar>

@@ -3,9 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="default_font_size">16dp</dimen>
-    <dimen name="small_font_size">14dp</dimen>
+    <dimen name="small_font_size">12dp</dimen>
     <dimen name="meta_font_size">12dp</dimen>
-    <dimen name="title_font_size">16dp</dimen>
+    <dimen name="title_font_size">15dp</dimen>
     <dimen name="big_title_font_size">20dp</dimen>
     <dimen name="layout_default_space">8dp</dimen>
     <dimen name="layout_semi_large_space">16dp</dimen>

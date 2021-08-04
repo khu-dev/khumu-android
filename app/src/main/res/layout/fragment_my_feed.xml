@@ -77,7 +77,7 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingVertical="@dimen/layout_default_space"
-                    android:paddingHorizontal="36dp">
+                    android:paddingHorizontal="30dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
                     android:orientation="horizontal"
                     android:layout_marginTop="16dp"
                     android:paddingVertical="@dimen/layout_default_space"
-                    android:paddingHorizontal="36dp">
+                    android:paddingHorizontal="30dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

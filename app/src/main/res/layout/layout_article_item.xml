@@ -103,7 +103,7 @@
                     android:layout_marginTop="@dimen/layout_default_space"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:textSize="@dimen/default_font_size"
+                    android:textSize="@dimen/small_font_size"
                     android:text="@{article.content, default=content}"
                     android:textColor="@color/gray_700"/>
                 <LinearLayout
