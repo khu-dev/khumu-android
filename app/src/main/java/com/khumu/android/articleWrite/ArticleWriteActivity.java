@@ -68,8 +68,8 @@ public class ArticleWriteActivity extends AppCompatActivity {
     TextView isAnonymousTV;
 
     @BindingAdapter({"article_image_path_list", "viewModel"})
-    public static void bindItem(RecyclerView recyclerView, MutableLiveData<List<ImagePath>> imagePaths, ArticleWriteViewModel viewModel){
-        Log.d(TAG, "bindItem: " + imagePaths.getValue().size());
+    public static void bindItem(RecyclerView recyclerView, List<ImagePath> imagePaths, ArticleWriteViewModel viewModel){
+        Log.d(TAG, "bindItem: " + imagePaths.size());
         if (recyclerView.getAdapter() == null){
             //https://recipes4dev.tistory.com/168 이거 참고해서 삭제 작
             recyclerView.setAdapter(new ImageAdapter(viewModel, new ArrayList<>()));
@@ -77,7 +77,7 @@ public class ArticleWriteActivity extends AppCompatActivity {
         if (recyclerView.getAdapter() != null && imagePaths != null){
             ImageAdapter adapter = (ImageAdapter) recyclerView.getAdapter();
             adapter.getImagePaths().clear();
-            adapter.getImagePaths().addAll(imagePaths.getValue());
+            adapter.getImagePaths().addAll(imagePaths);
             adapter.notifyDataSetChanged();
         }
     }
@@ -170,17 +170,17 @@ public class ArticleWriteActivity extends AppCompatActivity {
             Log.d(TAG, "onClickSubmitButton: 글을 작성할 수 없는 상태입니다.");
         } else{
             viewModel.writeArticle(new Callback<Article>() {
-            @Override
-            public void onResponse(Call<Article> call, Response<Article> response) {
-                Toast.makeText(ArticleWriteActivity.this, "게시물을 작성했습니당!", Toast.LENGTH_SHORT).show();
-                ArticleWriteActivity.this.finish();
-            }
+                @Override
+                public void onResponse(Call<Article> call, Response<Article> response) {
+                    Toast.makeText(ArticleWriteActivity.this, "게시물을 작성했습니당!", Toast.LENGTH_SHORT).show();
+                    ArticleWriteActivity.this.finish();
+                }
 
-            @Override
-            public void onFailure(Call<Article> call, Throwable t) {
-                Log.d(TAG, "onFailure: ", t);
-                Toast.makeText(ArticleWriteActivity.this, "게시물을 작성 실패 ㅜㅜ", Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onFailure(Call<Article> call, Throwable t) {
+                    Log.d(TAG, "onFailure: ", t);
+                    Toast.makeText(ArticleWriteActivity.this, "게시물을 작성 실패 ㅜㅜ", Toast.LENGTH_SHORT).show();
+                }
         });
         }
 

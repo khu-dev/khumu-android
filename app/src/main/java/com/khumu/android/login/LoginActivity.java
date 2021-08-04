@@ -32,6 +32,7 @@
 
 package com.khumu.android.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.MainActivity;
 import com.khumu.android.R;
@@ -53,11 +56,13 @@ import com.khumu.android.data.rest.JWTRequest;
 import com.khumu.android.data.rest.JWTResponse;
 import com.khumu.android.data.rest.UserResponse;
 import com.khumu.android.repository.TokenService;
+import com.khumu.android.signUp.Info21SignUpActivity;
 import com.khumu.android.signUp.SignUpLandingActivity;
 import com.khumu.android.util.FcmManager;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -92,7 +97,10 @@ public class LoginActivity extends AppCompatActivity {
         loginBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "로그인 중입니다.", Toast.LENGTH_SHORT).show();
+                ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setMessage("로그인 중입니다.");
+                progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+                progressDialog.show();
                 new Thread(){
                     @Override
                     public void run() {
@@ -103,9 +111,11 @@ public class LoginActivity extends AppCompatActivity {
                             call.enqueue(new Callback<JWTResponse>() {
                                 @Override
                                 public void onResponse(Call<JWTResponse> call, Response<JWTResponse> response) {
+                                    progressDialog.dismiss();
                                     if (response.isSuccessful()) {
                                         Log.d(TAG, "onResponse: " + response.raw());
                                         Log.d(TAG, "onResponse: " + response.body().getAccess());
+                                        progressDialog.dismiss();
                                         KhumuJWT jwt = new KhumuJWT(response.body().getAccess());
                                         KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString(), KhumuApplication.getPushToken());
                                         KhumuApplication.loadKhumuConfig();
@@ -126,11 +136,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 Toast.makeText(LoginActivity.this, errorBody.getMessage(), Toast.LENGTH_SHORT).show();
                                             } catch (IOException e) {
                                                 // 에러 바디 없는 경우.
-                                                Toast.makeText(LoginActivity.this, "알 수 없는 오류가 발생했습니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT).show();
                                                 e.printStackTrace();
                                             }
                                         } else{
-                                            Toast.makeText(LoginActivity.this, "알 수 없는 오류가 발생했습니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
                                             intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             LoginActivity.this.startActivity(intent);
@@ -140,6 +148,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<JWTResponse> call, Throwable t) {
+                                    progressDialog.dismiss();
                                     Log.d(TAG, "onFailure: ", t);
                                     Toast.makeText(getApplicationContext(), "서버와 통신할 수 없습니다.", Toast.LENGTH_SHORT).show();
                                 }
@@ -161,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
         signUpTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signUpIntent = new Intent(LoginActivity.this, SignUpLandingActivity.class);
+                Intent signUpIntent = new Intent(LoginActivity.this, Info21SignUpActivity.class);
                 LoginActivity.this.startActivity(signUpIntent);
             }
         });

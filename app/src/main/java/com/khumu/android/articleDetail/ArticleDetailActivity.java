@@ -51,11 +51,11 @@ public class ArticleDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_article_detail);
         toolbar = findViewById(R.id.toolbar);
         toolbarTitleTV = findViewById(R.id.toolbar_title);
+        toolbarTitleTV.setTextColor(getColor(R.color.gray_300));
         String title = getIntent().getStringExtra("toolbarTitle");
         if (title == null) {
             title = "뒤로";
         }
         toolbarTitleTV.setText(title);
-
     }
 }

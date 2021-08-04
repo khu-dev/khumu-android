@@ -5,6 +5,7 @@
  */
 package com.khumu.android.articleWrite;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,14 +29,15 @@ public class ArticleModifyActivity extends ArticleWriteActivity {
         viewModel.modifyArticle(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                Toast.makeText(ArticleModifyActivity.this, "게시물을 수정했습니당!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ArticleModifyActivity.this, "게시물을 수정했습니다!", Toast.LENGTH_SHORT).show();
+                ArticleModifyActivity.this.setResult(Activity.RESULT_OK);
                 ArticleModifyActivity.this.finish();
             }
 
             @Override
             public void onFailure(Call<Article> call, Throwable t) {
                 Log.d(TAG, "onFailure: ", t);
-                Toast.makeText(ArticleModifyActivity.this, "게시물을 수정 실패 ㅜㅜ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ArticleModifyActivity.this, "게시물을 수정하지 못했습니다. 쿠뮤에 문의해주세요 ㅜㅜ", Toast.LENGTH_SHORT).show();
             }
         });
     }

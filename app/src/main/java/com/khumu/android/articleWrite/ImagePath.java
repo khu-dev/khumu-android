@@ -8,41 +8,30 @@ package com.khumu.android.articleWrite;
 
 import android.net.Uri;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ImagePath {
-    private String hashedFileName;
-    private Uri uriPath;
+    private String remoteFileName;
+    private Uri localUri;
 
     // 새로 업로드하는 것이 아니라 원래 업로드 했던 이미지에 대한 Path
     // uri는 null이고 url만 존재
     public ImagePath(String hashedFileName) {
-        this.hashedFileName = hashedFileName;
+        this.remoteFileName = hashedFileName;
     }
 
     // 새로 업로드 할 때의 이미지 Path
     // uri와 url모두 갖게되지만 url은 아직 렌더링 되기 이전이라
     // uri로 렌더링 해야함.
-    public ImagePath(String hashedFileName, Uri uriPath) {
-        this.hashedFileName = hashedFileName;
-        this.uriPath = uriPath;
+    public ImagePath(String hashedFileName, Uri localUri) {
+        this.remoteFileName = hashedFileName;
+        this.localUri = localUri;
     }
 
-    public String getHashedFileName() {
-        return hashedFileName;
-    }
-
-    public void setHashedFileName(String hashedFileName) {
-        this.hashedFileName = hashedFileName;
-    }
-
-    public Uri getUriPath() {
-        return uriPath;
-    }
-
-    public void setUriPath(Uri uriPath) {
-        this.uriPath = uriPath;
-    }
-
-    public boolean isRenderedByUri(){
-        return this.uriPath != null;
+    public boolean isFromLocalUri(){
+        return this.localUri != null;
     }
 }

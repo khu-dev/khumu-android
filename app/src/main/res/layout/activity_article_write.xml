@@ -135,7 +135,7 @@
                     android:layout_marginVertical="8dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:article_image_path_list="@{viewModel.uploadingImagePaths}"
+                    app:article_image_path_list="@{viewModel.imagePaths}"
                     app:viewModel="@{viewModel}"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

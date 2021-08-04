@@ -14,6 +14,8 @@ import com.khumu.android.repository.TokenService;
 import com.khumu.android.repository.UserService;
 import com.khumu.android.util.Util;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -45,6 +47,7 @@ public class RetrofitModule {
     public static OkHttpClient providesOkHttpClient(AuthenticationInterceptor authenticationInterceptor) {
         Log.d(TAG, "providesOkHttpClient");
         return new OkHttpClient().newBuilder()
+                .readTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(authenticationInterceptor)
                 .build();
     }

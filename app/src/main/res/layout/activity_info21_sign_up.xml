@@ -24,8 +24,8 @@
             android:paddingVertical="16dp"
             android:paddingHorizontal="8dp">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:src="@drawable/ic_left_arrow_white"/>
         </LinearLayout>
         <LinearLayout
@@ -42,9 +42,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:textColor="@color/white"
-                android:textSize="18dp"
+                android:textSize="24dp"
                 android:textStyle="bold"
-                android:text="인포21 인증하기"/>
+                android:text="쿠뮤 회원가입"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,12 +57,12 @@
                 android:textColor="@color/white"
                 android:textStyle="italic"
                 android:text="쿠뮤는 인포21 비밀번호를 저장하지 않습니다 !\n"/>
-            <TextView
-                android:id="@+id/info21_authentication_omit_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_300"
-                android:text="다음에 인증할래요"/>
+<!--            <TextView-->
+<!--                android:id="@+id/info21_authentication_omit_btn"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="@color/gray_300"-->
+<!--                android:text="다음에 인증할래요"/>-->
         </LinearLayout>
         <LinearLayout
             android:id="@+id/form_layout"
@@ -88,6 +88,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:paddingVertical="8dp"
                     android:paddingHorizontal="24dp"
                     android:background="@drawable/background_round_white"
@@ -112,6 +113,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:paddingVertical="8dp"
                     android:paddingHorizontal="24dp"
                     android:background="@drawable/background_round_white"
@@ -139,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="8dp"
                     android:paddingHorizontal="24dp"
+                    android:layout_marginTop="4dp"
                     android:background="@drawable/background_round_white"
                     android:textColorHint="@color/red_300"
                     android:textColor="@color/red_500"

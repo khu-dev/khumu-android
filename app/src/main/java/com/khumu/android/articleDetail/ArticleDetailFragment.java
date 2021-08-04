@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +21,10 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
+import com.khumu.android.boardList.BoardAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.Comment;
@@ -44,6 +46,7 @@ import com.khumu.android.repository.NotificationService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -55,7 +58,7 @@ import static com.khumu.android.KhumuApplication.applicationComponent;
 
 public class ArticleDetailFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
-    private static final int MODIFY_ARTICLE_ACTIVITY = 1;
+    public static final int MODIFY_ARTICLE_ACTIVITY = 1;
     @Inject
     public ArticleService articleService;
     @Inject
@@ -151,6 +154,16 @@ public class ArticleDetailFragment extends Fragment {
         return root;
     }
 
+    @BindingAdapter("app:images")
+    public static void bindImages(RecyclerView recyclerView, List<String> imagePaths) {
+        if (recyclerView.getAdapter() != null) {
+            ImageAdapter adapter = (ImageAdapter) recyclerView.getAdapter();
+            adapter.setImageFileName(imagePaths);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // onCreateView에서 return된 view를 가지고 있다
@@ -232,7 +245,7 @@ public class ArticleDetailFragment extends Fragment {
                 }
             }
         });
-        commentViewModel.getArticle();
+        commentViewModel.fetchArticle();
         commentViewModel.getLiveDataComments().observe(getViewLifecycleOwner(), new Observer<ArrayList<Comment>>() {
             @Override
             public void onChanged(ArrayList<Comment> changedSet) {
@@ -263,7 +276,7 @@ public class ArticleDetailFragment extends Fragment {
                         } else {
                             Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
                             // intent에서 해당 article에 대한 정보들을 저장
-                            intent.putExtra("article", (Serializable) article);
+                            intent.putExtra("article", commentViewModel.getLiveDataArticle().getValue());
                             Board boardToWrite = new Board();
                             boardToWrite.setName(article.getBoardName());
                             boardToWrite.setDisplayName(article.getBoardDisplayName());
@@ -303,8 +316,8 @@ public class ArticleDetailFragment extends Fragment {
             // article modify 후에 성공적이었다면.
             case ArticleDetailFragment.MODIFY_ARTICLE_ACTIVITY:{
                 if(resultCode == Activity.RESULT_OK){
-                    this.article = (Article) data.getSerializableExtra("article");
-                    this.commentViewModel.getArticle();
+                    this.commentViewModel.fetchArticle();
+                    this.commentViewModel.listComment();
                 }
             }
         }

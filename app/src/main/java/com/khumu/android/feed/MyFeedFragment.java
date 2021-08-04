@@ -118,8 +118,8 @@ public class MyFeedFragment extends BaseFeedFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        feedViewModel.clearArticles();
-//        feedViewModel.ListArticles();
+        feedViewModel.clearArticles();
+        feedViewModel.listArticles();
     }
 
     @Override

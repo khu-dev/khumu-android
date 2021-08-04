@@ -20,6 +20,11 @@ import com.khumu.android.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder>{
     private final static String TAG = "com.khumu.android.articleDetail.ThumbnailAdapter";
     private List<String> imageFileName;

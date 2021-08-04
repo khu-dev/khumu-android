@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -52,7 +53,8 @@ public class ArticleWriteViewModel extends ViewModel {
     // 업로드 중인 이미지를 표시하는 recycler view가 사용하는 data
     // 문제점: article의 images 만으로는 recylcer view를 제대로 이용할 수가 없어서 uploadingImagePaths를 또 정의해서 이용 중인데
     // 이러면 article.images와 자동으로 동기화가 안됨.
-    MutableLiveData<List<ImagePath>> uploadingImagePaths;
+    // 그래서 글을 작성할 때 article에 imagePaths들을 반영시킴.
+    MutableLiveData<List<ImagePath>> imagePaths;
     MutableLiveData<Boolean> isWritable;
     Context context;
 
@@ -65,8 +67,8 @@ public class ArticleWriteViewModel extends ViewModel {
         this.imageService = imageService;
         this.boards = new MutableLiveData<>(new ArrayList<>());
         this.currentBoard = new MutableLiveData<>(provideInitialCurrentBoard());
+        this.imagePaths = new MutableLiveData<>(new ArrayList<>());
         this.article = new MutableLiveData<>(provideInitialArticle());
-        this.uploadingImagePaths = new MutableLiveData<>(new ArrayList<>());
         this.isWritable = new MutableLiveData<>(Boolean.FALSE);
 
         // current board의 value가 변경되면 writable한 지도 업데이트.
@@ -84,7 +86,7 @@ public class ArticleWriteViewModel extends ViewModel {
         return boards;}
 
     public MutableLiveData<List<ImagePath>> getUploadingImagePaths() {
-        return uploadingImagePaths;
+        return imagePaths;
     }
 
     /**
@@ -98,7 +100,7 @@ public class ArticleWriteViewModel extends ViewModel {
         for (String img : a.getImages()) {
             uploadedImagePaths.add(new ImagePath(img));
         }
-        uploadingImagePaths.postValue(uploadedImagePaths);
+        imagePaths.postValue(uploadedImagePaths);
         Log.d(TAG, "setArticle: " + article.getValue().getBoardDisplayName() + article.getValue().getBoardName());
     }
 
@@ -115,11 +117,13 @@ public class ArticleWriteViewModel extends ViewModel {
     }
 
     public void writeArticle(Callback<Article> callback){
+        article.getValue().setImages(imagePaths.getValue().stream().map(imagePath -> imagePath.getRemoteFileName()).collect(Collectors.toList()));
         Call<Article> call = articleService.createArticle("application/json", this.article.getValue());
         call.enqueue(callback);
     }
 
     public void modifyArticle(Callback<Article> callback){
+        article.getValue().setImages(imagePaths.getValue().stream().map(imagePath -> imagePath.getRemoteFileName()).collect(Collectors.toList()));
         Call<Article> call = articleService.updateArticle("application/json", this.article.getValue().getId(), this.article.getValue());
         call.enqueue(callback);
     }
@@ -151,12 +155,10 @@ public class ArticleWriteViewModel extends ViewModel {
             if (resp.isSuccessful()){
                 String hashedFileName = resp.body().getData().get("file_name");
                 ImagePath p = new ImagePath(hashedFileName, img.getUri());
-                Log.d(TAG, "uploadImage: " + p.getUriPath());
+                Log.d(TAG, "uploadImage: " + p.getLocalUri());
                 // recycler view가 uri로 이미지를 보여주기 위함.
-                uploadingImagePaths.getValue().add(p);
-                uploadingImagePaths.postValue(uploadingImagePaths.getValue());
-                // 현재 article에 url을 추가하기 위함.
-                article.getValue().getImages().add(hashedFileName);
+                imagePaths.getValue().add(p);
+                imagePaths.postValue(imagePaths.getValue());
                 Log.i(TAG, "uploadImage: 성공");
             } else{
                 Log.e(TAG, "uploadImage: 실패");
@@ -176,15 +178,11 @@ public class ArticleWriteViewModel extends ViewModel {
      * @param imagePath
      * @return
      */
-    public boolean deleteImage(ImagePath imagePath){
+    public void deleteImage(ImagePath imagePath){
         // 보여지는 image path에서 삭제
-        boolean isSuccessful = uploadingImagePaths.getValue().remove(imagePath);
-        uploadingImagePaths.postValue(uploadingImagePaths.getValue());
+        imagePaths.getValue().remove(imagePath);
+        imagePaths.postValue(imagePaths.getValue());
         // article의 images에서 file name 삭제
-        isSuccessful = isSuccessful && article.getValue().getImages().remove(imagePath.getHashedFileName());
-        article.setValue(article.getValue());
-        Log.d(TAG, "deleteUploadingImage: " + article.getValue().getImages());
-        return isSuccessful;
     }
 
     /**

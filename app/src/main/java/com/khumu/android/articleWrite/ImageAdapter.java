@@ -8,18 +8,25 @@ package com.khumu.android.articleWrite;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.khumu.android.R;
 
@@ -94,17 +101,20 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     viewModel.deleteImage(imagePaths.get(position - 1));
                 }
             });
-            ImagePath p = imagePaths.get(position-1);
+            ImagePath path = imagePaths.get(position - 1);
 
             // position 0은 adder이지만 images엔 adder가 존재하지 않음.
             // 이미 업로드 된 녀석은 url에서, 이번에 업로드 하는 녀석은 uri에서 glide load
             RequestManager glideRM = Glide.with(context);
-            RequestBuilder glideRB;
-            if (p.isRenderedByUri()){
-                glideRB = glideRM.load(p.getUriPath());
+
+            RequestBuilder glideRB = null;
+            if (path.isFromLocalUri()){
+                glideRB = glideRM.load(path.getLocalUri());
             } else{
-                glideRB = glideRM.load("https://storage.khumu.jinsu.me/" + "thumbnail/" + p.getHashedFileName());
+                glideRB = glideRM.load("https://storage.khumu.jinsu.me/" + "thumbnail/" + path.getRemoteFileName());
             }
+            glideRM.load("https://storage.khumu.jinsu.me/" + "thumbnail/" + path);
+            System.out.println("GlideError: " + glideRB.getErrorId());
             glideRB.into(imageItem.imageIV);
         }
     }

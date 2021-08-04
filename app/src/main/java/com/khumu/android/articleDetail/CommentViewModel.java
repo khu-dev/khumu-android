@@ -1,8 +1,6 @@
 package com.khumu.android.articleDetail;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,10 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.khumu.android.KhumuApplication;
-import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
-import com.khumu.android.data.LikeArticle;
 import com.khumu.android.data.ResourceSubscription;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.ArticleResponse;
@@ -21,10 +17,7 @@ import com.khumu.android.data.rest.CommentListResponse;
 import com.khumu.android.data.rest.ResourceSubscriptionResponse;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
-import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.repository.NotificationService;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +44,11 @@ public class CommentViewModel extends ViewModel {
         this.articleService = articleService;
         this.commentService = commentService;
         this.notificationService = notificationService;
-        comments = new MutableLiveData<>();
-        comments.setValue(new ArrayList<Comment>());
-        article = new MutableLiveData<>();
-        article.setValue(new Article());
+        comments = new MutableLiveData<>(new ArrayList<Comment>());
+        article = new MutableLiveData<>(new Article());
         isArticleSubscribed = new MutableLiveData<>();
         this.articleID = articleID;
-        getArticle();
+        fetchArticle();
         getIsArticleSubscribed();
         listComment();
 
@@ -73,7 +64,7 @@ public class CommentViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getArticleSubscribed() { return isArticleSubscribed; }
 
-    public void getArticle() {
+    public void fetchArticle() {
         Call<ArticleResponse> call = articleService.getArticle(Integer.valueOf(articleID));
         call.enqueue(new Callback<ArticleResponse>() {
             @Override

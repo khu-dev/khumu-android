@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:text="게시판"
-                android:textColor="@color/gray_300"
+                android:textColor="@color/red_500"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 ></TextView>
