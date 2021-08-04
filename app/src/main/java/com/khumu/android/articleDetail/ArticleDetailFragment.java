@@ -53,12 +53,15 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static com.khumu.android.KhumuApplication.applicationComponent;
 
 public class ArticleDetailFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
     public static final int MODIFY_ARTICLE_ACTIVITY = 1;
+    @Inject
+    public Retrofit retrofit;
     @Inject
     public ArticleService articleService;
     @Inject
@@ -104,7 +107,7 @@ public class ArticleDetailFragment extends Fragment {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new CommentViewModel(getContext(), articleService, commentService, notificationService, String.valueOf(article.getId()));
+                return (T) new CommentViewModel(getContext(), retrofit, articleService, commentService, notificationService, String.valueOf(article.getId()));
             }
         }).get(CommentViewModel.class);
 

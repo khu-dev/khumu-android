@@ -14,17 +14,21 @@ import com.khumu.android.data.ResourceSubscription;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.ArticleResponse;
 import com.khumu.android.data.rest.CommentListResponse;
+import com.khumu.android.data.rest.DefaultResponse;
 import com.khumu.android.data.rest.ResourceSubscriptionResponse;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
 import com.khumu.android.repository.NotificationService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class CommentViewModel extends ViewModel {
@@ -36,11 +40,13 @@ public class CommentViewModel extends ViewModel {
     private final MutableLiveData<ArrayList<Comment>> comments;
     private final MutableLiveData<Article> article;
     private final MutableLiveData<Boolean> isArticleSubscribed;
+    private final Retrofit retrofit;
     //article은 변하는 값을 observe할 데이터가 아니라 MutableLiveData로 하지 않아도 된다.
     private String articleID;
     private Context context;
-    public CommentViewModel(Context context, ArticleService articleService, CommentService commentService, NotificationService notificationService, String articleID) {
+    public CommentViewModel(Context context, Retrofit retrofit, ArticleService articleService, CommentService commentService, NotificationService notificationService, String articleID) {
         this.context = context;
+        this.retrofit = retrofit;
         this.articleService = articleService;
         this.commentService = commentService;
         this.notificationService = notificationService;
@@ -88,10 +94,10 @@ public class CommentViewModel extends ViewModel {
     }
 
     public void likeArticleToggle() {
-        Call<Void> call = articleService.likeArticleToggle("application/json", Integer.valueOf(articleID));
-        call.enqueue(new Callback<Void>() {
+        Call<DefaultResponse> call = articleService.likeArticleToggle("application/json", Integer.valueOf(articleID));
+        call.enqueue(new Callback<DefaultResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.code() == 201) {
                         article.getValue().setLiked(true);
@@ -100,17 +106,27 @@ public class CommentViewModel extends ViewModel {
                         article.getValue().setLiked(false);
                         article.getValue().setLikeArticleCount(article.getValue().getLikeArticleCount() - 1);
                     } else{
-                        Toast.makeText(context, "올바르지 않은 응답입니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT);
+                        Toast.makeText(context, "올바르지 않은 응답입니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT).show();
                     }
 
                     article.postValue(article.getValue());
                 } else {
-                    Log.e(TAG, "onResponse: " + response.errorBody());
+                    if (response.code() == 400) {
+                        try {
+                            DefaultResponse errorResponse = (DefaultResponse) retrofit.responseBodyConverter(DefaultResponse.class, DefaultResponse.class.getAnnotations()).convert(response.errorBody());
+                            Toast.makeText(context, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else{
+                        Log.e(TAG, "onResponse: " + response.errorBody());
+                    }
+
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
                 Toast.makeText(context, "알 수 없는 이유로 좋아요를 수행하지 못했습니다", Toast.LENGTH_SHORT);
                 t.printStackTrace();
             }
@@ -118,10 +134,10 @@ public class CommentViewModel extends ViewModel {
     }
 
     public void bookmarkArticleToggle() {
-        Call<Void> call = articleService.bookmarkArticleToggle("application/json", Integer.valueOf(articleID));
-        call.enqueue(new Callback<Void>() {
+        Call<DefaultResponse> call = articleService.bookmarkArticleToggle("application/json", Integer.valueOf(articleID));
+        call.enqueue(new Callback<DefaultResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.code() == 201) {
                         article.getValue().setBookmarked(true);
@@ -129,19 +145,29 @@ public class CommentViewModel extends ViewModel {
                     } else if (response.code() == 204) {
                         article.getValue().setBookmarked(false);
                         article.getValue().setBookmarkArticleCount(article.getValue().getBookmarkArticleCount() - 1);
-                    } else{
-                        Toast.makeText(context, "올바르지 않은 응답입니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT);
+                    } else {
+                        Toast.makeText(context, "올바르지 않은 응답입니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT).show();
                     }
-
                     article.postValue(article.getValue());
                 } else {
-                    Log.e(TAG, "onResponse: " + response.errorBody());
+                        if (response.code() == 400) {
+                            DefaultResponse errorResponse = null;
+                            try {
+                                errorResponse = (DefaultResponse) retrofit.responseBodyConverter(DefaultResponse.class, DefaultResponse.class.getAnnotations()).convert(response.errorBody());
+                                Toast.makeText(context, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else{
+                            Log.e(TAG, "onResponse: " + response.errorBody());
+                        }
+
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(context, "알 수 없는 이유로 북마크를 수행하지 못했습니다", Toast.LENGTH_SHORT);
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                Toast.makeText(context, "알 수 없는 이유로 북마크를 수행하지 못했습니다", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
         });

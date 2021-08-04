@@ -2,6 +2,7 @@ package com.khumu.android.di.module;
 
 import android.util.Log;
 
+import com.khumu.android.data.rest.DefaultResponse;
 import com.khumu.android.di.util.AuthenticationInterceptor;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.BoardService;
@@ -27,7 +28,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class RetrofitModule {
     final static String TAG = "RetrofitModule";
-
     @Singleton
     @Provides
     public static Retrofit providesRetrofit(OkHttpClient okHttpClient) {

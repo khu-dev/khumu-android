@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.data.rest.ArticleResponse;
+import com.khumu.android.data.rest.DefaultResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -38,9 +39,9 @@ public interface ArticleService {
     Call<Void> deleteArticle(@Header("Content-Type") String contentType, @Path("id") int id);
 
     @PATCH("articles/{id}/likes")
-    Call<Void> likeArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
+    Call<DefaultResponse> likeArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
     @PATCH("articles/{id}/bookmarks")
-    Call<Void> bookmarkArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
+    Call<DefaultResponse> bookmarkArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
 
 
 }
