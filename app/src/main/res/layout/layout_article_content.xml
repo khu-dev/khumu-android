@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.liveDataArticle.title, default=제목}"
                 android:textColor="@color/red_500"
-                android:textSize="@dimen/article_title_font_size"
+                android:textSize="24dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -120,7 +120,7 @@
             android:layout_marginBottom="@dimen/layout_large_space"
             android:text="@{viewModel.liveDataArticle.content, default=내용}"
             android:textColor="@color/red_500"
-            android:textSize="16dp" />
+            android:textSize="20dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/article_detail_image_recycler_view"

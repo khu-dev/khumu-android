@@ -82,7 +82,7 @@
                     android:paddingRight="50dp"
                     android:textColor="@color/gray_700"
                     android:text="이것은 코멘트 내용"
-                    android:textSize="14dp"/>
+                    android:textSize="16dp"/>
 
                 <ImageView
                     android:id="@+id/comment_item_like_count_icon"
