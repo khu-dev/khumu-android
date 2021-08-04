@@ -37,9 +37,16 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/back_btn"
-                android:text="게시판 목록"
-                android:textSize="@dimen/title_font_size"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="커뮤니티 검색"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="12dp"
+                android:background="@drawable/background_radius_15_filled_red_500"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +57,9 @@
             android:background="@drawable/background_soft_round_red_500_bordered_white"
             app:layout_constraintTop_toBottomOf="@+id/community_search_toolbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:paddingVertical="13dp">
 
             <View
                 android:id="@+id/divider_view"
@@ -65,19 +74,28 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_large_space"
                 android:layout_marginRight="@dimen/layout_large_space"
                 android:background="@android:color/transparent"
                 android:hint="검색어를 입력해주세요"
                 android:singleLine="true"
                 android:text="@={viewModel.searchText}"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/default_font_size"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/divider_view"
                 />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_search"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="@dimen/layout_large_space"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.core.widget.NestedScrollView
@@ -106,7 +124,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         android:text="게시판"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/title_font_size"
+                        android:textSize="18dp"
                         android:textStyle="bold"
                         android:layout_marginLeft="@dimen/layout_semi_large_space"
                         android:layout_marginRight="@dimen/layout_semi_large_space"/>
@@ -118,7 +136,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/result_boards_title_tv"
                     app:layout_constraintStart_toStartOf="parent"
                     android:paddingHorizontal="@dimen/layout_large_space"
-                    android:paddingVertical="@dimen/layout_semi_large_space"
+                    android:paddingVertical="12dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"                    />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -137,7 +155,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         android:text="게시글"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/title_font_size"
+                        android:textSize="18dp"
                         android:textStyle="bold"
                         android:layout_margin="@dimen/layout_semi_large_space"/>
                     <androidx.recyclerview.widget.RecyclerView

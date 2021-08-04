@@ -16,7 +16,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="6dp"
         android:id="@+id/board_list_item_layout"
-        android:background="@drawable/background_soft_round_white">
+        android:background="@drawable/background_radius_4_filled_white">
         <TextView
             android:id="@+id/board_name_tv"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,8 +30,10 @@
             android:textStyle="bold"
             android:textColor="@color/red_500"
             android:text="@{board.displayName, default=displayName}"
-            android:layout_marginLeft="@dimen/layout_default_space"
-            android:layout_marginRight="@dimen/layout_default_space"/>
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            />
 
         <ImageView
             android:id="@+id/follow_bt"
@@ -40,7 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="@dimen/default_icon_size"
             android:layout_height="@dimen/default_icon_size"
-            android:src="@{board.followed ? @drawable/ic_minus : @drawable/ic_plus}"/>
+            android:src="@{board.followed ? @drawable/ic_minus : @drawable/ic_plus, default=@drawable/ic_plus}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
