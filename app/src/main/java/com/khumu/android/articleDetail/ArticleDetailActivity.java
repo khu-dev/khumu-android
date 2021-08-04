@@ -34,6 +34,7 @@ package com.khumu.android.articleDetail;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,10 +44,18 @@ import com.khumu.android.R;
 public class ArticleDetailActivity extends AppCompatActivity {
     private static final String TAG = "ArticleDetailActivity";
     private Toolbar toolbar;
+    private TextView toolbarTitleTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
-        this.toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitleTV = findViewById(R.id.toolbar_title);
+        String title = getIntent().getStringExtra("toolbarTitle");
+        if (title == null) {
+            title = "뒤로";
+        }
+        toolbarTitleTV.setText(title);
+
     }
 }

@@ -33,8 +33,8 @@ import javax.inject.Inject;
 public class GrayBackgroundArticleAdapter extends ArticleAdapter{
     private final static String TAG = "GrayBackgroundArticleAdapter";
 
-    public GrayBackgroundArticleAdapter(List<Article> articleList, Context context) {
-        super(articleList, context);
+    public GrayBackgroundArticleAdapter(String toolbarTitle, List<Article> articleList, Context context) {
+        super(toolbarTitle, articleList, context);
     }
 
     @NonNull

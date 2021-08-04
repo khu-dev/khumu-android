@@ -300,22 +300,6 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentET.setHint(string);
     }
 
-    private int getCommentLikedImage(boolean isLiked) {
-        if(isLiked) {
-            return R.drawable.ic_filled_heart;
-        }
-        return R.drawable.ic_empty_heart;
-    }
-
-    // 웬만하면 View의 로직은 Fragment에서 처리하도록.
-    public int getSettingVisibility(){
-        if(this.commentViewModel.getLiveDataArticle().getValue().getIsAuthor()){
-            return View.VISIBLE;
-        } else{
-            return View.GONE;
-        }
-    }
-
     public void setCommentToWrite(Comment comment) {
         commentToWrite = comment;
         // 대댓글 입력 시 뒤로가기 누를 때 Callback이 작동하도록 활성화

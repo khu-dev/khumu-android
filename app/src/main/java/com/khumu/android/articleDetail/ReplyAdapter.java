@@ -158,6 +158,6 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         if(reply.isLiked()) {
             return R.drawable.ic_filled_heart;
         }
-        return R.drawable.ic_empty_heart;
+        return R.drawable.ic_bordered_red_500_heart;
     }
 }

@@ -31,6 +31,8 @@ import javax.inject.Inject;
 
 public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
     private final static String TAG = "ArticleAdapter";
+    // Article Detail Activity를 열 때 툴바에 어떤 제목을 표시할 것인가
+    private String toolbarTitle = "뒤로";
     public List<Article> articleList;
     @Inject
     public LikeArticleRepository likeArticleRepository;
@@ -39,8 +41,9 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
     // Adapter는 바깥 UI 상황을 최대한 모르고싶지만, Toast를 위해 context를 주입함.
     protected Context context;
 
-    public ArticleAdapter(List<Article> articleList, Context context) {
+    public ArticleAdapter(String toolbarTitle, List<Article> articleList, Context context) {
         KhumuApplication.applicationComponent.inject(this);
+        this.toolbarTitle = toolbarTitle;
         this.context = context;
         this.articleList = articleList;
     }
@@ -78,6 +81,7 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
                 Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
                 // intent에서 해당 article에 대한 정보들을 저장
                 intent.putExtra("article", article);
+                intent.putExtra("toolbarTitle", toolbarTitle);
                 v.getContext().startActivity(intent);
             }
         });

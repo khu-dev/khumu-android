@@ -69,7 +69,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
             }
         });
         binding.resultBoards.setAdapter(new SearchedBoardAdapter(new ArrayList<>(), this));
-        binding.resultArticles.setAdapter(new GrayBackgroundArticleAdapter(new ArrayList<>(), this));
+        binding.resultArticles.setAdapter(new GrayBackgroundArticleAdapter("뒤로", new ArrayList<>(), this));
 
     }
 

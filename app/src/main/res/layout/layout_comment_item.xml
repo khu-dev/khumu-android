@@ -91,7 +91,7 @@
                     app:layout_constraintRight_toLeftOf="@id/comment_item_like_count_tv"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
-                    android:src="@drawable/ic_empty_heart"
+                    android:src="@drawable/ic_bordered_red_500_heart"
                     android:layout_marginRight="3dp"/>
                 <TextView
                     android:id="@+id/comment_item_like_count_tv"
@@ -129,7 +129,7 @@
                 android:id="@+id/comment_item_like_icon"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:src="@drawable/ic_empty_heart"
+                android:src="@drawable/ic_bordered_red_500_heart"
                 app:layout_constraintLeft_toRightOf="@+id/comment_item_body"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

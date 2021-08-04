@@ -44,7 +44,7 @@
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:text="인포21 연동하여 가입하기"/>
+                android:text="인포21 인증하기"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +56,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textStyle="italic"
-                android:text="쿠뮤는 인포21 비밀번호를 저장하지 않습니다 !"/>
+                android:text="쿠뮤는 인포21 비밀번호를 저장하지 않습니다 !\n"/>
+            <TextView
+                android:id="@+id/info21_authentication_omit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_300"
+                android:text="다음에 인증할래요"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/form_layout"

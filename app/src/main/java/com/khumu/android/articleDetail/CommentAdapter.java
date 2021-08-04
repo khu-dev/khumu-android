@@ -195,7 +195,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         if(comment.isLiked()) {
             return R.drawable.ic_filled_heart;
         }
-        return R.drawable.ic_empty_heart;
+        return R.drawable.ic_bordered_red_500_heart;
     }
 
     public Comment getCommentToWrite() {

@@ -53,6 +53,7 @@ public class Article implements Serializable {
     public Article(){
         this.tags = new ArrayList<>(); // 이게 없으면 기본 생성자로 Deserialization 될 때 tags가 Null이 됨.
         this.images = new ArrayList<>(); //Image file name들을 담는 List
+        this.liked = false;
     }
 
 

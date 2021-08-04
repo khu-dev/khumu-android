@@ -36,5 +36,12 @@ public interface ArticleService {
 
     @DELETE("articles/{id}")
     Call<Void> deleteArticle(@Header("Content-Type") String contentType, @Path("id") int id);
+
+    @PATCH("articles/{id}/likes")
+    Call<Void> likeArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
+    @PATCH("articles/{id}/bookmarks")
+    Call<Void> bookmarkArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
+
+
 }
 

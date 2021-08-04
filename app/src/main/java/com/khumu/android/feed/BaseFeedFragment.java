@@ -76,7 +76,8 @@ public abstract class BaseFeedFragment extends Fragment {
     }
 
     protected void setAdapters(){
-        ArticleAdapter articleAdapter = new ArticleAdapter(new ArrayList<>(), getContext());
+        String toolbarTitle = feedViewModel.getCurrentBoard().getValue() == null ? "나의 피드" : feedViewModel.getCurrentBoard().getValue().getDisplayName();
+        ArticleAdapter articleAdapter = new ArticleAdapter(toolbarTitle, new ArrayList<>(), getContext());
         articleAdapter.setHasStableIds(true);
         articleRecyclerView.setLayoutManager(linearLayoutManager);
         articleRecyclerView.setAdapter(articleAdapter);

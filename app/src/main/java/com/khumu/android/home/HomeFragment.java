@@ -137,6 +137,7 @@ public class HomeFragment extends Fragment {
                                     // 엥 아직 얜 Integer쓰네. 나중에 바꿔야겠다...
                                     tmpArticle.setId(resourceId.intValue());
                                     intent.putExtra("article", tmpArticle);
+                                    intent.putExtra("toolbarTitle", "홈으로");
                                     HomeFragment.this.getContext().startActivity(intent);
                                 }
                                 return true;

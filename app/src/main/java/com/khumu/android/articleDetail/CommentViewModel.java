@@ -1,6 +1,8 @@
 package com.khumu.android.articleDetail;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -8,8 +10,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.khumu.android.KhumuApplication;
+import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Comment;
+import com.khumu.android.data.LikeArticle;
 import com.khumu.android.data.ResourceSubscription;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.data.rest.ArticleResponse;
@@ -17,7 +21,10 @@ import com.khumu.android.data.rest.CommentListResponse;
 import com.khumu.android.data.rest.ResourceSubscriptionResponse;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
+import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.repository.NotificationService;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +40,9 @@ public class CommentViewModel extends ViewModel {
     public CommentService commentService;
     public ArticleService articleService;
     public NotificationService notificationService;
-    private MutableLiveData<ArrayList<Comment>> comments;
-    private MutableLiveData<Article> article;
-    private MutableLiveData<Boolean> isArticleSubscribed;
+    private final MutableLiveData<ArrayList<Comment>> comments;
+    private final MutableLiveData<Article> article;
+    private final MutableLiveData<Boolean> isArticleSubscribed;
     //article은 변하는 값을 observe할 데이터가 아니라 MutableLiveData로 하지 않아도 된다.
     private String articleID;
     private Context context;
@@ -71,14 +78,79 @@ public class CommentViewModel extends ViewModel {
         call.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-                Log.d(TAG, "Article : " + String.valueOf(response.body().getArticle().getContent()));
-                Log.d(TAG, "Article : " + response.raw().toString());
-                Article tempArticle = response.body().getArticle();
-                article.postValue(tempArticle);
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "Article : " + String.valueOf(response.body().getArticle().getContent()));
+                    Log.d(TAG, "Article : " + response.raw().toString());
+                    Article tempArticle = response.body().getArticle();
+                    article.postValue(tempArticle);
+                } else {
+                    Log.e(TAG, "onResponse: Article(id=" + articleID + ")를 조회하던 중 오류 발생. " + response.errorBody());
+                }
+
             }
 
             @Override
             public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void likeArticleToggle() {
+        Call<Void> call = articleService.likeArticleToggle("application/json", Integer.valueOf(articleID));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    if (response.code() == 201) {
+                        article.getValue().setLiked(true);
+                        article.getValue().setLikeArticleCount(article.getValue().getLikeArticleCount() + 1);
+                    } else if (response.code() == 204) {
+                        article.getValue().setLiked(false);
+                        article.getValue().setLikeArticleCount(article.getValue().getLikeArticleCount() - 1);
+                    } else{
+                        Toast.makeText(context, "올바르지 않은 응답입니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT);
+                    }
+
+                    article.postValue(article.getValue());
+                } else {
+                    Log.e(TAG, "onResponse: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "알 수 없는 이유로 좋아요를 수행하지 못했습니다", Toast.LENGTH_SHORT);
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void bookmarkArticleToggle() {
+        Call<Void> call = articleService.bookmarkArticleToggle("application/json", Integer.valueOf(articleID));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    if (response.code() == 201) {
+                        article.getValue().setBookmarked(true);
+                        article.getValue().setBookmarkArticleCount(article.getValue().getBookmarkArticleCount() + 1);
+                    } else if (response.code() == 204) {
+                        article.getValue().setBookmarked(false);
+                        article.getValue().setBookmarkArticleCount(article.getValue().getBookmarkArticleCount() - 1);
+                    } else{
+                        Toast.makeText(context, "올바르지 않은 응답입니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT);
+                    }
+
+                    article.postValue(article.getValue());
+                } else {
+                    Log.e(TAG, "onResponse: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "알 수 없는 이유로 북마크를 수행하지 못했습니다", Toast.LENGTH_SHORT);
                 t.printStackTrace();
             }
         });
