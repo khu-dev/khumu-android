@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.material.tabs.TabLayout;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.BoardListResponse;
@@ -35,7 +36,7 @@ public class BoardViewModel extends ViewModel {
         followingBoards.setValue(new ArrayList<Board>());
         categoryBoards.setValue(new ArrayList<Board>());
         listFollowingBoards();
-        listCategoryBoards("department");
+        listCategoryBoards("official");
         Log.d(TAG, "Created");
     }
 
