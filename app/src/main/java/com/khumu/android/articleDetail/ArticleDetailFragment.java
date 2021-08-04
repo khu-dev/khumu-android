@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
 import com.khumu.android.data.Article;
+import com.khumu.android.data.Board;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.databinding.FragmentArticleDetailBinding;
@@ -256,26 +258,38 @@ public class ArticleDetailFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.article_detail_modify_item:
-                        Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
-                        // intent에서 해당 article에 대한 정보들을 저장
-                        intent.putExtra("article", (Serializable) article);
-                        ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
+                        if (!article.getIsAuthor()) {
+                            Toast.makeText(ArticleDetailFragment.this.getContext(), "작성자만이 게시글을 수정할 수 있습니다", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
+                            // intent에서 해당 article에 대한 정보들을 저장
+                            intent.putExtra("article", (Serializable) article);
+                            Board boardToWrite = new Board();
+                            boardToWrite.setName(article.getBoardName());
+                            boardToWrite.setDisplayName(article.getBoardDisplayName());
+                            intent.putExtra("board", boardToWrite);
+                            ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
+                        }
                         break;
                     case R.id.article_detail_delete_item:
-                        Call<Void> call = articleService.deleteArticle("application/json", article.getId());
-                        call.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제했습니다.", Toast.LENGTH_LONG).show();
-                                ArticleDetailFragment.this.getActivity().finish();
-                            }
+                        if (!article.getIsAuthor()) {
+                            Toast.makeText(ArticleDetailFragment.this.getContext(), "작성자만이 게시글을 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Call<Void> call = articleService.deleteArticle("application/json", article.getId());
+                            call.enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제했습니다.", Toast.LENGTH_LONG).show();
+                                    ArticleDetailFragment.this.getActivity().finish();
+                                }
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제를 실패했습니다.", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제를 실패했습니다.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                        break;
                 }
                 return true;
             }
