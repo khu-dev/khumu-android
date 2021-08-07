@@ -67,7 +67,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         if (!outputFile.getParentFile().exists()) {
             outputFile.getParentFile().mkdirs();
         }
-        Uri downloadUri = Uri.parse("https://storage.khumu.jinsu.me" + "/original/" + imageFileNames.get(currentImageIdx));
+        Uri downloadUri = Uri.parse("https://drive.khumu.me" + "/original/" + imageFileNames.get(currentImageIdx));
 
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
         List<String> pathSegmentList = downloadUri.getPathSegments();
@@ -76,7 +76,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         request.setAllowedOverMetered(true);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-        Log.d(TAG, "onClickDownloadBTN: 다운로드 작업 enqueue (url=" + "https://storage.khumu.jinsu.me" + "/original/" + imageFileNames.get(currentImageIdx) + ")");
+        Log.d(TAG, "onClickDownloadBTN: 다운로드 작업 enqueue (url=" + "https://drive.khumu.me" + "/original/" + imageFileNames.get(currentImageIdx) + ")");
         downloadManager.enqueue(request);
 
     }

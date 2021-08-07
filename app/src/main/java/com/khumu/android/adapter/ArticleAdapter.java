@@ -68,7 +68,7 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
 
         if (!article.getImages().isEmpty()) {
             Glide.with(this.context)
-                    .load("https://storage.khumu.jinsu.me/" + "thumbnail/" + article.getImages().get(0))
+                    .load("https://drive.khumu.me/" + "thumbnail/" + article.getImages().get(0))
                     .centerCrop()
                     .into(holder.binding.articleItemThumbnailIv);
         }

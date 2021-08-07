@@ -111,9 +111,9 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (path.isFromLocalUri()){
                 glideRB = glideRM.load(path.getLocalUri());
             } else{
-                glideRB = glideRM.load("https://storage.khumu.jinsu.me/" + "thumbnail/" + path.getRemoteFileName());
+                glideRB = glideRM.load("https://drive.khumu.me/" + "thumbnail/" + path.getRemoteFileName());
             }
-            glideRM.load("https://storage.khumu.jinsu.me/" + "thumbnail/" + path);
+            glideRM.load("https://drive.khumu.me/" + "thumbnail/" + path);
             System.out.println("GlideError: " + glideRB.getErrorId());
             glideRB.into(imageItem.imageIV);
         }

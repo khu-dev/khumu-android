@@ -44,7 +44,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ImageDetailViewHolder imageDetailViewHolder = (ImageDetailViewHolder) holder;
         Glide.with(this.context)
-                .load("https://storage.khumu.jinsu.me/original/" + imageFileNames.get(position))
+                .load("https://drive.khumu.me/original/" + imageFileNames.get(position))
                 .into(imageDetailViewHolder.photoView);
         Log.d(TAG, "onBindViewHolder: PhotoView 바인드 완료!");
         imageDetailViewHolder.photoView.setOnOutsidePhotoTapListener(imageView -> {

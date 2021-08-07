@@ -45,7 +45,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: " + imageFileName.get(position));
-        String basePath = "https://storage.khumu.jinsu.me/";
+        String basePath = "https://drive.khumu.me/";
         // default는 캐시를 이용하기 때문에 같은 이미지에 대해서 다시 요청을 보내지 않고 로컬 캐시를 이용한다.
         // 하지만 thumbnail기능을 좀 더 적극 이용해보고싶어서 일부러 캐시를 사용하지 않는 쪽으 로설정해보고있다.
         Glide.with(this.context)

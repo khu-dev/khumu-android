@@ -10,7 +10,7 @@ import okhttp3.HttpUrl;
 
 public class Util {
     public static String APIScheme = "https";
-    public static String APIHost = "api.khumu.jinsu.me";
+    public static String APIHost = "api.dev.khumu.me";
     public static int APIPort = 443;
 //    static String APIScheme = "http";
 //    static String APIHost = "192.168.219.254";

@@ -107,7 +107,7 @@
 //            if (path.isFromLocalUri()){
 //                glideRB = glideRM.load(path.getLocalUri());
 //            } else{
-//                glideRB = glideRM.load("https://storage.khumu.jinsu.me/" + "thumbnail/" + path.getRemoteFileName());
+//                glideRB = glideRM.load("https://drive.khumu.me/" + "thumbnail/" + path.getRemoteFileName());
 //            }
 //
 //            glideRB.into(imageItem.imageIV);
