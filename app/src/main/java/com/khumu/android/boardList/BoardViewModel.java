@@ -27,6 +27,7 @@ public class BoardViewModel extends ViewModel {
     public MutableLiveData<List<Board>> followingBoards;
     public MutableLiveData<List<Board>> categoryBoards;
     private Context context;
+    public MutableLiveData<Boolean> isLectureBoard;
 
     public BoardViewModel(Context context, BoardService boardService) {
         this.context = context;
@@ -35,8 +36,11 @@ public class BoardViewModel extends ViewModel {
         categoryBoards = new MutableLiveData<>();
         followingBoards.setValue(new ArrayList<Board>());
         categoryBoards.setValue(new ArrayList<Board>());
+        isLectureBoard = new MutableLiveData<>();
+        isLectureBoard.setValue(false);
         listFollowingBoards();
         listCategoryBoards("official");
+
         Log.d(TAG, "Created");
     }
 
@@ -64,6 +68,12 @@ public class BoardViewModel extends ViewModel {
 
     public void listCategoryBoards(String category) {
         Log.d(TAG, "listCategoryBoards");
+        if (category.equals("lecture")) {
+            categoryBoards.postValue(new ArrayList<Board>());
+            isLectureBoard.postValue(true);
+            return;
+        }
+        isLectureBoard.postValue(false);
         Call<BoardListResponse> call = boardService.getUnFollowingBoardsByCategory("application/json", category,false);
         call.enqueue(new Callback<BoardListResponse>() {
             @Override

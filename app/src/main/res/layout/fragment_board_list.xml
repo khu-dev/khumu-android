@@ -152,6 +152,15 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_little_round_white"
                     app:category_board_list="@{boardViewModel.categoryBoards}" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/category_board_list_recycler_view"
+                    app:layout_constraintBottom_toBottomOf="@id/category_board_list_recycler_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="검색해주세요"
+                    app:is_category_lecture="@{boardViewModel.isLectureBoard}"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

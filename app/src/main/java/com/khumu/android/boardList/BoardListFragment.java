@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,8 +19,10 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.khumu.android.R;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentBoardListBinding;
@@ -69,6 +72,9 @@ public class BoardListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board_list, container, false);
         View root = binding.getRoot();
+        //this.communityBoardRecyclerViewBinding = DataBindingUtil.inflate(inflater, R.layout.layout_community_board_recycler_view, container, false);
+        //communityBoardRecyclerViewBinding.categoryBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
+        //binding.categoryBoardListViewPager.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.followingBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.categoryBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.communityBoardCategoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -85,7 +91,7 @@ public class BoardListFragment extends Fragment {
                        boardViewModel.listCategoryBoards("department");
                        break;
                    case 3:
-                       boardViewModel.listCategoryBoards("lecture_suite");
+                       boardViewModel.listCategoryBoards("lecture");
                }
            }
             @Override
@@ -95,7 +101,7 @@ public class BoardListFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
-       });
+        });
         binding.setBoardViewModel(this.boardViewModel);
         binding.setBoardListFragment(this);
         binding.setLifecycleOwner(this);
@@ -108,6 +114,7 @@ public class BoardListFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         Log.d(TAG, getActivity().toString());
         linearLayoutManager = new LinearLayoutManager(view.getContext());
+
     }
 
     @BindingAdapter("following_board_list")
@@ -128,6 +135,15 @@ public class BoardListFragment extends Fragment {
             adapter.boardList.clear();
             adapter.boardList.addAll((List<Board>) categoryBoards.getValue());
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    @BindingAdapter("is_category_lecture")
+    public static void bindIsCategoryLecture(TextView textView, boolean isCategoryLecture) {
+        if (isCategoryLecture) {
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            textView.setVisibility(View.INVISIBLE);
         }
     }
 
