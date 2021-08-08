@@ -27,6 +27,7 @@
     <color name="gray_400">#B5B5B5</color>
     <color name="gray_500">#6c6c6c</color>
     <color name="gray_700">#4a4a4a</color>
+    <color name="transparent">#00000000</color>
 
     <color name="colorNegative">#5e8cab</color>
     <color name="colorAccent">#ff4d40</color>

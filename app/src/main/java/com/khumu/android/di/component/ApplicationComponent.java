@@ -12,6 +12,7 @@ import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.feed.BaseFeedFragment;
 import com.khumu.android.feed.FollowingBoardAdapter;
+import com.khumu.android.feed.HotBoardFeedActivity;
 import com.khumu.android.feed.MyFeedFragment;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedFragment;
@@ -84,5 +85,6 @@ public interface ApplicationComponent {
     void inject(QrCodeActivity qrCodeActivity);
     void inject(Info21SignUpActivity info21SignUpActivity);
     void inject(CommunitySearchActivity activity);
+    void inject(HotBoardFeedActivity activity);
 }
 

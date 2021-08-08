@@ -42,12 +42,11 @@ public abstract class BaseFeedFragment extends Fragment {
     abstract protected void provideFeedViewModel();
 
     @BindingAdapter("article_list")
-    public static void bindItem(RecyclerView recyclerView, LiveData articleList){
+    public static void bindItem(RecyclerView recyclerView, List<Article> articleList){
         // null 인 경우에는 아직 다룰 때가 아님.
         if (recyclerView.getAdapter() != null){
             ArticleAdapter adapter = (ArticleAdapter)recyclerView.getAdapter();
-            adapter.articleList.clear();
-            adapter.articleList.addAll((List<Article>) articleList.getValue());
+            adapter.articleList.addAll(articleList);
             adapter.notifyDataSetChanged();
         }
     }

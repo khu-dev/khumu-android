@@ -111,8 +111,9 @@ public class MyFeedFragment extends BaseFeedFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar = view.findViewById(R.id.feed_toolbar);
-        TextView toolbarTitleTV = toolbar.findViewById(R.id.toolbar_title);
+        TextView toolbarTitleTV =view.findViewById(R.id.toolbar_title);
         toolbarTitleTV.setText("나의 피드");
+
     }
 
     @Override

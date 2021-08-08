@@ -44,18 +44,18 @@ import com.khumu.android.R;
 public class ArticleDetailActivity extends AppCompatActivity {
     private static final String TAG = "ArticleDetailActivity";
     private Toolbar toolbar;
-    private TextView toolbarTitleTV;
+    private TextView toolbarBeforeTitleTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
         toolbar = findViewById(R.id.toolbar);
-        toolbarTitleTV = findViewById(R.id.toolbar_title);
-        toolbarTitleTV.setTextColor(getColor(R.color.gray_300));
-        String title = getIntent().getStringExtra("toolbarTitle");
-        if (title == null) {
-            title = "뒤로";
+        toolbarBeforeTitleTV = findViewById(R.id.toolbar_before_title);
+        toolbarBeforeTitleTV.setTextColor(getColor(R.color.gray_300));
+        String beforeTitle = getIntent().getStringExtra("toolbarBeforeTitle");
+        if (beforeTitle == null) {
+            beforeTitle = "뒤로";
         }
-        toolbarTitleTV.setText(title);
+        toolbarBeforeTitleTV.setText(beforeTitle);
     }
 }

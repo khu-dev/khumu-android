@@ -81,7 +81,7 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
                 Intent intent = new Intent(v.getContext(), ArticleDetailActivity.class);
                 // intent에서 해당 article에 대한 정보들을 저장
                 intent.putExtra("article", article);
-                intent.putExtra("toolbarTitle", toolbarTitle);
+                intent.putExtra("toolbarBeforeTitle", toolbarTitle);
                 v.getContext().startActivity(intent);
             }
         });

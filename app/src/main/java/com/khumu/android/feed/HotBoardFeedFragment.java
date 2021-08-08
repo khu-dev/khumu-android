@@ -9,21 +9,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.adapter.ArticleAdapter;
+import com.khumu.android.adapter.HotBoardArticleAdapter;
+import com.khumu.android.data.Article;
+import com.khumu.android.data.Board;
 import com.khumu.android.databinding.LayoutFeedBinding;
-import com.khumu.android.repository.ArticleRepository;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SingleBoardFeedFragment extends BaseFeedFragment {
-    private final static String TAG = "SingleBoardFeedFragment";
+public class HotBoardFeedFragment extends BaseFeedFragment {
+    private final static String TAG = "HotBoardFeedFragment";
 
     private LayoutFeedBinding layoutFeedBinding;
 
@@ -55,5 +64,12 @@ public class SingleBoardFeedFragment extends BaseFeedFragment {
         layoutFeedBinding.setLifecycleOwner(this);
         View root = layoutFeedBinding.getRoot();
         return root;
+    }
+
+    @Override
+    protected void setAdapters() {
+        HotBoardArticleAdapter articleAdapter = new HotBoardArticleAdapter("인기 게시판", new ArrayList<>(), getContext());
+        articleRecyclerView.setLayoutManager(linearLayoutManager);
+        articleRecyclerView.setAdapter(articleAdapter);
     }
 }
