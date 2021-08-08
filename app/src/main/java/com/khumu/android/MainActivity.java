@@ -3,12 +3,17 @@ package com.khumu.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentController;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
@@ -35,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(navView, navController);
             fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                if (destination.getLabel().equals(getString(R.string.title_home))) {
+                    getWindow().setStatusBarColor(getColor(R.color.red_500));
+                    getWindow().getDecorView().setSystemUiVisibility(
+                            getWindow().getDecorView().getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark\
+                } else{
+                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.white));
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+                }
+            });
         } else{
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -61,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             }
+        } else{
         }
 
         return super.dispatchKeyEvent(event);

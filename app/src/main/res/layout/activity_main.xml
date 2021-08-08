@@ -8,7 +8,7 @@ Bottom NavBar을 통해 Fragment를 변경하며 동작
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/transparent">
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_container"
         android:layout_width="match_parent"

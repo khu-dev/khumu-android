@@ -37,6 +37,7 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
 import com.khumu.android.data.Article;
+import com.khumu.android.feed.HotBoardFeedActivity;
 import com.khumu.android.notifications.NotificationActivity;
 import com.khumu.android.qrCode.QrCodeActivity;
 import com.khumu.android.repository.BoardRepository;
@@ -73,9 +74,7 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         // status bar 색상
         // refs: https://stackoverflow.com/a/56433156/9471220
-        this.getActivity().getWindow().setStatusBarColor(this.getActivity().getColor(R.color.red_500));
-        this.getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                this.getActivity().getWindow().getDecorView().getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark\
+
         return root;
 
     }
@@ -116,7 +115,22 @@ public class HomeFragment extends Fragment {
                 List<String> pathSegments = uri.getPathSegments();
                 Log.d(TAG, "shouldOverrideUrlLoading: " + "웹뷰 요청 path: " + uri.getPath());
                 Log.d(TAG, "shouldOverrideUrlLoading: " + "웹뷰 요청 pathSegments: " + pathSegments);
-                if (pathSegments.size() >= 2) {
+                if (pathSegments.size() == 1) {
+                    String resourceKindPlural = pathSegments.get(0);
+                    if (RESOURCE_KIND_PLURALS.contains(resourceKindPlural)) {
+                        switch (resourceKindPlural) {
+                            // 게시판 하나가 아닌 게시판 리스트를 조회하는 경우
+                            case "articles": {
+                                String board = uri.getQueryParameter("board");
+                                if (board != null && board.equals("hot")) {
+                                    Intent intent = new Intent(HomeFragment.this.getContext(), HotBoardFeedActivity.class);
+                                    startActivity(intent);
+                                    return true;
+                                }
+                            } break;
+                        }
+                    }
+                } else if (2 <= pathSegments.size()) {
                     String resourceKindPlural = pathSegments.get(0);
                     Long resourceId = null;
                     try{
@@ -156,16 +170,4 @@ public class HomeFragment extends Fragment {
 //        webView.loadUrl("javascript:alert(Android.getToken())");
 
     }
-
-    // 설정했던 StatusBar 색을 원래대로 돌려 놓음.
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        this.getActivity().getWindow().setStatusBarColor(this.getActivity().getColor(R.color.white));
-        this.getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
-    }
-
-
-
-
 }
