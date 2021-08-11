@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.WebViewActivity;
 import com.khumu.android.data.Announcement;
 import com.khumu.android.databinding.LayoutSimpleAnnouncementItemBinding;
 import java.util.List;
@@ -58,6 +59,11 @@ public class SimpleAnnouncementAdapter extends RecyclerView.Adapter<SimpleAnnoun
     public void onBindViewHolder(@NonNull SimpleAnnouncementViewHolder holder, int position) {
         Announcement announcement = announcementList.get(position);
         holder.bind(announcement);
+        holder.binding.getRoot().setOnClickListener(v -> {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra("url", announcement.getReferenceUrl());
+            context.startActivity(intent);
+        });
     }
 
     @Override
