@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.khumu.android.data.Announcement;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.ArticleListResponse;
@@ -34,7 +35,7 @@ public class FeedViewModel extends ViewModel {
     public String debuggingMessage = "debug";
     private BoardService boardService;
     private ArticleService articleService;
-
+    private MutableLiveData<List<Announcement>> announcements;
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
     private MutableLiveData<Board> currentBoard;
@@ -62,6 +63,8 @@ public class FeedViewModel extends ViewModel {
         boards = new MutableLiveData<>(new ArrayList<Board>());
         currentBoard = new MutableLiveData<>(null);
         articles = new MutableLiveData<>(new ArrayList<Article>());
+        announcements = new MutableLiveData<>(new ArrayList<>());
+        listRecentAnnouncements();
     }
 
     public void clearArticles(){
@@ -120,6 +123,16 @@ public class FeedViewModel extends ViewModel {
                 t.printStackTrace();
             }
         });
+    }
+
+    public void listRecentAnnouncements() {
+        for (int i = 0; i < 3; i++) {
+            announcements.getValue().add(Announcement.builder()
+                    .author(Announcement.AnnouncementAuthor.builder().name("더미작성자").followed(true).build())
+                    .title("더미 공지사항입니다. " + i)
+                    .referenceUrl("https://github.com/umi0410").build());
+        }
+        announcements.postValue(announcements.getValue());
     }
 
 }

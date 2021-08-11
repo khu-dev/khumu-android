@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Feed의 RecyclerView에서 하나의 Article Item을 나타내는 layout-->
+<layout>
+    <data>
+        <import type="androidx.core.content.ContextCompat" />
+        <!--필요에 따라 variable은 나를 include하는 부모에게서 주입받아야 할 수 있다.-->
+        <variable
+            name="announcement"
+            type="com.khumu.android.data.Announcement" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginVertical="4dp">
+        <TextView
+            android:layout_marginVertical="12dp"
+            android:id="@+id/announcement_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="14dp"
+            android:text="@{announcement.title, default=공지사항제목입니다}"
+            android:textSize="12dp"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:background="@drawable/background_radius_15_filled_red_500"/>
+        <TextView
+            android:id="@+id/announcement_author_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/announcement_title_tv"
+            app:layout_constraintBottom_toTopOf="@id/announcement_title_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="16dp"
+            android:background="@drawable/background_radius_15_bordered_gray_300_filled_white"
+            android:text="@{announcement.author.name, default=작성자}"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

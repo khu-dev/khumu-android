@@ -18,7 +18,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,7 +36,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.adapter.SimpleAnnouncementAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
+import com.khumu.android.data.Announcement;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyFeedBinding;
 import com.khumu.android.repository.ArticleService;
@@ -64,6 +68,16 @@ public class MyFeedFragment extends BaseFeedFragment {
             adapter.notifyDataSetChanged();
         }
     }
+
+    @BindingAdapter("announcements")
+    public static void bindAnnouncements(RecyclerView recyclerView, List<Announcement> announcements){
+        if (recyclerView.getAdapter() != null) {
+            SimpleAnnouncementAdapter adapter = (SimpleAnnouncementAdapter) recyclerView.getAdapter();
+            adapter.setAnnouncementList(announcements);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -103,7 +117,8 @@ public class MyFeedFragment extends BaseFeedFragment {
         // activity를 lifecycler owner로 하면 더 좋을 것 같음.
         binding.setLifecycleOwner(this.getActivity());
 
-        binding.feedFollowingBoardsRecyclerView.setAdapter(new FollowingBoardAdapter(new ArrayList<Board>(), this.getContext()));
+        binding.feedFollowingBoardsRecyclerView.setAdapter(new FollowingBoardAdapter(this.getContext(), new ArrayList<Board>()));
+        binding.feedAnnouncementRecyclerView.setAdapter(new SimpleAnnouncementAdapter(this.getContext(), new ArrayList<Announcement>()));
         return root;
     }
 

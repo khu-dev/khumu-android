@@ -2,6 +2,7 @@ package com.khumu.android.di.component;
 
 import com.khumu.android.adapter.GrayBackgroundArticleAdapter;
 import com.khumu.android.adapter.SearchedBoardAdapter;
+import com.khumu.android.adapter.SimpleAnnouncementAdapter;
 import com.khumu.android.boardList.BoardAdapter;
 import com.khumu.android.boardList.BoardListFragment;
 import com.khumu.android.KhumuApplication;
@@ -66,6 +67,7 @@ public interface ApplicationComponent {
     void inject(ArticleAdapter articleAdapter);
     void inject(GrayBackgroundArticleAdapter adapter);
     void inject(FollowingBoardAdapter followingBoardAdapter);
+    void inject(SimpleAnnouncementAdapter adapter);
 
     void inject(StudyFragment studyFragment);
     void inject(BaseFeedFragment feedFragment);

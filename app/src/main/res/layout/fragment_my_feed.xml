@@ -107,9 +107,19 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/divider_background"/>
                 </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/feed_announcement_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/announcements_header_wrapper"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingHorizontal="30dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:announcements="@{feedViewModel.announcements}"/>
                 <LinearLayout
                     android:id="@+id/feed_header_wrapper"
-                    app:layout_constraintTop_toBottomOf="@+id/announcements_header_wrapper"
+                    app:layout_constraintTop_toBottomOf="@+id/feed_announcement_recycler_view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="match_parent"
