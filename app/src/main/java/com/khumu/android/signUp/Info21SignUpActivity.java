@@ -3,19 +3,23 @@ package com.khumu.android.signUp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.component.AutoDismissAlertDialog;
 import com.khumu.android.data.rest.UserResponse;
 import com.khumu.android.databinding.ActivityInfo21SignUpBinding;
 import com.khumu.android.login.LoginActivity;
@@ -27,6 +31,7 @@ import java.lang.annotation.Annotation;
 
 import javax.inject.Inject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,16 +63,20 @@ public class Info21SignUpActivity extends AppCompatActivity {
     }
 
     public void onClickSignUpBTN(View view) {
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("회원가입 중입니다.");
-        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+        SweetAlertDialog progressDialog = new SweetAlertDialog(Info21SignUpActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        progressDialog.getProgressHelper().setBarColor(ContextCompat.getColor(Info21SignUpActivity.this, R.color.red_500));
+        progressDialog.setTitleText("회원가입 중입니다");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         userService.signUp("application/json", viewModel.getUser().getValue()).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 progressDialog.dismiss();
                 if (response.isSuccessful() && response.code() == 201) {
-                    Toast.makeText(Info21SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(Info21SignUpActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("쿠뮤 회원가입 완료")
+                            .setContentText(viewModel.getUser().getValue().getNickname() + "님 환영합니다 >_<")
+                            .show();
                     Intent intent = new Intent(Info21SignUpActivity.this, LoginActivity.class);
                     intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                     Info21SignUpActivity.this.startActivity(intent);
@@ -80,7 +89,14 @@ public class Info21SignUpActivity extends AppCompatActivity {
                                 KhumuApplication.applicationComponent.getRetrofit().responseBodyConverter(UserResponse.class, new Annotation[0]);
                         try {
                             UserResponse errorBody = errorConverter.convert(response.errorBody());
-                            Toast.makeText(Info21SignUpActivity.this, errorBody.getMessage(), Toast.LENGTH_SHORT).show();
+                            SweetAlertDialog errorDialog = new AutoDismissAlertDialog(Info21SignUpActivity.this, SweetAlertDialog.ERROR_TYPE, "회원가입에 실패했습니다 ㅜㅜ", errorBody.getMessage(), 1000L);
+//                                    .hideConfirmButton()
+//                                    .setTitleText()
+//                                    .setContentText();
+//                            Window window = errorDialog.getWindow();
+//                            window.setGravity(Gravity.BOTTOM);
+//                            window.setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+                            errorDialog.show();
                         } catch (IOException e) {
                             // 에러 바디 없는 경우.
                             Toast.makeText(Info21SignUpActivity.this, "알 수 없는 오류가 발생했습니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT).show();

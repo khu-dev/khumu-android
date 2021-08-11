@@ -102,4 +102,7 @@ dependencies {
     // 줌, 이동이 가능한 이미지 뷰
     // https://github.com/Baseflow/PhotoView
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    // 예쁜 Dialog
+    implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 }

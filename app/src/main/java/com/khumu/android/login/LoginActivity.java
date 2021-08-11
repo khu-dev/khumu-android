@@ -34,6 +34,7 @@ package com.khumu.android.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -44,6 +45,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.TransitionBuilder;
+import androidx.core.content.ContextCompat;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
@@ -66,6 +69,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView signUpTV;
     EditText usernameET;
     EditText passwordET;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,12 +97,15 @@ public class LoginActivity extends AppCompatActivity {
         usernameET = findViewById(R.id.username_et);
         passwordET = findViewById(R.id.password_et);
 
+
+
         loginBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-                progressDialog.setMessage("로그인 중입니다.");
-                progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+                SweetAlertDialog progressDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                progressDialog.getProgressHelper().setBarColor(ContextCompat.getColor(LoginActivity.this, R.color.red_500));
+                progressDialog.setTitleText("로그인 중입니다.");
+                progressDialog.setCancelable(false);
                 progressDialog.show();
                 new Thread(){
                     @Override
