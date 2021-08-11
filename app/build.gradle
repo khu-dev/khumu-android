@@ -105,4 +105,5 @@ dependencies {
 
     // 예쁜 Dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+    implementation 'com.thefinestartist:finestwebview:1.2.7'
 }

@@ -88,9 +88,8 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".WebViewActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
     </application>
 
 </manifest>

@@ -28,4 +28,10 @@
         <item name="android:animation">@anim/fragment_fade_enter</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+
+    <style name="AppTheme.NoActionBar.FullScreen" parent="Theme.Khumu">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>
