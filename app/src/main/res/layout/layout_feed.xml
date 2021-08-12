@@ -19,6 +19,7 @@ fragment로서 사용하며 조금씩 다르게 이용할 수 있다.-->
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:article_list="@{feedViewModel.articles}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
     </LinearLayout>
 </layout>

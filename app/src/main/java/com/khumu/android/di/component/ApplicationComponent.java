@@ -14,6 +14,7 @@ import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.feed.BaseFeedFragment;
 import com.khumu.android.feed.FollowingBoardAdapter;
 import com.khumu.android.feed.HotBoardFeedActivity;
+import com.khumu.android.feed.HotBoardFeedFragment;
 import com.khumu.android.feed.MyFeedFragment;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedFragment;
@@ -78,6 +79,7 @@ public interface ApplicationComponent {
     void inject(OldHomeFragment homeFragment);
     void inject(MyPageFragment myPageFragment);
     void inject(BoardListFragment boardListFragment);
+    void inject(HotBoardFeedFragment fragment);
 
     void inject(KhumuApplication application);
     void inject(LoginActivity loginActivity);

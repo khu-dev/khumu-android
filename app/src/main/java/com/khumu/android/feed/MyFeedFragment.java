@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,9 +37,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.adapter.SimpleAnnouncementAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Announcement;
+import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyFeedBinding;
 import com.khumu.android.repository.ArticleService;
@@ -49,14 +52,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class MyFeedFragment extends BaseFeedFragment {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class MyFeedFragment extends Fragment {
     private final static String TAG = "TabFeedFragment";
     @Inject public BoardService boardService;
     @Inject public ArticleService articleService;
 
     FragmentMyFeedBinding binding;
-    private MaterialToolbar toolbar;
-    protected Button articleWriteBTN;
+    private Button articleWriteBTN;
+    private FeedViewModel feedViewModel;
 
     @BindingAdapter("following_boards")
     public static void bindFollowingBoards(RecyclerView recyclerView, LiveData<List<Board>> followingBoards){
@@ -85,13 +93,6 @@ public class MyFeedFragment extends BaseFeedFragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         KhumuApplication.applicationComponent.inject(this);
-        provideFeedViewModel();
-        this.feedViewModel.listBoards(null, true);
-        this.feedViewModel.listArticles();
-    }
-
-    @Override
-    protected void provideFeedViewModel() {
         this.feedViewModel = new ViewModelProvider(getActivity(), new ViewModelProvider.Factory(){
             @NonNull
             @Override
@@ -99,6 +100,8 @@ public class MyFeedFragment extends BaseFeedFragment {
                 return (T) new FeedViewModel(boardService, articleService);
             }
         }).get(FeedViewModel.class);
+        this.feedViewModel.listBoards(null, true);
+        this.feedViewModel.listArticles();
     }
 
     @Override
@@ -119,34 +122,22 @@ public class MyFeedFragment extends BaseFeedFragment {
 
         binding.feedFollowingBoardsRecyclerView.setAdapter(new FollowingBoardAdapter(this.getContext(), new ArrayList<Board>()));
         binding.feedAnnouncementRecyclerView.setAdapter(new SimpleAnnouncementAdapter(this.getContext(), new ArrayList<Announcement>()));
+
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = view.findViewById(R.id.feed_toolbar);
+        articleWriteBTN = view.findViewById(R.id.tab_feed_article_write_btn);
         TextView toolbarTitleTV =view.findViewById(R.id.toolbar_title);
-        toolbarTitleTV.setText("나의 피드");
 
-    }
+        String toolbarTitle = "나의 피드";
+        toolbarTitleTV.setText(toolbarTitle);
+        ArticleAdapter articleAdapter = new ArticleAdapter(toolbarTitle, new ArrayList<>(), getContext());
+        articleAdapter.setHasStableIds(true);
+        binding.feedFragment.feedArticlesList.setAdapter(articleAdapter);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        feedViewModel.clearArticles();
-        feedViewModel.listArticles();
-    }
-
-    @Override
-    protected void findViews(View root){
-        super.findViews(root);
-        articleWriteBTN = root.findViewById(R.id.tab_feed_article_write_btn);
-    }
-
-    @Override
-    protected void setEventListeners(View root){
-        super.setEventListeners(root);
         articleWriteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,5 +150,16 @@ public class MyFeedFragment extends BaseFeedFragment {
             feedViewModel.listArticles();
             binding.feedBodySwipeRefreshLayout.setRefreshing(false);
         });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 굳이 refresh 안해도 될 것 같기도 하다.
+        // refresh하려면 글을 작성한 Activity가 종료된 건지 Result 확인 해줘야함.
+        // 안 그러면 계속해서 fragment가 resume될 때마다 게시글 새로 받아오게됨.
+//        feedViewModel.clearArticles();
+//        feedViewModel.listArticles();
     }
 }

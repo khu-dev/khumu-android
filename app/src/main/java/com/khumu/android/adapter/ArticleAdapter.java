@@ -170,6 +170,8 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
             }
         }
 
+        // TODO - liked인데도 liked 처리가 안되고, 숫자가 안 바뀜.
+        // TODO - 추가적으로 command-center에서 좋아요한 게시글 조회할 때도 오류남
         public void onClickLikeIcon(View v){
             new Thread(){
                 @Override
