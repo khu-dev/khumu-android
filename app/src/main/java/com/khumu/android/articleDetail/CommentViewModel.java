@@ -30,7 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
+// TODO(gusrl4025) - 여기 이름 좀 CommentViewModel 에서 ArticleDetailViewModel 같은 걸로 좀 바꿔주세요.
 public class CommentViewModel extends ViewModel {
 
     private final static String TAG = "CommentViewModel";

@@ -1,5 +1,5 @@
 /**
- * BaseFeedFragment를 상속받아 크게 추가할 내용은 없고, abstract method인 generateViewModel작업만 정의해주면됨.
+ * BaseFeedFragment를 상속받아 크게 추가할 내용은 없고, abstract method인 provideViewModel작업만 정의해주면됨.
  * 기본적인 feed의 layout인 layout_feed.xml을 이용.
  */
 package com.khumu.android.feed;
@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,9 +32,14 @@ import com.khumu.android.databinding.LayoutFeedBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotBoardFeedFragment extends BaseFeedFragment {
-    private final static String TAG = "HotBoardFeedFragment";
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+public class HotBoardFeedFragment extends Fragment {
+    private final static String TAG = "HotBoardFeedFragment";
+    private FeedViewModel feedViewModel;
     private LayoutFeedBinding layoutFeedBinding;
 
     @Override
@@ -43,13 +49,8 @@ public class HotBoardFeedFragment extends BaseFeedFragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         KhumuApplication.applicationComponent.inject(this);
-        provideFeedViewModel();
-        feedViewModel.listArticles();
-    }
-
-    @Override
-    protected void provideFeedViewModel() {
         this.feedViewModel = new ViewModelProvider(this.getActivity()).get(FeedViewModel.class);
+        feedViewModel.listArticles();
     }
 
     @Override
@@ -63,13 +64,9 @@ public class HotBoardFeedFragment extends BaseFeedFragment {
         // 그렇지 않으면 유효하게 Observer로 동작하지 않고 아무 변화 없음...
         layoutFeedBinding.setLifecycleOwner(this);
         View root = layoutFeedBinding.getRoot();
-        return root;
-    }
 
-    @Override
-    protected void setAdapters() {
         HotBoardArticleAdapter articleAdapter = new HotBoardArticleAdapter("인기 게시판", new ArrayList<>(), getContext());
-        articleRecyclerView.setLayoutManager(linearLayoutManager);
-        articleRecyclerView.setAdapter(articleAdapter);
+        layoutFeedBinding.feedArticlesList.setAdapter(articleAdapter);
+        return root;
     }
 }
