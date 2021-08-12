@@ -13,20 +13,28 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.databinding.LayoutFeedBinding;
 import com.khumu.android.repository.ArticleRepository;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
-public class SingleBoardFeedFragment extends BaseFeedFragment {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class SingleBoardFeedFragment extends Fragment {
     private final static String TAG = "SingleBoardFeedFragment";
-
     private LayoutFeedBinding layoutFeedBinding;
-
+    private FeedViewModel feedViewModel;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -34,13 +42,8 @@ public class SingleBoardFeedFragment extends BaseFeedFragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         KhumuApplication.applicationComponent.inject(this);
-        provideFeedViewModel();
-        feedViewModel.listArticles();
-    }
-
-    @Override
-    protected void provideFeedViewModel() {
         this.feedViewModel = new ViewModelProvider(this.getActivity()).get(FeedViewModel.class);
+        feedViewModel.listArticles();
     }
 
     @Override
@@ -53,6 +56,10 @@ public class SingleBoardFeedFragment extends BaseFeedFragment {
         // LiveData를 이용해 Observe하기 위해선 그 LifeCyclerOwner가 꼭 필요하다!
         // 그렇지 않으면 유효하게 Observer로 동작하지 않고 아무 변화 없음...
         layoutFeedBinding.setLifecycleOwner(this);
+        String toolbarTitle = feedViewModel.getCurrentBoard().getValue() == null ? "나의 피드" : feedViewModel.getCurrentBoard().getValue().getDisplayName();
+        ArticleAdapter articleAdapter = new ArticleAdapter(toolbarTitle, new ArrayList<>(), getContext());
+        articleAdapter.setHasStableIds(true);
+        layoutFeedBinding.feedArticlesList.setAdapter(articleAdapter);
         View root = layoutFeedBinding.getRoot();
         return root;
     }
