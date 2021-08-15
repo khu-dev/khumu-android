@@ -5,6 +5,9 @@
         <variable
             name="viewModel"
             type="com.khumu.android.signUp.SignUpViewModel" />
+        <variable
+            name="fragment"
+            type="com.khumu.android.signUp.Info21AuthenticationFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -133,7 +136,7 @@
             android:textStyle="bold"
             android:background="@drawable/background_round_white"
             android:text="가입하기"
-            android:onClick="onClickSignUpBTN"/>
+            android:onClick="@{fragment.onClickNextBTN}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

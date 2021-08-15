@@ -38,15 +38,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             >
-            <include
-                layout="@layout/fragment_sign_up_consensus"
-                viewModel="@{viewModel}"/>
-            <include
-                layout="@layout/fragment_info21_authentication_form"
-                viewModel="@{viewModel}"/>
-            <include
-                layout="@layout/fragment_sign_up_additional_form"
-                viewModel="@{viewModel}"/>
+
+
 
         </FrameLayout>
 

@@ -5,6 +5,9 @@
         <variable
             name="viewModel"
             type="com.khumu.android.signUp.SignUpViewModel" />
+        <variable
+            name="fragment"
+            type="com.khumu.android.signUp.AdditionalFormFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="컴퓨터공학과 2016101168\n박진수님 안녕하세요."
+                android:text="@{viewModel.welcomeMessage, default=`컴퓨터공학과 2016101168님\n환영합니다!`}"
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:textSize="14dp"
@@ -109,7 +112,7 @@
             android:textStyle="bold"
             android:background="@drawable/background_round_white"
             android:text="가입하기"
-            android:onClick="onClickSignUpBTN"/>
+            android:onClick="@{fragment.onClickNextBTN}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
