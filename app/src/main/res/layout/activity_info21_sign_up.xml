@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/red_500">
+
         <LinearLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
@@ -28,148 +29,26 @@
                 android:layout_height="16dp"
                 android:src="@drawable/ic_left_arrow_white"/>
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/header_layout"
+        <FrameLayout
+            android:id="@+id/sign_up_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="32dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:textColor="@color/white"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                android:text="쿠뮤 회원가입"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="14dp"
-                android:text="인포21에서 사용하는 계정 정보를 입력해주세요."/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="italic"
-                android:text="쿠뮤는 인포21 비밀번호를 저장하지 않습니다 !\n"/>
-<!--            <TextView-->
-<!--                android:id="@+id/info21_authentication_omit_btn"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/gray_300"-->
-<!--                android:text="다음에 인증할래요"/>-->
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/form_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            app:layout_constraintTop_toBottomOf="@id/header_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="24dp"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="@color/white"
-                    android:text="아이디"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:paddingVertical="8dp"
-                    android:paddingHorizontal="24dp"
-                    android:background="@drawable/background_round_white"
-                    android:textColorHint="@color/red_300"
-                    android:textColor="@color/red_500"
-                    android:textSize="14dp"
-                    android:inputType="text"
-                    android:hint="인포21 아이디를 입력해주세요."
-                    android:text="@={viewModel.user.username}"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="@color/white"
-                    android:text="비밀번호"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:paddingVertical="8dp"
-                    android:paddingHorizontal="24dp"
-                    android:background="@drawable/background_round_white"
-                    android:textColorHint="@color/red_300"
-                    android:textColor="@color/red_500"
-                    android:textSize="14dp"
-                    android:maxLines="1"
-                    android:hint="인포21 비밀번호를 입력해주세요."
-                    android:text="@={viewModel.user.password}"
-                    android:inputType="textPassword"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="@color/white"
-                    android:text="닉네임"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="8dp"
-                    android:paddingHorizontal="24dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/background_round_white"
-                    android:textColorHint="@color/red_300"
-                    android:textColor="@color/red_500"
-                    android:textSize="14dp"
-                    android:inputType="text"
-                    android:hint="사용하실 닉네임 입력해주세요."
-                    android:text="@={viewModel.user.nickname}"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sign_up_btn"
-            app:layout_constraintTop_toBottomOf="@id/form_layout"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:paddingVertical="8dp"
-            android:minWidth="0dp"
-            android:paddingHorizontal="24dp"
-            android:textColor="@color/red_500"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:background="@drawable/background_round_white"
-            android:text="가입하기"
-            android:onClick="onClickSignUpBTN"/>
+            >
+            <include
+                layout="@layout/fragment_sign_up_consensus"
+                viewModel="@{viewModel}"/>
+            <include
+                layout="@layout/fragment_info21_authentication_form"
+                viewModel="@{viewModel}"/>
+            <include
+                layout="@layout/fragment_sign_up_additional_form"
+                viewModel="@{viewModel}"/>
+
+        </FrameLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
