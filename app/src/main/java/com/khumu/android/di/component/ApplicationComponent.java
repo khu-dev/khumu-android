@@ -29,7 +29,10 @@ import com.khumu.android.repository.CommentRepository;
 import com.khumu.android.repository.LikeArticleRepository;
 import com.khumu.android.di.module.RetrofitModule;
 import com.khumu.android.search.CommunitySearchActivity;
+import com.khumu.android.signUp.AdditionalFormFragment;
+import com.khumu.android.signUp.Info21AuthenticationFragment;
 import com.khumu.android.signUp.Info21SignUpActivity;
+import com.khumu.android.signUp.SignUpAgreementFragment;
 import com.khumu.android.study.StudyAdapter;
 import com.khumu.android.study.StudyFragment;
 
@@ -80,6 +83,9 @@ public interface ApplicationComponent {
     void inject(MyPageFragment myPageFragment);
     void inject(BoardListFragment boardListFragment);
     void inject(HotBoardFeedFragment fragment);
+    void inject(SignUpAgreementFragment fragment);
+    void inject(Info21AuthenticationFragment fragment);
+    void inject(AdditionalFormFragment fragment);
 
     void inject(KhumuApplication application);
     void inject(LoginActivity loginActivity);
