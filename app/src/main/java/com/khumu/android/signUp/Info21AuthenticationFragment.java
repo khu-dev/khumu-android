@@ -78,7 +78,7 @@ public class Info21AuthenticationFragment extends Fragment {
         new Thread(){
             @Override
             public void run() {
-                if (true) {
+                if (false) {
                     // 개발 중이라 바로 스킵
                     signUpViewModel.getUser().getValue().setKind("guest");
                     progressDialog.dismiss();
