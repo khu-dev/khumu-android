@@ -13,6 +13,9 @@ public class Links implements Serializable {
     @SerializedName("previous")
     @Expose
     private Object previous;
+    @SerializedName("next_cursor")
+    @Expose
+    private Object nextCursor;
 
     public Object getNext() {
         return next;
@@ -29,5 +32,9 @@ public class Links implements Serializable {
     public void setPrevious(Object previous) {
         this.previous = previous;
     }
+
+    public Object getNextCursor() {return nextCursor;}
+
+    public void setNextCursor(Object nextCursor) { this.nextCursor = nextCursor;}
 
 }

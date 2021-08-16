@@ -2,6 +2,7 @@ package com.khumu.android.boardList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,9 +62,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             @Override
             public void onClick(View v) {
                 if (board.getFollowed() == false) {
-                    boardViewModel.followBoard(board.getDisplayName());
+                    boardViewModel.followBoard(board.getName());
                 } else {
-                    boardViewModel.unfollowBoard(board.getDisplayName());
+                    boardViewModel.unfollowBoard(board.getName());
                 }
             }
         });
