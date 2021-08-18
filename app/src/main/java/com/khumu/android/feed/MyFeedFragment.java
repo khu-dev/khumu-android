@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -133,20 +134,16 @@ public class MyFeedFragment extends Fragment {
 
         binding.feedFollowingBoardsRecyclerView.setAdapter(new FollowingBoardAdapter(this.getContext(), new ArrayList<Board>()));
         binding.feedAnnouncementRecyclerView.setAdapter(new SimpleAnnouncementAdapter(this.getContext(), new ArrayList<Announcement>()));
-        binding.feedFragment.feedArticlesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
-                Log.d(TAG, String.valueOf(lastVisibleItemPosition) + String.valueOf(itemTotalCount));
-                if (lastVisibleItemPosition == itemTotalCount) {
-                    Log.d(TAG, "last Position...");
+        binding.feedBodyNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) ->  {
+            if (v.getChildAt(v.getChildCount() - 1) != null)
+            {
+                if (scrollY > oldScrollY)
+                {
+                    if (scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight()))
+                    {
+                        Log.d(TAG, "hi");
+                        feedViewModel.loadMoreArticles();
+                    }
                 }
             }
         });
