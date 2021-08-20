@@ -59,8 +59,9 @@ public abstract class BaseFeedFragment extends Fragment {
         // xml 상에 recyclerview는 실질적으로 아이템이 어떻게 구현되어있는지 정의되어있지 않다.
         // linearlayout의 형태를 이용하겠다면 linearlayoutmanager을 이용한다.
         this.findViews(view);
-        this.setAdapters();
+        this.setAdapters(articleRecyclerView);
         this.setEventListeners(view);
+
     }
 
     @Override
@@ -72,9 +73,10 @@ public abstract class BaseFeedFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(root.getContext());
         linearLayoutManager.setStackFromEnd(false);
         articleRecyclerView = root.findViewById(R.id.feed_articles_list);
+
     }
 
-    protected void setAdapters(){
+    protected void setAdapters(RecyclerView articleRecyclerView){
         String toolbarTitle = feedViewModel.getCurrentBoard().getValue() == null ? "나의 피드" : feedViewModel.getCurrentBoard().getValue().getDisplayName();
         ArticleAdapter articleAdapter = new ArticleAdapter(toolbarTitle, new ArrayList<>(), getContext());
         articleAdapter.setHasStableIds(true);
@@ -82,5 +84,23 @@ public abstract class BaseFeedFragment extends Fragment {
         articleRecyclerView.setAdapter(articleAdapter);
     }
 
-    protected void setEventListeners(View root){}
+    protected void setEventListeners(View root){
+        this.articleRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
+                Log.d(TAG, String.valueOf(lastVisibleItemPosition) + String.valueOf(itemTotalCount));
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    Log.d(TAG, "last Position...");
+                }
+            }
+        });
+    }
 }

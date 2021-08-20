@@ -35,6 +35,7 @@ public class FeedViewModel extends ViewModel {
     public String debuggingMessage = "debug";
     private BoardService boardService;
     private ArticleService articleService;
+    private String nextCursor = "";
     private MutableLiveData<List<Announcement>> announcements;
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
@@ -106,13 +107,16 @@ public class FeedViewModel extends ViewModel {
             boardName = currentBoard.getValue().getName();
         }
 
-        Call<ArticleListResponse> call = articleService.getArticles(boardName, 1);
+        Call<ArticleListResponse> call = articleService.getArticles(boardName, 30);
 
         call.enqueue(new Callback<ArticleListResponse>() {
             @Override
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
                 if (response.isSuccessful()) {
                     articles.postValue(response.body().getData());
+                    if (response.body().getLinks().getNextCursor() != null) {
+                        nextCursor = response.body().getLinks().getNextCursor().toString();
+                    }
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -124,7 +128,36 @@ public class FeedViewModel extends ViewModel {
             }
         });
     }
+    
+    public void loadMoreArticles() {
+        String boardName = "following";
 
+        if (currentBoard.getValue() != null) {
+            boardName = currentBoard.getValue().getName();
+        }
+
+        Call<ArticleListResponse> call = articleService.getNextCursorArticles(boardName, nextCursor, 30);
+
+        call.enqueue(new Callback<ArticleListResponse>() {
+            @Override
+            public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Article> tempList = new ArrayList<>();
+                    tempList.addAll(articles.getValue());
+                    tempList.addAll(response.body().getData());
+                    articles.postValue(tempList);
+                } else {
+                    Log.e(TAG, "onResponse: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArticleListResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+    
     public void listRecentAnnouncements() {
         for (int i = 0; i < 3; i++) {
             announcements.getValue().add(Announcement.builder()

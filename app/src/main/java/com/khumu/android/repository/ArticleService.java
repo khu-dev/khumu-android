@@ -22,10 +22,14 @@ public interface ArticleService {
     Call<ArticleListResponse> getArticles(@Query("page") int page);
 
     @GET("articles")
-    Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("page") int page);
+    Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("size") int size);
+
+    @GET("articles")
+    Call<ArticleListResponse> getNextCursorArticles(@Query("board") String board, @Query("next_cursor") String nextCursor, @Query("size") int size);
 
     @GET("articles")
     Call<ArticleListResponse> searchArticles(@Query("q") String q, @Nullable @Query("cursor") String cursor);
+
     @GET("articles/{id}")
     Call<ArticleResponse> getArticle(@Path("id") int id);
 
