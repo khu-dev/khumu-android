@@ -1,57 +1,33 @@
 package com.khumu.android.home;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JsResult;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
 import com.khumu.android.data.Article;
 import com.khumu.android.feed.HotBoardFeedActivity;
-import com.khumu.android.notifications.NotificationActivity;
-import com.khumu.android.qrCode.QrCodeActivity;
-import com.khumu.android.repository.BoardRepository;
-import com.khumu.android.repository.NotificationService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
-
-import lombok.extern.slf4j.Slf4j;
 
 
 public class HomeFragment extends Fragment {
@@ -165,7 +141,7 @@ public class HomeFragment extends Fragment {
         // webview chrome client도 있어야 alert를 이용할 수 있더라
         webView.setWebChromeClient(new WebChromeClient());
 
-        webView.addJavascriptInterface(new JavaScriptInterface(this.getContext(), KhumuApplication.getToken()), "Android");
+        webView.addJavascriptInterface(new JavaScriptInterfaceImpl(this.getContext(), KhumuApplication.getToken()), "Android");
         webView.loadUrl("https://khumu-frontend.vercel.app/");
 //        webView.loadUrl("javascript:alert(Android.getToken())");
 

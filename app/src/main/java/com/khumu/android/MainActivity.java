@@ -19,6 +19,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.home.HomeFragment;
+import com.khumu.android.home.JavaScriptInterfaceImpl;
 import com.khumu.android.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
