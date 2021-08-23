@@ -90,6 +90,12 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+        <service
+            android:name=".util.KhumuFcmMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
