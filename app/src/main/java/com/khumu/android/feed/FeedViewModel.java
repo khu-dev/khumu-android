@@ -146,7 +146,6 @@ public class FeedViewModel extends ViewModel {
                     tempList.addAll(response.body().getData());
                     articles.postValue(tempList);
                     nextCursor = getNextCursor(response.body().getLinks().getNext());
-                    System.out.println(nextCursor + "cursor");
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -170,8 +169,7 @@ public class FeedViewModel extends ViewModel {
     }
 
     public String getNextCursor(String next) {
-        Log.d(TAG, next);
-        if (next.equals(null)) return "";
+        if (next == null) return "";
         final String REGET_GET_NEXT_CURSOR = "(\\bcursor=\\b)(.*?)(\\b&size\\b)";
         Pattern pattern = Pattern.compile(REGET_GET_NEXT_CURSOR);
         Matcher matcher = pattern.matcher(next);

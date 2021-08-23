@@ -141,7 +141,6 @@ public class MyFeedFragment extends Fragment {
                 {
                     if (scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight()))
                     {
-                        Log.d(TAG, "hi");
                         feedViewModel.loadMoreArticles();
                     }
                 }
