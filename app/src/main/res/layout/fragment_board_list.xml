@@ -13,29 +13,36 @@
             type="com.khumu.android.boardList.BoardListFragment"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_400"
+        android:background="@color/gray_200"
         android:orientation="vertical">
         <Button
             android:id="@+id/back_btn"
-            android:layout_marginTop="15dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="@drawable/ic_left_arrow"
             app:layout_constraintWidth_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/board_main_tab"
             app:layout_constraintTop_toTopOf="parent"/>
         <com.google.android.material.tabs.TabLayout
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintWidth_percent="0.85"
+            app:layout_constraintHeight_percent="0.09"
             app:layout_constraintStart_toEndOf="@id/back_btn"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/layout_community_board"
             app:tabIndicatorColor="@color/zxing_transparent"
             app:tabSelectedTextColor="@color/white"
+            app:tabRippleColor="@color/zxing_transparent"
             android:background="@color/zxing_transparent"
+            app:tabTextAppearance="@style/boardListTabStyle"
             app:tabBackground="@drawable/board_tab_button"
             android:id="@+id/board_main_tab">
             <com.google.android.material.tabs.TabItem
@@ -110,21 +117,24 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <com.google.android.material.tabs.TabLayout
-                    android:layout_marginTop="10dp"
                     android:id="@+id/community_board_category_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/zxing_transparent"
                     app:layout_constraintBottom_toTopOf="@id/category_board_list_recycler_view"
                     app:layout_constraintTop_toTopOf="@id/following_board_list_recycler_view"
                     app:tabBackground="@drawable/community_board_tab_button"
-                    android:layout_marginHorizontal="5dp"
                     app:tabSelectedTextColor="@color/white"
-                    app:tabTextColor="@color/red_500">
+                    app:tabTextColor="@color/red_500"
+                    bind:layout_editor_absoluteX="10dp">
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="공식" />
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,6 +150,7 @@
                         android:layout_height="wrap_content"
                         android:text="강의" />
                 </com.google.android.material.tabs.TabLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:paddingTop="10dp"
                     android:paddingLeft="10dp"
