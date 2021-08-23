@@ -3,6 +3,8 @@ package com.khumu.android.articleDetail;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +47,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public ArticleDetailFragment articleDetailFragment;
 
+    private CommentViewHolder commentViewHolder;
+
     private Context context;
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView commentAuthorNicknameTV;
@@ -51,6 +56,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public TextView commentLikeCountTV;
         public ImageView commentLikeIcon;
         public TextView commentCreatedAtTV;
+        public TextView commentReplyCountTV;
         public ImageView writeReplyIcon;
         public RecyclerView replyRecyclerView;
         public ReplyAdapter replyAdapter;
@@ -67,6 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.commentLikeCountTV = view.findViewById(R.id.comment_item_like_count_tv);
             this.commentLikeIcon = view.findViewById(R.id.comment_item_like_icon);
             this.commentCreatedAtTV = view.findViewById(R.id.comment_item_created_at_tv);
+            this.commentReplyCountTV = view.findViewById(R.id.comment_item_reply_count_tv);
             this.writeReplyIcon = view.findViewById(R.id.comment_item_reply_icon);
             this.commentItemBody = view.findViewById(R.id.comment_item_body);
         }
@@ -88,6 +95,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_comment_item, parent, false);
         CommentViewHolder holder = new CommentViewHolder(view);
 
+        commentViewHolder = holder;
+
         return holder;
     }
 
@@ -106,6 +115,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
         holder.commentCreatedAtTV.setText(comment.getCommentCreatedAt());
+        holder.commentReplyCountTV.setText(String.valueOf(comment.getChildren().size()));
         holder.commentItemBody.setTag(position);
         holder.commentItemBody.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -146,6 +156,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 builder.setMessage("대댓글을 작성하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        holder.commentAuthorNicknameTV.setTextColor(Color.WHITE);
+                        holder.commentContentTV.setTextColor(Color.WHITE);
+                        holder.commentCreatedAtTV.setTextColor(Color.WHITE);
+                        holder.commentLikeCountTV.setTextColor(Color.WHITE);
+                        holder.commentReplyCountTV.setTextColor(Color.WHITE);
+                        holder.commentItemBody.setBackground(ContextCompat.getDrawable(context, R.drawable.background_comment_body_writing));
+                        articleDetailFragment.setPosition(position);
                         articleDetailFragment.setCommentToWrite(comment);
                         articleDetailFragment.setCommentHint("대댓글을 입력하세요");
                     }

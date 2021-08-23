@@ -21,7 +21,7 @@ public interface BoardService {
     Call<Board> unfollowBoard(@Header("Content-Type") String contentType, @Path("name") String name);
 
     @GET("boards")
-    Call<BoardListResponse> getUnFollowingBoardsByCategory(@Header("Content-Type") String contentType, @Query("category") String category, @Query("followed") boolean followed);
+    Call<BoardListResponse> getUnFollowingBoardsByCategory(@Header("Content-Type") String contentType, @Query("category") String category, @Query("followed") boolean followed, @Query("size") Integer size);
 
     @GET("boards")
     Call<BoardListResponse> getBoardsByCategory (@Header("Content-Type") String contentType, @Query("category") String category);

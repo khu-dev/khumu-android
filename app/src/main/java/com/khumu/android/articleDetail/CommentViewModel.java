@@ -234,11 +234,9 @@ public class CommentViewModel extends ViewModel {
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
-                //Log.d(TAG, String.valueOf(response.code()));
                 List<Comment> tempList = response.body().getData();
                 ArrayList<Comment> commentsList = new ArrayList<>();
                 commentsList.addAll(tempList);
-                //System.out.println(commentsList);
                 comments.postValue(commentsList);
 
             }

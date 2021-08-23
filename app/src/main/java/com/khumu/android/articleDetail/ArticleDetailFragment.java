@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -69,6 +71,7 @@ public class ArticleDetailFragment extends Fragment {
     private CommentViewModel commentViewModel;
     private Article article;
     private Comment commentToWrite;
+    private Integer commentToWritePosition;
 
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
@@ -95,6 +98,7 @@ public class ArticleDetailFragment extends Fragment {
         this.intent = getActivity().getIntent();
         this.article = (Article) intent.getSerializableExtra("article");
         this.commentToWrite = null;
+        this.commentToWritePosition = null;
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
@@ -119,6 +123,8 @@ public class ArticleDetailFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             commentToWrite = null;
                             writeCommentContentET.setHint("댓글을 입력하세요");
+                            cancelReply();
+                            commentToWritePosition = null;
                             // 해당 Callback 비활성화한 후 나중에 다시 대댓글 입력 시 활성화
                             setEnabled(false);
                         }
@@ -329,6 +335,25 @@ public class ArticleDetailFragment extends Fragment {
         commentToWrite = comment;
         // 대댓글 입력 시 뒤로가기 누를 때 Callback이 작동하도록 활성화
         onBackPressedCallback.setEnabled(true);
+    }
+
+    public void setPosition(int position) {
+        commentToWritePosition = position;
+    }
+
+    public void cancelReply() {
+        RecyclerView.ViewHolder commentViewHolder = recyclerView.findViewHolderForAdapterPosition(commentToWritePosition);
+        TextView commentItemAuthorNicknameTV = commentViewHolder.itemView.findViewById(R.id.comment_item_author_nickname_tv);
+        commentItemAuthorNicknameTV.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_700));
+        TextView commentItemCountTV = commentViewHolder.itemView.findViewById(R.id.comment_item_content_tv);
+        commentItemCountTV.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_700));
+        TextView commentItemCreatedAtTV = commentViewHolder.itemView.findViewById(R.id.comment_item_created_at_tv);
+        commentItemCreatedAtTV.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_700));
+        TextView commentLikeCountTV = commentViewHolder.itemView.findViewById(R.id.comment_item_like_count_tv);
+        commentLikeCountTV.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_700));
+        TextView commentReplyCountTV = commentViewHolder.itemView.findViewById(R.id.comment_item_reply_count_tv);
+        commentReplyCountTV.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_700));
+        commentViewHolder.itemView.findViewById(R.id.comment_item_body).setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_comment_body));
     }
 }
 

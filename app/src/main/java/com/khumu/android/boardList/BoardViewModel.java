@@ -77,7 +77,7 @@ public class BoardViewModel extends ViewModel {
             return;
         }
         isLectureBoard.postValue(false);
-        Call<BoardListResponse> call = boardService.getUnFollowingBoardsByCategory("application/json", category,false);
+        Call<BoardListResponse> call = boardService.getUnFollowingBoardsByCategory("application/json", category,false, 300);
         call.enqueue(new Callback<BoardListResponse>() {
             @Override
             public void onResponse(Call<BoardListResponse> call, Response<BoardListResponse> response) {
