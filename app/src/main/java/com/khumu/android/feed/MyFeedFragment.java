@@ -25,12 +25,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -86,6 +88,16 @@ public class MyFeedFragment extends Fragment {
         }
     }
 
+    @BindingAdapter("article_list")
+    public static void bindItem(RecyclerView recyclerView, List<Article> articleList){
+        // null 인 경우에는 아직 다룰 때가 아님.
+        if (recyclerView.getAdapter() != null){
+            ArticleAdapter adapter = (ArticleAdapter)recyclerView.getAdapter();
+            adapter.articleList.addAll(articleList);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         // Layout inflate 이전
@@ -122,7 +134,18 @@ public class MyFeedFragment extends Fragment {
 
         binding.feedFollowingBoardsRecyclerView.setAdapter(new FollowingBoardAdapter(this.getContext(), new ArrayList<Board>()));
         binding.feedAnnouncementRecyclerView.setAdapter(new SimpleAnnouncementAdapter(this.getContext(), new ArrayList<Announcement>()));
-
+        binding.feedBodyNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) ->  {
+            if (v.getChildAt(v.getChildCount() - 1) != null)
+            {
+                if (scrollY > oldScrollY)
+                {
+                    if (scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight()))
+                    {
+                        feedViewModel.loadMoreArticles();
+                    }
+                }
+            }
+        });
         return root;
     }
 

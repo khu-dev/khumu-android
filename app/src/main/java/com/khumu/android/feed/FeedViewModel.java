@@ -19,6 +19,8 @@ import com.khumu.android.repository.BoardService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dagger.Module;
 import lombok.Getter;
@@ -107,16 +109,14 @@ public class FeedViewModel extends ViewModel {
             boardName = currentBoard.getValue().getName();
         }
 
-        Call<ArticleListResponse> call = articleService.getArticles(boardName, 30);
+        Call<ArticleListResponse> call = articleService.getArticles(boardName, 10);
 
         call.enqueue(new Callback<ArticleListResponse>() {
             @Override
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
                 if (response.isSuccessful()) {
                     articles.postValue(response.body().getData());
-                    if (response.body().getLinks().getNextCursor() != null) {
-                        nextCursor = response.body().getLinks().getNextCursor().toString();
-                    }
+                    nextCursor = getNextCursor(response.body().getLinks().getNext());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -131,21 +131,21 @@ public class FeedViewModel extends ViewModel {
     
     public void loadMoreArticles() {
         String boardName = "following";
-
+        if (nextCursor.equals("")) return;
         if (currentBoard.getValue() != null) {
             boardName = currentBoard.getValue().getName();
         }
 
-        Call<ArticleListResponse> call = articleService.getNextCursorArticles(boardName, nextCursor, 30);
+        Call<ArticleListResponse> call = articleService.getNextCursorArticles(boardName, nextCursor, 10);
 
         call.enqueue(new Callback<ArticleListResponse>() {
             @Override
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
                 if (response.isSuccessful()) {
                     List<Article> tempList = new ArrayList<>();
-                    tempList.addAll(articles.getValue());
                     tempList.addAll(response.body().getData());
                     articles.postValue(tempList);
+                    nextCursor = getNextCursor(response.body().getLinks().getNext());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -168,4 +168,14 @@ public class FeedViewModel extends ViewModel {
         announcements.postValue(announcements.getValue());
     }
 
+    public String getNextCursor(String next) {
+        if (next == null) return "";
+        final String REGET_GET_NEXT_CURSOR = "(\\bcursor=\\b)(.*?)(\\b&size\\b)";
+        Pattern pattern = Pattern.compile(REGET_GET_NEXT_CURSOR);
+        Matcher matcher = pattern.matcher(next);
+        if (matcher.find()) {
+            return matcher.group(2).trim();
+        }
+        return "";
+    }
 }

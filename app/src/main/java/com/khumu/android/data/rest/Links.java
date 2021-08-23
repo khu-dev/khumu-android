@@ -4,37 +4,41 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Links implements Serializable {
 
     @SerializedName("next")
     @Expose
-    private Object next;
+    private String next;
     @SerializedName("previous")
     @Expose
-    private Object previous;
-    @SerializedName("next_cursor")
-    @Expose
-    private Object nextCursor;
+    private String previous;
+//    @SerializedName("next_cursor")
+//    @Expose
+//    private Object nextCursor;
 
-    public Object getNext() {
+    public String getNext() {
         return next;
     }
 
-    public void setNext(Object next) {
+    public void setNext(String next) {
         this.next = next;
     }
 
-    public Object getPrevious() {
+    public String getPrevious() {
         return previous;
     }
 
-    public void setPrevious(Object previous) {
+    public void setPrevious(String previous) {
         this.previous = previous;
     }
 
-    public Object getNextCursor() {return nextCursor;}
+    //public Object getNextCursor() {return nextCursor;}
 
-    public void setNextCursor(Object nextCursor) { this.nextCursor = nextCursor;}
+    //public void setNextCursor(Object nextCursor) { this.nextCursor = nextCursor;}
+
+
 
 }

@@ -25,7 +25,7 @@ public interface ArticleService {
     Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("size") int size);
 
     @GET("articles")
-    Call<ArticleListResponse> getNextCursorArticles(@Query("board") String board, @Query("next_cursor") String nextCursor, @Query("size") int size);
+    Call<ArticleListResponse> getNextCursorArticles(@Query("board") String board, @Query("cursor") String nextCursor, @Query("size") int size);
 
     @GET("articles")
     Call<ArticleListResponse> searchArticles(@Query("q") String q, @Nullable @Query("cursor") String cursor);

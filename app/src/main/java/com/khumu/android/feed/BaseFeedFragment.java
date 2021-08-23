@@ -94,10 +94,10 @@ public abstract class BaseFeedFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
                 int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
                 Log.d(TAG, String.valueOf(lastVisibleItemPosition) + String.valueOf(itemTotalCount));
-                if (lastVisibleItemPosition == itemTotalCount) {
+                if (lastVisibleItemPosition == 0) {
                     Log.d(TAG, "last Position...");
                 }
             }
