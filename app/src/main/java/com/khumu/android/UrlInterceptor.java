@@ -6,12 +6,15 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.khumu.android.articleDetail.ArticleDetailActivity;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.feed.HotBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.home.HomeFragment;
+import com.khumu.android.login.LoginActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +41,12 @@ public class UrlInterceptor {
         Log.d(TAG, "openUrl: " + "요청 pathSegments: " + pathSegments);
         if (pathSegments.size() == 1) {
             String resourceKindPlural = pathSegments.get(0);
+            if (resourceKindPlural.equals("logout")) {
+                KhumuApplication.clearKhumuAuthenticationConfig();
+                Intent intent = new Intent(context, LoginActivity.class);
+                context.startActivity(intent);
+                ((AppCompatActivity)context).finish();
+            }
             if (RESOURCE_KIND_PLURALS.contains(resourceKindPlural)) {
                 switch (resourceKindPlural) {
                     // 게시판 하나가 아닌 게시판 리스트를 조회하는 경우
