@@ -1,5 +1,7 @@
 package com.khumu.android.di.component;
 
+import com.khumu.android.MainActivity;
+import com.khumu.android.UrlInterceptor;
 import com.khumu.android.adapter.GrayBackgroundArticleAdapter;
 import com.khumu.android.adapter.SearchedBoardAdapter;
 import com.khumu.android.adapter.SimpleAnnouncementAdapter;
@@ -54,8 +56,6 @@ public interface ApplicationComponent {
 
     // provision method
     BoardRepository getBoardRepository();
-    LikeArticleRepository getLikeArticleRepository();
-    CommentRepository getCommentRepository();
     Retrofit getRetrofit();
 
     // Members-injection methods

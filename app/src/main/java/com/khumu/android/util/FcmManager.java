@@ -2,7 +2,11 @@ package com.khumu.android.util;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 import com.khumu.android.data.PushSubscription;
 import com.khumu.android.data.rest.PushSubscriptionResponse;
 import com.khumu.android.repository.NotificationService;
@@ -20,7 +24,7 @@ import retrofit2.Response;
  * FCM 관련 작업들을 수행한다.
  */
 @Singleton
-public class FcmManager {
+public class FcmManager extends FirebaseMessagingService {
     private final static String TAG = "FcmManager";
     private final NotificationService notificationService;
 

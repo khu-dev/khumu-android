@@ -1,6 +1,7 @@
 package com.khumu.android;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,14 +23,17 @@ import com.khumu.android.home.HomeFragment;
 import com.khumu.android.home.JavaScriptInterfaceImpl;
 import com.khumu.android.login.LoginActivity;
 
+import javax.inject.Inject;
+
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
     // nav_host_fragment를 이용해 current fragment를 참조하기 위함
     Fragment fragment;
+    public UrlInterceptor urlInterceptor = new UrlInterceptor(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if(KhumuApplication.isAuthenticated()){
             setContentView(R.layout.activity_main);
             BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -52,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
                     getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
                 }
             });
+
+            String link = getIntent().getStringExtra("link");
+            if (link != null) {
+                boolean result = urlInterceptor.openUrl(Uri.parse(link));
+            }
+
         } else{
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
