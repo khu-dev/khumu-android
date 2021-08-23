@@ -6,24 +6,16 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentController;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.khumu.android.home.HomeFragment;
-import com.khumu.android.home.JavaScriptInterfaceImpl;
 import com.khumu.android.login.LoginActivity;
-
-import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
@@ -75,17 +67,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
         {
-            // nav_host_fragment 에서 current fragment를 구하기 위함
-            // => webview를 이용하는 fragment의 경우 이전 키를 누를 수 있으면 fragment 단에서 이전 키를 처리하려고.
-            // https://stackoverflow.com/questions/50689206/how-i-can-retrieve-current-fragment-in-navhostfragment
-            Fragment currentFragment = fragment.getChildFragmentManager().getFragments().get(0);
-            // HomeFragment 를 이용 중일 떄
-            if (currentFragment instanceof HomeFragment) {
-                HomeFragment homeFragment = (HomeFragment) currentFragment;
-                if (homeFragment.webView.canGoBack()) {
-                    System.out.println("웹뷰에서 뒤로 갈 수 있기 때문에 MainActivity에서 뒤로 가기를 수행하지 않고 웹뷰가 뒤로 가기를 수행합니다.");
-                    homeFragment.webView.goBack();
-                    return true;
+            // 이거 안 넣으면 UP이랑 DOWN 때문에 두 번 호출됨.
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                // nav_host_fragment 에서 current fragment를 구하기 위함
+                // => webview를 이용하는 fragment의 경우 이전 키를 누를 수 있으면 fragment 단에서 이전 키를 처리하려고.
+                // https://stackoverflow.com/questions/50689206/how-i-can-retrieve-current-fragment-in-navhostfragment
+                Fragment currentFragment = fragment.getChildFragmentManager().getFragments().get(0);
+                // HomeFragment 를 이용 중일 떄
+                if (currentFragment instanceof HomeFragment) {
+                    HomeFragment homeFragment = (HomeFragment) currentFragment;
+                    if (homeFragment.webView.canGoBack()) {
+                        System.out.println("웹뷰에서 뒤로 갈 수 있기 때문에 MainActivity에서 뒤로 가기를 수행하지 않고 웹뷰가 뒤로 가기를 수행합니다.");
+                        homeFragment.webView.goBack();
+                        return true;
+                    }
                 }
             }
         } else{

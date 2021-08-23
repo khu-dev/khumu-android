@@ -24,7 +24,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,18 +32,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
 import com.khumu.android.articleWrite.ArticleModifyActivity;
-import com.khumu.android.boardList.BoardAdapter;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
 import com.khumu.android.databinding.FragmentArticleDetailBinding;
-import com.khumu.android.myPage.ArticleTagAdapter;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
 import com.khumu.android.repository.NotificationService;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +87,6 @@ public class ArticleDetailFragment extends Fragment {
     private PopupMenu articleSettingPopupMenu;
     private CheckBox commentAnonymousCKB;
     private RecyclerView articleTagRecyclerView;
-    private ArticleTagAdapter articleTagAdapter;
     private OnBackPressedCallback onBackPressedCallback;
 
     @Override

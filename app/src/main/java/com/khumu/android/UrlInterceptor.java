@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 import com.khumu.android.articleDetail.ArticleDetailActivity;
 import com.khumu.android.data.Article;
+import com.khumu.android.data.Board;
 import com.khumu.android.feed.HotBoardFeedActivity;
+import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.home.HomeFragment;
 
 import java.util.Arrays;
@@ -41,8 +43,25 @@ public class UrlInterceptor {
                     // 게시판 하나가 아닌 게시판 리스트를 조회하는 경우
                     case "articles": {
                         String board = uri.getQueryParameter("board");
-                        if (board != null && board.equals("hot")) {
+                        if (board == null) {
+                            Log.w(TAG, "openUrl: board가 null입니다.");
+                            return false;
+                        }
+                        if (board.equals("hot")) {
                             Intent intent = new Intent(context, HotBoardFeedActivity.class);
+                            context.startActivity(intent);
+                            return true;
+                        } else if (Arrays.asList("liked", "bookmarked", "commented").contains(board)) {
+                            String boardDisplayName = "게시판";
+                            if (board.equals("liked")) {
+                                boardDisplayName = "좋아요한 게시글";
+                            } else if (board.equals("bookmarked")) {
+                                boardDisplayName = "북마크한 게시글";
+                            }  else if (board.equals("commented")) {
+                                boardDisplayName = "댓글단 게시글";
+                            }
+                            Intent intent = new Intent(context, SingleBoardFeedActivity.class);
+                            intent.putExtra("board", Board.builder().name(board).displayName(boardDisplayName).build());
                             context.startActivity(intent);
                             return true;
                         }

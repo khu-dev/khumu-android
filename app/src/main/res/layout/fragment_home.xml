@@ -2,9 +2,6 @@
 <!--랜딩용으로 이용하게 될 Home Fragment-->
 <layout>
     <data>
-        <variable
-            name="viewModel"
-            type="com.khumu.android.home.HomeViewModel" />
     </data>
 
     <LinearLayout
@@ -14,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <WebView
-            android:id="@+id/home_web_view"
+            android:id="@+id/web_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

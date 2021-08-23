@@ -1,4 +1,4 @@
-package com.khumu.android.home;
+package com.khumu.android;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;

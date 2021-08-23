@@ -1,7 +1,5 @@
 package com.khumu.android.di.component;
 
-import com.khumu.android.MainActivity;
-import com.khumu.android.UrlInterceptor;
 import com.khumu.android.adapter.GrayBackgroundArticleAdapter;
 import com.khumu.android.adapter.SearchedBoardAdapter;
 import com.khumu.android.adapter.SimpleAnnouncementAdapter;
@@ -21,7 +19,6 @@ import com.khumu.android.feed.MyFeedFragment;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedFragment;
 import com.khumu.android.home.HomeFragment;
-import com.khumu.android.home.OldHomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.myPage.MyPageFragment;
 import com.khumu.android.notifications.NotificationActivity;
@@ -79,7 +76,6 @@ public interface ApplicationComponent {
     void inject(SingleBoardFeedFragment feedFragment);
     void inject(ArticleDetailFragment articleDetailFragment);
     void inject(HomeFragment homeFragment);
-    void inject(OldHomeFragment homeFragment);
     void inject(MyPageFragment myPageFragment);
     void inject(BoardListFragment boardListFragment);
     void inject(HotBoardFeedFragment fragment);
