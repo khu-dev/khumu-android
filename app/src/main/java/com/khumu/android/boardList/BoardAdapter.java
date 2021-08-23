@@ -62,9 +62,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             @Override
             public void onClick(View v) {
                 if (board.getFollowed() == false) {
-                    boardViewModel.followBoard(board.getName());
+                    boardViewModel.followBoard(board);
                 } else {
-                    boardViewModel.unfollowBoard(board.getName());
+                    boardViewModel.unfollowBoard(board);
                 }
             }
         });

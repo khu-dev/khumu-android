@@ -3,6 +3,8 @@ package com.khumu.android.articleDetail;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,8 +54,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public ImageView writeReplyIcon;
         public RecyclerView replyRecyclerView;
         public ReplyAdapter replyAdapter;
+        public ConstraintLayout commentItemBody;
         private ArrayList<Comment> replyArrayList;
         private LinearLayoutManager linearLayoutManager;
+
 
         public CommentViewHolder(@NonNull View view) {
             super(view);
@@ -63,6 +68,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.commentLikeIcon = view.findViewById(R.id.comment_item_like_icon);
             this.commentCreatedAtTV = view.findViewById(R.id.comment_item_created_at_tv);
             this.writeReplyIcon = view.findViewById(R.id.comment_item_reply_icon);
+            this.commentItemBody = view.findViewById(R.id.comment_item_body);
         }
     }
 
@@ -100,8 +106,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
         holder.commentLikeIcon.setImageResource(getCommentLikedImage(comment));
         holder.commentCreatedAtTV.setText(comment.getCommentCreatedAt());
-        holder.itemView.setTag(position);
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.commentItemBody.setTag(position);
+        holder.commentItemBody.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if(comment.isAuthor()) {
@@ -133,7 +139,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 return true;
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.commentItemBody.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -178,7 +184,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                             holder.commentLikeCountTV.setText(String.valueOf(comment.getLikeCommentCount()));
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run()
+                                {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }, 0);
                         }
                     }
                 }.start();

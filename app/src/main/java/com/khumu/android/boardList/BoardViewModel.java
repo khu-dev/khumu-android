@@ -28,6 +28,7 @@ public class BoardViewModel extends ViewModel {
     public MutableLiveData<List<Board>> categoryBoards;
     private Context context;
     public MutableLiveData<Boolean> isLectureBoard;
+    private String currentCategory;
 
     public BoardViewModel(Context context, BoardService boardService) {
         this.context = context;
@@ -39,8 +40,8 @@ public class BoardViewModel extends ViewModel {
         isLectureBoard = new MutableLiveData<>();
         isLectureBoard.setValue(false);
         listFollowingBoards();
-        listCategoryBoards("official");
-
+        currentCategory = "official";
+        listCategoryBoards(currentCategory);
         Log.d(TAG, "Created");
     }
 
@@ -68,6 +69,8 @@ public class BoardViewModel extends ViewModel {
 
     public void listCategoryBoards(String category) {
         Log.d(TAG, "listCategoryBoards");
+        currentCategory = category;
+        // 강의 게시판일 경우 아무 것도 불러오지 않고 검색해달라는 텍스트를 띄워줌
         if (category.equals("lecture")) {
             categoryBoards.postValue(new ArrayList<Board>());
             isLectureBoard.postValue(true);
@@ -81,7 +84,6 @@ public class BoardViewModel extends ViewModel {
                 if (response.isSuccessful()) {
                     categoryBoards.postValue(response.body().getData());
                     Log.d(TAG, "Response : " + response.raw().toString());
-                    Log.d(TAG, "CategoryBoards : " + response.body().getData());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -93,17 +95,17 @@ public class BoardViewModel extends ViewModel {
         });
     }
 
-    public void followBoard(String name) {
-        Log.d(TAG, "followBoard: " + name);
-        Call<Board> call = boardService.followBoard("application/json", name);
+    public void followBoard(Board board) {
+        Log.d(TAG, "followBoard: " + board.getName());
+        Call<Board> call = boardService.followBoard("application/json", board.getName());
         call.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(Call<Board> call, Response<Board> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(context, name + " 게시판을 팔로우했습니다", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, board.getDisplayName() + " 게시판을 팔로우했습니다", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Response : " + response.message());
                     listFollowingBoards();
-                    listCategoryBoards("department");
+                    listCategoryBoards(currentCategory);
                 } else {
                     Toast.makeText(context, "예상치 못한 오류로 팔로우를 하지 못했습니다", Toast.LENGTH_LONG).show();
                     Log.e(TAG, "onResponse: " + response.errorBody().toString());
@@ -116,16 +118,17 @@ public class BoardViewModel extends ViewModel {
         });
     }
 
-    public void unfollowBoard(String name) {
-        Log.d(TAG, "followBoard: " + name);
-        Call<Board> call = boardService.unfollowBoard("application/json", name);
+    public void unfollowBoard(Board board) {
+        Log.d(TAG, "followBoard: " + board.getName());
+        Call<Board> call = boardService.unfollowBoard("application/json", board.getName());
         call.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(Call<Board> call, Response<Board> response) {
                 if (response.isSuccessful()) {
                     listFollowingBoards();
-                    listCategoryBoards("department");
-                    Toast.makeText(context, name + " 게시판을 언팔로우했습니다", Toast.LENGTH_LONG).show();
+                    if (currentCategory.equals(board.getCategory()))
+                        listCategoryBoards(currentCategory);
+                    Toast.makeText(context, board.getDisplayName() + " 게시판을 언팔로우했습니다", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Response : " + response.raw().toString());
                 } else {
                     Toast.makeText(context, "예상치 못한 오류로 언팔로우를 하지 못했습니다", Toast.LENGTH_LONG).show();

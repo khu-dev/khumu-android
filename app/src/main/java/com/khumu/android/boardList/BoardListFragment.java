@@ -72,9 +72,6 @@ public class BoardListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board_list, container, false);
         View root = binding.getRoot();
-        //this.communityBoardRecyclerViewBinding = DataBindingUtil.inflate(inflater, R.layout.layout_community_board_recycler_view, container, false);
-        //communityBoardRecyclerViewBinding.categoryBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
-        //binding.categoryBoardListViewPager.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.followingBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.categoryBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.communityBoardCategoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
