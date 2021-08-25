@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -72,6 +70,7 @@ public class ArticleDetailFragment extends Fragment {
     private Article article;
     private Comment commentToWrite;
     private Integer commentToWritePosition;
+    private boolean isWritingCommentAnonymous;
 
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
@@ -88,7 +87,7 @@ public class ArticleDetailFragment extends Fragment {
     private Button writeCommentContentBTN;
     private ImageView articleSettingIcon;
     private PopupMenu articleSettingPopupMenu;
-    private CheckBox commentAnonymousCKB;
+    private Button commentAnonymousBTN;
     private RecyclerView articleTagRecyclerView;
     private OnBackPressedCallback onBackPressedCallback;
 
@@ -99,6 +98,7 @@ public class ArticleDetailFragment extends Fragment {
         this.article = (Article) intent.getSerializableExtra("article");
         this.commentToWrite = null;
         this.commentToWritePosition = null;
+        this.isWritingCommentAnonymous = false;
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
@@ -205,7 +205,21 @@ public class ArticleDetailFragment extends Fragment {
         writeCommentContentET = view.findViewById(R.id.comment_write_content);
         writeCommentContentBTN = view.findViewById(R.id.comment_write_btn);
         articleSettingIcon = view.findViewById(R.id.article_detail_setting_icon);
-        commentAnonymousCKB = view.findViewById(R.id.comment_anonymous_ckb);
+        commentAnonymousBTN = view.findViewById(R.id.comment_anonymous_btn);
+        commentAnonymousBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isWritingCommentAnonymous) {
+                    isWritingCommentAnonymous = true;
+                    commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_comment_not_anonymous_button));
+                    commentAnonymousBTN.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                } else{
+                    isWritingCommentAnonymous = false;
+                    commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_comment_anonymous_button));
+                    commentAnonymousBTN.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_400));
+                }
+            }
+        });
         articleDetailSubscribeBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +238,7 @@ public class ArticleDetailFragment extends Fragment {
                         article.getId(),
                         writeCommentContentET.getText().toString().trim()
                 );
-                if (commentAnonymousCKB.isChecked()){
+                if (isWritingCommentAnonymous){
                     simpleComment.setKind("anonymous");
                 }
                 else {
@@ -342,6 +356,7 @@ public class ArticleDetailFragment extends Fragment {
     }
 
     public void cancelReply() {
+        if (commentToWritePosition == null) return;
         RecyclerView.ViewHolder commentViewHolder = recyclerView.findViewHolderForAdapterPosition(commentToWritePosition);
         TextView commentItemAuthorNicknameTV = commentViewHolder.itemView.findViewById(R.id.comment_item_author_nickname_tv);
         commentItemAuthorNicknameTV.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_700));
