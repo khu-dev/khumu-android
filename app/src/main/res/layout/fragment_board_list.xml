@@ -30,10 +30,10 @@
             app:layout_constraintEnd_toStartOf="@id/board_main_tab"
             app:layout_constraintTop_toTopOf="parent"/>
         <com.google.android.material.tabs.TabLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
             app:layout_constraintWidth_percent="0.85"
             app:layout_constraintHeight_percent="0.09"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintStart_toEndOf="@id/back_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -65,71 +65,76 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingVertical="10dp"
-            android:paddingHorizontal="10dp"
-            app:layout_constraintHeight_percent="0.93">
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintHeight_percent="0.90">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/community_board_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
-                    android:layout_marginVertical="10dp"
                     android:id="@+id/board_search_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="17dp"
-                    android:paddingStart="15dp"
+                    android:layout_marginVertical="10dp"
                     android:layout_marginBottom="10dp"
-                    android:gravity="center_vertical"
+                    android:background="@drawable/background_board_list_search_bar"
                     android:focusableInTouchMode="false"
+                    android:gravity="center_vertical"
+                    android:hint="┃ 검색어를 입력해주세요."
                     android:onClick="@{boardListFragment.onClickSearchBtn}"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingVertical="17dp"
+                    android:paddingStart="16dp"
+                    android:textSize="15dp"
                     app:layout_constraintBottom_toTopOf="@id/following_board_list_title"
-                    android:background="@drawable/background_round_red_500_bordered_white"
-                    android:hint="|  검색어를 입력해주세요."/>
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/following_board_list_title"
-                    app:layout_constraintTop_toBottomOf="@id/board_search_btn"
-                    app:layout_constraintBottom_toTopOf="@+id/following_board_list_recycler_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_little_round_red"
-                    android:paddingVertical="10dp"
-                    android:paddingHorizontal="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:text="Following" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/following_board_list_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/following_board_list_title"
-                    app:layout_constraintBottom_toBottomOf="@id/community_board_category_tab"
-                    android:background="@drawable/background_round_white"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="10dp"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginBottom="23dp"
+                    android:background="@drawable/background_board_list_following_community"
+                    android:paddingTop="25dp"
                     android:paddingBottom="20dp"
                     app:following_board_list="@{boardViewModel.followingBoards}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/community_board_category_tab"
+                    app:layout_constraintTop_toTopOf="@id/following_board_list_title" />
+
+                <TextView
+                    android:id="@+id/following_board_list_title"
+                    android:layout_width="118dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/background_little_round_red"
+                    android:gravity="center"
+                    android:paddingHorizontal="0dp"
+                    android:text="Following"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/board_search_btn" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/community_board_category_tab"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="33dp"
                     android:background="@color/zxing_transparent"
-                    app:layout_constraintBottom_toTopOf="@id/category_board_list_recycler_view"
-                    app:layout_constraintTop_toTopOf="@id/following_board_list_recycler_view"
+                    android:layout_marginHorizontal="8dp"
+                    app:tabRippleColor="@color/zxing_transparent"
+                    app:layout_constraintTop_toBottomOf="@id/following_board_list_recycler_view"
+                    app:tabTextAppearance="@style/boardListCommunityCategoryTabStyle"
+                    app:tabIndicatorColor="@color/transparent"
                     app:tabBackground="@drawable/community_board_tab_button"
                     app:tabSelectedTextColor="@color/white"
-                    app:tabTextColor="@color/red_500"
-                    bind:layout_editor_absoluteX="10dp">
-
+                    app:tabTextColor="@color/red_500">
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -152,27 +157,33 @@
                 </com.google.android.material.tabs.TabLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="20dp"
-                    android:paddingRight="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/community_board_category_tab"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:id="@+id/category_board_list_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_little_round_white"
-                    app:category_board_list="@{boardViewModel.categoryBoards}" />
+                    android:background="@drawable/background_board_list_category_community"
+                    android:minHeight="111dp"
+                    android:layout_marginTop="68dp"
+                    android:layout_marginBottom="50dp"
+                    android:paddingTop="25dp"
+                    android:paddingBottom="30dp"
+                    app:category_board_list="@{boardViewModel.categoryBoards}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/following_board_list_recycler_view" />
+
                 <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="50dp"
-                    app:layout_constraintTop_toTopOf="@id/category_board_list_recycler_view"
+                    android:text="위에 있는 검색 창을 이용해주세요"
+                    android:textColor="@color/red_500"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:is_category_lecture="@{boardViewModel.isLectureBoard}"
                     app:layout_constraintBottom_toBottomOf="@id/category_board_list_recycler_view"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="검색해주세요"
-                    app:is_category_lecture="@{boardViewModel.isLectureBoard}"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/category_board_list_recycler_view" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
