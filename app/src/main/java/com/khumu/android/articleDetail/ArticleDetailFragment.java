@@ -121,10 +121,7 @@ public class ArticleDetailFragment extends Fragment {
                     builder.setMessage("대댓글 입력을 취소하겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            commentToWrite = null;
-                            writeCommentContentET.setHint("댓글을 입력하세요");
                             cancelReply();
-                            commentToWritePosition = null;
                             // 해당 Callback 비활성화한 후 나중에 다시 대댓글 입력 시 활성화
                             setEnabled(false);
                         }
@@ -257,6 +254,7 @@ public class ArticleDetailFragment extends Fragment {
                     commentViewModel.createComment(simpleComment);
                     // 댓글 작성 후 작성창 비우기
                     writeCommentContentET.setText("");
+                    cancelReply();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -348,7 +346,6 @@ public class ArticleDetailFragment extends Fragment {
     public void setCommentToWrite(Comment comment) {
         commentToWrite = comment;
         // 대댓글 입력 시 뒤로가기 누를 때 Callback이 작동하도록 활성화
-        onBackPressedCallback.setEnabled(true);
     }
 
     public void setPosition(int position) {
@@ -356,6 +353,14 @@ public class ArticleDetailFragment extends Fragment {
     }
 
     public void cancelReply() {
+        commentToWrite = null;
+        writeCommentContentET.setHint("댓글을 입력하세요");
+        cancelHighlightedComment();
+        commentToWritePosition = null;
+        onBackPressedCallback.setEnabled(false);
+    }
+
+    public void cancelHighlightedComment() {
         if (commentToWritePosition == null) return;
         RecyclerView.ViewHolder commentViewHolder = recyclerView.findViewHolderForAdapterPosition(commentToWritePosition);
         TextView commentItemAuthorNicknameTV = commentViewHolder.itemView.findViewById(R.id.comment_item_author_nickname_tv);

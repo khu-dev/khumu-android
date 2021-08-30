@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -162,7 +161,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         holder.commentLikeCountTV.setTextColor(Color.WHITE);
                         holder.commentReplyCountTV.setTextColor(Color.WHITE);
                         holder.commentItemBody.setBackground(ContextCompat.getDrawable(context, R.drawable.background_comment_body_writing));
-                        articleDetailFragment.cancelReply();
+                        articleDetailFragment.cancelHighlightedComment();
                         articleDetailFragment.setPosition(position);
                         articleDetailFragment.setCommentToWrite(comment);
                         articleDetailFragment.setCommentHint("대댓글을 입력하세요");
