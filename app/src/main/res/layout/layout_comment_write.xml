@@ -8,17 +8,17 @@
     android:background="@color/gray_500"
     android:layout_gravity="bottom">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/comment_anonymous_btn"
         android:layout_width="65dp"
         android:layout_height="match_parent"
         android:text="익명"
-        android:textColor="@color/gray_400"
+        android:textColor="@color/white"
         android:paddingHorizontal="0dp"
         android:paddingVertical="0dp"
         android:textSize="12dp"
         android:textStyle="bold"
-        android:background="@drawable/background_comment_anonymous_button"
+        android:background="@drawable/background_not_pressed_comment_anonymous_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/comment_write_content"

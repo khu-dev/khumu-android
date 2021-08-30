@@ -208,12 +208,10 @@ public class ArticleDetailFragment extends Fragment {
             public void onClick(View v) {
                 if (!isWritingCommentAnonymous) {
                     isWritingCommentAnonymous = true;
-                    commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_comment_not_anonymous_button));
-                    commentAnonymousBTN.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                    commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_pressed_comment_anonymous_button));
                 } else{
                     isWritingCommentAnonymous = false;
-                    commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_comment_anonymous_button));
-                    commentAnonymousBTN.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_400));
+                    commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_not_pressed_comment_anonymous_button));
                 }
             }
         });

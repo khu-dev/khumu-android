@@ -47,7 +47,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/layout_article_content" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
         <View
             android:id="@+id/comment_write_line"
             android:background="@color/gray_300"
@@ -59,9 +58,6 @@
             layout="@layout/layout_comment_write"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginBottom="3dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
