@@ -4,8 +4,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="article"
-            type="com.khumu.android.articleDetail.CommentViewModel" />
+            name="comment"
+            type="com.khumu.android.data.Comment" />
+        <variable
+            name="viewHolder"
+            type="com.khumu.android.articleDetail.CommentAdapter.CommentViewHolder" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +42,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/comment_item_like_icon"
                 android:background="@drawable/background_comment_body"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="@{viewHolder.onClick}"
+                android:onLongClick="@{viewHolder.onLongClick}">
                 <TextView
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/comment_item_created_at_tv"
@@ -49,7 +54,7 @@
                     android:paddingLeft="10dp"
                     android:id="@+id/comment_item_author_nickname_tv"
                     android:textColor="@color/gray_700"
-                    android:text="이것은 코멘트 작성자"
+                    android:text="@{viewHolder.authorNickName, default=작성자}"
                     android:textSize="12dp"/>
                 <TextView
                     android:id="@+id/comment_item_created_at_tv"
@@ -59,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:textColor="@color/gray_700"
-                    android:text="방금 전"
+                    android:text="@{comment.createdAt,default=`방금 전`}"
                     android:textSize="10dp"/>
                 <ImageView
                     android:id="@+id/comment_more_option_icon"
@@ -81,7 +86,7 @@
                     android:paddingBottom="3dp"
                     android:paddingRight="50dp"
                     android:textColor="@color/gray_700"
-                    android:text="이것은 코멘트 내용"
+                    android:text="@{comment.content ,default=내용}"
                     android:textSize="16dp"/>
 
                 <ImageView
@@ -103,8 +108,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="7dp"
+                    android:text="@{String.valueOf(comment.likeCommentCount), default=3}"/>
                     android:textSize="12dp"
-                    android:text="6"/>
                 <ImageView
                     android:id="@+id/comment_item_reply_icon"
                     app:layout_constraintTop_toBottomOf="@id/comment_item_content_tv"
@@ -122,23 +127,26 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:text="@{String.valueOf(comment.children.size()), default=3}"/>
                     android:textSize="12dp"
-                    android:text="0"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <ImageView
                 android:id="@+id/comment_item_like_icon"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:src="@drawable/ic_bordered_red_500_heart"
+                android:src="@{comment.liked?@drawable/ic_filled_heart:@drawable/ic_bordered_red_500_heart, default=@drawable/ic_bordered_red_500_heart}"
                 app:layout_constraintLeft_toRightOf="@+id/comment_item_body"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="@{viewHolder.onClickLikeIcon}"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_reply_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:overScrollMode="never"/>
     </LinearLayout>
 </layout>

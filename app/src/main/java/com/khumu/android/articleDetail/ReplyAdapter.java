@@ -56,7 +56,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         }
     }
 
-    public ReplyAdapter(ArrayList<Comment> ReplyList, Context context, CommentViewModel commentViewModel) {
+    public ReplyAdapter(List<Comment> ReplyList, Context context, CommentViewModel commentViewModel) {
         KhumuApplication.applicationComponent.inject(this);
         this.commentViewModel = commentViewModel;
         this.context = context;
@@ -80,13 +80,13 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         holder.replyContentTV.setText(reply.getContent());
         holder.replyLikeCountTV.setText(String.valueOf(reply.getLikeCommentCount()));
         holder.replyLikeIcon.setImageResource(getReplyLikedImage(reply));
-        holder.replyCreatedAtTV.setText(reply.getCommentCreatedAt());
+        holder.replyCreatedAtTV.setText(reply.getCreatedAt());
         holder.itemView.setTag(position);
         
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if(reply.isAuthor()) {
+                if(reply.getIsAuthor()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage("대댓글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override

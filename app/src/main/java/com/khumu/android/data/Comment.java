@@ -7,6 +7,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Comment {
     private int id;
     @SerializedName("article")
@@ -26,97 +31,9 @@ public class Comment {
     private int likeCommentCount;
     private boolean liked;
     @SerializedName("created_at")
-    private String commentCreatedAt;
+    private String createdAt;
     @SerializedName("is_author")
-    private boolean isAuthor;
-
-    public Comment () {}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getArticleID() {
-        return articleID;
-    }
-
-    public void setArticleID(int articleID) {
-        this.articleID = articleID;
-    }
-
-    public SimpleUser getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(SimpleUser author) {
-        this.author = author;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getParent() {
-        return parent;
-    }
-
-    public void setParent(Integer parent) {
-        this.parent = parent;
-    }
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
-    public ArrayList<Comment> getChildren() {
-        return children;
-    }
-
-    public void setChildren(ArrayList<Comment> children) {
-        this.children = children;
-    }
-
-    public int getLikeCommentCount() {
-        return likeCommentCount;
-    }
-
-    public void setLikeCommentCount(int likeCommentCount) {
-        this.likeCommentCount = likeCommentCount;
-    }
-
-    public boolean isLiked() {
-        return liked;
-    }
-
-    public void setLiked(boolean liked) {
-        this.liked = liked;
-    }
-
-    public String getCommentCreatedAt() {
-        return commentCreatedAt;
-    }
-
-    public void setCommentCreatedAt(String commentCreatedAt) {
-        this.commentCreatedAt = commentCreatedAt;
-    }
-
-    public boolean isAuthor() {
-        return isAuthor;
-    }
-
-    public void setIsAuthor(boolean isAuthor) {
-        this.isAuthor = isAuthor;
-    }
+    private Boolean isAuthor;
+    @SerializedName("is_written_by_article_author")
+    private Boolean isWrittenByArticleAuthor;
 }
