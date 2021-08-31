@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -80,6 +81,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             return authorNickname;
         }
 
+        public Drawable getLikedIcon() {
+            return binding.getComment().isLiked() ? context.getDrawable(R.drawable.ic_filled_heart) : context.getDrawable(R.drawable.ic_bordered_red_500_heart);
+        }
+
         public boolean onLongClick(View v) {
             if (binding.getComment().getIsAuthor()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -140,19 +145,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         if (liked) {
                             binding.getComment().setLiked(false);
                             binding.getComment().setLikeCommentCount(binding.getComment().getLikeCommentCount() - 1);
+
                         } else {
                             binding.getComment().setLiked(true);
                             binding.getComment().setLikeCommentCount(binding.getComment().getLikeCommentCount() + 1);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                         Handler handler = new Handler(Looper.getMainLooper());
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                binding.commentItemLikeIcon.setImageDrawable(getLikedIcon());
+                                binding.commentItemLikeCountTv.setText(String.valueOf(binding.getComment().getLikeCommentCount()));
                             }
                         }, 0);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }.start();

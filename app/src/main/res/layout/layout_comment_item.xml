@@ -134,7 +134,7 @@
                 android:id="@+id/comment_item_like_icon"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:src="@{comment.liked?@drawable/ic_filled_heart:@drawable/ic_bordered_red_500_heart, default=@drawable/ic_bordered_red_500_heart}"
+                android:src="@{viewHolder.likedIcon, default=@drawable/ic_bordered_red_500_heart}"
                 app:layout_constraintLeft_toRightOf="@+id/comment_item_body"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
