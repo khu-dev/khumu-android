@@ -11,6 +11,7 @@ import com.khumu.android.articleDetail.CommentAdapter;
 import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.adapter.ArticleAdapter;
+import com.khumu.android.boardList.BoardListMainFragment;
 import com.khumu.android.feed.BaseFeedFragment;
 import com.khumu.android.feed.FollowingBoardAdapter;
 import com.khumu.android.feed.HotBoardFeedActivity;
@@ -82,6 +83,7 @@ public interface ApplicationComponent {
     void inject(SignUpAgreementFragment fragment);
     void inject(Info21AuthenticationFragment fragment);
     void inject(AdditionalFormFragment fragment);
+    void inject(BoardListMainFragment fragment);
 
     void inject(KhumuApplication application);
     void inject(LoginActivity loginActivity);

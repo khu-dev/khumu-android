@@ -58,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:text="공지사항"/>
         </com.google.android.material.tabs.TabLayout>
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/layout_community_board"
             android:layout_width="match_parent"

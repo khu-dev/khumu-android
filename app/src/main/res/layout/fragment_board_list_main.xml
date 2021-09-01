@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--나중에 Nav에서 Board용 탭을 만들면 사용할 Fragment-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="boardListMainFragment"
+            type="com.khumu.android.boardList.BoardListMainFragment"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_200"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/back_btn"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_left_arrow"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/board_main_tab"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <com.google.android.material.tabs.TabLayout
+            app:layout_constraintWidth_percent="0.85"
+            app:layout_constraintHeight_percent="0.09"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@id/back_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/board_list_view_pager"
+            app:tabIndicatorColor="@color/zxing_transparent"
+            app:tabSelectedTextColor="@color/white"
+            app:tabRippleColor="@color/zxing_transparent"
+            android:background="@color/zxing_transparent"
+            app:tabTextAppearance="@style/boardListTabStyle"
+            app:tabBackground="@drawable/board_tab_button"
+            android:id="@+id/board_main_tab">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="커뮤니티" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="스터디"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공지사항"/>
+        </com.google.android.material.tabs.TabLayout>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/board_list_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.90"
+            app:layout_constraintTop_toBottomOf="@+id/board_main_tab"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
