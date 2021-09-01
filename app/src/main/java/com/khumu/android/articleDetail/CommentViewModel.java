@@ -234,11 +234,14 @@ public class CommentViewModel extends ViewModel {
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
-                List<Comment> tempList = response.body().getData();
-                ArrayList<Comment> commentsList = new ArrayList<>();
-                commentsList.addAll(tempList);
-                comments.postValue(commentsList);
-
+                if (response.isSuccessful()) {
+                    List<Comment> tempList = response.body().getData();
+                    ArrayList<Comment> commentsList = new ArrayList<>();
+                    commentsList.addAll(tempList);
+                    comments.postValue(commentsList);
+                } else{
+                    Toast.makeText(context, "댓글을 가져올 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
