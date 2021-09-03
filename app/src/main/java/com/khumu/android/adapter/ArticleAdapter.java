@@ -15,6 +15,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.articleDetail.ArticleDetailActivity;
@@ -69,7 +71,7 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
         if (!article.getImages().isEmpty()) {
             Glide.with(this.context)
                     .load("https://drive.khumu.me/" + "thumbnail/" + article.getImages().get(0))
-                    .centerCrop()
+                    .transform(new CenterCrop(), new RoundedCorners(13))
                     .into(holder.binding.articleItemThumbnailIv);
         }
 

@@ -61,7 +61,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     // 다운로드 구현 참고: https://khs613.github.io/android/download-manager/
     public void onClickDownloadBTN(View view) {
         int currentImageIdx = viewPager.getCurrentItem();
-        String outputFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + "dev_submit.mp4";
+        String outputFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + imageFileNames.get(currentImageIdx);
         DownloadManager downloadManager = (DownloadManager) this.getSystemService(Context.DOWNLOAD_SERVICE);
         File outputFile = new File(outputFilePath);
         if (!outputFile.getParentFile().exists()) {

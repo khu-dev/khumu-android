@@ -110,7 +110,7 @@
                     android:id="@+id/article_item_thumbnail_count_tv_wrapper"
                     android:layout_width="@dimen/default_thumbnail_width"
                     android:layout_height="@dimen/default_thumbnail_height"
-                    android:background="@color/black"
+                    android:background="@drawable/background_radius_13_filled_black"
                     android:visibility="@{viewHolder.thumbnailCountVisibility}"
 
                     app:layout_constraintBottom_toBottomOf="@+id/article_item_thumbnail_iv"

@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.khumu.android.image.ImageDetailActivity;
 import com.khumu.android.R;
 
@@ -53,10 +55,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 .thumbnail(
                         Glide.with(this.context)
                                 .load(basePath + "thumbnail/" + imageFileName.get(position))
-                                .centerCrop())
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true)
-                .centerCrop()
+                                .transform(new CenterCrop(), new RoundedCorners(29))
+                )
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .transform(new CenterCrop(), new RoundedCorners(29))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.imageIV);
