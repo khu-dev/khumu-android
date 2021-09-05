@@ -10,21 +10,27 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonSerialize
 @Data
 @Builder
+@Getter
+@Setter
 public class Announcement implements Serializable {
-    Long id;
-    String title;
-    AnnouncementAuthor author;
-    String referenceUrl;
+    private Integer id;
+    private String title;
+    private String subLink;
+    @SerializedName("created_at")
+    private String createdAt;
+    private AnnouncementAuthor author;
 
-    @JsonSerialize
     @Data
     @Builder
+    @Getter
+    @Setter
     public static class AnnouncementAuthor {
-        String name;
-        boolean followed;
+        private String name;
+        private boolean followed;
     }
 }

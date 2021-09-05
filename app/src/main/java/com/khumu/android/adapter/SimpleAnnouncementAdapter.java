@@ -55,7 +55,7 @@ public class SimpleAnnouncementAdapter extends RecyclerView.Adapter<SimpleAnnoun
         holder.binding.getRoot().setOnClickListener(v -> {
             new FinestWebView.Builder(context)
                     .titleColor(ContextCompat.getColor(context, R.color.white))
-                    .show(announcement.getReferenceUrl());
+                    .show(announcement.getSubLink());
 //            Intent intent = new Intent(context, WebViewActivity.class);
 //            intent.putExtra("url", announcement.getReferenceUrl());
 //            context.startActivity(intent);

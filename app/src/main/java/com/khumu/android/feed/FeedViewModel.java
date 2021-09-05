@@ -162,7 +162,7 @@ public class FeedViewModel extends ViewModel {
             announcements.getValue().add(Announcement.builder()
                     .author(Announcement.AnnouncementAuthor.builder().name("더미작성자").followed(true).build())
                     .title("더미 공지사항입니다. " + i)
-                    .referenceUrl("https://github.com/umi0410").build());
+                    .subLink("https://github.com/umi0410").build());
         }
         announcements.postValue(announcements.getValue());
     }

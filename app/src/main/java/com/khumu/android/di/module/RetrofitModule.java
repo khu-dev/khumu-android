@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.khumu.android.data.rest.DefaultResponse;
 import com.khumu.android.di.util.AuthenticationInterceptor;
+import com.khumu.android.repository.AnnouncementService;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.BoardService;
 import com.khumu.android.repository.CommentService;
@@ -115,5 +116,11 @@ public class RetrofitModule {
     @Provides
     public static StudyService providesStudyService (Retrofit retrofit) {
         return retrofit.create(StudyService.class);
+    }
+
+    @Singleton
+    @Provides
+    public static AnnouncementService providesAnnouncementService (Retrofit retrofit) {
+        return retrofit.create(AnnouncementService.class);
     }
 }
