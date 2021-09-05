@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
@@ -35,7 +36,7 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private ImageView backButton;
     private Button articleWriteBTN;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +85,11 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
                 }
             });
         }
+        swipeRefreshLayout = findViewById(R.id.feed_body_swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(()->{
+            feedViewModel.listArticles();
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     // 혹시 모를 Null pointer exception 방지용의 기본 게시판.

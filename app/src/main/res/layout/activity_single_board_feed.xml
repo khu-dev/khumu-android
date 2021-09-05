@@ -18,18 +18,15 @@
         app:layout_constraintRight_toRightOf="parent"
         >
     </include>
-
-<!-- 이 곳에 feed fragment가 위치하게 되는데, 인자를 전달해야하기 때문에 xml에서 직접 생성하지는 않는다.-->
-<!--    <androidx.fragment.app.FragmentContainerView-->
-<!--        android:paddingTop="12dp"-->
-<!--        android:id="@+id/single_board_articles_fragment_container"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        />-->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/feed_body_swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintTop_toBottomOf="@id/toolbar"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    >
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -56,4 +53,5 @@
         android:textColor="@color/red_500"
         android:backgroundTint="#ffffff"
         android:text="작성"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
