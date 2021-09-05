@@ -11,7 +11,6 @@ import com.khumu.android.articleDetail.CommentAdapter;
 import com.khumu.android.articleDetail.ReplyAdapter;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.adapter.ArticleAdapter;
-import com.khumu.android.feed.BaseFeedFragment;
 import com.khumu.android.feed.FollowingBoardAdapter;
 import com.khumu.android.feed.HotBoardFeedActivity;
 import com.khumu.android.feed.HotBoardFeedFragment;
@@ -71,7 +70,6 @@ public interface ApplicationComponent {
     void inject(SimpleAnnouncementAdapter adapter);
 
     void inject(StudyFragment studyFragment);
-    void inject(BaseFeedFragment feedFragment);
     void inject(MyFeedFragment feedFragment);
     void inject(SingleBoardFeedFragment feedFragment);
     void inject(ArticleDetailFragment articleDetailFragment);
