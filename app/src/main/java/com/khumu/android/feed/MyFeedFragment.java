@@ -93,7 +93,7 @@ public class MyFeedFragment extends Fragment {
         // null 인 경우에는 아직 다룰 때가 아님.
         if (recyclerView.getAdapter() != null){
             ArticleAdapter adapter = (ArticleAdapter)recyclerView.getAdapter();
-            adapter.articleList.addAll(articleList);
+            adapter.articleList = articleList;
             adapter.notifyDataSetChanged();
         }
     }

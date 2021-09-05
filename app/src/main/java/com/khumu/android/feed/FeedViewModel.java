@@ -142,9 +142,8 @@ public class FeedViewModel extends ViewModel {
             @Override
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
                 if (response.isSuccessful()) {
-                    List<Article> tempList = new ArrayList<>();
-                    tempList.addAll(response.body().getData());
-                    articles.postValue(tempList);
+                    articles.getValue().addAll(response.body().getData());
+                    articles.postValue(articles.getValue());
                     nextCursor = getNextCursor(response.body().getLinks().getNext());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
