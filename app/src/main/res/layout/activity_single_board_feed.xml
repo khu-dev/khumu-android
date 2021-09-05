@@ -41,6 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <Button
         android:id="@+id/single_board_feed_article_write_btn"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,5 +55,4 @@
         android:textColor="@color/red_500"
         android:backgroundTint="#ffffff"
         android:text="작성"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

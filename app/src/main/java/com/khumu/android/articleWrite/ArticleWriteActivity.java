@@ -1,5 +1,6 @@
 package com.khumu.android.articleWrite;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -173,7 +174,8 @@ public class ArticleWriteActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Article> call, Response<Article> response) {
                     Toast.makeText(ArticleWriteActivity.this, "게시물을 작성했습니당!", Toast.LENGTH_SHORT).show();
-                    ArticleWriteActivity.this.finish();
+                    ArticleWriteActivity.this.setResult(Activity.RESULT_OK);
+                    finish();
                 }
 
                 @Override

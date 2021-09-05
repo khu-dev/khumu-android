@@ -1,5 +1,6 @@
 package com.khumu.android.feed;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.articleDetail.ArticleDetailFragment;
 import com.khumu.android.articleWrite.ArticleWriteActivity;
 import com.khumu.android.data.Board;
 import com.khumu.android.repository.ArticleService;
@@ -26,7 +29,7 @@ import javax.inject.Inject;
 public class SingleBoardFeedActivity extends AppCompatActivity {
     private final static String TAG = "SingleBoardActivity";
     private FeedViewModel feedViewModel;
-
+    public final static int NEW_ARTICLE_WRITTEN = 2;
     @Inject
     public ArticleService articleService;
     // 이건 그냥 간단하게 의존성 주입 안 씀.
@@ -73,7 +76,7 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
             SingleBoardFeedActivity.this.finish();
         });
         articleWriteBTN = findViewById(R.id.single_board_feed_article_write_btn);
-        if (!writableBoardPolicy.isWritableBoard(tmpBoard)) {
+        if (!writableBoardPolicy.isWritableBoard(currentBoard)) {
             articleWriteBTN.setVisibility(View.GONE);
         } else {
             articleWriteBTN.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +84,7 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent writeIntent = new Intent(SingleBoardFeedActivity.this, ArticleWriteActivity.class);
                     writeIntent.putExtra("board", feedViewModel.getCurrentBoard().getValue());
-                    v.getContext().startActivity(writeIntent);
+                    startActivityForResult(writeIntent, NEW_ARTICLE_WRITTEN);
                 }
             });
         }
@@ -99,5 +102,18 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
         b.setName("free");
 
         return b;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            // article modify 후에 성공적이었다면.
+            case NEW_ARTICLE_WRITTEN:{
+                if(resultCode == Activity.RESULT_OK){
+                    this.feedViewModel.listArticles();
+                }
+            }
+        }
     }
 }
