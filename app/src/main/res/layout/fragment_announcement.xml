@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/announcement_search_bar_layout"
-            app:layout_constraintEnd_toEndOf="@id/announcement_1">
+            app:layout_constraintEnd_toEndOf="parent">
             <TextView
                 android:paddingEnd="13.5dp"
                 android:paddingVertical="19dp"
@@ -124,20 +124,6 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include
-            android:id="@+id/announcement_1"
-            layout="@layout/layout_announcement_item"
-            app:layout_constraintTop_toBottomOf="@id/announcement_follow_selector"/>
-        <include
-            android:id="@+id/announcement_2"
-            layout="@layout/layout_announcement_item"
-            app:layout_constraintTop_toBottomOf="@id/announcement_1"
-            app:layout_constraintBottom_toTopOf="@id/announcement_2"/>
-        <include
-            android:id="@+id/announcement_3"
-            layout="@layout/layout_announcement_item"
-            app:layout_constraintTop_toBottomOf="@id/announcement_2"
-            app:layout_constraintBottom_toBottomOf="parent"/>
         <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/announcement_recycler_view"-->
 <!--            android:layout_width="match_parent"-->
