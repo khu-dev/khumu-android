@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.khumu.android.R;
 import com.khumu.android.databinding.FragmentAnnouncementBinding;
 import com.khumu.android.repository.AnnouncementService;
 
@@ -40,10 +41,10 @@ public class AnnouncementFragment extends Fragment {
     }
 
     @Nullable
-    @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_announcement, container, false);
+        View root = binding.getRoot();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
