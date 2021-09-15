@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
@@ -29,14 +33,22 @@ public class AnnouncementFragment extends Fragment {
     private Intent intent;
     private FragmentAnnouncementBinding binding;
     private AnnouncementViewModel announcementViewModel;
-
+    private AnnouncementAdapter announcementAdapter;
     private RecyclerView announcementRecyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         applicationComponent.inject(this);
         this.intent = getActivity().getIntent();
         super.onCreate(savedInstanceState);
+        announcementViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NotNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull @NotNull Class<T> modelClass) {
+                return (T) new AnnouncementViewModel(getContext(), announcementService);
+            }
+        }).get(AnnouncementViewModel.class);
 
     }
 

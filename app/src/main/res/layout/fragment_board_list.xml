@@ -113,7 +113,8 @@
                     app:following_board_list="@{boardViewModel.followingBoards}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/community_board_category_tab"
-                    app:layout_constraintTop_toTopOf="@id/following_board_list_title" />
+                    app:layout_constraintTop_toTopOf="@id/following_board_list_title"
+                    bind:layout_editor_absoluteX="-16dp" />
 
                 <TextView
                     android:id="@+id/following_board_list_title"
