@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.R;
+import com.khumu.android.data.Announcement;
 import com.khumu.android.databinding.FragmentAnnouncementBinding;
 import com.khumu.android.repository.AnnouncementService;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -57,7 +60,13 @@ public class AnnouncementFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_announcement, container, false);
         View root = binding.getRoot();
+        binding.announcementRecyclerView.setAdapter(new AnnouncementAdapter(new ArrayList<Announcement>(), getContext(), announcementViewModel));
+        binding.
+        return root;
+    }
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public void followedBtnClicked() {
+        announcementViewModel.showFollowedAnnouncement();
+
     }
 }
