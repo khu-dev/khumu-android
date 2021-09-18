@@ -173,7 +173,6 @@ public class MyFeedFragment extends Fragment {
             feedViewModel.listArticles();
             binding.feedBodySwipeRefreshLayout.setRefreshing(false);
         });
-
     }
 
     @Override

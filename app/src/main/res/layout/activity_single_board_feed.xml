@@ -28,18 +28,35 @@
     app:layout_constraintEnd_toEndOf="parent"
     >
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/single_board_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-    <fragment
-        android:name="com.khumu.android.feed.SingleBoardFeedFragment"
-        android:paddingTop="12dp"
-        android:id="@+id/single_board_articles_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/feed_board_description_tv"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="36dp"
+                android:textColor="@color/gray_400"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="게시판 설명"
+                android:textSize="12dp"/>
+
+                <fragment
+                    android:name="com.khumu.android.feed.SingleBoardFeedFragment"
+                    android:paddingTop="12dp"
+                    android:id="@+id/single_board_articles_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

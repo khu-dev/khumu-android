@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -35,11 +36,13 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
     // 이건 그냥 간단하게 의존성 주입 안 씀.
     // Module + Provide 말고는 어떻게 주입하지..?
     public WritableBoardPolicy writableBoardPolicy = new WithLogicalBoardWritableBoardPolicy();
+    private NestedScrollView nestedScrollView;
     private SingleBoardFeedFragment feedFragment;
     private MaterialToolbar toolbar;
     private ImageView backButton;
     private Button articleWriteBTN;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView boardDescriptionTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,27 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(()->{
             feedViewModel.listArticles();
             swipeRefreshLayout.setRefreshing(false);
+        });
+
+        boardDescriptionTV = findViewById(R.id.feed_board_description_tv);
+        if (currentBoard != null && currentBoard.getDescription() != null) {
+            boardDescriptionTV.setText(currentBoard.getDescription());
+        } else{
+            boardDescriptionTV.setVisibility(View.GONE);
+        }
+
+        nestedScrollView = findViewById(R.id.single_board_nested_scroll_view);
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) ->  {
+            if (v.getChildAt(v.getChildCount() - 1) != null)
+            {
+                if (scrollY > oldScrollY)
+                {
+                    if (scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight()))
+                    {
+                        feedViewModel.loadMoreArticles();
+                    }
+                }
+            }
         });
     }
 
