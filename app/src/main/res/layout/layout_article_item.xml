@@ -163,15 +163,14 @@
             <LinearLayout
                 android:id="@+id/article_item_like_wrapper_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{viewHolder::onClickLikeIcon}">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/article_item_like_icon"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
                     android:src="@drawable/ic_empty_heart_white"
                     android:layout_marginRight="3dp"
-                    ></ImageView>
+                    />
                 <TextView
                     android:id="@+id/article_item_like_article_count_tv"
                     android:layout_width="wrap_content"
@@ -204,15 +203,14 @@
             <LinearLayout
                 android:id="@+id/article_item_bookmark_wrapper_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{viewHolder::onClickBookmarkIcon}">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/article_item_bookmark_icon"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
                     android:layout_marginRight="3dp"
                     android:src="@drawable/ic_empty_bookmark_white"
-                    ></ImageView>
+                    />
                 <TextView
                     android:id="@+id/article_item_bookmark_count_tv"
                     android:layout_width="wrap_content"
