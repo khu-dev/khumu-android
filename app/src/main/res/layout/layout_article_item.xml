@@ -19,8 +19,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginVertical="3dp"
-        >
+        android:layout_marginVertical="3dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/article_left_layout"
             android:layout_width="match_parent"
