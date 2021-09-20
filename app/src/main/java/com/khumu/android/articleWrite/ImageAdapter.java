@@ -29,6 +29,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.khumu.android.R;
+import com.khumu.android.util.Util;
 
 import java.util.List;
 
@@ -111,9 +112,9 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (path.isFromLocalUri()){
                 glideRB = glideRM.load(path.getLocalUri());
             } else{
-                glideRB = glideRM.load("https://drive.khumu.me/" + "thumbnail/" + path.getRemoteFileName());
+                glideRB = glideRM.load(Util.getDriveRootUrl() + "/" + "thumbnail/" + path.getRemoteFileName());
             }
-            glideRM.load("https://drive.khumu.me/" + "thumbnail/" + path);
+            glideRM.load(Util.getDriveRootUrl() + "/" + "thumbnail/" + path);
             System.out.println("GlideError: " + glideRB.getErrorId());
             glideRB.into(imageItem.imageIV);
         }

@@ -26,6 +26,7 @@ import com.khumu.android.data.LikeArticle;
 import com.khumu.android.databinding.LayoutArticleItemBinding;
 import com.khumu.android.repository.BookmarkArticleRepository;
 import com.khumu.android.repository.LikeArticleRepository;
+import com.khumu.android.util.Util;
 
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class    ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Artic
 
         if (!article.getImages().isEmpty()) {
             Glide.with(this.context)
-                    .load("https://drive.khumu.me/" + "thumbnail/" + article.getImages().get(0))
+                    .load(Util.getDriveRootUrl() + "/thumbnail/" + article.getImages().get(0))
                     .transform(new CenterCrop(), new RoundedCorners(13))
                     .into(holder.binding.articleItemThumbnailIv);
         }

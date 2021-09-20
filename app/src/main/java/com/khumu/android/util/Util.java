@@ -87,4 +87,8 @@ public class Util {
         a.setDuration((int)(initialHeight*3 / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
+
+    public static String getDriveRootUrl() {
+        return "https://drive.dev.khumu.me";
+    }
 }

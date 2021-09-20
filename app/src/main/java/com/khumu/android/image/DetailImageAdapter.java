@@ -20,6 +20,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.khumu.android.R;
+import com.khumu.android.util.Util;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ImageDetailViewHolder imageDetailViewHolder = (ImageDetailViewHolder) holder;
         Glide.with(this.context)
-                .load("https://drive.khumu.me/original/" + imageFileNames.get(position))
+                .load(Util.getDriveRootUrl() + "/original/" + imageFileNames.get(position))
                 .transform(new RoundedCorners(29))
                 .into(imageDetailViewHolder.photoView);
         Log.d(TAG, "onBindViewHolder: PhotoView 바인드 완료!");
