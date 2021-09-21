@@ -71,6 +71,11 @@ public class AnnouncementViewModel {
         });
     }
 
+    public void searchBoards() {
+        Log.d(TAG, "searchBoards");
+        //TODO api설계
+    }
+
     public void showFollowedAnnouncement() {
         showFollowedAnnouncement.setValue(true);
     }
