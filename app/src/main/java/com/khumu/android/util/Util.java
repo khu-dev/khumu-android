@@ -6,30 +6,20 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+
+import com.khumu.android.BuildConfig;
+
 import okhttp3.HttpUrl;
 
 public class Util {
-    public static String APIScheme = "https";
-    public static String APIHost = "api.dev.khumu.me";
-    public static int APIPort = 443;
-//    static String APIScheme = "http";
-//    static String APIHost = "192.168.219.254";
-//    static int APIPort = 9002;
-    public static String APISubPathForRoot = "api";
-    public static String APIRootEndpoint;
-
-    public static void init(){
-        APIRootEndpoint = APIScheme + "://" +  APIHost +  ":" + APIPort + "/" + APISubPathForRoot + "/";;
-    }
 
 
     // APIRootEndpoint를 직접 가져다쓰기보단 이 함수를 이용할 것을 권장.
     public static HttpUrl.Builder newBuilder(){
         return new HttpUrl.Builder()
-            .scheme(APIScheme)
-            .host(APIHost)
-            .port(APIPort)
-            .addPathSegment(APISubPathForRoot);
+            .scheme("https")
+            .host(getApiRootUrl())
+            .addPathSegment("/api/");
     }
 
     public static void expandView(final View v) {
@@ -88,7 +78,13 @@ public class Util {
         v.startAnimation(a);
     }
 
+    public static String getApiRootUrl() {
+        return BuildConfig.API_ROOT_URL;
+    }
     public static String getDriveRootUrl() {
-        return "https://drive.dev.khumu.me";
+        return BuildConfig.DRIVE_ROOT_URL;
+    }
+    public static String getKhumuWebRootUrl() {
+        return BuildConfig.KHUMU_WEB_ROOT_URL;
     }
 }

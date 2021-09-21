@@ -35,7 +35,7 @@ public class RetrofitModule {
         Log.d(TAG, "providesRetrofit: ");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Util.APIRootEndpoint)
+                .baseUrl(Util.getApiRootUrl() + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

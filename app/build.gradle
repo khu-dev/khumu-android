@@ -9,11 +9,32 @@ allprojects {
 }
 
 android {
+    signingConfigs {
+        dev {
+        }
+        prd {
+        }
+    }
     defaultConfig {
         targetSdkVersion 30
     }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+    buildTypes{
+        dev{
+            buildConfigField "String", "API_ROOT_URL", "\"https://api.dev.khumu.me\""
+            buildConfigField "String", "DRIVE_ROOT_URL", "\"https://drive.dev.khumu.me\""
+            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://khumu-frontend.vercel.app/\""
+            signingConfig signingConfigs.debug
+        }
+
+        prd{
+            buildConfigField "String", "API_ROOT_URL", "\"https://api.khumu.me\""
+            buildConfigField "String", "DRIVE_ROOT_URL", "\"https://drive.khumu.me\""
+            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://app.khumu.me\""
+            signingConfig signingConfigs.debug
+        }
+    }
     dataBinding {
         enabled = true
     }
@@ -32,6 +53,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {

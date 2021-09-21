@@ -18,6 +18,7 @@ import com.khumu.android.feed.HotBoardFeedActivity;
 import com.khumu.android.feed.SingleBoardFeedActivity;
 import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
+import com.khumu.android.util.Util;
 import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.util.ArrayList;
@@ -38,12 +39,11 @@ public class UrlInterceptor {
     private final List<String> RESOURCE_KIND_PLURALS = Arrays.asList("articles");
 
     private final Context context;
-    private final List<String> KHUMU_HOSTS = Arrays.asList("khumu-frontend.vercel.app");
     // url을 열면 return true
     // 안 열 url이면 return false
     public boolean openUrl(Uri uri) {
         // 쿠뮤 관련 URL인 경우
-        if (KHUMU_HOSTS.contains(uri.getHost())) {
+        if (uri.getHost().equals(Uri.parse(Util.getKhumuWebRootUrl()).getHost())) {
             List<String> pathSegments = uri.getPathSegments();
             Log.d(TAG, "openUrl: " + "요청 path: " + uri.getPath());
             Log.d(TAG, "openUrl: " + "요청 pathSegments: " + pathSegments);

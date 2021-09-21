@@ -2,6 +2,7 @@ package com.khumu.android.home;
 
 import com.khumu.android.BaseWebViewFragment;
 import com.khumu.android.R;
+import com.khumu.android.util.Util;
 
 public class HomeFragment extends BaseWebViewFragment {
     @Override
@@ -11,6 +12,6 @@ public class HomeFragment extends BaseWebViewFragment {
 
     @Override
     protected String getLoadUrl() {
-        return "https://khumu-frontend.vercel.app/";
+        return Util.getKhumuWebRootUrl() + "/";
     }
 }

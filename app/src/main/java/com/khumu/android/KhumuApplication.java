@@ -40,7 +40,6 @@ public class KhumuApplication extends Application {
         super.onCreate();
         Log.i(TAG, "onCreate: 애플리케이션 시작");
         // 우리의 필요한 의존성들을 이 container에 Singleton으로 관리
-        Util.init();
         applicationComponent = DaggerApplicationComponent.create();
         applicationComponent.inject(this);
         sharedPref = getSharedPreferences(
