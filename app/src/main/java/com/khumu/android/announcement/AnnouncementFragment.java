@@ -48,7 +48,7 @@ public class AnnouncementFragment extends Fragment {
         announcementViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
             @NotNull
             @Override
-            public <T extends ViewModel> T create(@NonNull @NotNull Class<T> modelClass) {
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new AnnouncementViewModel(getContext(), announcementService);
             }
         }).get(AnnouncementViewModel.class);
@@ -61,7 +61,15 @@ public class AnnouncementFragment extends Fragment {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_announcement, container, false);
         View root = binding.getRoot();
         binding.announcementRecyclerView.setAdapter(new AnnouncementAdapter(new ArrayList<Announcement>(), getContext(), announcementViewModel));
-        binding.
+        binding.entireAnnouncementTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!announcementViewModel.showFollowedAnnouncement.getValue()) {
+
+                    announcementViewModel.showEntireAnnouncement();
+                }
+            }
+        });
         return root;
     }
 

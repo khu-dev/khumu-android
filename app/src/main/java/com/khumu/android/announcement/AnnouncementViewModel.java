@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Announcement;
@@ -17,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AnnouncementViewModel {
+public class AnnouncementViewModel extends ViewModel {
 
     private final static String TAG = "AnnouncementViewModel";
     public AnnouncementService announcementService;
