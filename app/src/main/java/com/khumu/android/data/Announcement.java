@@ -23,14 +23,14 @@ public class Announcement implements Serializable {
     private String subLink;
     @SerializedName("created_at")
     private String createdAt;
-    private AnnouncementAuthor author;
+    public AnnouncementAuthor author;
 
     @Data
     @Builder
     @Getter
     @Setter
     public static class AnnouncementAuthor {
-        private String name;
-        private boolean followed;
+        public String name;
+        public boolean followed;
     }
 }

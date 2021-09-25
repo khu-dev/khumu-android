@@ -98,11 +98,10 @@
                 android:id="@+id/following_announcement_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{announcementFragment."
                 android:text="팔로우"
                 android:textSize="13dp"
                 android:textStyle="bold"
-                android:textColor="@color/gray_700"
+                android:textColor="@{announcementViewModel.showFollowedAnnouncement ? @color/red_500 : @color/gray_700}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/entire_announcement_tv"/>
             <View
@@ -122,7 +121,7 @@
                 android:text="전체보기"
                 android:textSize="13dp"
                 android:textStyle="bold"
-                android:textColor="@color/red_500"
+                android:textColor="@{announcementViewModel.showFollowedAnnouncement ? @color/gray_700 : @color/red_500}"
                 app:layout_constraintStart_toEndOf="@id/following_announcement_tv"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,8 +9,10 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import com.khumu.android.repository.AnnouncementService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -64,17 +67,25 @@ public class AnnouncementFragment extends Fragment {
         binding.entireAnnouncementTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!announcementViewModel.showFollowedAnnouncement.getValue()) {
-
-                    announcementViewModel.showEntireAnnouncement();
-                }
+                announcementViewModel.listAnnouncements();
+            }
+        });
+        binding.followingAnnouncementTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                announcementViewModel.listFollowingBoards();;
             }
         });
         return root;
     }
 
-    public void followedBtnClicked() {
-        announcementViewModel.showFollowedAnnouncement();
-
+    @BindingAdapter("announcement_list")
+    public static void bindAnnouncementList(RecyclerView recyclerView, LiveData<List<Announcement>> announcements) {
+        if (recyclerView.getAdapter() != null) {
+            AnnouncementAdapter adapter = (AnnouncementAdapter) recyclerView.getAdapter();
+            adapter.announcements.clear();
+            adapter.announcements.addAll((List<Announcement>) announcements.getValue());
+            adapter.notifyDataSetChanged();
+        }
     }
 }

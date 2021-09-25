@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_my_page"
             app:destination="@id/navigation_my_page" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_announcement"
+            app:destination="@id/navigation_announcement"/>
     </fragment>
     <fragment
         android:id="@+id/navigation_boards"
@@ -35,6 +38,9 @@
         <action
             android:id="@+id/action_navigation_boards_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_boards_to_navigation_announcement"
+            app:destination="@id/navigation_announcement" />
     </fragment>
     <fragment
         android:id="@+id/navigation_feed"
@@ -51,7 +57,24 @@
             android:id="@+id/action_navigation_feed_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
-
+    <fragment
+        android:id="@+id/navigation_announcement"
+        android:name="com.khumu.android.announcement.AnnouncementFragment"
+        android:label="Announcement"
+        tools:layout="@layout/fragment_announcement" >
+        <action
+            android:id="@+id/action_navigation_announcement_to_navigation_feed"
+            app:destination="@id/navigation_home"/>
+        <action
+            android:id="@+id/action_navigation_announcement_to_navigation_my_page"
+            app:destination="@id/navigation_my_page"/>
+        <action
+            android:id="@+id/action_navigation_announcement_to_navigation_boards"
+            app:destination="@id/navigation_boards"/>
+        <action
+            android:id="@+id/action_navigation_announcement_to_navigation_home"
+            app:destination="@id/navigation_home"/>
+    </fragment>
     <fragment
         android:id="@+id/navigation_my_page"
         android:name="com.khumu.android.myPage.MyPageFragment"
@@ -66,5 +89,8 @@
         <action
             android:id="@+id/action_navigation_my_page_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_my_page_to_navigation_announcement"
+            app:destination="@+id/navigation_announcement"/>
     </fragment>
 </navigation>

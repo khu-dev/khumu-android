@@ -43,6 +43,7 @@ public class AnnouncementViewModel extends ViewModel {
             @Override
             public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
                 if (response.isSuccessful()) {
+                    showFollowedAnnouncement.postValue(false);
                     announcements.postValue(response.body());
                 }
             }
@@ -61,6 +62,7 @@ public class AnnouncementViewModel extends ViewModel {
             @Override
             public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
                 if (response.isSuccessful()) {
+                    showFollowedAnnouncement.postValue(true);
                     announcements.postValue(response.body());
                 }
             }

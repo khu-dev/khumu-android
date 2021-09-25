@@ -13,6 +13,10 @@
         android:icon="@drawable/ic_baseline_rss_feed_24"
         android:title="@string/title_feed" />
     <item
+        android:id="@id/navigation_announcement"
+        android:icon="@drawable/ic_boards"
+        android:title="Announcement" />
+    <item
         android:id="@+id/navigation_my_page"
         android:icon="@drawable/ic_my_page"
         android:title="@string/title_my_page" />

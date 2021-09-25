@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import com.khumu.android.data.Announcement;
 import com.khumu.android.databinding.LayoutAnnouncementItemBinding;
 import com.khumu.android.databinding.LayoutBoardListItemBinding;
 import com.khumu.android.repository.AnnouncementService;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,6 +50,21 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
     public void onBindViewHolder(@NonNull AnnouncementViewHolder holder, int position) {
         Announcement announcement = announcements.get(position);
         holder.bind(announcement);
+        holder.binding.announcementTitleTv.setOnClickListener(v -> {
+            new FinestWebView.Builder(context)
+                .titleColor(ContextCompat.getColor(context, R.color.white))
+                .show(announcement.getSubLink());
+        });
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
     }
 
     public class AnnouncementViewHolder extends RecyclerView.ViewHolder {
