@@ -2,6 +2,7 @@ package com.khumu.android.announcement;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,17 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             new FinestWebView.Builder(context)
                 .titleColor(ContextCompat.getColor(context, R.color.white))
                 .show(announcement.getSubLink());
+        });
+        holder.binding.announcementAuthorFollowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (announcement.getfollowed()) {
+                    //TODO viewModel에서 author follow 해주는 처리
+                }
+                else {
+                    //TODO viewModel에서 author unfollow 해주는 처리
+                }
+            }
         });
     }
 
