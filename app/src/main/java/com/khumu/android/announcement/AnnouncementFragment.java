@@ -55,7 +55,6 @@ public class AnnouncementFragment extends Fragment {
                 return (T) new AnnouncementViewModel(getContext(), announcementService);
             }
         }).get(AnnouncementViewModel.class);
-
     }
 
     @Nullable

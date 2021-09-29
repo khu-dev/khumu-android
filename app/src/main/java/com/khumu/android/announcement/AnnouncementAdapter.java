@@ -59,7 +59,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         holder.binding.announcementAuthorFollowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (announcement.getfollowed()) {
+                if (announcement.author.followed) {
                     //TODO viewModel에서 author follow 해주는 처리
                 }
                 else {

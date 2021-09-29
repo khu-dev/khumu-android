@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"    >
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_nav_home_default"
         android:title="@string/title_home" />
     <item
         android:id="@+id/navigation_boards"
-        android:icon="@drawable/ic_boards"
+        android:icon="@drawable/ic_nav_board_list_default"
         android:title="@string/title_boards" />
     <item
         android:id="@+id/navigation_feed"
-        android:icon="@drawable/ic_baseline_rss_feed_24"
+        android:icon="@drawable/ic_nav_feed_default"
         android:title="@string/title_feed" />
     <item
         android:id="@id/navigation_announcement"
-        android:icon="@drawable/ic_boards"
+        android:icon="@drawable/ic_nav_announcement_default"
         android:title="Announcement" />
     <item
         android:id="@+id/navigation_my_page"
-        android:icon="@drawable/ic_my_page"
+        android:icon="@drawable/ic_nav_mypage_default"
         android:title="@string/title_my_page" />
 
 <!--    <item-->
