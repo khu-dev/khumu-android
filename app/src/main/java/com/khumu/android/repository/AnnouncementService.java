@@ -10,13 +10,13 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface AnnouncementService {
-    @GET("announcement/all")
+    @GET("announcements/all")
     Call<AnnouncementListResponse> getAnnouncements();
 
-    @GET("announcement")
-    Call<AnnouncementListResponse> getAnnouncementByAuthor(@Query("author_name") String authorName);
+    @GET("announcements/user")
+    Call<AnnouncementListResponse> getAnnouncementByUser(@Query("user") String user);
 
-    @GET("announcements")
-    Call<AnnouncementListResponse> getFollowingAnnouncements(@Header("user") String userName);
+    @GET("announcements/authorname")
+    Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("authorname") String authorname);
 
 }

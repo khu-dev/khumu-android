@@ -3,6 +3,8 @@ package com.khumu.android.di.component;
 import com.khumu.android.adapter.GrayBackgroundArticleAdapter;
 import com.khumu.android.adapter.SearchedBoardAdapter;
 import com.khumu.android.adapter.SimpleAnnouncementAdapter;
+import com.khumu.android.announcement.AnnouncementAdapter;
+import com.khumu.android.announcement.AnnouncementFragment;
 import com.khumu.android.boardList.BoardAdapter;
 import com.khumu.android.boardList.BoardListFragment;
 import com.khumu.android.KhumuApplication;
@@ -68,6 +70,7 @@ public interface ApplicationComponent {
     void inject(GrayBackgroundArticleAdapter adapter);
     void inject(FollowingBoardAdapter followingBoardAdapter);
     void inject(SimpleAnnouncementAdapter adapter);
+    void inject(AnnouncementAdapter adapter);
 
     void inject(StudyFragment studyFragment);
     void inject(MyFeedFragment feedFragment);
@@ -80,6 +83,7 @@ public interface ApplicationComponent {
     void inject(SignUpAgreementFragment fragment);
     void inject(Info21AuthenticationFragment fragment);
     void inject(AdditionalFormFragment fragment);
+    void inject(AnnouncementFragment fragment);
 
     void inject(KhumuApplication application);
     void inject(LoginActivity loginActivity);
