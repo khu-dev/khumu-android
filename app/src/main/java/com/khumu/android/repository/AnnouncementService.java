@@ -19,4 +19,8 @@ public interface AnnouncementService {
     @GET("announcements/authorname")
     Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("authorname") String authorname);
 
+    //TODO 전체 보드의 공지사항 중 검색어 포함된 공지사항 불러오기
+
+    //TODO 팔로우한 보드의 공지사항 중 검색어 포함된 공지사항 불러오기
+
 }

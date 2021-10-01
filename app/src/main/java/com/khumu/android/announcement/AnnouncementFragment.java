@@ -80,7 +80,7 @@ public class AnnouncementFragment extends Fragment {
 
     @BindingAdapter("announcement_list")
     public static void bindAnnouncementList(RecyclerView recyclerView, LiveData<List<Announcement>> announcements) {
-        if (recyclerView.getAdapter() != null) {
+        if (recyclerView.getAdapter() != null && announcements!=null) {
             AnnouncementAdapter adapter = (AnnouncementAdapter) recyclerView.getAdapter();
             adapter.announcements.clear();
             adapter.announcements.addAll((List<Announcement>) announcements.getValue());

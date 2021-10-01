@@ -12,6 +12,7 @@ import com.khumu.android.data.rest.AnnouncementListResponse;
 import com.khumu.android.repository.AnnouncementService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,6 +32,19 @@ public class AnnouncementViewModel extends ViewModel {
         this.announcementService = announcementService;
         announcements = new MutableLiveData<>();
         announcements.setValue(new ArrayList<Announcement>());
+        Announcement test = Announcement.builder()
+                .id(1)
+                .title("안녕")
+                .subLink("sdfdsf")
+                .createdAt("2021-09-30")
+                .build();
+
+        List<Announcement> announcementTest = new ArrayList<Announcement>() {
+            {
+                add(test);
+            }
+        };
+        announcements.setValue(announcementTest);
         showFollowedAnnouncement = new MutableLiveData<>();
         showFollowedAnnouncement.setValue(false);
         Log.d(TAG, "Created");
