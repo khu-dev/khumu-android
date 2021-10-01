@@ -12,6 +12,6 @@ public class HomeFragment extends BaseWebViewFragment {
 
     @Override
     protected String getLoadUrl() {
-        return Util.getKhumuWebRootUrl() + "/";
+        return Util.getKhumuWebRootUrl() + "/main";
     }
 }
