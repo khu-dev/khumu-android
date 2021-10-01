@@ -32,9 +32,9 @@ public class AnnouncementViewModel extends ViewModel {
         this.announcementService = announcementService;
         announcements = new MutableLiveData<>();
         announcements.setValue(new ArrayList<Announcement>());
-        listAnnouncements();
         showFollowedAnnouncement = new MutableLiveData<>();
         showFollowedAnnouncement.setValue(false);
+        listAnnouncements();
         Log.d(TAG, "Created");
     }
 
@@ -51,15 +51,32 @@ public class AnnouncementViewModel extends ViewModel {
                         .build())
                 .createdAt("2021-09-30")
                 .build();
+        Announcement test2 = Announcement.builder()
+                .id(1)
+                .title("안녕")
+                .subLink("sdfdsf")
+                .author(Announcement.AnnouncementAuthor.builder()
+                        .followed(false)
+                        .id(1)
+                        .name("dizzi")
+                        .build())
+                .createdAt("2021-09-30")
+                .build();
         List<Announcement> announcementTest = new ArrayList<Announcement>() {
             {
                 add(test);
+                add(test2);
+                add(test);
+                add(test2);
+                add(test2);
                 add(test);
                 add(test);
+                add(test2);
                 add(test);
             }
         };
         announcements.setValue(announcementTest);
+        showFollowedAnnouncement.postValue(false);
         /*
         Log.d(TAG, "listAnnouncements");
         Call<AnnouncementListResponse> call = announcementService.getAnnouncements();
@@ -77,10 +94,12 @@ public class AnnouncementViewModel extends ViewModel {
                 t.printStackTrace();
             }
         });
-         */
+        */
     }
 
     public void listFollowingAnnouncements() {
+        showFollowedAnnouncement.postValue(true);
+        /*
         Log.d(TAG, "listFollowingAnnouncements");
         Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncements(KhumuApplication.getUsername());
         call.enqueue(new Callback<AnnouncementListResponse>() {
@@ -97,11 +116,13 @@ public class AnnouncementViewModel extends ViewModel {
                 t.printStackTrace();
             }
         });
+
+         */
     }
 
-    public void searchBoards() {
-        Log.d(TAG, "searchBoards");
-        //TODO api설계
+    public void searchAnnouncements(String searchWord) {
+        Log.d(TAG, "searchBoards: " + searchWord);
+        //TODO 검색 api 설계
     }
 
     public void showFollowedAnnouncement() {
