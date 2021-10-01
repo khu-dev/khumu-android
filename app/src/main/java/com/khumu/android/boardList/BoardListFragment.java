@@ -46,7 +46,6 @@ public class BoardListFragment extends Fragment {
     private Intent intent;
     private FragmentBoardListBinding binding;
     private BoardViewModel boardViewModel;
-
     private RecyclerView followingBoardListRecyclerView;
     private RecyclerView categoryBoardListRecyclerView;
     private BoardAdapter followingBoardListAdapter;
@@ -74,31 +73,6 @@ public class BoardListFragment extends Fragment {
         View root = binding.getRoot();
         binding.followingBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.categoryBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
-        binding.communityBoardCategoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-           @Override
-           public void onTabSelected(TabLayout.Tab tab) {
-               switch (tab.getPosition()) {
-                   case 0:
-                       boardViewModel.listCategoryBoards("official");
-                       break;
-                   case 1:
-                       boardViewModel.listCategoryBoards("free");
-                       break;
-                   case 2:
-                       boardViewModel.listCategoryBoards("department");
-                       break;
-                   case 3:
-                       boardViewModel.listCategoryBoards("lecture");
-               }
-           }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
         binding.setBoardViewModel(this.boardViewModel);
         binding.setBoardListFragment(this);
         binding.setLifecycleOwner(this);
@@ -111,7 +85,6 @@ public class BoardListFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         Log.d(TAG, getActivity().toString());
         linearLayoutManager = new LinearLayoutManager(view.getContext());
-
     }
 
     @BindingAdapter("following_board_list")

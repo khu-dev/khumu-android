@@ -76,7 +76,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return announcements == null ? 0 : announcements.size();
     }
 
     public class AnnouncementViewHolder extends RecyclerView.ViewHolder {

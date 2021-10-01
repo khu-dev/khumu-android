@@ -2,6 +2,7 @@ package com.khumu.android.announcement;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,18 @@ public class AnnouncementFragment extends Fragment {
                 announcementViewModel.listFollowingAnnouncements();;
             }
         });
+        binding.setAnnouncementViewModel(this.announcementViewModel);
+        binding.setAnnouncementFragment(this);
+        binding.setLifecycleOwner(this);
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Intent intent = getActivity().getIntent();
+        Log.d(TAG, getActivity().toString());
+        linearLayoutManager = new LinearLayoutManager(view.getContext());
     }
 
     @BindingAdapter("announcement_list")

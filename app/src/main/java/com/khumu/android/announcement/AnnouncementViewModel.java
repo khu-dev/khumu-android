@@ -32,24 +32,35 @@ public class AnnouncementViewModel extends ViewModel {
         this.announcementService = announcementService;
         announcements = new MutableLiveData<>();
         announcements.setValue(new ArrayList<Announcement>());
-        Announcement test = Announcement.builder()
-                .id(1)
-                .title("안녕")
-                .subLink("sdfdsf")
-                .createdAt("2021-09-30")
-                .build();
-        List<Announcement> announcementTest = new ArrayList<Announcement>() {
-            {
-                add(test);
-            }
-        };
-        announcements.setValue(announcementTest);
+        listAnnouncements();
         showFollowedAnnouncement = new MutableLiveData<>();
         showFollowedAnnouncement.setValue(false);
         Log.d(TAG, "Created");
     }
 
     public void listAnnouncements() {
+        Log.d(TAG, "listAnnouncements");
+        Announcement test = Announcement.builder()
+                .id(1)
+                .title("안녕")
+                .subLink("sdfdsf")
+                .author(Announcement.AnnouncementAuthor.builder()
+                        .followed(true)
+                        .id(1)
+                        .name("dizzi")
+                        .build())
+                .createdAt("2021-09-30")
+                .build();
+        List<Announcement> announcementTest = new ArrayList<Announcement>() {
+            {
+                add(test);
+                add(test);
+                add(test);
+                add(test);
+            }
+        };
+        announcements.setValue(announcementTest);
+        /*
         Log.d(TAG, "listAnnouncements");
         Call<AnnouncementListResponse> call = announcementService.getAnnouncements();
         call.enqueue(new Callback<AnnouncementListResponse>() {
@@ -66,6 +77,7 @@ public class AnnouncementViewModel extends ViewModel {
                 t.printStackTrace();
             }
         });
+         */
     }
 
     public void listFollowingAnnouncements() {

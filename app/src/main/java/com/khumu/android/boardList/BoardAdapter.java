@@ -49,7 +49,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
     public void onBindViewHolder(@NonNull BoardViewHolder holder, int position) {
         Board board = boardList.get(position);
         holder.bind(board);
-
         holder.binding.boardListItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +93,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             this.binding.setBoard(board);
             this.binding.setViewHolder(this);
         }
-
 
         public int getFollowIcon() {
             Board board = this.binding.getBoard();
