@@ -24,7 +24,8 @@ android {
         dev{
             buildConfigField "String", "API_ROOT_URL", "\"https://api.dev.khumu.me\""
             buildConfigField "String", "DRIVE_ROOT_URL", "\"https://drive.dev.khumu.me\""
-            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://app.dev.khumu.me\""
+            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://khumu-frontend.vercel.app/\""
+            buildConfigField "String", "ANNOUNCEMENT_API_ROOT_URL", "\"http://khumu-notice-batch-spring.du.r.appspot.com/\""
             signingConfig signingConfigs.debug
         }
 
@@ -32,6 +33,7 @@ android {
             buildConfigField "String", "API_ROOT_URL", "\"https://api.khumu.me\""
             buildConfigField "String", "DRIVE_ROOT_URL", "\"https://drive.khumu.me\""
             buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://app.khumu.me\""
+            buildConfigField "String", "ANNOUNCEMENT_API_ROOT_URL", "\"http://khumu-notice-batch-spring.du.r.appspot.com/\""
             signingConfig signingConfigs.debug
         }
     }
@@ -117,8 +119,8 @@ dependencies {
     // If you have a problem with Glide, please use the same Glide version or simply open an issue
     implementation 'com.github.bumptech.glide:glide:4.12.0'
 
-    compileOnly 'org.projectlombok:lombok:1.18.16'
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     // qrcpde
     implementation 'com.journeyapps:zxing-android-embedded:4.2.0'

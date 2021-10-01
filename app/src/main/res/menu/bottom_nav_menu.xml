@@ -15,7 +15,7 @@
     <item
         android:id="@id/navigation_announcement"
         android:icon="@drawable/ic_nav_announcement_default"
-        android:title="Announcement" />
+        android:title="@string/title_announcement" />
     <item
         android:id="@+id/navigation_my_page"
         android:icon="@drawable/ic_nav_mypage_default"

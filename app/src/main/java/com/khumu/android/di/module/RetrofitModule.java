@@ -120,7 +120,15 @@ public class RetrofitModule {
 
     @Singleton
     @Provides
-    public static AnnouncementService providesAnnouncementService (Retrofit retrofit) {
+    public static AnnouncementService providesAnnouncementService() {
+        Log.d(TAG, "providesAnnouncementService");
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Util.getAnnouncementApiRootUrl())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(new OkHttpClient().newBuilder()
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .build())
+                .build();
         return retrofit.create(AnnouncementService.class);
     }
 }

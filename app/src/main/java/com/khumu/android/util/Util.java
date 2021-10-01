@@ -87,4 +87,7 @@ public class Util {
     public static String getKhumuWebRootUrl() {
         return BuildConfig.KHUMU_WEB_ROOT_URL;
     }
+    public static String getAnnouncementApiRootUrl() {
+        return BuildConfig.ANNOUNCEMENT_API_ROOT_URL;
+    }
 }

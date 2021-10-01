@@ -38,7 +38,6 @@ public class AnnouncementViewModel extends ViewModel {
                 .subLink("sdfdsf")
                 .createdAt("2021-09-30")
                 .build();
-
         List<Announcement> announcementTest = new ArrayList<Announcement>() {
             {
                 add(test);
@@ -69,8 +68,8 @@ public class AnnouncementViewModel extends ViewModel {
         });
     }
 
-    public void listFollowingBoards() {
-        Log.d(TAG, "listFollowingBoards");
+    public void listFollowingAnnouncements() {
+        Log.d(TAG, "listFollowingAnnouncements");
         Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncements(KhumuApplication.getUsername());
         call.enqueue(new Callback<AnnouncementListResponse>() {
             @Override

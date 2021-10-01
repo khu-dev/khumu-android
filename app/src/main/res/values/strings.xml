@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">쿠뮤</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">홈</string>
     <string name="title_dashboard">DashBoards</string>
-    <string name="title_boards">Boards</string>
-    <string name="title_feed">Feed</string>
-    <string name="title_my_page">My</string>
+    <string name="title_boards">커뮤니티</string>
+    <string name="title_feed">나의피드</string>
+    <string name="title_my_page">마이페이지</string>
+    <string name="title_announcement">공지사항</string>
     <string name="title_notifications">Notifications</string>
     <string name="API_ROOT_ENDPOINT">http://192.168.219.254:8000/api/</string>
     <string name="preference_file_key">khumu_config</string>

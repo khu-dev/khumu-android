@@ -20,44 +20,27 @@
         android:orientation="vertical">
         <Button
             android:id="@+id/back_btn"
-            android:paddingLeft="10dp"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="@drawable/ic_left_arrow"
-            app:layout_constraintWidth_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/board_main_tab"
             app:layout_constraintTop_toTopOf="parent"/>
-        <com.google.android.material.tabs.TabLayout
-            app:layout_constraintWidth_percent="0.85"
-            app:layout_constraintHeight_percent="0.09"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/back_btn"
+        <TextView
+            android:id="@+id/board_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:layout_marginTop="20dp"
+            android:text="커뮤니티"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/red_500"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/layout_community_board"
-            app:tabIndicatorColor="@color/zxing_transparent"
-            app:tabSelectedTextColor="@color/white"
-            app:tabRippleColor="@color/zxing_transparent"
-            android:background="@color/zxing_transparent"
-            app:tabTextAppearance="@style/boardListTabStyle"
-            app:tabBackground="@drawable/board_tab_button"
-            android:id="@+id/board_main_tab">
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="커뮤니티" />
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="스터디"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="공지사항"/>
-        </com.google.android.material.tabs.TabLayout>
+            app:layout_constraintBottom_toTopOf="@id/layout_community_board"/>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/layout_community_board"
@@ -68,7 +51,7 @@
             android:paddingVertical="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.90"
-            app:layout_constraintTop_toBottomOf="@id/board_main_tab">
+            app:layout_constraintTop_toBottomOf="@id/board_title_tv">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/community_board_layout"
