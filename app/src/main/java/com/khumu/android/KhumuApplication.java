@@ -13,6 +13,7 @@ import com.khumu.android.di.component.DaggerApplicationComponent;
 import com.khumu.android.repository.NotificationService;
 import com.khumu.android.util.FcmManager;
 import com.khumu.android.util.Util;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.io.IOException;
 
@@ -38,6 +39,7 @@ public class KhumuApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         Log.i(TAG, "onCreate: 애플리케이션 시작");
         // 우리의 필요한 의존성들을 이 container에 Singleton으로 관리
         applicationComponent = DaggerApplicationComponent.create();
@@ -46,7 +48,6 @@ public class KhumuApplication extends Application {
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         // sharedPreferences를 이용해 필요한 데이터 초기화.
         loadKhumuConfig();
-
         fcmManager.createOrUpdatePushSubscription();
         // FCM Push를 위해 초기화함.
 

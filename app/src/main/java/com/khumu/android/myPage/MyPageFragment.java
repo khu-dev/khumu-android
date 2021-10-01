@@ -12,6 +12,6 @@ public class MyPageFragment extends BaseWebViewFragment {
 
     @Override
     protected String getLoadUrl() {
-        return BuildConfig.KHUMU_WEB_ROOT_URL;
+        return BuildConfig.KHUMU_WEB_ROOT_URL + "/mypage";
     }
 }

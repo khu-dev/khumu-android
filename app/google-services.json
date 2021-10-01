@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "1027652705723",
-    "firebase_url": "https://khumu-dev-f55be.firebaseio.com",
-    "project_id": "khumu-dev-f55be",
-    "storage_bucket": "khumu-dev-f55be.appspot.com"
+    "project_number": "802304077251",
+    "project_id": "khumu-dev",
+    "storage_bucket": "khumu-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1027652705723:android:af9bf92ae03312c498b89e",
+        "mobilesdk_app_id": "1:802304077251:android:aa5ac90662bc49ac67e176",
         "android_client_info": {
           "package_name": "com.khumu.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1027652705723-vave44pdsbgm4vn1snb1e05fqfoq91u0.apps.googleusercontent.com",
+          "client_id": "802304077251-1hn8lcsr97e3d9bhli2fr8p289e09vts.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBbk9hLaSwoz7uutmRCYjiUnGdUBIXPne4"
+          "current_key": "AIzaSyCMqpgaXLluIZRZ9F2vEGtlPn97siklmd0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1027652705723-vave44pdsbgm4vn1snb1e05fqfoq91u0.apps.googleusercontent.com",
+              "client_id": "802304077251-1hn8lcsr97e3d9bhli2fr8p289e09vts.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

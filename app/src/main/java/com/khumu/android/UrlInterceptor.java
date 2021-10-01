@@ -20,6 +20,7 @@ import com.khumu.android.home.HomeFragment;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.util.Util;
 import com.thefinestartist.finestwebview.FinestWebView;
+import com.thefinestartist.finestwebview.FinestWebViewActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -24,7 +24,7 @@ android {
         dev{
             buildConfigField "String", "API_ROOT_URL", "\"https://api.dev.khumu.me\""
             buildConfigField "String", "DRIVE_ROOT_URL", "\"https://drive.dev.khumu.me\""
-            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://khumu-frontend.vercel.app/\""
+            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://app.dev.khumu.me\""
             signingConfig signingConfigs.debug
         }
 
