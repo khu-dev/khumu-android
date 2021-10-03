@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/red_500"
-        android:paddingVertical="32dp">
+        android:paddingTop="32dp">
         <LinearLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
@@ -177,5 +177,12 @@
             android:textColor="@color/white"
             android:textSize="16dp"
             android:text="인포21 인증은 약 5초에서 10초 가량이 소요됩니다."/>
+        <View
+            android:id="@+id/easter_egg_guest_sign_up"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{viewModel.activateEasterEggGuestSignUp}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -3,6 +3,7 @@ package com.khumu.android.signUp;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -90,6 +91,14 @@ public class SignUpViewModel extends ViewModel {
         }
     }
     public DefaultResponse<Info21UserInfo> verifyNewStudent() {
+        if (easterEggIsGuest) {
+            studentNumber.postValue("0000000000");
+            department.postValue("이스터에그학과");
+            return new DefaultResponse<Info21UserInfo>(
+                    Info21UserInfo.builder().studentNum("0000000000").dept("이스터에그학과").build(),
+                    null
+            );
+        }
         Call<DefaultResponse<Info21UserInfo>> call= userService.verifyNewStudent("application/json", Info21AuthenticationRequest.builder()
                 .username(username.getValue())
                 .password(password.getValue())
@@ -111,5 +120,10 @@ public class SignUpViewModel extends ViewModel {
             e.printStackTrace();
             return new DefaultResponse<Info21UserInfo>(null, "서버의 응답을 해석할 수 없습니다.");
         }
+    }
+
+    public void activateEasterEggGuestSignUp(View v) {
+        easterEggIsGuest = true;
+        Toast.makeText(context, "이스터 에그 발동\n인포21 인증을 생략하고 게스트로 가입합니다.", Toast.LENGTH_LONG).show();
     }
 }
