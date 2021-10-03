@@ -55,7 +55,6 @@ public class Info21SignUpActivity extends AppCompatActivity {
         KhumuApplication.applicationComponent.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_info21_sign_up);
         binding.setLifecycleOwner(this);
-
         viewModel = new ViewModelProvider(this, new ViewModelProvider.Factory(){
             @NonNull
             @Override

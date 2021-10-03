@@ -59,6 +59,7 @@
                 android:layout_marginBottom="48dp"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/usage_agree_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
@@ -67,7 +68,8 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="20dp"
-                    android:text="이용약관 동의"/>
+                    android:text="@string/usage_agree"
+                    android:onClick="@{fragment.onClickUsageAgree}"/>
                 <CheckBox
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -84,6 +86,7 @@
                 android:layout_marginBottom="48dp"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/private_information_agree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
@@ -92,7 +95,8 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="20dp"
-                    android:text="개인정보 수집 동의"/>
+                    android:text="@string/private_information_agree"
+                    android:onClick="@{fragment.onClickPrivateInfoAgree}"/>
                 <CheckBox
                     android:layout_width="48dp"
                     android:layout_height="48dp"

@@ -78,7 +78,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:background="@{ !viewModel.user.username.empty ? @drawable/background_round_white : @drawable/background_round_filled_red_400, default=@drawable/background_round_filled_red_400}"
+                    android:background="@{ !viewModel.username.empty ? @drawable/background_round_white : @drawable/background_round_filled_red_400, default=@drawable/background_round_filled_red_400}"
                     android:layout_marginBottom="16dp"
                     >
                     <View
@@ -87,7 +87,7 @@
                         android:layout_height="16dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginLeft="32dp"
-                        android:background="@{ !viewModel.user.username.empty ? @drawable/background_round_white : @drawable/divider_red_300, default=@drawable/divider_red_300}"
+                        android:background="@{ !viewModel.username.empty ? @drawable/background_round_white : @drawable/divider_red_300, default=@drawable/divider_red_300}"
                         />
                     <EditText
                         android:id="@+id/username_et"
@@ -95,10 +95,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@android:color/transparent"
-                        android:textColor="@{ !viewModel.user.username.empty ? @color/red_500 : @color/white, default=@color/white}"
+                        android:textColor="@{ !viewModel.username.empty ? @color/red_500 : @color/white, default=@color/white}"
                         android:textColorHint="@color/red_300"
                         android:hint="인포21 아이디를 입력해주세요."
-                        android:text="@={viewModel.user.username}"
+                        android:text="@={viewModel.username}"
                         android:textSize="14dp"
                         android:inputType="text"/>
                 </LinearLayout>
@@ -119,7 +119,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:background="@{ !viewModel.user.password.empty ? @drawable/background_round_white : @drawable/background_round_filled_red_400, default=@drawable/background_round_filled_red_400}"
+                    android:background="@{ !viewModel.password.empty ? @drawable/background_round_white : @drawable/background_round_filled_red_400, default=@drawable/background_round_filled_red_400}"
                     >
                     <View
                         android:layout_gravity="center"
@@ -128,7 +128,7 @@
 
                         android:layout_marginRight="12dp"
                         android:layout_marginLeft="32dp"
-                        android:background="@{ !viewModel.user.password.empty ? @drawable/background_round_white : @drawable/divider_red_300, default=@drawable/divider_red_300}"
+                        android:background="@{ !viewModel.password.empty ? @drawable/background_round_white : @drawable/divider_red_300, default=@drawable/divider_red_300}"
                         />
                     <EditText
                         android:id="@+id/password_et"
@@ -138,10 +138,10 @@
                         android:paddingVertical="8dp"
                         android:paddingHorizontal="8dp"
                         android:background="@android:color/transparent"
-                        android:textColor="@{ !viewModel.user.password.empty ? @color/red_500 : @color/white, default=@color/white}"
+                        android:textColor="@{ !viewModel.password.empty ? @color/red_500 : @color/white, default=@color/white}"
                         android:textColorHint="@color/red_300"
                         android:hint="인포21 비밀번호를 입력해주세요."
-                        android:text="@={viewModel.user.password}"
+                        android:text="@={viewModel.password }"
                         android:textSize="14dp"
                         android:inputType="textPassword" />
                 </LinearLayout>

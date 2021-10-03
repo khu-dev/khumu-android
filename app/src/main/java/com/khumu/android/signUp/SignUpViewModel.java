@@ -38,32 +38,43 @@ import retrofit2.Retrofit;
 @Setter
 public class SignUpViewModel extends ViewModel {
     private final String TAG = "QrCodeViewModel";
-    private MutableLiveData<KhumuUser> user;
+    private final MutableLiveData<String> username = new MutableLiveData<>("");
+    private final MutableLiveData<String> password = new MutableLiveData<>("");
+    private final MutableLiveData<String> nickname = new MutableLiveData<>("");
+    private final MutableLiveData<String> email = new MutableLiveData<>("");
+    private final MutableLiveData<String> studentNumber = new MutableLiveData<>("");
+    private final MutableLiveData<String> department = new MutableLiveData<>("");
     private MutableLiveData<Boolean> isAgreedPolicy;
     private MutableLiveData<Boolean> isAgreedPrivacy;
+    private boolean easterEggIsGuest = false;
 
     private Context context;
     private UserService userService;
     private Retrofit retrofit;
-
 
     public SignUpViewModel(Context context, Retrofit retrofit, UserService userService) {
         this.context = context;
         this.retrofit = retrofit;
         this.userService = userService;
         Log.w(TAG, "QrCodeViewModel: " + userService );
-        this.user = new MutableLiveData<>(new KhumuUser());
         this.isAgreedPolicy = new MutableLiveData<>(false);
         this.isAgreedPrivacy = new MutableLiveData<>(false);
     }
 
     public String getWelcomeMessage() {
-        KhumuUser user = this.user.getValue();
-        return user.getDepartment() + "학과 " + user.getStudentNumber() + "님\n" + "환영합니다!";
+        return department.getValue() + "학과 " + studentNumber.getValue() + "님\n" + "환영합니다!";
     }
 
     public UserResponse signUp() {
-        Call<UserResponse> call= userService.signUp("application/json", user.getValue());
+        Call<UserResponse> call= userService.signUp("application/json", KhumuUser.builder()
+                .username(username.getValue())
+                .password(password.getValue())
+                .nickname(nickname.getValue())
+                .email(email.getValue())
+                .studentNumber(studentNumber.getValue())
+                .department(department.getValue())
+                .kind(easterEggIsGuest ? "guest" : "student")
+                .build());
         try {
             Response<UserResponse> response = call.execute();
             if (!response.isSuccessful()) {
@@ -79,7 +90,10 @@ public class SignUpViewModel extends ViewModel {
         }
     }
     public DefaultResponse<Info21UserInfo> verifyNewStudent() {
-        Call<DefaultResponse<Info21UserInfo>> call= userService.verifyNewStudent("application/json", Info21AuthenticationRequest.builder().username(user.getValue().getUsername()).password(user.getValue().getPassword()).build());
+        Call<DefaultResponse<Info21UserInfo>> call= userService.verifyNewStudent("application/json", Info21AuthenticationRequest.builder()
+                .username(username.getValue())
+                .password(password.getValue())
+                .build());
         try {
             Response<DefaultResponse<Info21UserInfo>> response = call.execute();
             if (!response.isSuccessful()) {
@@ -88,9 +102,8 @@ public class SignUpViewModel extends ViewModel {
 
             } else{
                 Info21UserInfo userInfo = response.body().getData();
-                KhumuUser user = this.user.getValue();
-                user.setStudentNumber(userInfo.getStudentNum());
-                user.setDepartment(userInfo.getDept());
+                studentNumber.postValue(userInfo.getStudentNum());
+                department.postValue(userInfo.getDept());
 
                 return response.body();
             }

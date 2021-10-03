@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +17,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @JsonSerialize
+@AllArgsConstructor
 public class KhumuUser implements Serializable {
+    @Setter(AccessLevel.NONE)
     private String username;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     private String nickname;
     private String password;
     private String email;

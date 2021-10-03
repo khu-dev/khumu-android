@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,19 @@ public class Info21AuthenticationFragment extends Fragment {
         // LiveData를 이용해 Observe하기 위해선 그 LifeCyclerOwner가 꼭 필요하다!
         // 그렇지 않으면 유효하게 Observer로 동작하지 않고 아무 변화 없음...
         binding.setLifecycleOwner(this.getActivity());
+        binding.passwordEt.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    binding.signUpBtn.callOnClick();
+                    return false;
+                }
+                return false;
+            }
+        });
+
         View root = binding.getRoot();
         return root;
     }
@@ -78,13 +92,6 @@ public class Info21AuthenticationFragment extends Fragment {
         new Thread(){
             @Override
             public void run() {
-                if (false) {
-                    // 개발 중이라 바로 스킵
-                    signUpViewModel.getUser().getValue().setKind("guest");
-                    progressDialog.dismiss();
-                    activity.proceedSignUpStep();
-                }
-                else {
                     DefaultResponse<Info21UserInfo> resp = signUpViewModel.verifyNewStudent();
                     progressDialog.dismiss();
                     // 인포 21 인증 실패
@@ -102,7 +109,6 @@ public class Info21AuthenticationFragment extends Fragment {
                         // 인포21 인증 성공
                         activity.proceedSignUpStep();
                     }
-                }
             }
         }.start();
     }

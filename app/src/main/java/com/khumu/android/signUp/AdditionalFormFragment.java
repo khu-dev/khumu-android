@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,18 @@ public class AdditionalFormFragment extends Fragment {
         // LiveData를 이용해 Observe하기 위해선 그 LifeCyclerOwner가 꼭 필요하다!
         // 그렇지 않으면 유효하게 Observer로 동작하지 않고 아무 변화 없음...
         binding.setLifecycleOwner(this.getActivity());
+        binding.emailEt.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    binding.signUpBtn.callOnClick();
+                    return false;
+                }
+                return false;
+            }
+        });
         View root = binding.getRoot();
         return root;
     }
@@ -98,7 +111,7 @@ public class AdditionalFormFragment extends Fragment {
                         public void run() {
                             SweetAlertDialog successDialog = new SweetAlertDialog(context, SweetAlertDialog.BUTTON_CONFIRM);
                             successDialog.setTitle("회원가입을 성공했습니다.");
-                            successDialog.setContentText(signUpViewModel.getUser().getValue().getNickname() + "님 환영합니다 >_<");
+                            successDialog.setContentText(signUpViewModel.getNickname().getValue() + "님 환영합니다 >_<");
                             successDialog.setCancelable(false);
                             successDialog.setConfirmText("로그인하러 가기");
                             successDialog.show();

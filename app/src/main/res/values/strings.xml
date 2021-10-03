@@ -9,4 +9,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="API_ROOT_ENDPOINT">http://192.168.219.254:8000/api/</string>
     <string name="preference_file_key">khumu_config</string>
+    <string name="usage_agree"><u>이용약관 동의</u></string>
+    <string name="private_information_agree"><u>개인정보 수집 약관 동의</u></string>
 </resources>

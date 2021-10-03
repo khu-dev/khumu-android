@@ -12,13 +12,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.khumu.android.BuildConfig;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
-import com.khumu.android.databinding.FragmentSignUpConsensusBinding;
+import com.khumu.android.databinding.FragmentSignUpAgreeBinding;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +31,7 @@ import lombok.Setter;
 public class SignUpAgreementFragment extends Fragment {
     private final static String TAG = "SignUpAgreementFragment";
     private SignUpViewModel signUpViewModel;
-    private FragmentSignUpConsensusBinding binding;
+    private FragmentSignUpAgreeBinding binding;
 
     public SignUpAgreementFragment(SignUpViewModel viewModel) {
         this.signUpViewModel = viewModel;
@@ -47,7 +50,7 @@ public class SignUpAgreementFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_consensus, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_agree, container, false);
         // binding하며 사용할 Fragment가 사용하는 변수인 viewModel을 설정해줌.
         binding.setViewModel(this.signUpViewModel);
         binding.setFragment(this);
@@ -61,5 +64,17 @@ public class SignUpAgreementFragment extends Fragment {
     public void onClickNextBTN(View view) {
         Info21SignUpActivity activity = (Info21SignUpActivity) this.getActivity();
         activity.proceedSignUpStep();
+    }
+
+    public void onClickUsageAgree(View view) {
+        new FinestWebView.Builder(this.getContext())
+                .titleColor(ContextCompat.getColor(this.getContext(), R.color.white))
+                .show(BuildConfig.HOMEPAGE_URL + "/usage-agree");
+    }
+
+    public void onClickPrivateInfoAgree(View view) {
+        new FinestWebView.Builder(this.getContext())
+                .titleColor(ContextCompat.getColor(this.getContext(), R.color.white))
+                .show(BuildConfig.HOMEPAGE_URL + "/private-info-agree");
     }
 }
