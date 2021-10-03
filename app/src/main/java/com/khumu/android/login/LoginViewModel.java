@@ -121,8 +121,4 @@ public class LoginViewModel extends ViewModel {
             });
         }
     }
-
-    public boolean isLoginEnabled(String username, String password) {
-        return !username.isEmpty() && !password.isEmpty();
-    }
 }

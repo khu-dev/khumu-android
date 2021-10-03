@@ -52,20 +52,37 @@
                     android:paddingHorizontal="16dp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:text="닉네임"/>
-                <EditText
+                    android:text="닉네임"
+                    android:layout_marginBottom="8dp"/>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="8dp"
-                    android:paddingHorizontal="24dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/background_round_white"
-                    android:textColorHint="@color/red_300"
-                    android:textColor="@color/red_500"
-                    android:textSize="14dp"
-                    android:inputType="text"
-                    android:hint="사용하실 닉네임 입력해주세요."
-                    android:text="@={viewModel.user.nickname}"/>
+                    android:layout_height="44dp"
+                    android:background="@{ !viewModel.user.nickname.empty ? @drawable/background_round_white : @drawable/background_round_filled_red_400, default=@drawable/background_round_filled_red_400}"
+                    >
+                    <View
+                        android:layout_gravity="center"
+                        android:layout_width="2dp"
+                        android:layout_height="16dp"
+
+                        android:layout_marginRight="12dp"
+                        android:layout_marginLeft="32dp"
+                        android:background="@{ !viewModel.user.nickname.empty ? @drawable/background_round_white : @drawable/divider_red_300, default=@drawable/divider_red_300}"
+                        />
+                    <EditText
+                        android:id="@+id/nickname_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="8dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@{ !viewModel.user.nickname.empty ? @color/red_500 : @color/white, default=@color/white}"
+                        android:textColorHint="@color/red_300"
+                        android:hint="사용하실 닉네임 입력해주세요."
+                        android:text="@={viewModel.user.nickname}"
+                        android:textSize="14dp"
+                        android:inputType="text" />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,19 +96,35 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:text="이메일"/>
-                <EditText
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="8dp"
-                    android:paddingHorizontal="24dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/background_round_white"
-                    android:textColorHint="@color/red_300"
-                    android:textColor="@color/red_500"
-                    android:textSize="14dp"
-                    android:inputType="text"
-                    android:hint="이메일을 입력해주세요."
-                    android:text="@={viewModel.user.email}"/>
+                    android:layout_height="44dp"
+                    android:background="@{ !viewModel.user.email.empty ? @drawable/background_round_white : @drawable/background_round_filled_red_400, default=@drawable/background_round_filled_red_400}"
+                    >
+                    <View
+                        android:layout_gravity="center"
+                        android:layout_width="2dp"
+                        android:layout_height="16dp"
+
+                        android:layout_marginRight="12dp"
+                        android:layout_marginLeft="32dp"
+                        android:background="@{ !viewModel.user.email.empty ? @drawable/background_round_white : @drawable/divider_red_300, default=@drawable/divider_red_300}"
+                        />
+                    <EditText
+                        android:id="@+id/email_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="8dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@{ !viewModel.user.email.empty ? @color/red_500 : @color/white, default=@color/white}"
+                        android:textColorHint="@color/red_300"
+                        android:hint="이메일을 입력해주세요."
+                        android:text="@={viewModel.user.email}"
+                        android:textSize="14dp"
+                        android:inputType="text" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
