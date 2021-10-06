@@ -4,6 +4,7 @@ import android.content.Context;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.khumu.android.BuildConfig;
 
@@ -26,7 +27,6 @@ public class JavaScriptInterfaceImpl {
     String token;
     Context context;
     public JavaScriptInterfaceImpl(Context context, String token) {
-
         this.context = context;
         this.token = token;
     }
@@ -42,7 +42,7 @@ public class JavaScriptInterfaceImpl {
     }
 
     @JavascriptInterface
-    public VersionInfo getVersionInfo() {
+    public String getVersionInfo() {
 //        int versionCode = BuildConfig.VERSION_CODE;
         String currentVersion = BuildConfig.VERSION_NAME;
         String latestVersion = "최신 버전 정보를 가져올 수 없습니다.";
@@ -66,7 +66,7 @@ public class JavaScriptInterfaceImpl {
             e.printStackTrace();
         }
 
-        return new VersionInfo(currentVersion, latestVersion);
+        return new Gson().toJson(new VersionInfo(currentVersion, latestVersion));
     }
 
     @Data
