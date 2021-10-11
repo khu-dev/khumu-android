@@ -160,7 +160,7 @@ public class FeedViewModel extends ViewModel {
     public void listRecentAnnouncements() {
         for (int i = 0; i < 3; i++) {
             announcements.getValue().add(Announcement.builder()
-                    .author(Announcement.AnnouncementAuthor.builder().name("더미작성자").followed(true).build())
+                    .author(Announcement.AnnouncementAuthor.builder().authorName("더미작성자").followed(true).build())
                     .title("더미 공지사항입니다. " + i)
                     .subLink("https://github.com/umi0410").build());
         }

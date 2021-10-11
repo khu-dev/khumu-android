@@ -41,7 +41,7 @@
             android:paddingVertical="4dp"
             android:paddingHorizontal="16dp"
             android:background="@drawable/background_radius_15_bordered_gray_300_filled_white"
-            android:text="@{announcement.author.name, default=작성자}"
+            android:text="@{announcement.author.authorName, default=작성자}"
             android:textSize="12dp"
             android:textColor="@color/black"
             android:textStyle="bold"

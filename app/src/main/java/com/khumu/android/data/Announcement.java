@@ -20,18 +20,20 @@ import lombok.Setter;
 @Setter
 public class Announcement implements Serializable {
     private Integer id;
-    private String title;
-    private String subLink;
-    @SerializedName("created_at")
-    private String createdAt;
+    public String title;
+    @SerializedName("sub_link")
+    public String subLink;
+    @SerializedName("date")
+    public String createdAt;
     public AnnouncementAuthor author;
 
     @Builder
     @Getter
     @Setter
     public static class AnnouncementAuthor {
-        public Integer id;
-        public String name;
+        private Integer id;
+        @SerializedName("author_name")
+        public String authorName;
         public boolean followed;
     }
 }

@@ -48,7 +48,7 @@ public class KhumuApplication extends Application {
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         // sharedPreferences를 이용해 필요한 데이터 초기화.
         loadKhumuConfig();
-        clearKhumuAuthenticationConfig(); // 디버깅하느라 로그아웃이 필요할 때
+        //clearKhumuAuthenticationConfig(); // 디버깅하느라 로그아웃이 필요할 때
         fcmManager.createOrUpdatePushSubscription();
         // FCM Push를 위해 초기화함.
     }
