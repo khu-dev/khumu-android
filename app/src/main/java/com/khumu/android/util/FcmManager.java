@@ -40,6 +40,8 @@ public class FcmManager extends FirebaseMessagingService {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {// Get new FCM registration token
                         String token = task.getResult();
+                        Log.i(TAG, "createOrUpdatePushSubscription: " + token);
+
                         Call<PushSubscriptionResponse> call = notificationService.subscribe("application/json",
                                 new PushSubscription(token));
                         call.enqueue(new Callback<PushSubscriptionResponse>() {
