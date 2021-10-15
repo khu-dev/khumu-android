@@ -91,3 +91,6 @@ lint/tmp/
 *.jks
 app/build
 app/release
+
+
+google-services.json
