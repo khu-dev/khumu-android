@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,9 @@ import com.khumu.android.search.CommunitySearchActivity;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -46,11 +49,7 @@ public class BoardListFragment extends Fragment {
     private Intent intent;
     private FragmentBoardListBinding binding;
     private BoardViewModel boardViewModel;
-    private RecyclerView followingBoardListRecyclerView;
-    private RecyclerView categoryBoardListRecyclerView;
-    private BoardAdapter followingBoardListAdapter;
-    private BoardAdapter categoryBoardListAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private final static Map<String, String> boardCategories = new HashMap<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +63,10 @@ public class BoardListFragment extends Fragment {
                 return (T) new BoardViewModel(getContext(), boardService);
             }
         }).get(BoardViewModel.class);
+        boardCategories.put("공식", "official");
+        boardCategories.put("자율", "free");
+        boardCategories.put("학과", "department");
+        boardCategories.put("강의", "lecture_suite");
     }
 
     @Nullable
@@ -73,6 +76,31 @@ public class BoardListFragment extends Fragment {
         View root = binding.getRoot();
         binding.followingBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
         binding.categoryBoardListRecyclerView.setAdapter(new BoardAdapter(new ArrayList<Board>(), this.getContext(), boardViewModel));
+        binding.communityBoardCategoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                String boardCategoryName = tab.getText().toString();
+                if (!boardCategories.containsKey(boardCategoryName)) {
+                    Toast.makeText(BoardListFragment.this.getContext(), "올바르지 않은 게시판 카테고리에요. 최신 버전인지 확인해주세요!", Toast.LENGTH_SHORT).show();
+
+                    return;
+                }
+
+                if (boardCategoryName.equals("강의")) {
+                    binding.textView.setVisibility(View.VISIBLE);
+                    boardViewModel.categoryBoards.postValue(new ArrayList<>());
+                } else {
+                    binding.textView.setVisibility(View.GONE);
+                    boardViewModel.listCategoryBoards(boardCategories.get(boardCategoryName));
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
         binding.setBoardViewModel(this.boardViewModel);
         binding.setBoardListFragment(this);
         binding.setLifecycleOwner(this);
@@ -84,7 +112,6 @@ public class BoardListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Intent intent = getActivity().getIntent();
         Log.d(TAG, getActivity().toString());
-        linearLayoutManager = new LinearLayoutManager(view.getContext());
     }
 
     @BindingAdapter("following_board_list")

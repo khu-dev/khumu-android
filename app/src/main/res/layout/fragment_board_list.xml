@@ -133,22 +133,22 @@
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="공식" />
+                        android:text="공식"/>
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="자율" />
+                        android:text="자율"/>
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="학과" />
+                        android:text="학과"/>
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="강의" />
+                        android:text="강의"/>
                 </com.google.android.material.tabs.TabLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

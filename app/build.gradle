@@ -28,6 +28,7 @@ android {
             buildConfigField "String", "ANNOUNCEMENT_API_ROOT_URL", "\"https://khumu-notice-batch-spring.du.r.appspot.com/api/\""
             buildConfigField "String", "HOMEPAGE_URL", "\"http://khumu.oopy.io\""
             applicationIdSuffix ".dev"
+            debuggable true
             signingConfig signingConfigs.debug
         }
 
@@ -38,6 +39,7 @@ android {
             buildConfigField "String", "ANNOUNCEMENT_API_ROOT_URL", "\"https://khumu-notice-batch-spring.du.r.appspot.com/api/\""
             buildConfigField "String", "HOMEPAGE_URL", "\"http://khumu.oopy.io\""
             applicationIdSuffix ".dev"
+            debuggable true
             signingConfig signingConfigs.debug
         }
 
@@ -48,6 +50,7 @@ android {
             buildConfigField "String", "ANNOUNCEMENT_API_ROOT_URL", "\"https://khumu-notice-batch-spring.du.r.appspot.com/api/\""
             buildConfigField "String", "HOMEPAGE_URL", "\"http://khumu.oopy.io\""
             applicationIdSuffix ".prd"
+            debuggable true
             signingConfig signingConfigs.debug
         }
     }
@@ -59,8 +62,8 @@ android {
         applicationId "com.khumu.android"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 2
-        versionName "1.0"
+        versionCode 3
+        versionName "0.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
