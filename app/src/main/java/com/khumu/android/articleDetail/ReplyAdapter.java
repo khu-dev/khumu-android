@@ -3,6 +3,7 @@ package com.khumu.android.articleDetail;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -13,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.data.Comment;
+import com.khumu.android.databinding.ReplyCommentItemBinding;
 import com.khumu.android.repository.CommentRepository;
+import com.khumu.android.repository.CommentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,60 +34,101 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
 
     @Inject
     public CommentRepository commentRepository;
+    @Inject
+    public CommentService commentService;
+
     public CommentViewModel commentViewModel;
     public List<Comment> replyList;
+    public Context context;
+    private ArticleDetailFragment articleDetailFragment;
 
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
     }
 
-    private Context context;
     public class ReplyViewHolder extends RecyclerView.ViewHolder {
-        public TextView replyAuthorNicknameTV;
-        public TextView replyContentTV;
-        public TextView replyLikeCountTV;
-        public ImageView replyLikeIcon;
-        public TextView replyCreatedAtTV;
+        private ReplyCommentItemBinding binding;
+        private Context context;
+        private CommentViewModel commentViewModel;
+        private ArticleDetailFragment articleDetailFragment;
 
-        public ReplyViewHolder(@NonNull View view) {
-            super(view);
-            this.replyAuthorNicknameTV = view.findViewById(R.id.reply_item_author_nickname_tv);
-            this.replyContentTV = view.findViewById(R.id.reply_item_content_tv);
-            this.replyLikeCountTV = view.findViewById(R.id.reply_item_like_count_tv);
-            this.replyLikeIcon = view.findViewById(R.id.reply_item_like_icon);
-            this.replyCreatedAtTV = view.findViewById(R.id.reply_item_created_at_tv);
+        public ReplyViewHolder(ReplyCommentItemBinding binding, Context context, ArticleDetailFragment articleDetailFragment, CommentViewModel commentViewModel) {
+            super(binding.getRoot());
+            this.binding = binding;
+            this.context = context;
+            this.articleDetailFragment = articleDetailFragment;
+            this.commentViewModel = commentViewModel;
+        }
+
+        public void bind(Comment reply) {
+            this.binding.setReply(reply);
+            this.binding.setViewHolder(this);
+        }
+
+        public Drawable getLikedIcon() {
+            return binding.getReply().isLiked() ? context.getDrawable(R.drawable.ic_comment_like_true) : context.getDrawable(R.drawable.ic_reply_like_false);
         }
     }
 
-    public ReplyAdapter(List<Comment> ReplyList, Context context, CommentViewModel commentViewModel) {
+
+    public ReplyAdapter(List<Comment> ReplyList, Context context, CommentViewModel commentViewModel, ArticleDetailFragment articleDetailFragment) {
         KhumuApplication.applicationComponent.inject(this);
         this.commentViewModel = commentViewModel;
         this.context = context;
         this.replyList = ReplyList;
+        this.articleDetailFragment = articleDetailFragment;
     }
 
     @NonNull
     @Override
     public ReplyAdapter.ReplyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ReplyCommentItemBinding binding = DataBindingUtil.
+                inflate(LayoutInflater.from(parent.getContext()), R.layout.reply_comment_item, parent, false);
+        //ReplyViewHolder holder = new ReplyViewHolder(view);
 
-        View view = LayoutInflater.from(parent .getContext()).inflate(R.layout.reply_comment_item, parent, false);
-        ReplyViewHolder holder = new ReplyViewHolder(view);
-
-        return holder;
+        return new ReplyAdapter.ReplyViewHolder(binding, context, articleDetailFragment, commentViewModel);
     }
     
     @Override
     public void onBindViewHolder(@NonNull ReplyViewHolder holder, int position) {
         Comment reply = replyList.get(position);
-        holder.replyAuthorNicknameTV.setText(reply.getAuthor().getNickname());
-        holder.replyContentTV.setText(reply.getContent());
-        holder.replyLikeCountTV.setText(String.valueOf(reply.getLikeCommentCount()));
-        holder.replyLikeIcon.setImageResource(getReplyLikedImage(reply));
-        holder.replyCreatedAtTV.setText(reply.getCreatedAt());
-        holder.itemView.setTag(position);
-        
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.bind(reply);
+        holder.binding.replyItemLikeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (holder.binding.getReply().getIsAuthor()) {
+                                throw new Exception("자신의 대댓글에는 좋아요를 누를 수 없습니다");
+                            }
+                            commentViewModel.likeComment(holder.binding.getReply().getId());
+                            boolean liked = holder.binding.getReply().isLiked();
+                            if (liked) {
+                                holder.binding.getReply().setLiked(false);
+                                holder.binding.getReply().setLikeCommentCount(holder.binding.getReply().getLikeCommentCount() - 1);
+                            } else {
+                                holder.binding.getReply().setLiked(true);
+                                holder.binding.getReply().setLikeCommentCount(holder.binding.getReply().getLikeCommentCount() + 1);
+                            }
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.binding.replyItemLikeIcon.setImageDrawable(holder.getLikedIcon());
+                                    holder.binding.replyItemLikeCountTv.setText(String.valueOf(holder.binding.getReply().getLikeCommentCount()));
+                                }
+                            }, 0);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+            }
+        });
+        holder.binding.wrapperCommentItemContent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if(reply.getIsAuthor()) {
@@ -108,38 +153,6 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
                 return false;
             }
         });
-
-        holder.replyLikeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try{
-                            System.out.println(replyList);
-                            commentRepository.toggleLikeComment(reply.getId());
-                            boolean liked = reply.isLiked();
-                            if(liked) {
-                                reply.setLiked(false);
-                                reply.setLikeCommentCount(reply.getLikeCommentCount() - 1);
-                            } else {
-                                reply.setLiked(true);
-                                reply.setLikeCommentCount(reply.getLikeCommentCount() + 1);
-                            }
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.replyLikeIcon.setImageResource(getReplyLikedImage(reply));
-                                    holder.replyLikeCountTV.setText(String.valueOf(reply.getLikeCommentCount()));
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-            }
-        });
     }
 
     @Override
@@ -156,8 +169,8 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
 
     private int getReplyLikedImage(Comment reply) {
         if(reply.isLiked()) {
-            return R.drawable.ic_filled_heart;
+            return R.drawable.ic_comment_like_true;
         }
-        return R.drawable.ic_bordered_red_500_heart;
+        return R.drawable.ic_reply_like_false;
     }
 }

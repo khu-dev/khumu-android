@@ -108,7 +108,6 @@ public class CommentViewModel extends ViewModel {
                     } else{
                         Toast.makeText(context, "올바르지 않은 응답입니다. 쿠뮤에 문의해주세요.", Toast.LENGTH_SHORT).show();
                     }
-
                     article.postValue(article.getValue());
                 } else {
                     if (response.code() == 400) {

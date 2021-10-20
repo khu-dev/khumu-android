@@ -1,121 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--article detail activity에서 대댓글에 대한 RecyclerView 에서
 이용되는 대댓글 item-->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+    <data>
+        <variable
+            name="reply"
+            type="com.khumu.android.data.Comment" />
+        <variable
+            name="viewHolder"
+            type="com.khumu.android.articleDetail.ReplyAdapter.ReplyViewHolder" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/wrapper_comment_item_content"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="7dp"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/reply_item_like_icon"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:src="@drawable/ic_bordered_red_500_heart"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/wrapper_reply_item_content"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/wrapper_reply_item_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/wrapper_comment_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:background="@drawable/background_reply_body"
-        android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/reply_item_like_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginTop="7dp"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/reply_more_option_icon"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:src="@drawable/ic_more_options"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/reply_item_created_at_tv"
+            android:id="@+id/reply_item_like_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@{@drawable/ic_reply_like_false}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/wrapper_reply_item_content"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/reply_item_created_at_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="방금 전"
-            android:textColor="@color/red_500"
-            android:textSize="9dp"
-            app:layout_constraintLeft_toRightOf="@+id/reply_more_option_icon"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/reply_item_author_nickname_tv"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wrapper_reply_item_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingRight="10dp"
-            android:text="이것은 대댓글 작성자"
-            android:textColor="@color/red_500"
-            android:textSize="10dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/reply_item_content_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingLeft="50dp"
+            android:background="@drawable/background_reply_body"
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
             android:paddingTop="7dp"
-            android:paddingRight="50dp"
-            android:paddingBottom="3dp"
-            android:text="이것은 코멘트 내용"
-            android:textColor="@color/red_500"
-            android:textSize="14dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reply_item_author_nickname_tv" />
-
-        <ImageView
-            android:id="@+id/reply_item_like_count_icon"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginRight="3dp"
-            android:src="@drawable/ic_bordered_red_500_heart"
+            android:paddingBottom="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/reply_item_like_count_tv"
-            app:layout_constraintTop_toBottomOf="@id/reply_item_content_tv" />
+            app:layout_constraintStart_toEndOf="@id/reply_item_like_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/reply_item_like_count_tv"
+            <ImageView
+                android:id="@+id/reply_more_option_icon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_more_options"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/reply_item_created_at_tv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/reply_item_created_at_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@{reply.createdAt, default=`방금 전`}"
+                android:textColor="@color/red_500"
+                android:textSize="9dp"
+                app:layout_constraintLeft_toRightOf="@+id/reply_more_option_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/reply_item_author_nickname_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@{reply.author.nickname, default=`대댓글 작성자`}"
+                android:textColor="@color/red_500"
+                android:textSize="10dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/reply_item_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingLeft="50dp"
+                android:paddingTop="7dp"
+                android:paddingRight="50dp"
+                android:paddingBottom="3dp"
+                android:text="@{reply.content, default=`이것은 코멘트 내용`}"
+                android:textColor="@color/red_500"
+                android:textSize="14dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reply_item_author_nickname_tv" />
+
+            <ImageView
+                android:id="@+id/reply_item_like_count_icon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="3dp"
+                android:src="@drawable/ic_bordered_red_500_heart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/reply_item_like_count_tv"
+                app:layout_constraintTop_toBottomOf="@id/reply_item_content_tv" />
+
+            <TextView
+                android:id="@+id/reply_item_like_count_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="@{String.valueOf(reply.likeCommentCount), default=`0`}"
+                android:textColor="@color/red_500"
+                android:textSize="9dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/reply_item_like_count_icon"
+                app:layout_constraintTop_toBottomOf="@+id/reply_item_content_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="6"
-            android:textColor="@color/red_500"
-            android:textSize="9dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/reply_item_like_count_icon"
-            app:layout_constraintTop_toBottomOf="@+id/reply_item_content_tv" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

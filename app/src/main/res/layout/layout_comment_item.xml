@@ -17,8 +17,8 @@
         android:id="@+id/wrapper_article_item"
         android:orientation="vertical"
         android:background="@drawable/background_bordered_gray_100_white"
-        android:paddingLeft="18dp"
-        android:paddingRight="22dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_marginTop="0dp"
@@ -32,10 +32,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/comment_item_body"
                 android:layout_width="0dp"
-                android:paddingRight="12dp"
                 android:paddingTop="7dp"
                 android:paddingBottom="6dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -96,7 +95,7 @@
                     app:layout_constraintRight_toLeftOf="@id/comment_item_like_count_tv"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/ic_bordered_red_500_heart"
+                    android:src="@{viewHolder.likedIcon}"
                     android:layout_marginRight="3dp"/>
                 <TextView
                     android:id="@+id/comment_item_like_count_tv"
@@ -132,9 +131,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
             <ImageView
                 android:id="@+id/comment_item_like_icon"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@{viewHolder.likedIcon, default=@drawable/ic_bordered_red_500_heart}"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@{viewHolder.likedIcon, default=@drawable/ic_comment_like_false}"
                 app:layout_constraintLeft_toRightOf="@+id/comment_item_body"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

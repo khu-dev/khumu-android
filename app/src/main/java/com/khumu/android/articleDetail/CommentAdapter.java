@@ -82,7 +82,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
 
         public Drawable getLikedIcon() {
-            return binding.getComment().isLiked() ? context.getDrawable(R.drawable.ic_filled_heart) : context.getDrawable(R.drawable.ic_bordered_red_500_heart);
+            return binding.getComment().isLiked() ? context.getDrawable(R.drawable.ic_comment_like_true) : context.getDrawable(R.drawable.ic_comment_like_false);
         }
 
         public boolean onLongClick(View v) {
@@ -204,7 +204,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.replyArrayList = new ArrayList<>();
         if(!comment.getChildren().isEmpty())
             holder.replyArrayList.addAll(comment.getChildren());
-        holder.binding.recyclerViewReplyList.setAdapter(new ReplyAdapter(holder.replyArrayList, context, commentViewModel));
+        holder.binding.recyclerViewReplyList.setAdapter(new ReplyAdapter(holder.replyArrayList, context, commentViewModel, articleDetailFragment));
         // TODO: 태그 뭐임?
 //        holder.commentItemBody.setTag(position);
     }
