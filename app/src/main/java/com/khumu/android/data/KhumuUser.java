@@ -3,6 +3,7 @@ package com.khumu.android.data;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -31,12 +32,18 @@ public class KhumuUser implements Serializable {
     private String nickname;
     private String password;
     private String email;
+    @Getter(AccessLevel.NONE)
     private String studentNumber;
+    @SerializedName("student_number")
+    public String getStudentNumber() {
+        return this.studentNumber;
+    }
+
     private String department;
     private String kind;
 
     public KhumuUser(String username, String nickname, String password, String email,
-                     @JsonProperty("student_number") String studentNumber, String department) {
+                      String studentNumber, String department) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;

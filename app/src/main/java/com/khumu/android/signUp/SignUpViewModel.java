@@ -63,7 +63,7 @@ public class SignUpViewModel extends ViewModel {
     }
 
     public String getWelcomeMessage() {
-        return department.getValue() + "학과 " + studentNumber.getValue() + "님\n" + "환영합니다!";
+        return department.getValue() + " " + studentNumber.getValue() + "님\n" + "환영합니다!";
     }
 
     public UserResponse signUp() {

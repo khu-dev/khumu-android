@@ -28,6 +28,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12dp"
                 android:text="경희대학교"
                 android:textColor="@color/white"/>
             <LinearLayout
@@ -44,6 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12dp"
                     android:text="과 "
                     android:textColor="@color/white"/>
                 <TextView
@@ -56,6 +58,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12dp"
                     android:text="의 공간"
                     android:textColor="@color/white"/>
             </LinearLayout>
@@ -73,6 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12dp"
                     android:text="에 오신 걸 환영합니다."
                     android:textColor="@color/white"/>
             </LinearLayout>
