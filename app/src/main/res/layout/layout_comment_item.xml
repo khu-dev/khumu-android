@@ -32,7 +32,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/comment_item_body"
                 android:layout_width="0dp"
-                android:paddingTop="7dp"
                 android:paddingBottom="6dp"
                 android:layout_marginRight="5dp"
                 android:layout_height="wrap_content"
@@ -50,17 +49,19 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingTop="6dp"
+                    android:paddingLeft="13dp"
                     android:id="@+id/comment_item_author_nickname_tv"
                     android:textColor="@color/gray_700"
                     android:text="@{viewHolder.authorNickName, default=작성자}"
-                    android:textSize="12dp"/>
+                    android:textSize="10dp"/>
                 <TextView
                     android:id="@+id/comment_item_created_at_tv"
                     app:layout_constraintRight_toLeftOf= "@+id/comment_more_option_icon"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
                     android:layout_marginRight="5dp"
                     android:textColor="@color/gray_700"
                     android:text="@{comment.createdAt,default=`방금 전`}"
