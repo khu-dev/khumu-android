@@ -96,7 +96,7 @@
                     app:layout_constraintRight_toLeftOf="@id/comment_item_like_count_tv"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@{viewHolder.likedIcon}"
+                    android:src="@drawable/ic_comment_like_count"
                     android:layout_marginRight="3dp"/>
                 <TextView
                     android:id="@+id/comment_item_like_count_tv"
