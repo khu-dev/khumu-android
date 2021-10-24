@@ -118,7 +118,7 @@
                     app:layout_constraintLeft_toRightOf="@+id/comment_item_like_count_tv"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/ic_reply"/>
+                    android:src="@drawable/ic_comment_reply_count"/>
                 <TextView
                     android:id="@+id/comment_item_reply_count_tv"
                     app:layout_constraintTop_toBottomOf="@+id/comment_item_content_tv"
