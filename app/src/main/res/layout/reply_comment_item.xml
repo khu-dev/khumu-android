@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--article detail activity에서 대댓글에 대한 RecyclerView 에서
 이용되는 대댓글 item-->
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="reply"
@@ -10,9 +11,8 @@
             name="viewHolder"
             type="com.khumu.android.articleDetail.ReplyAdapter.ReplyViewHolder" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/wrapper_comment_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +36,7 @@
             android:background="@drawable/background_reply_body"
             android:orientation="vertical"
             android:layout_marginLeft="5dp"
+            android:paddingStart="11dp"
             android:paddingTop="7dp"
             android:paddingBottom="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +68,8 @@
                 android:id="@+id/reply_item_author_nickname_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
+                android:orientation="horizontal"
+                android:paddingRight="12dp"
                 android:text="@{reply.author.nickname, default=`대댓글 작성자`}"
                 android:textColor="@color/red_500"
                 android:textSize="10dp"
@@ -91,8 +93,8 @@
 
             <ImageView
                 android:id="@+id/reply_item_like_count_icon"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="6.48dp"
+                android:layout_height="8dp"
                 android:layout_marginRight="3dp"
                 android:src="@drawable/ic_reply_like_count"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -107,7 +109,7 @@
                 android:layout_marginLeft="3dp"
                 android:text="@{String.valueOf(reply.likeCommentCount), default=`0`}"
                 android:textColor="@color/red_500"
-                android:textSize="9dp"
+                android:textSize="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/reply_item_like_count_icon"
                 app:layout_constraintTop_toBottomOf="@+id/reply_item_content_tv" />
