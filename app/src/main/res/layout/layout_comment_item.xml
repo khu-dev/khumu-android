@@ -33,6 +33,7 @@
                 android:id="@+id/comment_item_body"
                 android:layout_width="0dp"
                 android:paddingBottom="6dp"
+                android:paddingEnd="11dp"
                 android:layout_marginRight="5dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -127,8 +128,9 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="@{String.valueOf(comment.children.size()), default=3}"/>
                     android:textSize="12dp"
+                    android:text="@{String.valueOf(comment.children.size()), default=3}"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
             <ImageView
                 android:id="@+id/comment_item_like_icon"
