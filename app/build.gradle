@@ -35,7 +35,7 @@ android {
         dev{
             buildConfigField "String", "API_ROOT_URL", "\"https://api.dev.khumu.me\""
             buildConfigField "String", "DRIVE_ROOT_URL", "\"https://drive.dev.khumu.me\""
-            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://khumu-frontend.vercel.app/\""
+            buildConfigField "String", "KHUMU_WEB_ROOT_URL", "\"https://app.dev.khumu.me/\""
             buildConfigField "String", "ANNOUNCEMENT_API_ROOT_URL", "\"https://khumu-notice-batch-spring.du.r.appspot.com/api/\""
             buildConfigField "String", "HOMEPAGE_URL", "\"http://khumu.oopy.io\""
             applicationIdSuffix ".dev"
@@ -62,8 +62,8 @@ android {
         applicationId "com.khumu.android"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 3
-        versionName "0.0.1"
+        versionCode 4
+        versionName "0.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
