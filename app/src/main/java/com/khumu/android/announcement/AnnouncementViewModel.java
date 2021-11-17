@@ -46,7 +46,6 @@ public class AnnouncementViewModel extends ViewModel {
         call.enqueue(new Callback<AnnouncementListResponse>() {
             @Override
             public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
-                System.out.println(response.body());
                 if (response.isSuccessful()) {
                     showFollowedAnnouncement.postValue(false);
                     System.out.println("announcments : "+response.body());
