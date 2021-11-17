@@ -55,6 +55,7 @@ public class UrlInterceptor {
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
                     ((AppCompatActivity)context).finish();
+                    return true;
                 }
                 if (RESOURCE_KIND_PLURALS.contains(resourceKindPlural)) {
                     switch (resourceKindPlural) {

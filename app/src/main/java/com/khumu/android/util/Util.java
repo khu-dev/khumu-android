@@ -88,6 +88,6 @@ public class Util {
         return BuildConfig.KHUMU_WEB_ROOT_URL;
     }
     public static String getAnnouncementApiRootUrl() {
-        return BuildConfig.ANNOUNCEMENT_API_ROOT_URL;
+        return BuildConfig.ANNOUNCEMENT_API_ROOT_URL + "/";
     }
 }
