@@ -47,14 +47,14 @@ public class ArticleDetailActivity extends AppCompatActivity {
     private static final String TAG = "ArticleDetailActivity";
     private Toolbar toolbar;
     private TextView toolbarBeforeTitleTV;
-    private ImageView backBtnIcon;
+    private ImageView backIV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
         toolbar = findViewById(R.id.toolbar);
-        backBtnIcon = findViewById(R.id.back_ic);
-        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+        backIV = findViewById(R.id.back_iv);
+        backIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArticleDetailActivity.super.onBackPressed();

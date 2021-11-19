@@ -14,6 +14,7 @@ import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.data.rest.BoardListResponse;
+import com.khumu.android.repository.AnnouncementService;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.BoardService;
 
@@ -37,6 +38,7 @@ public class FeedViewModel extends ViewModel {
     public String debuggingMessage = "debug";
     private BoardService boardService;
     private ArticleService articleService;
+    private AnnouncementService announcementService;
     private String nextCursor = "";
     private MutableLiveData<List<Announcement>> announcements;
     private MutableLiveData<List<Board>> boards;
@@ -58,8 +60,9 @@ public class FeedViewModel extends ViewModel {
     /**
      * 여러 Board에 대한 feed를 이용하는 경우 board를 null로 둔다. TabFeedFragment에서 Board List를 하기에 사용된다.
      */
-    public FeedViewModel(BoardService boardService, ArticleService articleService) {
+    public FeedViewModel(BoardService boardService, ArticleService articleService, AnnouncementService announcementService) {
         Log.d(TAG, "FeedViewModel: (BoardRepository boardRepository, ArticleRepository articleRepository)");
+        this.announcementService = announcementService;
         this.boardService = boardService;
         this.articleService = articleService;
 
@@ -158,13 +161,13 @@ public class FeedViewModel extends ViewModel {
     }
     
     public void listRecentAnnouncements() {
-        for (int i = 0; i < 3; i++) {
-            announcements.getValue().add(Announcement.builder()
-                    .author(Announcement.AnnouncementAuthor.builder().authorName("더미작성자").followed(true).build())
-                    .title("더미 공지사항입니다. " + i)
-                    .subLink("https://github.com/umi0410").build());
-        }
-        announcements.postValue(announcements.getValue());
+//        for (int i = 0; i < 3; i++) {
+//            announcements.getValue().add(Announcement.builder()
+//                    .author(Announcement.AnnouncementAuthor.builder().authorName("더미작성자").followed(true).build())
+//                    .title("더미 공지사항입니다. " + i)
+//                    .subLink("https://github.com/umi0410").build());
+//        }
+//        announcements.postValue(announcements.getValue());
     }
 
     public String getNextCursor(String next) {

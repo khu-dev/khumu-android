@@ -71,10 +71,9 @@ public class SingleBoardFeedActivity extends AppCompatActivity {
 
         feedFragment = (SingleBoardFeedFragment) getSupportFragmentManager().findFragmentById(R.id.single_board_articles_fragment);
         toolbar = findViewById(R.id.toolbar);
-        toolbar = findViewById(R.id.toolbar);
         ((TextView)toolbar.findViewById(R.id.toolbar_before_title))
                 .setText(currentBoard.getDisplayName());
-        backButton = findViewById(R.id.back_iv);
+        backButton = toolbar.findViewById(R.id.back_iv);
         backButton.setOnClickListener(v -> {
             SingleBoardFeedActivity.this.finish();
         });
