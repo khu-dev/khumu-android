@@ -54,6 +54,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         holder.binding.announcementTitleTv.setOnClickListener(v -> {
             new FinestWebView.Builder(context)
                 .titleColor(ContextCompat.getColor(context, R.color.white))
+                .webViewUseWideViewPort(true)
                 .show(announcement.getSubLink());
         });
         holder.binding.announcementAuthorFollowBtn.setOnClickListener(new View.OnClickListener() {
