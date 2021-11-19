@@ -1,6 +1,7 @@
 package com.khumu.android;
 
 import android.content.Context;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -24,16 +25,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class JavaScriptInterfaceImpl {
-    String token;
+    private final static String TAG = "JavaScriptInterfaceImpl";
     Context context;
-    public JavaScriptInterfaceImpl(Context context, String token) {
+    public JavaScriptInterfaceImpl(Context context) {
         this.context = context;
-        this.token = token;
     }
 
     @JavascriptInterface
     public String getToken() {
-        return this.token;
+        return KhumuApplication.getToken();
     }
 
     @JavascriptInterface

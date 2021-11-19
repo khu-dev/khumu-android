@@ -87,7 +87,7 @@ public abstract class BaseWebViewFragment extends Fragment {
         });
         // webview chrome client도 있어야 alert를 이용할 수 있더라
         webView.setWebChromeClient(new WebChromeClient());
-        webView.addJavascriptInterface(new JavaScriptInterfaceImpl(this.getContext(), KhumuApplication.getToken()), "Android");
+        webView.addJavascriptInterface(new JavaScriptInterfaceImpl(this.getContext()), "Android");
         webView.loadUrl(getLoadUrl());
 //        webView.loadUrl("javascript:alert(Android.getToken())");
     }
