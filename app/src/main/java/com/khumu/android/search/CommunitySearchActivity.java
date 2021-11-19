@@ -70,7 +70,12 @@ public class CommunitySearchActivity extends AppCompatActivity {
         });
         binding.resultBoards.setAdapter(new SearchedBoardAdapter(new ArrayList<>(), this));
         binding.resultArticles.setAdapter(new GrayBackgroundArticleAdapter("뒤로", new ArrayList<>(), this));
-
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommunitySearchActivity.super.onBackPressed();
+            }
+        });
     }
 
     @BindingAdapter("result_articles")

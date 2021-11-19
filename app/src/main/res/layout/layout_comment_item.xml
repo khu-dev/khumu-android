@@ -89,7 +89,6 @@
                     android:textColor="@color/gray_700"
                     android:text="@{comment.content ,default=내용}"
                     android:textSize="16dp"/>
-
                 <ImageView
                     android:id="@+id/comment_item_like_count_icon"
                     app:layout_constraintTop_toBottomOf="@id/comment_item_content_tv"

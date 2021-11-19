@@ -34,6 +34,8 @@ package com.khumu.android.articleDetail;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,11 +47,19 @@ public class ArticleDetailActivity extends AppCompatActivity {
     private static final String TAG = "ArticleDetailActivity";
     private Toolbar toolbar;
     private TextView toolbarBeforeTitleTV;
+    private ImageView backBtnIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
         toolbar = findViewById(R.id.toolbar);
+        backBtnIcon = findViewById(R.id.back_ic);
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArticleDetailActivity.super.onBackPressed();
+            }
+        });
         toolbarBeforeTitleTV = findViewById(R.id.toolbar_before_title);
         toolbarBeforeTitleTV.setTextColor(getColor(R.color.gray_300));
         String beforeTitle = getIntent().getStringExtra("toolbarBeforeTitle");

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp">
         <ImageView
-            android:id="@+id/back_iv"
+            android:id="@+id/back_ic"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_left_arrow"
@@ -26,7 +26,7 @@
             />
         <LinearLayout
             android:id="@+id/layout_toolbar_before_title"
-            app:layout_constraintStart_toEndOf="@+id/back_iv"
+            app:layout_constraintStart_toEndOf="@+id/back_ic"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
