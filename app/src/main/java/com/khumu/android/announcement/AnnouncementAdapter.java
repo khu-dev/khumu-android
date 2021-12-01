@@ -54,7 +54,13 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         holder.binding.announcementTitleTv.setOnClickListener(v -> {
             new FinestWebView.Builder(context)
                 .titleColor(ContextCompat.getColor(context, R.color.white))
-                .webViewUseWideViewPort(true)
+//                .webViewUseWideViewPort(true)
+                    // 뭐하는 건진 모르겠지만 이것들 하니까 됨;
+                    // 참고: https://github.com/TheFinestArtist/FinestWebView-Android#webview-options
+//                    .webViewSupportZoom(true)
+//                    .webViewDisplayZoomControls(true)
+                    .webViewBuiltInZoomControls(true)
+//                    .webViewLoadWithOverviewMode(true)
                 .show(announcement.getSubLink());
         });
         holder.binding.announcementAuthorFollowBtn.setOnClickListener(new View.OnClickListener() {

@@ -25,7 +25,7 @@ public class Announcement implements Serializable {
     public String subLink;
     @SerializedName("date")
     public String createdAt;
-    @SerializedName("authorDto")
+    @SerializedName("author")
     public AnnouncementAuthor author;
 
     @Builder

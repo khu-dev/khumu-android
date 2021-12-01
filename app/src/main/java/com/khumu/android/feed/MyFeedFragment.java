@@ -46,6 +46,7 @@ import com.khumu.android.data.Announcement;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.databinding.FragmentMyFeedBinding;
+import com.khumu.android.repository.AnnouncementService;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.BoardService;
 
@@ -63,6 +64,8 @@ public class MyFeedFragment extends Fragment {
     private final static String TAG = "TabFeedFragment";
     @Inject public BoardService boardService;
     @Inject public ArticleService articleService;
+    @Inject
+    public AnnouncementService announcementService;
 
     FragmentMyFeedBinding binding;
     private Button articleWriteBTN;
@@ -109,7 +112,7 @@ public class MyFeedFragment extends Fragment {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new FeedViewModel(boardService, articleService);
+                return (T) new FeedViewModel(boardService, articleService, announcementService);
             }
         }).get(FeedViewModel.class);
         this.feedViewModel.listBoards(null, true);
