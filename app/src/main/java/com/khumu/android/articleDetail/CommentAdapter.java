@@ -73,7 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         public String getAuthorNickName(){
             String authorNickname = binding.getComment().getAuthor().getNickname();
-            if (binding.getComment().getAuthor().getState().equals("deleted")) {
+            if (binding.getComment().getAuthor().getStatus().equals("deleted")) {
                 authorNickname = "탈퇴한 유저";
             } else if (binding.getComment().getIsWrittenByArticleAuthor()) {
                 authorNickname = binding.getComment().getAuthor().getNickname() + " (글쓴이)";
@@ -195,7 +195,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         // TODO: TextView에 취소선 넣기 참고: https://dev-daddy.tistory.com/20
         // 동작안하네...
-//        if (holder.binding.getComment().getAuthor().getState().equals("deleted")) {
+//        if (holder.binding.getComment().getAuthor().getStatus().equals("deleted")) {
 //            holder.binding.commentItemAuthorNicknameTv.setPaintFlags(holder.binding.commentItemAuthorNicknameTv.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
 //        } else{
 //            holder.binding.commentItemAuthorNicknameTv.setPaintFlags(0);

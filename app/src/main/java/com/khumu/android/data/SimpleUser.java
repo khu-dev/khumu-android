@@ -2,11 +2,16 @@ package com.khumu.android.data;
 
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class SimpleUser implements Serializable {
 
     private String username;
     private String nickname;
-    private String state;
+    private String status;
 
     // private int isParent;
     public SimpleUser(
@@ -15,30 +20,6 @@ public class SimpleUser implements Serializable {
             String state) {
         this.username = username;
         this.nickname = nickname;
-        this.state = state;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+        this.status = state;
     }
 }
