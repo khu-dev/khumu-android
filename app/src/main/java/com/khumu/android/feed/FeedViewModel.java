@@ -38,12 +38,12 @@ public class FeedViewModel extends ViewModel {
     public String debuggingMessage = "debug";
     private BoardService boardService;
     private ArticleService articleService;
-    private AnnouncementService announcementService;
-    private String nextCursor = "";
+    private AnnouncementService announcementService;;
     private MutableLiveData<List<Announcement>> announcements;
     private MutableLiveData<List<Board>> boards;
     private MutableLiveData<List<Article>> articles;
     private MutableLiveData<Board> currentBoard;
+    private Integer nextPage = 1;
     /**
      * 하나의 Board에 대한 feed를 이용하고자 하는 경우 => board가 null이 아니라 유효한 값을 가져야한다.
      * Board를 주입해줘야하며 현재는 내가 쓴 게시물, 내가 좋아요한 게시물 등의 논리적 게시판을 볼 수 있게 해준다.
@@ -106,20 +106,20 @@ public class FeedViewModel extends ViewModel {
     // Articles를 list하여 저장
     public void listArticles(){
         String boardName = "following";
-
-        // following이란느 논리적 게시판이 아니라 특정 게시판을 지칭.
+        nextPage = 1;
+        // following이라는 논리적 게시판이 아니라 특정 게시판을 지칭.
         if (currentBoard.getValue() != null) {
             boardName = currentBoard.getValue().getName();
         }
 
-        Call<ArticleListResponse> call = articleService.getArticles(boardName, 10);
+        Call<ArticleListResponse> call = articleService.getArticles(boardName, nextPage, 10);
 
         call.enqueue(new Callback<ArticleListResponse>() {
             @Override
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
                 if (response.isSuccessful()) {
+                    nextPage++;
                     articles.postValue(response.body().getData());
-                    nextCursor = getNextCursor(response.body().getLinks().getNext());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -134,20 +134,24 @@ public class FeedViewModel extends ViewModel {
     
     public void loadMoreArticles() {
         String boardName = "following";
-        if (nextCursor.equals("")) return;
         if (currentBoard.getValue() != null) {
             boardName = currentBoard.getValue().getName();
         }
 
-        Call<ArticleListResponse> call = articleService.getNextCursorArticles(boardName, nextCursor, 10);
+        Call<ArticleListResponse> call = articleService.getArticles(boardName, nextPage, 10);
 
         call.enqueue(new Callback<ArticleListResponse>() {
             @Override
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
                 if (response.isSuccessful()) {
-                    articles.getValue().addAll(response.body().getData());
+                    nextPage++;
+//                    for (Article article : response.body().getData()){
+//                        if (!articles.getValue().contains(article)) {
+//                            articles.getValue().add(article);
+//                        }
+//                    }
+                    articles.getValue().addAll(response.body.getData());
                     articles.postValue(articles.getValue());
-                    nextCursor = getNextCursor(response.body().getLinks().getNext());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
                 }
@@ -168,16 +172,5 @@ public class FeedViewModel extends ViewModel {
 //                    .subLink("https://github.com/umi0410").build());
 //        }
 //        announcements.postValue(announcements.getValue());
-    }
-
-    public String getNextCursor(String next) {
-        if (next == null) return "";
-        final String REGET_GET_NEXT_CURSOR = "(\\bcursor=\\b)(.*?)(\\b&size\\b)";
-        Pattern pattern = Pattern.compile(REGET_GET_NEXT_CURSOR);
-        Matcher matcher = pattern.matcher(next);
-        if (matcher.find()) {
-            return matcher.group(2).trim();
-        }
-        return "";
     }
 }

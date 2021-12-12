@@ -22,11 +22,7 @@ public interface ArticleService {
     Call<ArticleListResponse> getArticles(@Query("page") int page);
 
     @GET("articles")
-    Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("size") int size);
-
-    @GET("articles")
-    // 이미 django에서 url encoded 된 값을 전달해준다.
-    Call<ArticleListResponse> getNextCursorArticles(@Query("board") String board, @Query(value = "cursor", encoded = true) String nextCursor, @Query("size") int size);
+    Call<ArticleListResponse> getArticles(@Query("board") String board, @Query("page") int page, @Query("size") int size);
 
     @GET("articles")
     Call<ArticleListResponse> searchArticles(@Query("q") String q, @Nullable @Query("cursor") String cursor);

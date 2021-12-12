@@ -21,7 +21,6 @@ import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
 import com.khumu.android.adapter.ArticleAdapter;
 import com.khumu.android.databinding.LayoutFeedBinding;
-import com.khumu.android.repository.ArticleRepository;
 
 import java.util.ArrayList;
 
