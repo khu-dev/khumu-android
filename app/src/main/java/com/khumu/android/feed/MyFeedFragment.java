@@ -156,7 +156,7 @@ public class MyFeedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         articleWriteBTN = view.findViewById(R.id.tab_feed_article_write_btn);
-        TextView toolbarTitleTV =view.findViewById(R.id.toolbar_title);
+        TextView toolbarTitleTV =view.findViewById(R.id.toolbar_title_tv);
 
         String toolbarTitle = "나의 피드";
         toolbarTitleTV.setText(toolbarTitle);

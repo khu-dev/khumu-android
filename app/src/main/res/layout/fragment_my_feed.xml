@@ -27,36 +27,55 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="16dp">
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/feed_toolbar"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:contentInsetLeft="0dp"
-                app:contentInsetStart="0dp"
-                android:background="@color/transparent"
-                android:minHeight="0dp"
-                android:paddingTop="12dp"
-                android:paddingHorizontal="30dp"
-                android:paddingBottom="6dp">
-                    <TextView
-                        android:id="@+id/toolbar_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="제목"
-                        android:visibility="visible"
-                        android:textColor="@color/red_500"
-                        android:textSize="18dp"
-                        android:textStyle="bold"/>
-            </com.google.android.material.appbar.MaterialToolbar>
+                android:paddingTop="49dp"
+                android:textSize="10dp"
+                android:textColor="@color/gray_400"
+                android:text="KHUMU"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/toolbar_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="17dp"
+                android:textSize="21dp"
+                android:textStyle="bold"
+                android:text="나의 피드"
+                android:textAlignment="center"
+                android:textColor="@color/red_500"/>
+<!--            <com.google.android.material.appbar.MaterialToolbar-->
+<!--                android:id="@+id/feed_toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:contentInsetLeft="0dp"-->
+<!--                app:contentInsetStart="0dp"-->
+<!--                android:background="@color/transparent"-->
+<!--                android:minHeight="0dp"-->
+<!--                android:paddingTop="12dp"-->
+<!--                android:paddingHorizontal="30dp"-->
+<!--                android:paddingBottom="6dp">-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/toolbar_title"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="제목"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textColor="@color/red_500"-->
+<!--                        android:textSize="18dp"-->
+<!--                        android:textStyle="bold"/>-->
+<!--            </com.google.android.material.appbar.MaterialToolbar>-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/feed_following_boards_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="48dp"
                 android:orientation="horizontal"
+                android:paddingTop="11dp"
                 app:following_boards="@{feedViewModel.boards}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
