@@ -1,5 +1,7 @@
 package com.khumu.android.data;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -56,6 +58,16 @@ public class Article implements Serializable {
         this.liked = false;
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (this.getClass().equals(obj.getClass())) {
+            Article a = (Article) obj;
+            return this.id.equals(a.id);
+        }
+        return false;
+    }
 
     public Integer getId() {
         return id;

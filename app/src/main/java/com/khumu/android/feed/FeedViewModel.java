@@ -112,7 +112,7 @@ public class FeedViewModel extends ViewModel {
             boardName = currentBoard.getValue().getName();
         }
 
-        Call<ArticleListResponse> call = articleService.getArticles(boardName, nextPage, 10);
+        Call<ArticleListResponse> call = articleService.getArticles(boardName, nextPage, 15);
 
         call.enqueue(new Callback<ArticleListResponse>() {
             @Override
@@ -138,19 +138,20 @@ public class FeedViewModel extends ViewModel {
             boardName = currentBoard.getValue().getName();
         }
 
-        Call<ArticleListResponse> call = articleService.getArticles(boardName, nextPage, 10);
+        Call<ArticleListResponse> call = articleService.getArticles(boardName, nextPage, 15);
 
         call.enqueue(new Callback<ArticleListResponse>() {
             @Override
             public void onResponse(Call<ArticleListResponse> call, Response<ArticleListResponse> response) {
                 if (response.isSuccessful()) {
                     nextPage++;
-//                    for (Article article : response.body().getData()){
-//                        if (!articles.getValue().contains(article)) {
-//                            articles.getValue().add(article);
-//                        }
-//                    }
-                    articles.getValue().addAll(response.body.getData());
+                    // 이전에 수행한 조회와 새 글로 인해 다음 페이지로 밀려난 글을 중복해서 추가하지 않기 위해
+                    // contains로 비교
+                    for (Article article : response.body().getData()){
+                        if (!articles.getValue().contains(article)) {
+                            articles.getValue().add(article);
+                        }
+                    }
                     articles.postValue(articles.getValue());
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());
