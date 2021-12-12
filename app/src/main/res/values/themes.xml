@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
+        <item name="android:navigationBarColor">@color/red_500</item>
     </style>
 
     <style name="KhumuImagePickerTheme" parent="ef_BaseTheme">
@@ -23,7 +24,6 @@
     <style name="NoAppBarTransparentTheme" parent="Theme.Khumu">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">#00000000</item>
-        <item name="android:navigationBarColor">@color/red_500</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:animation">@anim/fragment_fade_enter</item>
