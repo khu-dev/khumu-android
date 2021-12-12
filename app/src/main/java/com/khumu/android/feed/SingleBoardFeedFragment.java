@@ -57,7 +57,7 @@ public class SingleBoardFeedFragment extends Fragment {
         // LiveData를 이용해 Observe하기 위해선 그 LifeCyclerOwner가 꼭 필요하다!
         // 그렇지 않으면 유효하게 Observer로 동작하지 않고 아무 변화 없음...
         layoutFeedBinding.setLifecycleOwner(this);
-        String toolbarTitle = feedViewModel.getCurrentBoard().getValue() == null ? "나의 피드" : feedViewModel.getCurrentBoard().getValue().getDisplayName();
+        String toolbarTitle = feedViewModel.getCurrentBoard().getValue() == null ? "나의 피드" : feedViewModel.getCurrentBoard().getValue().getDisplayName() + " 게시글";
         ArticleAdapter articleAdapter = new ArticleAdapter(toolbarTitle, new ArrayList<>(), getContext());
         articleAdapter.setHasStableIds(true);
         layoutFeedBinding.feedArticlesList.setAdapter(articleAdapter);

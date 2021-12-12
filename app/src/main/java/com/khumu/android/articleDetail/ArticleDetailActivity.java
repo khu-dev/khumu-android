@@ -46,7 +46,7 @@ import com.khumu.android.R;
 public class ArticleDetailActivity extends AppCompatActivity {
     private static final String TAG = "ArticleDetailActivity";
     private Toolbar toolbar;
-    private TextView toolbarBeforeTitleTV;
+    private TextView toolbarBoardTitleTV;
     private ImageView backIV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +60,13 @@ public class ArticleDetailActivity extends AppCompatActivity {
                 ArticleDetailActivity.super.onBackPressed();
             }
         });
-        toolbarBeforeTitleTV = findViewById(R.id.toolbar_before_title);
-        toolbarBeforeTitleTV.setTextColor(getColor(R.color.gray_300));
-        String beforeTitle = getIntent().getStringExtra("toolbarBeforeTitle");
-        if (beforeTitle == null) {
-            beforeTitle = "뒤로";
-        }
-        toolbarBeforeTitleTV.setText(beforeTitle);
+        toolbarBoardTitleTV = findViewById(R.id.toolbar_title);
+        toolbarBoardTitleTV.setTextColor(getColor(R.color.gray_300));
+        toolbarBoardTitleTV.setText(getIntent().getStringExtra("toolbarBoardTitle"));
+//        String beforeTitle = getIntent().getStringExtra("toolbarBeforeTitle");
+//        if (beforeTitle == null) {
+//            beforeTitle = "뒤로";
+//        }
+//        toolbarBeforeTitleTV.setText(beforeTitle);
     }
 }

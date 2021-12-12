@@ -30,7 +30,7 @@ BaseFeedLayout을 상속받아 사용하고, layout_feed를 include한다. -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="49dp"
+                android:paddingTop="7dp"
                 android:textSize="10dp"
                 android:textColor="@color/gray_400"
                 android:text="KHUMU"
