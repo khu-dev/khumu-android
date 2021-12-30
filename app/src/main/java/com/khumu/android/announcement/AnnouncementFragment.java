@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -20,10 +21,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.khumu.android.BuildConfig;
 import com.khumu.android.R;
 import com.khumu.android.data.Announcement;
 import com.khumu.android.databinding.FragmentAnnouncementBinding;
 import com.khumu.android.repository.AnnouncementService;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -116,5 +119,12 @@ public class AnnouncementFragment extends Fragment {
             adapter.announcements.addAll((List<Announcement>) announcements.getValue());
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void onClickSupportedHomepageStateTV(View v){
+        new FinestWebView.Builder(this.getContext())
+                .titleColor(ContextCompat.getColor(this.getContext(), R.color.white))
+                .webViewUseWideViewPort(true)
+                .show(BuildConfig.HOMEPAGE_URL + "/supported-homepages");
     }
 }
