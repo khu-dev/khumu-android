@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 // Home WebView에서 사용할 UrlInterceptor
 public class UrlInterceptor {
     private final static String TAG = "UrlInterceptor";
-    private final List<String> RESOURCE_KIND_PLURALS = Arrays.asList("articles");
+    private final List<String> RESOURCE_KIND_PLURALS = Arrays.asList("articles", "notice", "announcement", "announcements"); // TODO: notice보단 announcements가 좋지 않을지...?
 
     private final Context context;
     // url을 열면 return true
@@ -70,7 +70,7 @@ public class UrlInterceptor {
                                 Intent intent = new Intent(context, HotBoardFeedActivity.class);
                                 context.startActivity(intent);
                                 return true;
-                            } else if (Arrays.asList("liked", "bookmarked", "commented").contains(board)) {
+                            } else if (Arrays.asList("liked", "bookmarked", "commented", "my").contains(board)) {
                                 String boardDisplayName = "게시판";
                                 if (board.equals("liked")) {
                                     boardDisplayName = "좋아요한 게시글";
@@ -78,6 +78,8 @@ public class UrlInterceptor {
                                     boardDisplayName = "북마크한 게시글";
                                 }  else if (board.equals("commented")) {
                                     boardDisplayName = "댓글단 게시글";
+                                } else if  (board.equals("my")) {
+                                    boardDisplayName = "내가 작성한 게시글";
                                 }
                                 Intent intent = new Intent(context, SingleBoardFeedActivity.class);
                                 intent.putExtra("board", Board.builder().name(board).displayName(boardDisplayName).build());
@@ -85,6 +87,12 @@ public class UrlInterceptor {
                                 return true;
                             }
                         } break;
+                        case "notice": {}// TODO: 추후 announcements가 될 예정
+                        case "announcement": {}// TODO: 추후 announcements가 될 예정
+                        case "announcements":{
+                            Log.e(TAG, "openUrl: /announcements 에 대한 케이스는 아직 준비 못함.");
+                            return true;
+                        }
                     }
                 }
             } else if (2 <= pathSegments.size()) {
