@@ -72,13 +72,13 @@ public class AnnouncementFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String searchWord = s.toString();
-                announcementViewModel.searchAnnouncements(searchWord);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                String searchWord = s.toString();
+                announcementViewModel.searchAnnouncements(searchWord);
             }
         });
         binding.announcementRecyclerView.setAdapter(new AnnouncementAdapter(new ArrayList<Announcement>(), getContext(), announcementViewModel));

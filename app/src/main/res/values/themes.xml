@@ -13,7 +13,6 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
-        <item name="android:navigationBarColor">@color/red_500</item>
     </style>
 
     <style name="KhumuImagePickerTheme" parent="ef_BaseTheme">

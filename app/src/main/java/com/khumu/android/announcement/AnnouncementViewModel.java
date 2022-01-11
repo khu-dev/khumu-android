@@ -24,6 +24,7 @@ public class AnnouncementViewModel extends ViewModel {
     private final static String TAG = "AnnouncementViewModel";
     public AnnouncementService announcementService;
     public MutableLiveData<List<Announcement>> announcements;
+    public MutableLiveData<List<Announcement>> followingAnnouncements;
     public MutableLiveData<Boolean> showFollowedAnnouncement;
     private Context context;
 
@@ -34,14 +35,50 @@ public class AnnouncementViewModel extends ViewModel {
         announcements.setValue(new ArrayList<Announcement>());
         showFollowedAnnouncement = new MutableLiveData<>();
         showFollowedAnnouncement.setValue(false);
+        //listFollowingAnnouncements();
         listAnnouncements();
         Log.d(TAG, "Created");
+    }
+
+    public void followAuthor(String authorName) {
+        Log.d(TAG, "followAuthor");
+        Call<Announcement> call = announcementService.followAuthor(KhumuApplication.getNickname(), authorName);
+        call.enqueue(new Callback<Announcement>() {
+            @Override
+            public void onResponse(Call<Announcement> call, Response<Announcement> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("follow success");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Announcement> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void unFollowAuthor(String authorName) {
+        Log.d(TAG, "unFollowAuthor");
+        Call<Announcement> call = announcementService.unFollowAuthor(KhumuApplication.getNickname(), authorName);
+        call.enqueue(new Callback<Announcement>() {
+            @Override
+            public void onResponse(Call<Announcement> call, Response<Announcement> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("hi");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Announcement> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     public void listAnnouncements() {
         Log.d(TAG, "listAnnouncements");
         showFollowedAnnouncement.postValue(false);
-        Log.d(TAG, "listAnnouncements");
         Call<AnnouncementListResponse> call = announcementService.getAnnouncements();
         call.enqueue(new Callback<AnnouncementListResponse>() {
             @Override
@@ -63,7 +100,6 @@ public class AnnouncementViewModel extends ViewModel {
 
     public void listFollowingAnnouncements() {
         showFollowedAnnouncement.postValue(true);
-        /*
         Log.d(TAG, "listFollowingAnnouncements");
         Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncements(KhumuApplication.getUsername());
         call.enqueue(new Callback<AnnouncementListResponse>() {
@@ -80,13 +116,28 @@ public class AnnouncementViewModel extends ViewModel {
                 t.printStackTrace();
             }
         });
-
-         */
     }
 
-    public void searchAnnouncements(String searchWord) {
-        Log.d(TAG, "searchBoards: " + searchWord);
+    public void searchAnnouncements(String keyword) {
+        Log.d(TAG, "searchBoards: " + keyword);
         //TODO 검색 api 설계
+        Call<AnnouncementListResponse> call = announcementService.searchAnnouncements(keyword);
+        call.enqueue(new Callback<AnnouncementListResponse>() {
+            @Override
+            public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
+                if (response.isSuccessful()) {
+                    showFollowedAnnouncement.postValue(false);
+                    System.out.println("announcments : "+response.body());
+                    announcements.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
+                System.out.println("announcments: "+call.toString());
+                t.printStackTrace();
+            }
+        });
     }
 
     public void showFollowedAnnouncement() {
