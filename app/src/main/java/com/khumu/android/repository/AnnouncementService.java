@@ -16,14 +16,14 @@ public interface AnnouncementService {
     @GET("announcements/all")
     Call<AnnouncementListResponse> getAnnouncements(@Query("userName") String user);
 
-    @POST("users")
+    @POST("users/")
     Call<Announcement> postUser(@Query("userName") String user);
 
 //    @GET("announcements/user")
 //    Call<AnnouncementListResponse> getAnnouncementByUser(@Query("user") String user);
 
     @GET("announcements/user")
-    Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("user") String user);
+    Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("userName") String user);
 
     @GET("announcements/search")
     Call<AnnouncementListResponse> searchAnnouncements(@Query("userName") String user,@Query("keyword") String keyword);

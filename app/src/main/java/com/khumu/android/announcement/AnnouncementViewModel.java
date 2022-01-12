@@ -78,7 +78,7 @@ public class AnnouncementViewModel extends ViewModel {
 
     public void listAnnouncements() {
         Log.d(TAG, "listAnnouncements");
-        showFollowedAnnouncement.postValue(false);
+         showFollowedAnnouncement.postValue(false);
         Call<AnnouncementListResponse> call = announcementService.getAnnouncements(KhumuApplication.getUsername());
         call.enqueue(new Callback<AnnouncementListResponse>() {
             @Override
@@ -98,6 +98,11 @@ public class AnnouncementViewModel extends ViewModel {
         });
     }
 
+     public void listMoreAnnouncements() {
+        Log.d(TAG, "listMoreAnnoucements");
+        //showFollowedAnnouncement
+     }
+
     public void listFollowingAnnouncements() {
         showFollowedAnnouncement.postValue(true);
         Log.d(TAG, "listFollowingAnnouncements");
@@ -106,8 +111,15 @@ public class AnnouncementViewModel extends ViewModel {
             @Override
             public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
                 if (response.isSuccessful()) {
+                    ArrayList<Announcement> temp = new ArrayList<Announcement>();
+                    if(!announcements.getValue().isEmpty()) {
+                        for (Announcement announcement : response.body()) {
+                            announcement.author.followed = true;
+                            temp.add(announcement);
+                        }
+                    }
                     showFollowedAnnouncement.postValue(true);
-                    announcements.postValue(response.body());
+                    announcements.postValue(temp);
                 }
             }
 
