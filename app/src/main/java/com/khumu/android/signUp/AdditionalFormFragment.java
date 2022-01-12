@@ -109,6 +109,7 @@ public class AdditionalFormFragment extends Fragment {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
+                            signUpViewModel.postUser(signUpViewModel.getUsername().getValue());
                             SweetAlertDialog successDialog = new SweetAlertDialog(context, SweetAlertDialog.BUTTON_CONFIRM);
                             successDialog.setTitle("회원가입을 성공했습니다.");
                             successDialog.setContentText(signUpViewModel.getNickname().getValue() + "님 환영합니다 >_<");

@@ -14,8 +14,11 @@ import retrofit2.http.Query;
 
 public interface AnnouncementService {
     @GET("announcements/all")
-    Call<AnnouncementListResponse> getAnnouncements();
-//
+    Call<AnnouncementListResponse> getAnnouncements(@Query("userName") String user);
+
+    @POST("users")
+    Call<Announcement> postUser(@Query("userName") String user);
+
 //    @GET("announcements/user")
 //    Call<AnnouncementListResponse> getAnnouncementByUser(@Query("user") String user);
 
@@ -23,7 +26,7 @@ public interface AnnouncementService {
     Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("user") String user);
 
     @GET("announcements/search")
-    Call<AnnouncementListResponse> searchAnnouncements(@Query("keyword") String keyword);
+    Call<AnnouncementListResponse> searchAnnouncements(@Query("userName") String user,@Query("keyword") String keyword);
 
     @POST("follows/postFollow")
     Call<Announcement> followAuthor(@Query("userName") String user, @Query("authorName") String authorname);

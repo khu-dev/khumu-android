@@ -23,6 +23,7 @@ import com.khumu.android.data.rest.UserResponse;
 import com.khumu.android.databinding.ActivityInfo21SignUpBinding;
 import com.khumu.android.login.LoginActivity;
 import com.khumu.android.qrCode.QrCodeViewModel;
+import com.khumu.android.repository.AnnouncementService;
 import com.khumu.android.repository.UserService;
 
 import java.io.IOException;
@@ -45,6 +46,8 @@ public class Info21SignUpActivity extends AppCompatActivity {
     Retrofit retrofit;
     @Inject
     UserService userService;
+    @Inject
+    AnnouncementService announcementService;
     SignUpAgreementFragment signUpAgreementFragment;
     Info21AuthenticationFragment info21AuthenticationFragment;
     AdditionalFormFragment additionalFormFragment;
@@ -59,7 +62,7 @@ public class Info21SignUpActivity extends AppCompatActivity {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new SignUpViewModel(Info21SignUpActivity.this, retrofit, userService);
+                return (T) new SignUpViewModel(Info21SignUpActivity.this, retrofit, userService, announcementService);
             }
         }).get(SignUpViewModel.class);
 

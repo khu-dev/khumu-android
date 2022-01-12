@@ -42,7 +42,7 @@ public class AnnouncementViewModel extends ViewModel {
 
     public void followAuthor(String authorName) {
         Log.d(TAG, "followAuthor");
-        Call<Announcement> call = announcementService.followAuthor(KhumuApplication.getNickname(), authorName);
+        Call<Announcement> call = announcementService.followAuthor(KhumuApplication.getUsername(), authorName);
         call.enqueue(new Callback<Announcement>() {
             @Override
             public void onResponse(Call<Announcement> call, Response<Announcement> response) {
@@ -60,12 +60,12 @@ public class AnnouncementViewModel extends ViewModel {
 
     public void unFollowAuthor(String authorName) {
         Log.d(TAG, "unFollowAuthor");
-        Call<Announcement> call = announcementService.unFollowAuthor(KhumuApplication.getNickname(), authorName);
+        Call<Announcement> call = announcementService.unFollowAuthor(KhumuApplication.getUsername(), authorName);
         call.enqueue(new Callback<Announcement>() {
             @Override
             public void onResponse(Call<Announcement> call, Response<Announcement> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("hi");
+                    Log.d(TAG, "언팔로우 성공");
                 }
             }
 
@@ -79,7 +79,7 @@ public class AnnouncementViewModel extends ViewModel {
     public void listAnnouncements() {
         Log.d(TAG, "listAnnouncements");
         showFollowedAnnouncement.postValue(false);
-        Call<AnnouncementListResponse> call = announcementService.getAnnouncements();
+        Call<AnnouncementListResponse> call = announcementService.getAnnouncements(KhumuApplication.getUsername());
         call.enqueue(new Callback<AnnouncementListResponse>() {
             @Override
             public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
@@ -121,7 +121,7 @@ public class AnnouncementViewModel extends ViewModel {
     public void searchAnnouncements(String keyword) {
         Log.d(TAG, "searchBoards: " + keyword);
         //TODO 검색 api 설계
-        Call<AnnouncementListResponse> call = announcementService.searchAnnouncements(keyword);
+        Call<AnnouncementListResponse> call = announcementService.searchAnnouncements(KhumuApplication.getUsername(), keyword);
         call.enqueue(new Callback<AnnouncementListResponse>() {
             @Override
             public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.common.api.Api;
 import com.khumu.android.KhumuApplication;
 import com.khumu.android.R;
+import com.khumu.android.data.Announcement;
 import com.khumu.android.data.Info21UserInfo;
 import com.khumu.android.data.KhumuUser;
 import com.khumu.android.data.rest.DefaultResponse;
@@ -19,6 +20,7 @@ import com.khumu.android.data.rest.Info21AuthenticationRequest;
 import com.khumu.android.data.rest.QrCodeGetResponse;
 import com.khumu.android.data.rest.UserResponse;
 import com.khumu.android.login.LoginActivity;
+import com.khumu.android.repository.AnnouncementService;
 import com.khumu.android.repository.QrCodeService;
 import com.khumu.android.repository.UserService;
 
@@ -51,13 +53,15 @@ public class SignUpViewModel extends ViewModel {
 
     private Context context;
     private UserService userService;
+    private AnnouncementService announcementService;
     private Retrofit retrofit;
 
-    public SignUpViewModel(Context context, Retrofit retrofit, UserService userService) {
+    public SignUpViewModel(Context context, Retrofit retrofit, UserService userService, AnnouncementService announcementService) {
         this.context = context;
         this.retrofit = retrofit;
         this.userService = userService;
-        Log.w(TAG, "QrCodeViewModel: " + userService );
+        this.announcementService = announcementService;
+        Log.w(TAG, "QrCodeViewModel: " + userService);
         this.isAgreedPolicy = new MutableLiveData<>(false);
         this.isAgreedPrivacy = new MutableLiveData<>(false);
     }
@@ -126,4 +130,22 @@ public class SignUpViewModel extends ViewModel {
         easterEggIsGuest = true;
         Toast.makeText(context, "이스터 에그 발동\n인포21 인증을 생략하고 게스트로 가입합니다.", Toast.LENGTH_LONG).show();
     }
+
+    public void postUser(String userName) {
+        Log.d(TAG, "postUser");
+        Call<Announcement> call = announcementService.postUser(userName);
+        call.enqueue(new Callback<Announcement>() {
+            @Override
+            public void onResponse(Call<Announcement> call, Response<Announcement> response) {
+                if(response.isSuccessful()) {
+                    Log.d(TAG,"유저 정보 공지사항 서버로 보내기 성공");
+                }
+            }
+            @Override
+            public void onFailure(Call<Announcement> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
 }
