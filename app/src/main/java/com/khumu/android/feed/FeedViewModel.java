@@ -9,9 +9,11 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.khumu.android.KhumuApplication;
 import com.khumu.android.data.Announcement;
 import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
+import com.khumu.android.data.rest.AnnouncementListResponse;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.data.rest.BoardListResponse;
 import com.khumu.android.repository.AnnouncementService;
@@ -166,6 +168,22 @@ public class FeedViewModel extends ViewModel {
     }
     
     public void listRecentAnnouncements() {
+        Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncementsAtMyFeed(KhumuApplication.getUsername(), 3);
+        call.enqueue(new Callback<AnnouncementListResponse>() {
+            @Override
+            public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
+                if (response.isSuccessful()) {
+                    announcements.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
+
+            }
+        });
+//
+//
 //        for (int i = 0; i < 3; i++) {
 //            announcements.getValue().add(Announcement.builder()
 //                    .author(Announcement.AnnouncementAuthor.builder().authorName("더미작성자").followed(true).build())

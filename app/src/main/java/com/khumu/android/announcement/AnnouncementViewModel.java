@@ -121,7 +121,7 @@ public class AnnouncementViewModel extends ViewModel {
         showFollowedAnnouncement.postValue(true);
         Log.d(TAG, "listFollowingAnnouncements?page" + pageNumber);
         if(!isLastAnnouncement) {
-            Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncements(KhumuApplication.getUsername());
+            Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncements(KhumuApplication.getUsername(), pageNumber);
             call.enqueue(new Callback<AnnouncementListResponse>() {
                 @Override
                 public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
