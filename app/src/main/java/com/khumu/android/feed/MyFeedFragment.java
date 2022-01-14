@@ -117,6 +117,7 @@ public class MyFeedFragment extends Fragment {
         }).get(FeedViewModel.class);
         this.feedViewModel.listBoards(null, true);
         this.feedViewModel.listArticles();
+        this.feedViewModel.listRecentAnnouncements();
     }
 
     @Override
@@ -173,6 +174,7 @@ public class MyFeedFragment extends Fragment {
         });
 
         binding.feedBodySwipeRefreshLayout.setOnRefreshListener(()->{
+            feedViewModel.listRecentAnnouncements();
             feedViewModel.listArticles();
             binding.feedBodySwipeRefreshLayout.setRefreshing(false);
         });

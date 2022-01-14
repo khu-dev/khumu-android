@@ -173,6 +173,7 @@ public class FeedViewModel extends ViewModel {
             @Override
             public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
                 if (response.isSuccessful()) {
+                    Log.d(TAG, "listRecentAnnouncements");
                     announcements.postValue(response.body());
                 }
             }
