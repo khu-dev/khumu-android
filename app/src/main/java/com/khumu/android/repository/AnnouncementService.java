@@ -1,8 +1,11 @@
 package com.khumu.android.repository;
 
+import com.khumu.android.data.Announcement;
 import com.khumu.android.data.rest.AnnouncementListResponse;
 
 import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -11,16 +14,31 @@ import retrofit2.http.Query;
 
 public interface AnnouncementService {
     @GET("announcements/all")
-    Call<AnnouncementListResponse> getAnnouncements();
+    Call<AnnouncementListResponse> getAnnouncements(@Query("userName") String user, @Query("page") int page);
+
+//    @GET("announcements/all")
+//    Call<AnnouncementListResponse> getMoreAnnouncements(@Query("userName") String user, @Query("page") int page);
+
+    @POST("users/")
+    Call<Announcement> postUser(@Query("userName") String user);
+
 
     @GET("announcements/user")
-    Call<AnnouncementListResponse> getAnnouncementByUser(@Query("user") String user);
+    Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("userName") String user);
 
-    @GET("announcements/authorname")
-    Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("authorname") String authorname);
+    @GET("announcements/user")
+    Call<AnnouncementListResponse> getMoreFollowingAnnouncements(@Query("userName") String user);
 
-    //TODO 전체 보드의 공지사항 중 검색어 포함된 공지사항 불러오기
+    @GET("announcements/search")
+    Call<AnnouncementListResponse> searchAnnouncements(@Query("userName") String user,@Query("keyword") String keyword, @Query("page") int page);
 
-    //TODO 팔로우한 보드의 공지사항 중 검색어 포함된 공지사항 불러오기
+    @GET("announcement/search")
+    Call<AnnouncementListResponse> searchMoreAnnouncements(@Query("userName") String user, @Query("keyword") String keyword);
+
+    @POST("follows/postFollow")
+    Call<Announcement> followAuthor(@Query("userName") String user, @Query("authorName") String authorname);
+
+    @DELETE("follows/deleteFollow")
+    Call<Announcement> unFollowAuthor(@Query("userName") String user, @Query("authorName") String authorname);
 
 }

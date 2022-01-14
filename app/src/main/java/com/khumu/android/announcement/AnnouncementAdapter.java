@@ -68,9 +68,11 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             public void onClick(View v) {
                 if (announcement.author.followed) {
                     //TODO viewModel에서 author follow 해주는 처리
+                    announcementViewModel.unFollowAuthor(announcement.author.authorName);
                 }
                 else {
                     //TODO viewModel에서 author unfollow 해주는 처리
+                    announcementViewModel.followAuthor(announcement.author.authorName);
                 }
             }
         });

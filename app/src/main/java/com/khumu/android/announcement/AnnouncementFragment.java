@@ -75,25 +75,29 @@ public class AnnouncementFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String searchWord = s.toString();
-                announcementViewModel.searchAnnouncements(searchWord);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                String searchWord = s.toString();
+                announcementViewModel.refreshAnnouncement();
+                announcementViewModel.searchAnnouncements(searchWord);
             }
         });
         binding.announcementRecyclerView.setAdapter(new AnnouncementAdapter(new ArrayList<Announcement>(), getContext(), announcementViewModel));
         binding.entireAnnouncementTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.announcementSearchEt.setText("");
+                announcementViewModel.refreshAnnouncement();
                 announcementViewModel.listAnnouncements();
             }
         });
         binding.followingAnnouncementTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                announcementViewModel.refreshAnnouncement();
                 announcementViewModel.listFollowingAnnouncements();;
             }
         });
@@ -109,6 +113,40 @@ public class AnnouncementFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         Log.d(TAG, getActivity().toString());
         linearLayoutManager = new LinearLayoutManager(view.getContext());
+        binding.announcementBodySwipeRefreshLayout.setOnRefreshListener(()->{
+            announcementViewModel.refreshAnnouncement();
+            if(!binding.announcementSearchEt.getText().toString().equals("")) {
+                announcementViewModel.searchAnnouncements(binding.announcementSearchEt.getText().toString());
+            } else {
+                if (announcementViewModel.showFollowedAnnouncement.getValue()) {
+                    announcementViewModel.listFollowingAnnouncements();
+                } else {
+                    announcementViewModel.listAnnouncements();
+                }
+            }
+            binding.announcementBodySwipeRefreshLayout.setRefreshing(false);
+        });
+        binding.announcementRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisiableItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
+                if(lastVisiableItemPosition == itemTotalCount) {
+                    //System.out.println("뭐지"+binding.announcementSearchEt.getText().toString());
+                    if(!binding.announcementSearchEt.getText().toString().equals("")) {
+                        announcementViewModel.searchAnnouncements(binding.announcementSearchEt.getText().toString());
+                    } else {
+                        if (announcementViewModel.showFollowedAnnouncement.getValue()) {
+                            announcementViewModel.listFollowingAnnouncements();
+                        } else {
+                            announcementViewModel.listAnnouncements();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @BindingAdapter("announcement_list")
