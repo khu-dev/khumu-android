@@ -14,19 +14,26 @@ import retrofit2.http.Query;
 
 public interface AnnouncementService {
     @GET("announcements/all")
-    Call<AnnouncementListResponse> getAnnouncements(@Query("userName") String user);
+    Call<AnnouncementListResponse> getAnnouncements(@Query("userName") String user, @Query("page") int page);
+
+//    @GET("announcements/all")
+//    Call<AnnouncementListResponse> getMoreAnnouncements(@Query("userName") String user, @Query("page") int page);
 
     @POST("users/")
     Call<Announcement> postUser(@Query("userName") String user);
 
-//    @GET("announcements/user")
-//    Call<AnnouncementListResponse> getAnnouncementByUser(@Query("user") String user);
 
     @GET("announcements/user")
     Call<AnnouncementListResponse> getFollowingAnnouncements(@Query("userName") String user);
 
+    @GET("announcements/user")
+    Call<AnnouncementListResponse> getMoreFollowingAnnouncements(@Query("userName") String user);
+
     @GET("announcements/search")
-    Call<AnnouncementListResponse> searchAnnouncements(@Query("userName") String user,@Query("keyword") String keyword);
+    Call<AnnouncementListResponse> searchAnnouncements(@Query("userName") String user,@Query("keyword") String keyword, @Query("page") int page);
+
+    @GET("announcement/search")
+    Call<AnnouncementListResponse> searchMoreAnnouncements(@Query("userName") String user, @Query("keyword") String keyword);
 
     @POST("follows/postFollow")
     Call<Announcement> followAuthor(@Query("userName") String user, @Query("authorName") String authorname);

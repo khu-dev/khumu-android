@@ -27,6 +27,8 @@ public class AnnouncementViewModel extends ViewModel {
     public MutableLiveData<List<Announcement>> followingAnnouncements;
     public MutableLiveData<Boolean> showFollowedAnnouncement;
     private Context context;
+    private int pageNumber;
+    private boolean isLastAnnouncement;
 
     public AnnouncementViewModel(Context context, AnnouncementService announcementService) {
         this.context = context;
@@ -35,9 +37,16 @@ public class AnnouncementViewModel extends ViewModel {
         announcements.setValue(new ArrayList<Announcement>());
         showFollowedAnnouncement = new MutableLiveData<>();
         showFollowedAnnouncement.setValue(false);
+        pageNumber = 0;
+        isLastAnnouncement = false;
         //listFollowingAnnouncements();
         listAnnouncements();
         Log.d(TAG, "Created");
+    }
+
+    public void refreshAnnouncement() {
+        pageNumber = 0;
+        isLastAnnouncement = false;
     }
 
     public void followAuthor(String authorName) {
@@ -77,79 +86,108 @@ public class AnnouncementViewModel extends ViewModel {
     }
 
     public void listAnnouncements() {
-        Log.d(TAG, "listAnnouncements");
+        showFollowedAnnouncement.postValue(false);
+        Log.d(TAG, "listAnnouncements?page=" + pageNumber);
          showFollowedAnnouncement.postValue(false);
-        Call<AnnouncementListResponse> call = announcementService.getAnnouncements(KhumuApplication.getUsername());
-        call.enqueue(new Callback<AnnouncementListResponse>() {
-            @Override
-            public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
-                if (response.isSuccessful()) {
-                    showFollowedAnnouncement.postValue(false);
-                    System.out.println("announcments : "+response.body());
-                    announcements.postValue(response.body());
-                }
-            }
+         if(!isLastAnnouncement) {
+             Call<AnnouncementListResponse> call = announcementService.getAnnouncements(KhumuApplication.getUsername(), pageNumber);
+             call.enqueue(new Callback<AnnouncementListResponse>() {
+                 @Override
+                 public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
+                     if (response.isSuccessful()) {
+                         if(response.body().size() < 10) {
+                             isLastAnnouncement = true;
+                         }
+                         if (pageNumber == 0) {
+                             announcements.postValue(response.body());
+                         } else {
+                             List<Announcement> temp = announcements.getValue();
+                             temp.addAll(response.body());
+                             announcements.postValue(temp);
+                         }
+                         pageNumber++;
+                     }
+                 }
 
-            @Override
-            public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
-                System.out.println("announcments:"+call.toString());
-                t.printStackTrace();
-            }
-        });
+                 @Override
+                 public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
+                     t.printStackTrace();
+                 }
+             });
+         }
     }
-
-     public void listMoreAnnouncements() {
-        Log.d(TAG, "listMoreAnnoucements");
-        //showFollowedAnnouncement
-     }
 
     public void listFollowingAnnouncements() {
         showFollowedAnnouncement.postValue(true);
-        Log.d(TAG, "listFollowingAnnouncements");
-        Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncements(KhumuApplication.getUsername());
-        call.enqueue(new Callback<AnnouncementListResponse>() {
-            @Override
-            public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
-                if (response.isSuccessful()) {
-                    ArrayList<Announcement> temp = new ArrayList<Announcement>();
-                    if(!announcements.getValue().isEmpty()) {
-                        for (Announcement announcement : response.body()) {
-                            announcement.author.followed = true;
-                            temp.add(announcement);
+        Log.d(TAG, "listFollowingAnnouncements?page" + pageNumber);
+        if(!isLastAnnouncement) {
+            Call<AnnouncementListResponse> call = announcementService.getFollowingAnnouncements(KhumuApplication.getUsername());
+            call.enqueue(new Callback<AnnouncementListResponse>() {
+                @Override
+                public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
+                    if (response.isSuccessful()) {
+                        if(response.body().size() < 10) {
+                            System.out.println("lastAnnouncement");
+                            isLastAnnouncement = true;
                         }
+                        List<Announcement> newAnnouncements = new ArrayList<>();
+                        if(!announcements.getValue().isEmpty()) {
+                            for (Announcement announcement : response.body()) {
+                                announcement.author.followed = true;
+                                newAnnouncements.add(announcement);
+                            }
+                        }
+                        if (pageNumber == 0) {
+                            showFollowedAnnouncement.postValue(true);
+                            announcements.postValue(newAnnouncements);
+                        } else {
+                            List<Announcement> temp = announcements.getValue();
+                            temp.addAll(newAnnouncements);
+                            announcements.postValue(temp);
+                        }
+                        pageNumber++;
                     }
-                    showFollowedAnnouncement.postValue(true);
-                    announcements.postValue(temp);
                 }
-            }
 
-            @Override
-            public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 
     public void searchAnnouncements(String keyword) {
         Log.d(TAG, "searchBoards: " + keyword);
-        //TODO 검색 api 설계
-        Call<AnnouncementListResponse> call = announcementService.searchAnnouncements(KhumuApplication.getUsername(), keyword);
-        call.enqueue(new Callback<AnnouncementListResponse>() {
-            @Override
-            public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
-                if (response.isSuccessful()) {
-                    showFollowedAnnouncement.postValue(false);
-                    System.out.println("announcments : "+response.body());
-                    announcements.postValue(response.body());
+        if(!isLastAnnouncement) {
+            Call<AnnouncementListResponse> call = announcementService.searchAnnouncements(KhumuApplication.getUsername(), keyword, pageNumber);
+            call.enqueue(new Callback<AnnouncementListResponse>() {
+                @Override
+                public void onResponse(Call<AnnouncementListResponse> call, Response<AnnouncementListResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "searchAnnouncements?page" + pageNumber);
+                        if(response.body().size() < 10) {
+                            System.out.println("lastAnnouncement");
+                            isLastAnnouncement = true;
+                        }
+                        if (pageNumber == 0) {
+                            announcements.postValue(response.body());
+                        } else {
+                            List<Announcement> temp = announcements.getValue();
+                            temp.addAll(response.body());
+                            announcements.postValue(temp);
+                        }
+                        pageNumber++;
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
-                System.out.println("announcments: "+call.toString());
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<AnnouncementListResponse> call, Throwable t) {
+                    System.out.println("announcments: "+call.toString());
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 
     public void showFollowedAnnouncement() {
