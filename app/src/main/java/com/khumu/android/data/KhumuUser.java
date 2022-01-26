@@ -32,12 +32,8 @@ public class KhumuUser implements Serializable {
     private String nickname;
     private String password;
     private String email;
-    @Getter(AccessLevel.NONE)
-    private String studentNumber;
     @SerializedName("student_number")
-    public String getStudentNumber() {
-        return this.studentNumber;
-    }
+    private String studentNumber;
 
     private String department;
     private String kind;
