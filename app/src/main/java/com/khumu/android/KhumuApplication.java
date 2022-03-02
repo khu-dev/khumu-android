@@ -7,10 +7,12 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.khumu.android.data.PushSubscription;
+import com.khumu.android.data.rest.DefaultResponse;
 import com.khumu.android.data.rest.PushSubscriptionResponse;
 import com.khumu.android.di.component.ApplicationComponent;
 import com.khumu.android.di.component.DaggerApplicationComponent;
 import com.khumu.android.repository.NotificationService;
+import com.khumu.android.repository.UserService;
 import com.khumu.android.util.FcmManager;
 import com.khumu.android.util.Util;
 import com.thefinestartist.finestwebview.FinestWebView;
@@ -32,9 +34,12 @@ public class KhumuApplication extends Application {
     public static ApplicationComponent applicationComponent;
     public static SharedPreferences sharedPref;
     @Inject
+    public UserService userService;
+    @Inject
     public NotificationService notificationService;
     @Inject
     public FcmManager fcmManager;
+
 
     @Override
     public void onCreate() {
@@ -51,6 +56,17 @@ public class KhumuApplication extends Application {
 //        clearKhumuAuthenticationConfig(); // 디버깅하느라 로그아웃이 필요할 때
         fcmManager.createOrUpdatePushSubscription();
         // FCM Push를 위해 초기화함.
+        userService.access("application/json").enqueue(new Callback<DefaultResponse<String>>() {
+            @Override
+            public void onResponse(Call<DefaultResponse<String>> call, Response<DefaultResponse<String>> response) {
+                Log.d(TAG, "succeeded to create access log");
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse<String>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     public static void loadKhumuConfig(){

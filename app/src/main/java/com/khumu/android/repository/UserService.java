@@ -20,4 +20,7 @@ public interface UserService {
 
     @POST("users/verify-new-student")
     Call<DefaultResponse<Info21UserInfo>> verifyNewStudent(@Header("Content-Type") String contentType, @Body Info21AuthenticationRequest input);
+
+    @POST("users/access")
+    Call<DefaultResponse<String>> access(@Header("Content-Type") String contentType);
 }

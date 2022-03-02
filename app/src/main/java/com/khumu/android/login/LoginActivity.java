@@ -67,6 +67,7 @@ import com.khumu.android.data.rest.UserResponse;
 import com.khumu.android.databinding.ActivityLoginBinding;
 import com.khumu.android.feed.FeedViewModel;
 import com.khumu.android.repository.TokenService;
+import com.khumu.android.repository.UserService;
 import com.khumu.android.signUp.Info21SignUpActivity;
 import com.khumu.android.signUp.SignUpLandingActivity;
 import com.khumu.android.util.FcmManager;
@@ -88,6 +89,8 @@ public class LoginActivity extends AppCompatActivity {
     final static String TAG = "LoginActivity";
 
     @Inject
+    UserService userService;
+    @Inject
     TokenService tokenService;
     @Inject
     FcmManager fcmManager;
@@ -102,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new LoginViewModel(LoginActivity.this, tokenService, fcmManager);
+                return (T) new LoginViewModel(LoginActivity.this, userService, tokenService, fcmManager);
             }
         }).get(LoginViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);

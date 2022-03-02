@@ -18,12 +18,14 @@ import com.khumu.android.data.Board;
 import com.khumu.android.data.KhumuJWT;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.data.rest.BoardListResponse;
+import com.khumu.android.data.rest.DefaultResponse;
 import com.khumu.android.data.rest.JWTErrorResponse;
 import com.khumu.android.data.rest.JWTRequest;
 import com.khumu.android.data.rest.JWTResponse;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.BoardService;
 import com.khumu.android.repository.TokenService;
+import com.khumu.android.repository.UserService;
 import com.khumu.android.util.FcmManager;
 
 import java.io.IOException;
@@ -53,6 +55,7 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<String> username = new MutableLiveData<>("");
     private MutableLiveData<String> password = new MutableLiveData<>("");
     private final LoginActivity activity;
+    private final UserService userService;
     private final TokenService tokenService;
     private final FcmManager fcmManager;
 
@@ -78,6 +81,19 @@ public class LoginViewModel extends ViewModel {
                         KhumuApplication.setKhumuConfig(jwt.getUsername(), jwt.getNickname(), jwt.toString(), KhumuApplication.getPushToken());
                         KhumuApplication.loadKhumuConfig();
                         fcmManager.createOrUpdatePushSubscription();
+
+                        userService.access("application/json").enqueue(new Callback<DefaultResponse<String>>() {
+                            @Override
+                            public void onResponse(Call<DefaultResponse<String>> call, Response<DefaultResponse<String>> response) {
+                                Log.d(TAG, "succeeded to create access log");
+                            }
+
+                            @Override
+                            public void onFailure(Call<DefaultResponse<String>> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+
                         Intent intent = new Intent(activity, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         activity.startActivity(intent);
