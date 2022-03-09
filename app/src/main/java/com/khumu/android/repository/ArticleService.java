@@ -3,9 +3,11 @@ package com.khumu.android.repository;
 import androidx.annotation.Nullable;
 
 import com.khumu.android.data.Article;
+import com.khumu.android.data.rest.ArticleIdRequest;
 import com.khumu.android.data.rest.ArticleListResponse;
 import com.khumu.android.data.rest.ArticleResponse;
 import com.khumu.android.data.rest.DefaultResponse;
+import com.khumu.android.data.rest.ReportObjectRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -39,8 +41,15 @@ public interface ArticleService {
     @DELETE("community/v1/articles/{id}")
     Call<Void> deleteArticle(@Header("Content-Type") String contentType, @Path("id") int id);
 
+    @POST("community/v1/blocks")
+    Call<Void> blockArticleWriter(@Header("Content-Type") String contentType, @Body ArticleIdRequest articleId);
+
+    @POST("community/v1/reports")
+    Call<Void> reportObject(@Header("Content-Type") String contentType, @Body ReportObjectRequest reportInfo);
+
     @PATCH("community/v1/articles/{id}/likes")
     Call<DefaultResponse> likeArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
+
     @PATCH("community/v1/articles/{id}/bookmarks")
     Call<DefaultResponse> bookmarkArticleToggle(@Header("Content-Type") String contentType, @Path("id") int id);
 

@@ -36,6 +36,8 @@ import com.khumu.android.data.Article;
 import com.khumu.android.data.Board;
 import com.khumu.android.data.Comment;
 import com.khumu.android.data.SimpleComment;
+import com.khumu.android.data.rest.ArticleIdRequest;
+import com.khumu.android.data.rest.ReportObjectRequest;
 import com.khumu.android.databinding.FragmentArticleDetailBinding;
 import com.khumu.android.repository.ArticleService;
 import com.khumu.android.repository.CommentService;
@@ -98,11 +100,11 @@ public class ArticleDetailFragment extends Fragment {
         this.article = (Article) intent.getSerializableExtra("article");
         this.commentToWrite = null;
         this.commentToWritePosition = null;
-        this.isWritingCommentAnonymous = false;
+        this.isWritingCommentAnonymous = true;
         // Layout inflate 이전
         // savedInstanceState을 이용해 다룰 데이터가 있으면 다룸.
         super.onCreate(savedInstanceState);
-        commentViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory(){
+        commentViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
@@ -195,7 +197,7 @@ public class ArticleDetailFragment extends Fragment {
         articleDetailContentTV = view.findViewById(R.id.article_detail_content_tv);
         articleCommentCountTV = view.findViewById(R.id.article_detail_comment_count_tv);
         articleAuthorNicknameTV = view.findViewById(R.id.article_detail_author_nickname_tv);
-        articleDetailCreatedAtTV= view.findViewById(R.id.article_detail_created_at_tv);
+        articleDetailCreatedAtTV = view.findViewById(R.id.article_detail_created_at_tv);
         articleDetailSubscribeBTN = view.findViewById(R.id.article_detail_subscribe_btn);
         articleLikeCountTV = view.findViewById(R.id.article_detail_like_article_count_tv);
         articleLikeIcon = view.findViewById(R.id.article_detail_like_icon);
@@ -209,7 +211,7 @@ public class ArticleDetailFragment extends Fragment {
                 if (!isWritingCommentAnonymous) {
                     isWritingCommentAnonymous = true;
                     commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_pressed_comment_anonymous_button));
-                } else{
+                } else {
                     isWritingCommentAnonymous = false;
                     commentAnonymousBTN.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_not_pressed_comment_anonymous_button));
                 }
@@ -220,8 +222,7 @@ public class ArticleDetailFragment extends Fragment {
             public void onClick(View v) {
                 if (commentViewModel.getArticleSubscribed().getValue()) {
                     commentViewModel.unsubscribeArticle();
-                }
-                else {
+                } else {
                     commentViewModel.subscribeArticle();
                 }
             }
@@ -233,10 +234,9 @@ public class ArticleDetailFragment extends Fragment {
                         article.getId(),
                         writeCommentContentET.getText().toString().trim()
                 );
-                if (isWritingCommentAnonymous){
+                if (isWritingCommentAnonymous) {
                     simpleComment.setKind("anonymous");
-                }
-                else {
+                } else {
                     simpleComment.setKind("named");
                 }
                 try {
@@ -276,47 +276,91 @@ public class ArticleDetailFragment extends Fragment {
         });
     }
 
-    public void onClickArticleSettingMenu(View v){
+    public void onClickArticleSettingMenu(View v) {
         articleSettingPopupMenu = new PopupMenu(ArticleDetailFragment.this.getActivity(), v);
         articleSettingPopupMenu.inflate(R.menu.menu_article_detail_more);
+        if (article.getIsAuthor()) {
+            articleSettingPopupMenu.getMenu().removeItem(R.id.article_detail_block_item);
+            articleSettingPopupMenu.getMenu().removeItem(R.id.article_detail_report_item);
+        } else {
+            articleSettingPopupMenu.getMenu().removeItem(R.id.article_detail_modify_item);
+            articleSettingPopupMenu.getMenu().removeItem(R.id.article_detail_delete_item);
+        }
         articleSettingPopupMenu.show();
         articleSettingPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.article_detail_modify_item:
-                        if (!article.getIsAuthor()) {
-                            Toast.makeText(ArticleDetailFragment.this.getContext(), "작성자만이 게시글을 수정할 수 있습니다", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
-                            // intent에서 해당 article에 대한 정보들을 저장
-                            intent.putExtra("article", commentViewModel.getLiveDataArticle().getValue());
-                            Board boardToWrite = new Board();
-                            boardToWrite.setName(article.getBoardName());
-                            boardToWrite.setDisplayName(article.getBoardDisplayName());
-                            intent.putExtra("board", boardToWrite);
-                            ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
-                        }
+                        Intent intent = new Intent(v.getContext(), ArticleModifyActivity.class);
+                        // intent에서 해당 article에 대한 정보들을 저장
+                        intent.putExtra("article", commentViewModel.getLiveDataArticle().getValue());
+                        Board boardToWrite = new Board();
+                        boardToWrite.setName(article.getBoardName());
+                        boardToWrite.setDisplayName(article.getBoardDisplayName());
+                        intent.putExtra("board", boardToWrite);
+                        ArticleDetailFragment.this.startActivityForResult(intent, MODIFY_ARTICLE_ACTIVITY);
                         break;
                     case R.id.article_detail_delete_item:
-                        if (!article.getIsAuthor()) {
-                            Toast.makeText(ArticleDetailFragment.this.getContext(), "작성자만이 게시글을 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Call<Void> call = articleService.deleteArticle("application/json", article.getId());
-                            call.enqueue(new Callback<Void>() {
-                                @Override
-                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제했습니다.", Toast.LENGTH_LONG).show();
-                                    ArticleDetailFragment.this.getActivity().finish();
-                                }
+                        Call<Void> deleteCall = articleService.deleteArticle("application/json", article.getId());
+                        deleteCall.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제했습니다.", Toast.LENGTH_LONG).show();
+                                ArticleDetailFragment.this.getActivity().finish();
+                            }
 
-                                @Override
-                                public void onFailure(Call<Void> call, Throwable t) {
-                                    Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제를 실패했습니다.", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "게시물을 삭제를 실패했습니다.", Toast.LENGTH_LONG).show();
+                            }
+                        });
                         break;
+                    case R.id.article_detail_block_item:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage("작성자의 모든 게시물을 차단합니다").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Call<Void> blockCall = articleService.blockArticleWriter("application/json", ArticleIdRequest.builder()
+                                        .articleId(String.valueOf(article.getId()))
+                                        .build());
+                                blockCall.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "작성자를 차단하였습니다.", Toast.LENGTH_LONG).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        Toast.makeText(ArticleDetailFragment.this.getActivity(), "알 수 없는 이유로 차단에 실패하였습니다", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        break;
+                    case R.id.article_detail_report_item:
+                        Call<Void> repostCall = articleService.reportObject("application/json", ReportObjectRequest.builder()
+                                .resourceKind("article")
+                                .resourceId(String.valueOf(article.getId()))
+                                .build());
+                        repostCall.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "해당 게시글을 신고하였습니다.", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(ArticleDetailFragment.this.getActivity(), "알 수 없는 이유로 신고에 실패하였습니다", Toast.LENGTH_LONG).show();
+                            }
+                        });
                 }
                 return true;
             }
@@ -326,10 +370,10 @@ public class ArticleDetailFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode){
+        switch (requestCode) {
             // article modify 후에 성공적이었다면.
-            case ArticleDetailFragment.MODIFY_ARTICLE_ACTIVITY:{
-                if(resultCode == Activity.RESULT_OK){
+            case ArticleDetailFragment.MODIFY_ARTICLE_ACTIVITY: {
+                if (resultCode == Activity.RESULT_OK) {
                     this.commentViewModel.fetchArticle();
                     this.commentViewModel.listComment();
                 }

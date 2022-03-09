@@ -6,4 +6,10 @@
     <item
         android:id="@+id/article_detail_delete_item"
         android:title="삭제" />
+    <item
+        android:id="@+id/article_detail_block_item"
+        android:title="차단"/>
+    <item
+        android:id="@+id/article_detail_report_item"
+        android:title="신고"/>
 </menu>
