@@ -387,6 +387,7 @@ public class ArticleDetailFragment extends Fragment {
 
     public void setCommentToWrite(Comment comment) {
         commentToWrite = comment;
+        onBackPressedCallback.setEnabled(true);
         // 대댓글 입력 시 뒤로가기 누를 때 Callback이 작동하도록 활성화
     }
 
