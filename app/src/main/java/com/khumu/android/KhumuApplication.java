@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.khumu.android.data.KhumuUser;
 import com.khumu.android.data.PushSubscription;
 import com.khumu.android.data.rest.DefaultResponse;
 import com.khumu.android.data.rest.PushSubscriptionResponse;
+import com.khumu.android.data.rest.UserResponse;
 import com.khumu.android.di.component.ApplicationComponent;
 import com.khumu.android.di.component.DaggerApplicationComponent;
 import com.khumu.android.repository.NotificationService;
@@ -54,8 +56,8 @@ public class KhumuApplication extends Application {
         // sharedPreferences를 이용해 필요한 데이터 초기화.
         loadKhumuConfig();
 //        clearKhumuAuthenticationConfig(); // 디버깅하느라 로그아웃이 필요할 때
-        fcmManager.createOrUpdatePushSubscription();
         // FCM Push를 위해 초기화함.
+        fcmManager.createOrUpdatePushSubscription();
         userService.access("application/json").enqueue(new Callback<DefaultResponse<String>>() {
             @Override
             public void onResponse(Call<DefaultResponse<String>> call, Response<DefaultResponse<String>> response) {

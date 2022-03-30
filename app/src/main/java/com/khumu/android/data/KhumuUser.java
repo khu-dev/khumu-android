@@ -47,4 +47,9 @@ public class KhumuUser implements Serializable {
         this.studentNumber = studentNumber;
         this.department = department;
     }
+
+    // guest 유저를 생성하기 위한 요청을 만듭니다.
+    public static KhumuUser createGuestUserRequest() {
+        return KhumuUser.builder().kind("guest").build();
+    }
 }
