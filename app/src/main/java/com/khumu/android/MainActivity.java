@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
             String link = getIntent().getStringExtra("link");
             if (link != null) {
-                boolean result = urlInterceptor.openUrl(Uri.parse(link));
+                boolean result = urlInterceptor.handle(Uri.parse(link));
             }
 
         } else{

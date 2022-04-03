@@ -68,7 +68,7 @@ public class LoginViewModel extends ViewModel {
         try {
             System.out.println("username: " + username.getValue());
             System.out.println(password.getValue());
-            Call<JWTResponse> call = tokenService.postToken("application/json", new JWTRequest(username.getValue(), password.getValue()));
+            Call<JWTResponse> call = tokenService.login("application/json", new JWTRequest(username.getValue(), password.getValue()));
             call.enqueue(new Callback<JWTResponse>() {
                 @Override
                 public void onResponse(Call<JWTResponse> call, Response<JWTResponse> response) {

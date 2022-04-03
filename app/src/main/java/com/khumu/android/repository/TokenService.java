@@ -10,6 +10,10 @@ import retrofit2.http.POST;
 
 public interface TokenService {
     @POST("token")
+    @Deprecated
     Call<JWTResponse> postToken(@Header("Content-Type") String contentType, @Body JWTRequest authString);
 
+    @POST("community/v1/login")
+    @Deprecated
+    Call<JWTResponse> login(@Header("Content-Type") String contentType, @Body JWTRequest authString);
 }

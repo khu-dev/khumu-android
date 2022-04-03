@@ -80,9 +80,7 @@ public abstract class BaseWebViewFragment extends Fragment {
             // return false => webview가 결국 해당 url을 load
             // ref: https://stackoverflow.com/questions/39979950/webviewclient-not-calling-shouldoverrideurlloading
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Uri uri = request.getUrl();
-                boolean result = urlInterceptor.openUrl(uri);
-                return result;
+                return urlInterceptor.handle(request.getUrl());
             }
         });
         // webview chrome client도 있어야 alert를 이용할 수 있더라
