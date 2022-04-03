@@ -19,15 +19,17 @@ android:usesCleartextTraffic="true" 는 localhost가 막혀서 커스터마이�
         android:supportsRtl="true"
         android:theme="@style/Theme.Khumu">
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".MainActivity"
+            android:label="쿠뮤(dev)">
+        </activity>
         <activity
             android:name=".articleDetail.ArticleDetailActivity"
             android:label="@string/app_name">
